@@ -116,11 +116,20 @@ visual variety later without new art.
 ### `images/templates/hex-tile-template.png` and `hex-tile-tiling-preview.png`
 
 Generated (not sourced) templates for authoring true hex-shaped tile art:
-276×241px, flat-top orientation, 256×221px hex silhouette, transparent
+144×126px, flat-top orientation, 128×110px hex silhouette, transparent
 outside the hex, magenta alignment guides meant to be deleted before final
 export. The tiling preview composites 7 copies in a flower pattern to confirm
 edge-to-edge seams before committing to real art — see
 `images/templates/README.md` for full usage notes.
+
+**Resized down from an original 276×241px template** once real icon sprites
+made it clear the tile was oversized relative to them (icons had to be
+upscaled 2-3x, reading as both too-small and blurry) — see
+`technical-architecture.md`'s Coordinate System section for the sizing math.
+The 5 band tiles below were painted against the *old* template and need
+repainting against the new one; they still render correctly in the
+meantime (same aspect ratio, just scaled down, not stretched) but at
+reduced effective resolution.
 
 ### `images/starfield-{inner,medium,base-outer,interstellar,deep-space}-hex.png`
 
@@ -220,9 +229,10 @@ hand-painted band tiles above), the renderer was switched to a true flat-top
 hex pixel projection (`src/hexgrid.js`, standard Red Blob Games formulas).
 All 6 neighbors now tile edge-to-edge with no gaps or overlaps — verified
 both mathematically and by compositing a 7-hex cluster of real art before
-and after wiring it in. `HEX_SIZE` (128, center-to-vertex) matches the art
-template exactly, so tiles render at native resolution when `camera.zoom ===
-1`.
+and after wiring it in. `HEX_SIZE` (center-to-vertex, currently 64 — see
+technical-architecture.md for why it was halved from an initial 128) matches
+the art template exactly, so tiles render at native resolution when
+`camera.zoom === 1`.
 
 - Flat-top orientation: flat edges top/bottom, points left/right (wider than
   tall) — matches the art template in `images/templates/`.

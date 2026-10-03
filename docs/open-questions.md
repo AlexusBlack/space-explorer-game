@@ -114,3 +114,13 @@ from here.
   picking one plus a random rotation/flip computed once at generation time
   (`mapgen.js`'s `pickBeltAppearance`) for variety from just 2 source crops.
   See `graphics-and-assets.md`.
+- **`HEX_SIZE` halved (128 → 64)**, and the hex art template regenerated at
+  the new scale, once real icon sprites made clear the tile was oversized
+  relative to them (icons were being upscaled 2-3x — both too-small-looking
+  and blurry). Sized so `star.png` (the largest common icon, 51×43 native)
+  lands at ~50px, at or near native resolution. The 5 hand-painted band
+  tiles were painted against the old 276×241px template and need repainting
+  against the new 144×126px one — they still render in the meantime (same
+  aspect ratio, just scaled down, not stretched) but at reduced effective
+  resolution. See `technical-architecture.md`'s Coordinate System section
+  and `images/templates/README.md`.
