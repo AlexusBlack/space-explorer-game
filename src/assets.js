@@ -1,5 +1,7 @@
 // Loads the per-band hex background art and feature icon sprites once at startup.
 
+import { PLANET_CLASSES } from "./planet-classes.js";
+
 const BAND_IMAGE_PATHS = {
   inner: "images/starfield-inner-hex.png",
   medium: "images/starfield-medium-hex.png",
@@ -12,10 +14,13 @@ const BAND_IMAGE_PATHS = {
 // docs/graphics-and-assets.md for exact source cells.
 const ICON_IMAGE_PATHS = {
   star: "images/icons/star.png",
-  "planet-uninhabited": "images/icons/planet-uninhabited.png",
-  "planet-inhabited": "images/icons/planet-inhabited.png",
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
 };
+for (const sprites of Object.values(PLANET_CLASSES)) {
+  for (const sprite of sprites) {
+    ICON_IMAGE_PATHS[sprite] = `images/icons/${sprite}.png`;
+  }
+}
 for (let i = 1; i <= 16; i++) {
   ICON_IMAGE_PATHS[`asteroid-belt-${i}`] = `images/icons/asteroid-belt-${i}.png`;
 }

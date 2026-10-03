@@ -22,6 +22,33 @@ from here.
 
 ## Resolved
 
+- **Planet generation reworked into 5 zone-restricted classes with
+  independently discoverable moons.** Inner-system bodies are molten or
+  toxic (never have moons); middle-system bodies are rocky (0-2 moons each,
+  rocky or molten); outer-system bodies are gas giants (0-5 moons of any
+  class) or ice planets (0-2 ice-only moons), 50/50 per body. `inhabited` is
+  now a fully independent boolean on any planet or moon, not a separate
+  type — drives only a text label today, via one flat tunable
+  `INHABITED_CHANCE` constant. Moons are real, separately-discoverable hex
+  tiles (not decorative), each claiming one of the parent planet's own
+  unclaimed same-zone neighbor hexes and rendered at 50% icon scale. Earth
+  is unchanged as a special case but is now simply the home system's
+  designated rocky, inhabited planet, and can itself roll 0-2 moons like any
+  other rocky planet. `src/planet-classes.js` is the new single source of
+  truth for the class→sprite catalog, consumed by both `mapgen.js` and
+  `assets.js`. The 11 previously-unwired planet sprites (plus `planet-silk`,
+  which the project owner had originally left out of the class breakdown
+  and then confirmed into the rocky pool) are now all in use. Found and
+  fixed a related latent bug while verifying: neighboring systems' halos are
+  allowed to overlap by design, but `carveSystem` was unconditionally
+  overwriting any hex it reached — including ones an earlier-processed
+  system had already claimed for a planet/moon — silently deleting that
+  body. Rare and unnoticed with the old sparse 0-2-planets-per-system model,
+  but moons claiming extra hexes made it common enough to fail verification;
+  fixed by having `carveSystem` skip any already-claimed hex outright. See
+  `game-design.md`'s Planets & Natural Wonders catalog,
+  `technical-architecture.md`'s Data Model sketch and Map Generation
+  section, and `graphics-and-assets.md`'s `images/icons/` section.
 - **Icon extraction is now scripted (`scripts/extract-icons.py`), and 11
   more planet variants were pre-extracted for a future variety pass.** The
   script auto-detects each source sheet's grid from its own table-border

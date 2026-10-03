@@ -70,8 +70,9 @@ planet tile within that system, not the star itself.
   experience:
   - Deep space (the vast majority of hexes — not explicitly generated, see
     `technical-architecture.md`): 1 XP.
-  - Tile containing a planet: more than a blank tile; inhabited planets award
-    more than uninhabited ones.
+  - Tile containing a planet or moon: more than a blank tile; inhabited
+    bodies award more than uninhabited ones (see "Planets & Natural Wonders"
+    below — inhabited is independent of a body's class).
   - Tile containing a natural wonder (e.g. black hole, trinary star system):
     the highest flat reward of the "discovery" rewards.
 - Already-revealed tiles can be revisited freely without additional reward.
@@ -126,12 +127,35 @@ Pirates are this game's equivalent of Civilization 5's barbarians:
   keeps pirates a real but non-punishing threat, consistent with the game's
   "peaceful friendly" tone.
 
-## Planets & Natural Wonders (catalog — to be expanded during MVP2)
+## Planets & Natural Wonders
+
+Planets are generated in 5 classes, each restricted to one of a system's
+`inner`/`medium`/`outer` bands (see `technical-architecture.md`'s Map
+Generation section for how bands are carved):
+
+| Zone | Classes | Count per system | Moons |
+|---|---|---|---|
+| Inner | Molten, Toxic | 0-3 | Never |
+| Middle | Rocky | 0-3 | 0-2 each, rocky or molten |
+| Outer | Gas Giant, Ice | 1-3 (50/50 per body) | Gas Giant: 0-5, any class. Ice: 0-2, ice only |
+
+**Moons are real, separately-discoverable tiles** — not a decorative overlay
+on their parent planet — each claiming one of the parent's own unclaimed
+neighboring hexes, and rendered at half the normal icon size. Earth is the
+home system's designated Rocky, inhabited planet, and can itself roll 0-2
+moons like any other rocky planet.
+
+**Inhabited is a boolean independent of class** — any planet or moon can be
+inhabited regardless of which of the 5 classes (and which specific sprite)
+it is. For now this only drives an "Inhabited" text label and (per the XP
+table below) a higher reward; a future pass may give it other effects
+(e.g. a "other nations" hook per the original Civ5-inspired concept),
+but it never changes which sprite is drawn.
 
 | Type | Examples | Notes |
 |---|---|---|
-| Uninhabited planet | — | Moderate XP on discovery |
-| Inhabited planet | other nations (per original Civ5-inspired concept) | Higher XP on discovery; may be a future hook for non-combat "other nations" content beyond MVP4 |
+| Uninhabited planet/moon | any of the 5 classes | Moderate XP on discovery |
+| Inhabited planet/moon | any of the 5 classes | Higher XP on discovery |
 | Natural wonder | Black hole | Highest flat XP; visually distinct tile (the tileset's swirling "oil"/black-hole-style disc). Trinary star systems are **not** a wonder — see "Stars" above; they're a real multi-tile structural feature of system generation, not a discoverable bonus. |
 | Asteroid / Kuiper belt | — | Terrain feature tile (16 hill-silhouette variants from `hills.png`); treated as a normal explorable tile for XP purposes unless/until given a distinct effect |
 
@@ -153,8 +177,10 @@ not a scoring contest.
 
 - **Tile** — one true hex on the map, tagged with a **band** (inner/medium/
   outer/interstellar/deep-space, driving its background art) and optionally a
-  feature on top: star, planet, natural wonder, asteroid/Kuiper belt,
-  anomaly, or pirate base.
+  feature on top: star, planet, moon, natural wonder, asteroid/Kuiper belt,
+  anomaly, or pirate base. A planet/moon's class (molten/toxic/rocky/
+  gas-giant/ice) and its inhabited flag are independent fields, not a type
+  split — see "Planets & Natural Wonders."
 - **System** — a cluster of tiles (a star, surrounding rings of possible
   planets/belts, and an interstellar halo) generated as one unit; the
   concept doc's "star system."

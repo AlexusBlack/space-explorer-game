@@ -64,10 +64,12 @@ toy scale.
 ## MVP2 — Points of Interest & Leveling
 
 **In scope**
-- Planets (inhabited vs. uninhabited, different XP values), natural wonders
-  (black hole, trinary system), and asteroid/Kuiper belt terrain-feature
-  tiles seeded onto the map by the MVP0 generator; planets/wonders worth more
-  XP than a blank tile.
+- Planets (5 zone-restricted classes — Molten/Toxic/Rocky/Gas Giant/Ice —
+  plus moons as independently-discoverable tiles; inhabited is an
+  independent boolean on any planet or moon, different XP values), natural
+  wonders (black hole, trinary system), and asteroid/Kuiper belt
+  terrain-feature tiles seeded onto the map by the MVP0 generator;
+  planets/moons/wonders worth more XP than a blank tile.
 - XP-threshold leveling table; first two unlocks: more moves per turn, a
   passive vision radius (auto-reveals nearby tiles each turn without needing
   to move onto them).

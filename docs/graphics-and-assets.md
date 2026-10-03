@@ -115,10 +115,14 @@ content bounding box):
   trinary) at the same size — no reason for a binary/trinary system's
   secondary stars to be smaller than its primary.
 - `icons/planet-uninhabited.png` — row 7, column 2 ("Peat" label) — a small
-  reddish/maroon barren rocky planet.
+  reddish/maroon barren rocky planet. Despite the filename (kept for
+  historical/git-diff reasons), it's just one of 2 sprites in the **molten**
+  class now — `inhabited` is a fully independent flag, see below.
 - `icons/planet-inhabited.png` — row 2, column 2 ("Pheasant" label) — a
-  blue/green planet with visible landmasses/cloud cover. Also used for Earth
-  specifically (identified by its "Earth" text label, not a separate sprite).
+  blue/green planet with visible landmasses/cloud cover. One of 6 sprites in
+  the **rocky** class; always used specifically for Earth (identified by its
+  `home` field, not a separate sprite) for thematic consistency, though
+  nothing else about the filename is special anymore.
 - `icons/wonder-blackhole.png` — row 0, column 4 ("Oil" label) — the
   swirling orange accretion-disc sprite noted below; confirmed as the best
   black-hole stand-in once actually cropped and viewed at scale.
@@ -129,19 +133,30 @@ grid layout, just re-extracted to pick up the edits. Current native sizes
 (after the inset fix above): `star.png`/`planet-uninhabited.png`/
 `planet-inhabited.png` 54×47px, `wonder-blackhole.png` 93×39px.
 
-**Eleven more planet variants extracted ahead of need**, for an upcoming
-planet-variety pass (not yet wired into `mapgen.js`/`render.js` — these
-sprites exist in `images/icons/` but nothing references them yet):
-`planet-oasis`, `planet-buffalo`, `planet-ivory` (all column 2, rows 0/1/6 —
-same column as the 2 already-wired planet icons), and `planet-wheat`,
-`planet-silk`, `planet-wine`, `planet-furs`, `planet-spice`, `planet-fruit`,
-`planet-whales`, `planet-shield` (column 4, rows 1/2/3/5/7/8/9/11). Every
-column-2/column-4 cell across all 11 terrain rows was surveyed (not just
-these 13 planet-like ones) — excluded as not planet-shaped: Coal (green
-crystal), Gold (nuggets), Iron (ingot), Game/tundra and Game/forest and
-Seals (creatures), Gems (looks like a small ship/rocket), Horses (fuzzy,
-unclear). `planet-whales` (row 9, column 4) stands out — a purple/magenta
-ringed gas giant.
+**All 12 planet sprites (the original 2 plus the 10 other previously-unwired
+variants, `planet-silk` included) are now wired into 5 classes**, each
+restricted to one of a system's bands — see `game-design.md`'s "Planets &
+Natural Wonders" and `technical-architecture.md`'s Map Generation section
+for the placement rules. `src/planet-classes.js` is the single source of
+truth for this grouping, consumed by both `mapgen.js` (generation) and
+`assets.js` (icon loading) — update it there first, this doc second:
+
+| Class | Sprites | Zone |
+|---|---|---|
+| Molten | `planet-uninhabited`, `planet-furs` | Inner |
+| Toxic | `planet-ivory`, `planet-fruit` | Inner |
+| Rocky | `planet-inhabited`, `planet-wine`, `planet-wheat`, `planet-spice`, `planet-oasis`, `planet-silk` | Middle |
+| Gas Giant | `planet-whales` — stands out, a purple/magenta ringed gas giant | Outer |
+| Ice | `planet-shield`, `planet-buffalo` | Outer |
+
+Moons reuse this exact same sprite catalog, just rendered at 50% scale (see
+`render.js`'s icon pass) — no separate moon art was needed.
+
+Every column-2/column-4 cell across all 11 `terrain1.png` rows was surveyed
+(not just these 12 planet-like ones) — excluded as not planet-shaped: Coal
+(green crystal), Gold (nuggets), Iron (ingot), Game/tundra and Game/forest
+and Seals (creatures), Gems (looks like a small ship/rocket), Horses
+(fuzzy, unclear).
 
 Sixteen more (`icons/asteroid-belt-1.png` through `icons/asteroid-belt-16.png`)
 were cropped from `hills.png`'s full 4×4 grid, used unmodified (no opacity
@@ -154,12 +169,11 @@ low-opacity rectangular wash next to its main silhouette — kept in rather
 than excluded, per "use the 16 as-is," but worth knowing about if it stands
 out in play.
 
-The 13 planet-like candidates from this survey are now all extracted (see
-above — 2 wired in, 11 waiting for the variety pass). One candidate from
-the same survey remains unextracted, since it's a wonder, not a planet: row
-6, column 4 ("oil (arctic)") — a second black-hole/accretion-disc variant,
-good material for a future wonder-variety pass the same way these planets
-are for a planet-variety pass. Not yet in `scripts/extract-icons.py`'s
+The 13 planet-like candidates from this survey are now all extracted and
+wired in (see table above). One candidate from the same survey remains
+unextracted, since it's a wonder, not a planet: row 6, column 4 ("oil
+(arctic)") — a second black-hole/accretion-disc variant, good material for
+a future wonder-variety pass. Not yet in `scripts/extract-icons.py`'s
 `MANIFEST` — a one-line addition when wanted.
 
 ### `images/templates/hex-tile-template.png` and `hex-tile-tiling-preview.png`
@@ -289,11 +303,13 @@ both mathematically and by compositing a 7-hex cluster of real art before
 and after wiring it in. `HEX_SIZE` (center-to-vertex, currently 32 — see
 technical-architecture.md for why it was halved twice from an initial 128)
 matches the art template exactly, so the band background renders at native
-resolution when `camera.zoom === 1`. Feature icons (star/planet/wonder/
+resolution when `camera.zoom === 1`. Feature icons (star/planet/moon/wonder/
 asteroid-belt) are drawn at their own native pixel resolution independent
 of tile size — scaled only by `camera.zoom`, never stretched to fit a
 fraction of the tile — so they stay sharp at any zoom and never look
-mismatched against the (much smaller, post-halving) tile.
+mismatched against the (much smaller, post-halving) tile. Moons are the one
+deliberate exception, rendered at half that scale so they read as smaller
+bodies orbiting their parent planet.
 
 - Flat-top orientation: flat edges top/bottom, points left/right (wider than
   tall) — matches the art template in `images/templates/`.
@@ -332,6 +348,6 @@ obligations on the bundled art).
 
 Also parked: addressing the baked-in star-speckle repetition in the 5 band
 tiles (see above) if it becomes a real complaint during playtesting, and
-picking a few more of the catalogued-but-unused planet/wonder variants (see
-`images/icons/` above) for per-tile visual variety the same way asteroid
-belts already do.
+extracting the still-unused "oil (arctic)" wonder variant (see
+`images/icons/` above) for a future wonder-variety pass the same way the 12
+planet sprites were all wired into classes.

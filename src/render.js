@@ -1,7 +1,7 @@
 // Canvas 2D rendering: per-tile band background image (precomputed at
 // generation time, see mapgen.js) with a feature icon layered on top where
-// present. All feature icons (star/planet/black-hole/asteroid-belt) are real
-// sprites cropped from terrain1.png/hills.png — see
+// present. All feature icons (star/planet/moon/black-hole/asteroid-belt) are
+// real sprites cropped from terrain1.png/hills.png — see
 // docs/graphics-and-assets.md for exact source cells.
 
 import { HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./hexgrid.js";
@@ -26,6 +26,8 @@ export function worldToScreen(camera, canvasW, canvasH, x, y) {
 // zoom, never stretched to fit the tile) — sharp at any zoom level, and
 // consistent with every other icon regardless of tile/role (e.g. secondary
 // stars in binary/trinary systems are the same size as a primary star).
+// Moons are the one deliberate exception: the icon pass below passes an
+// extra 0.5 scale multiplier for them, pre-multiplied into `zoom` here.
 function drawIcon(ctx, img, cx, cy, zoom) {
   if (!img) return;
   const w = img.width * zoom;
@@ -125,11 +127,18 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
         case "wonder-blackhole":
           pendingIcons.push([iconImages && iconImages["wonder-blackhole"], p]);
           break;
-        case "planet-uninhabited":
-        case "planet-inhabited":
-          pendingIcons.push([iconImages && iconImages[tile.type], p]);
+        case "planet":
+          pendingIcons.push([iconImages && iconImages[tile.sprite], p, 1]);
           if (tile.home && camera.zoom > 0.5) {
             pendingLabels.push(["Earth", p]);
+          } else if (tile.inhabited && camera.zoom > 0.5) {
+            pendingLabels.push(["Inhabited", p]);
+          }
+          break;
+        case "moon":
+          pendingIcons.push([iconImages && iconImages[tile.sprite], p, 0.5]);
+          if (tile.inhabited && camera.zoom > 0.5) {
+            pendingLabels.push(["Inhabited", p]);
           }
           break;
         default:
@@ -138,8 +147,8 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
     }
   }
 
-  for (const [img, p] of pendingIcons) {
-    drawIcon(ctx, img, p.x, p.y, camera.zoom);
+  for (const [img, p, scale = 1] of pendingIcons) {
+    drawIcon(ctx, img, p.x, p.y, camera.zoom * scale);
   }
 
   for (const [text, p] of pendingLabels) {

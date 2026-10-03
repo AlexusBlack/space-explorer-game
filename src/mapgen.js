@@ -15,11 +15,17 @@
 // distance-to-nearest-system per frame — just look up the tile's precomputed
 // band and draw the matching background image. A tile's `type` is either the
 // generic "band" (plain backdrop, nothing on it) or a specific feature
-// (star / planet-uninhabited / planet-inhabited / wonder-blackhole /
-// asteroid-belt) layered on top of its own band.
+// (star / planet / moon / wonder-blackhole / asteroid-belt) layered on top
+// of its own band. Planet/moon tiles carry a `planetClass` (molten / toxic /
+// rocky / gas-giant / ice, from planet-classes.js) and `sprite`, plus an
+// `inhabited` boolean that is fully independent of class/sprite. Moons are
+// real, separately-discoverable tiles claiming one of their parent planet's
+// own unclaimed same-zone neighbor hexes (see placeMoons below), not a
+// decorative overlay on the parent's own tile.
 
 import { createRng } from "./rng.js";
-import { hexesInRadius, hexDistance, axialKey, axialToPixel } from "./hexgrid.js";
+import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors } from "./hexgrid.js";
+import { PLANET_CLASSES, PLANET_CLASS_NAMES } from "./planet-classes.js";
 
 const MAP_RADIUS = 90;
 const SYSTEM_COUNT = 120;
@@ -33,6 +39,11 @@ const MAX_DART_ATTEMPTS = 250;
 const HOME_RADIUS = 6;
 
 const RING_FRACS = { inner: 0.35, medium: 0.65, outer: 1.0 };
+
+// Flat probability that any single planet or moon, regardless of class, is
+// marked inhabited (drives only a text label today — see render.js). A
+// single easily-tunable knob, deliberately not varied by class/zone.
+const INHABITED_CHANCE = 0.2;
 const WOBBLE_HARMONICS = [
   { freq: 2, weight: 1 },
   { freq: 3, weight: 0.5 },
@@ -150,7 +161,14 @@ function carveSystem(tiles, system, rng) {
     const dist = hexDistance({ q: 0, r: 0 }, offset);
     const q = system.q + offset.q;
     const r = system.r + offset.r;
-    if (dist === 0 || starKeys.has(axialKey(q, r))) continue; // star tiles, placed below
+    const key = axialKey(q, r);
+    if (dist === 0 || starKeys.has(key)) continue; // star tiles, placed below
+    // Neighboring systems' halos are allowed to touch/overlap by design (see
+    // technical-architecture.md's Map Generation section), but whichever
+    // system is processed first "owns" a hex it already reached — skip
+    // entirely rather than overwrite it, so a later-processed system's halo
+    // can never stomp an earlier system's already-placed band/planet/moon.
+    if (tiles.has(key)) continue;
 
     const pixel = axialToPixel(offset.q, offset.r);
     const angle = Math.atan2(pixel.y, pixel.x);
@@ -169,7 +187,7 @@ function carveSystem(tiles, system, rng) {
     else continue; // beyond this system's halo — left for the deep-space sweep
 
     if (band !== "interstellar") zoneCoords[band].push({ q, r, band });
-    tiles.set(axialKey(q, r), { q, r, type: "band", band, regionId: system.id });
+    tiles.set(key, { q, r, type: "band", band, regionId: system.id });
   }
 
   tiles.set(axialKey(system.q, system.r), {
@@ -215,15 +233,104 @@ function farEnough(coord, chosen, minSep) {
 }
 
 // A plain backdrop tile (type "band") is free for a feature to claim; a tile
-// already holding a star/planet/wonder/belt is not.
+// already holding a star/planet/moon/wonder/belt is not.
 function isClaimable(tiles, key) {
   const existing = tiles.get(key);
   return !existing || existing.type === "band";
 }
 
+// Picks one {planetClass, sprite} from the pooled sprite lists of the given
+// classes. Always draws rng() even when the pool has only one entry (true
+// today only for "gas-giant") so that a future second sprite in that class
+// doesn't change how many rng() calls happen at this point — only which
+// sprite gets picked.
+function pickClassAndSprite(rng, classNames) {
+  const entries = [];
+  for (const cls of classNames) {
+    for (const sprite of PLANET_CLASSES[cls]) entries.push({ planetClass: cls, sprite });
+  }
+  return entries[Math.floor(rng() * entries.length)];
+}
+
+function rollInhabited(rng) {
+  return rng() < INHABITED_CHANCE;
+}
+
+// Generalizes pickSecondaryStarOffsets' shuffle-then-slice approach, but
+// filtered to membership in a specific zone pool (rather than a fixed
+// 6-neighbor template) so a moon can never claim a hex outside its parent's
+// own system/zone. Splices claimed entries out of `pool`. Returns however
+// many distinct same-zone neighbors were actually available — gracefully
+// fewer than maxCount if the planet's hex is crowded.
+function claimNeighborsFromPool(rng, pool, center, maxCount) {
+  if (maxCount <= 0) return [];
+  const neighborKeys = new Set(axialNeighbors(center.q, center.r).map((n) => axialKey(n.q, n.r)));
+  const candidateIdx = [];
+  for (let i = 0; i < pool.length; i++) {
+    if (neighborKeys.has(axialKey(pool[i].q, pool[i].r))) candidateIdx.push(i);
+  }
+  for (let i = candidateIdx.length - 1; i > 0; i--) {
+    const j = Math.floor(rng() * (i + 1));
+    [candidateIdx[i], candidateIdx[j]] = [candidateIdx[j], candidateIdx[i]];
+  }
+  const takeCount = Math.min(maxCount, candidateIdx.length);
+  const chosenIdx = candidateIdx.slice(0, takeCount).sort((a, b) => b - a);
+  return chosenIdx.map((i) => pool.splice(i, 1)[0]);
+}
+
+// Rolls a 0..maxMoons moon count (always draws rng(), even if the result is
+// 0) and claims that many of the parent's unclaimed same-zone neighbor
+// hexes, writing a "moon" tile for each.
+function placeMoons(tiles, system, pool, rng, parentCoord, maxMoons, moonClassPool) {
+  const moonCount = Math.floor(rng() * (maxMoons + 1));
+  const moonCoords = claimNeighborsFromPool(rng, pool, parentCoord, moonCount);
+  for (const coord of moonCoords) {
+    const { planetClass, sprite } = pickClassAndSprite(rng, moonClassPool);
+    tiles.set(axialKey(coord.q, coord.r), {
+      ...coord,
+      type: "moon",
+      planetClass,
+      sprite,
+      inhabited: rollInhabited(rng),
+      parent: { q: parentCoord.q, r: parentCoord.r },
+      regionId: system.id,
+    });
+  }
+}
+
+// Rolls 0..(span-1)+min bodies from `pool` (min..min+span-1 total), each
+// retried up to 8 times against the shared `chosen` minimum-separation list
+// (same pattern across inner/medium/outer zones — this replaces 3
+// copy-pasted blocks). `rollBody(rng)` returns
+// {planetClass, sprite, maxMoons, moonClassPool} for a successfully claimed
+// body.
+function placeBodiesInZone(tiles, system, pool, chosen, rng, { min, span, rollBody }) {
+  const minSep = 2;
+  const count = min + Math.floor(rng() * span);
+  for (let i = 0; i < count; i++) {
+    let tries = 8;
+    while (tries-- > 0 && pool.length) {
+      const coord = takeRandom(rng, pool);
+      if (farEnough(coord, chosen, minSep)) {
+        chosen.push(coord);
+        const { planetClass, sprite, maxMoons, moonClassPool } = rollBody(rng);
+        tiles.set(axialKey(coord.q, coord.r), {
+          ...coord,
+          type: "planet",
+          planetClass,
+          sprite,
+          inhabited: rollInhabited(rng),
+          regionId: system.id,
+        });
+        if (maxMoons > 0) placeMoons(tiles, system, pool, rng, coord, maxMoons, moonClassPool);
+        break;
+      }
+    }
+  }
+}
+
 function populateSystem(tiles, system, zoneCoords, rng) {
   const chosen = [];
-  const minSep = 2;
 
   const innerPool = [...zoneCoords.inner];
   const mediumPool = [...zoneCoords.medium];
@@ -236,56 +343,49 @@ function populateSystem(tiles, system, zoneCoords, rng) {
       chosen.push(earthCoord);
       tiles.set(axialKey(earthCoord.q, earthCoord.r), {
         ...earthCoord,
-        type: "planet-inhabited",
+        type: "planet",
+        planetClass: "rocky",
+        sprite: "planet-inhabited",
+        inhabited: true,
         home: true,
         regionId: system.id,
       });
+      placeMoons(tiles, system, pool, rng, earthCoord, 2, ["rocky", "molten"]);
     }
   }
 
-  const innerPlanetCount = Math.floor(rng() * 2);
-  for (let i = 0; i < innerPlanetCount; i++) {
-    let tries = 8;
-    while (tries-- > 0 && innerPool.length) {
-      const coord = takeRandom(rng, innerPool);
-      if (farEnough(coord, chosen, minSep)) {
-        chosen.push(coord);
-        tiles.set(axialKey(coord.q, coord.r), { ...coord, type: "planet-uninhabited", regionId: system.id });
-        break;
-      }
-    }
-  }
+  placeBodiesInZone(tiles, system, innerPool, chosen, rng, {
+    min: 0,
+    span: 4, // 0-3 bodies
+    rollBody: (rng) => ({
+      ...pickClassAndSprite(rng, ["molten", "toxic"]),
+      maxMoons: 0,
+      moonClassPool: null,
+    }),
+  });
 
-  const mediumPlanetCount = Math.floor(rng() * 3);
-  for (let i = 0; i < mediumPlanetCount; i++) {
-    let tries = 8;
-    while (tries-- > 0 && mediumPool.length) {
-      const coord = takeRandom(rng, mediumPool);
-      if (farEnough(coord, chosen, minSep)) {
-        chosen.push(coord);
-        const inhabited = rng() < 0.3;
-        tiles.set(axialKey(coord.q, coord.r), {
-          ...coord,
-          type: inhabited ? "planet-inhabited" : "planet-uninhabited",
-          regionId: system.id,
-        });
-        break;
-      }
-    }
-  }
+  placeBodiesInZone(tiles, system, mediumPool, chosen, rng, {
+    min: 0,
+    span: 4, // 0-3 bodies
+    rollBody: (rng) => ({
+      ...pickClassAndSprite(rng, ["rocky"]),
+      maxMoons: 2,
+      moonClassPool: ["rocky", "molten"],
+    }),
+  });
 
-  const outerPlanetCount = Math.floor(rng() * 2);
-  for (let i = 0; i < outerPlanetCount; i++) {
-    let tries = 8;
-    while (tries-- > 0 && outerPool.length) {
-      const coord = takeRandom(rng, outerPool);
-      if (farEnough(coord, chosen, minSep)) {
-        chosen.push(coord);
-        tiles.set(axialKey(coord.q, coord.r), { ...coord, type: "planet-uninhabited", regionId: system.id });
-        break;
-      }
-    }
-  }
+  placeBodiesInZone(tiles, system, outerPool, chosen, rng, {
+    min: 1,
+    span: 3, // 1-3 bodies
+    rollBody: (rng) => {
+      const isGasGiant = rng() < 0.5;
+      return {
+        ...pickClassAndSprite(rng, isGasGiant ? ["gas-giant"] : ["ice"]),
+        maxMoons: isGasGiant ? 5 : 2,
+        moonClassPool: isGasGiant ? PLANET_CLASS_NAMES : ["ice"],
+      };
+    },
+  });
 
   if (rng() < 0.15) {
     const pool = outerPool.length ? outerPool : mediumPool.length ? mediumPool : innerPool;

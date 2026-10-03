@@ -81,6 +81,26 @@ side of this; the key algorithmic ideas:
   hexes past each system's outer ring) is carved too, mainly so neighboring
   systems' halos can touch and read as a loose "corridor" where systems are
   packed close together.
+- **Planets are restricted by zone/band, and may have moons**: `inner` gets
+  0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
+  (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
+  Gas Giant (0-5 moons, any of the 5 classes) or an Ice planet (0-2 ice-only
+  moons). `src/planet-classes.js` is the single source of truth for the
+  class → sprite catalog, imported by both `mapgen.js` (generation) and
+  `assets.js` (loading). A moon is a real tile claiming one of its parent
+  planet's own unclaimed same-zone neighbor hexes (`src/mapgen.js`'s
+  `claimNeighborsFromPool`, generalizing the same shuffle-and-slice pattern
+  used for secondary star placement) — not a decorative overlay on the
+  parent's tile. `inhabited` is a boolean independent of class/sprite on any
+  planet or moon (a single flat `INHABITED_CHANCE` constant today).
+- Since neighboring systems' halos are allowed to overlap/touch by design
+  (above), `carveSystem` skips any hex a system reaches that an
+  earlier-processed system already claimed (band, planet, moon, or
+  anything else) rather than overwriting it — found and fixed while adding
+  moons, since moons claim extra hexes reaching further toward a system's
+  own boundary, which made halo-overlap collisions with a neighboring
+  system's already-placed bodies common enough to matter (previously rare
+  and unnoticed with only 0-2 sparse planets per system and no moons).
 - **Every tile within the map radius is materialized at generation time**,
   including deep space — a deliberate choice (see "Band materialization"
   below), not the sparse/implicit-deep-space model this project started
@@ -102,11 +122,14 @@ system interiors + halos were stored; now the entire map, including the deep
 space between systems, is).
 
 - A tile's `type` is either the generic `"band"` (a plain backdrop tile, no
-  feature on it) or a specific feature (`star`, `planet-uninhabited`,
-  `planet-inhabited`, `wonder-blackhole`, `asteroid-belt`) layered on top of
-  its own band. Every materialized tile — feature or plain — carries a
-  `band` field the renderer uses to pick the background image; only `"band"`
-  type tiles have *nothing else* drawn on top.
+  feature on it) or a specific feature (`star`, `planet`, `moon`,
+  `wonder-blackhole`, `asteroid-belt`) layered on top of its own band. Every
+  materialized tile — feature or plain — carries a `band` field the renderer
+  uses to pick the background image; only `"band"` type tiles have *nothing
+  else* drawn on top. `planet`/`moon` tiles additionally carry `planetClass`
+  (molten/toxic/rocky/gas-giant/ice), `sprite` (the specific icon key within
+  that class), and `inhabited` (boolean, independent of class/sprite); a
+  `moon` tile also carries `parent: {q, r}` pointing at its planet.
 - After all systems are carved and populated, one final sweep covers every
   remaining hex within the map radius with `{ type: "band", band:
   "deep-space" }`. This is the step that was previously left implicit
@@ -139,7 +162,10 @@ GameState
 │                 revealed_by: Set<PlayerId>, ...type-specific data }
 │     Note: `home: true` marks the Earth *planet* tile (players start here);
 │     `sol: true` marks the home system's *star* tile. These are deliberately
-│     different tiles — Earth orbits Sol, it isn't Sol.
+│     different tiles — Earth orbits Sol, it isn't Sol. Earth is simply a
+│     Rocky, inhabited planet like any other, and may itself have 0-2 moons.
+│     `planet`/`moon` tiles carry `planetClass`/`sprite`/`inhabited`; a moon
+│     additionally carries `parent: {q, r}` — see "Band Materialization."
 ├── systems: [{ id, q, r, radius, isHome, starCount }]
 └── players: [PlayerState, PlayerState]
       └── PlayerState: { ship_position, xp, level, moves_remaining,
@@ -179,11 +205,14 @@ rather than left running for no visible effect.
 
 **Rendering happens in three passes over the visible tiles, not one
 interleaved pass**: all band backgrounds first, then all feature icons
-(star/planet/wonder/belt), then all labels. Icons and labels routinely
+(star/planet/moon/wonder/belt), then all labels. Icons and labels routinely
 extend past their own tile's hex footprint — icons are drawn at native
 pixel size (see "Band Materialization" note on `HEX_SIZE`/icon sizing
 above) and tiles are small, so e.g. the ~86px-wide black-hole sprite is
-wider than the ~64px tile itself. Drawing a tile's background, icon, and
+wider than the ~64px tile itself. Moons are the one deliberate exception to
+native-size icons — drawn at 50% of that scale, since they're meant to read
+as smaller bodies orbiting their parent planet, not a second equally-sized
+feature. Drawing a tile's background, icon, and
 label together before moving to the next tile meant a later-processed
 neighboring tile's opaque background would silently paint over the
 spillover part of an earlier tile's icon or label. Queuing icons/labels
