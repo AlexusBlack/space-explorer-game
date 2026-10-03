@@ -25,11 +25,13 @@ from here.
 - **Planet generation reworked into 5 zone-restricted classes with
   independently discoverable moons.** Inner-system bodies are molten or
   toxic (never have moons); middle-system bodies are rocky (0-2 moons each,
-  rocky or molten); outer-system bodies are gas giants (0-5 moons of any
-  class) or ice planets (0-2 ice-only moons), 50/50 per body. `inhabited` is
-  now a fully independent boolean on any planet or moon, not a separate
-  type — drives only a text label today, via one flat tunable
-  `INHABITED_CHANCE` constant. Moons are real, separately-discoverable hex
+  rocky or molten); outer-system bodies are gas giants (0-5 moons, any class
+  except gas giant — a gas giant orbiting a gas giant doesn't make sense) or
+  ice planets (0-2 ice-only moons), 50/50 per body. `inhabited` is now a
+  fully independent boolean on any planet or moon, not a separate type —
+  drives only a text label today, via one flat tunable `INHABITED_CHANCE`
+  constant (5%, after an initial 20% was found too high and quartered).
+  Moons are real, separately-discoverable hex
   tiles (not decorative), each claiming one of the parent planet's own
   unclaimed same-zone neighbor hexes and rendered at 50% icon scale. Earth
   is unchanged as a special case but is now simply the home system's

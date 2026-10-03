@@ -25,7 +25,7 @@
 
 import { createRng } from "./rng.js";
 import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors } from "./hexgrid.js";
-import { PLANET_CLASSES, PLANET_CLASS_NAMES } from "./planet-classes.js";
+import { PLANET_CLASSES, MOON_CLASS_NAMES } from "./planet-classes.js";
 
 const MAP_RADIUS = 90;
 const SYSTEM_COUNT = 120;
@@ -43,7 +43,7 @@ const RING_FRACS = { inner: 0.35, medium: 0.65, outer: 1.0 };
 // Flat probability that any single planet or moon, regardless of class, is
 // marked inhabited (drives only a text label today — see render.js). A
 // single easily-tunable knob, deliberately not varied by class/zone.
-const INHABITED_CHANCE = 0.2;
+const INHABITED_CHANCE = 0.05;
 const WOBBLE_HARMONICS = [
   { freq: 2, weight: 1 },
   { freq: 3, weight: 0.5 },
@@ -382,7 +382,7 @@ function populateSystem(tiles, system, zoneCoords, rng) {
       return {
         ...pickClassAndSprite(rng, isGasGiant ? ["gas-giant"] : ["ice"]),
         maxMoons: isGasGiant ? 5 : 2,
-        moonClassPool: isGasGiant ? PLANET_CLASS_NAMES : ["ice"],
+        moonClassPool: isGasGiant ? MOON_CLASS_NAMES : ["ice"],
       };
     },
   });

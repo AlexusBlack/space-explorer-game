@@ -137,7 +137,7 @@ Generation section for how bands are carved):
 |---|---|---|---|
 | Inner | Molten, Toxic | 0-3 | Never |
 | Middle | Rocky | 0-3 | 0-2 each, rocky or molten |
-| Outer | Gas Giant, Ice | 1-3 (50/50 per body) | Gas Giant: 0-5, any class. Ice: 0-2, ice only |
+| Outer | Gas Giant, Ice | 1-3 (50/50 per body) | Gas Giant: 0-5, any class except Gas Giant. Ice: 0-2, ice only |
 
 **Moons are real, separately-discoverable tiles** — not a decorative overlay
 on their parent planet — each claiming one of the parent's own unclaimed

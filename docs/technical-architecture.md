@@ -84,11 +84,13 @@ side of this; the key algorithmic ideas:
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
-  Gas Giant (0-5 moons, any of the 5 classes) or an Ice planet (0-2 ice-only
-  moons). `src/planet-classes.js` is the single source of truth for the
-  class → sprite catalog, imported by both `mapgen.js` (generation) and
-  `assets.js` (loading). A moon is a real tile claiming one of its parent
-  planet's own unclaimed same-zone neighbor hexes (`src/mapgen.js`'s
+  Gas Giant (0-5 moons, any class except Gas Giant) or an Ice planet (0-2
+  ice-only moons). `src/planet-classes.js` is the single source of truth
+  for the class → sprite catalog (and the moon-eligible subset, excluding
+  Gas Giant — a gas giant orbiting a gas giant doesn't make sense), imported
+  by both `mapgen.js` (generation) and `assets.js` (loading). A moon is a
+  real tile claiming one of its parent planet's own unclaimed same-zone
+  neighbor hexes (`src/mapgen.js`'s
   `claimNeighborsFromPool`, generalizing the same shuffle-and-slice pattern
   used for secondary star placement) — not a decorative overlay on the
   parent's tile. `inhabited` is a boolean independent of class/sprite on any

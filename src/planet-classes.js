@@ -10,3 +10,7 @@ export const PLANET_CLASSES = {
 };
 
 export const PLANET_CLASS_NAMES = Object.keys(PLANET_CLASSES);
+
+// Classes a moon may be. Gas giants can't be moons (a gas giant orbiting a
+// gas giant doesn't make sense) — every other class is fair game.
+export const MOON_CLASS_NAMES = PLANET_CLASS_NAMES.filter((name) => name !== "gas-giant");
