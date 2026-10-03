@@ -8,17 +8,6 @@ import { HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./h
 
 const BACKGROUND = "#05070d";
 
-// Target icon diameter as a fraction of min(hw, hh) — the larger of the
-// icon's own width/height is scaled to this, aspect ratio preserved.
-const ICON_SIZE_FRAC = {
-  star: 0.9,
-  starSecondary: 0.6,
-  "planet-uninhabited": 0.55,
-  "planet-inhabited": 0.6,
-  "wonder-blackhole": 1.4,
-  "asteroid-belt": 1.3,
-};
-
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
 // silhouette centered with a 6px alignment-guide margin on each side. The
 // full image must be scaled (not cropped) so its *content* exactly fills the
@@ -33,25 +22,28 @@ export function worldToScreen(camera, canvasW, canvasH, x, y) {
   };
 }
 
-function drawIcon(ctx, img, cx, cy, targetSize) {
+// Icons are drawn at their native pixel resolution (scaled only by camera
+// zoom, never stretched to fit the tile) — sharp at any zoom level, and
+// consistent with every other icon regardless of tile/role (e.g. secondary
+// stars in binary/trinary systems are the same size as a primary star).
+function drawIcon(ctx, img, cx, cy, zoom) {
   if (!img) return;
-  const scale = targetSize / Math.max(img.width, img.height);
-  const w = img.width * scale;
-  const h = img.height * scale;
+  const w = img.width * zoom;
+  const h = img.height * zoom;
   ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
 }
 
 // Only 2 source sprites exist, so each belt tile's precomputed rotation/flip
 // (see mapgen.js's pickBeltAppearance) is what keeps many belt tiles from
 // all looking identical.
-function drawAsteroidBelt(ctx, tile, iconImages, cx, cy, targetSize) {
+function drawAsteroidBelt(ctx, tile, iconImages, cx, cy, zoom) {
   const img = iconImages && iconImages[`asteroid-belt-${tile.variant}`];
   if (!img) return;
   ctx.save();
   ctx.translate(cx, cy);
   ctx.rotate(tile.rotation);
   if (tile.flip) ctx.scale(-1, 1);
-  drawIcon(ctx, img, 0, 0, targetSize);
+  drawIcon(ctx, img, 0, 0, zoom);
   ctx.restore();
 }
 
@@ -124,34 +116,24 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
         ctx.drawImage(bandImg, p.x - imgDrawW / 2, p.y - imgDrawH / 2, imgDrawW, imgDrawH);
       }
 
-      const minDim = Math.min(hw, hh);
-
       switch (tile.type) {
         case "band":
           break;
-        case "star": {
-          const sizeFrac = tile.secondary ? ICON_SIZE_FRAC.starSecondary : ICON_SIZE_FRAC.star;
-          drawIcon(ctx, iconImages && iconImages.star, p.x, p.y, minDim * sizeFrac);
+        case "star":
+          drawIcon(ctx, iconImages && iconImages.star, p.x, p.y, camera.zoom);
           if (tile.sol && camera.zoom > 0.5) {
             pendingLabels.push(["Sol", p]);
           }
           break;
-        }
         case "asteroid-belt":
-          drawAsteroidBelt(ctx, tile, iconImages, p.x, p.y, minDim * ICON_SIZE_FRAC["asteroid-belt"]);
+          drawAsteroidBelt(ctx, tile, iconImages, p.x, p.y, camera.zoom);
           break;
         case "wonder-blackhole":
-          drawIcon(
-            ctx,
-            iconImages && iconImages["wonder-blackhole"],
-            p.x,
-            p.y,
-            minDim * ICON_SIZE_FRAC["wonder-blackhole"]
-          );
+          drawIcon(ctx, iconImages && iconImages["wonder-blackhole"], p.x, p.y, camera.zoom);
           break;
         case "planet-uninhabited":
         case "planet-inhabited":
-          drawIcon(ctx, iconImages && iconImages[tile.type], p.x, p.y, minDim * ICON_SIZE_FRAC[tile.type]);
+          drawIcon(ctx, iconImages && iconImages[tile.type], p.x, p.y, camera.zoom);
           if (tile.home && camera.zoom > 0.5) {
             pendingLabels.push(["Earth", p]);
           }

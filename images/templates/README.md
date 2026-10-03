@@ -7,13 +7,18 @@ sides so guide lines aren't clipped at the edge).
 
 **Updated 2026-10-03: halved again, from 144×126px to 76×67px**, per direct
 feedback that tiles still looked too large even after the first resize (down
-from an original 276×241px). Icons now render somewhat *below* their native
-resolution rather than at/near it — safe (downscaling stays sharp; it's
-upscaling that causes blur), just smaller on screen. **The 5
-`starfield-*-hex.png` band tiles are painted against an earlier, larger
-template and need repainting against this one** — they still render without
-distortion in the meantime (same aspect ratio, just scaled down) but at
-progressively reduced effective resolution.
+from an original 276×241px). Note that feature icons (stars/planets/etc.) no
+longer scale with tile size at all — they're drawn at their own native pixel
+resolution regardless of `HEX_SIZE` — so this template only affects the band
+*background* art below.
+
+**The 5 `starfield-*-hex.png` band tiles have been repainted against this
+template** (confirmed: all 76×67px, correctly transparent/opaque, no
+leftover guide lines). One thing worth a look: the inner→medium→outer
+brightness gradient is intact, but outer/interstellar/deep-space now measure
+almost identical in brightness (~24-25 avg) where they were previously
+clearly separated (25/15/9) — may be worth another pass if that three-way
+distinction mattered to you, otherwise no action needed.
 
 - **Orientation: flat-top** (flat edges top/bottom, points left/right) —
   unchanged.

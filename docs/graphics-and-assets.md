@@ -79,7 +79,8 @@ content bounding box):
 
 - `icons/star.png` — row 9, column 2 ("Fish" label) — a bright glowing
   yellow/white orb. Used for every star tile (primary and secondary/binary/
-  trinary), sized smaller for secondary stars.
+  trinary) at the same size — no reason for a binary/trinary system's
+  secondary stars to be smaller than its primary.
 - `icons/planet-uninhabited.png` — row 7, column 2 ("Peat" label) — a small
   reddish/maroon barren rocky planet.
 - `icons/planet-inhabited.png` — row 2, column 2 ("Pheasant" label) — a
@@ -127,23 +128,28 @@ icon sprites made it clear the tile was oversized relative to them (icons
 had to be upscaled 2-3x, reading as both too-small and blurry), then to the
 current 76×67px on direct feedback that tiles still looked too large — see
 `technical-architecture.md`'s Coordinate System section for the sizing math.
-The 5 band tiles below were painted against an earlier, larger template and
-need repainting against the current one; they still render correctly in
-the meantime (same aspect ratio, just scaled down, not stretched) but at
-progressively reduced effective resolution.
+The 5 band tiles below have since been repainted against the current
+template (confirmed: correct dimensions, transparency, no leftover guide
+lines — see below).
 
 ### `images/starfield-{inner,medium,base-outer,interstellar,deep-space}-hex.png`
 
 Five hand-painted tiles built from the template above, each representing one
 of the five **bands** the map generator tags every tile with (see
 `technical-architecture.md`'s "Band Materialization"): `inner`, `medium`,
-`outer`, `interstellar`, `deep-space` — brightness decreases monotonically in
-that order (measured average brightness: 69 → 48 → 25 → 15 → 9). Verified
-structurally correct before wiring in: exact template dimensions, fully
-transparent outside the hex silhouette, fully opaque inside, all guide lines
-removed. These are now the actual in-game background art for every tile —
-see "Tile Geometry & Canvas Mapping" below for the rendering-side change this
-required.
+`outer`, `interstellar`, `deep-space`. Verified structurally correct before
+wiring in: exact template dimensions, fully transparent outside the hex
+silhouette, fully opaque inside, all guide lines removed. These are now the
+actual in-game background art for every tile — see "Tile Geometry & Canvas
+Mapping" below for the rendering-side change this required.
+
+**Repainted once already** (first pass at 276×241px, now at the current
+76×67px template after two `HEX_SIZE` halvings — see below). In the current
+version, `inner`→`medium`→`outer` still show a clear brightness gradient
+(measured average: 69 → 49 → 25), but `outer`/`interstellar`/`deep-space`
+now measure nearly identical (~24-25 each) where the first pass had them
+clearly separated (25 → 15 → 9) — flagged for the project owner in
+`images/templates/README.md`, not changed here without confirmation.
 
 **Known, accepted tradeoff**: each file bakes its own star speckles directly
 into the texture, so the same pattern repeats visibly when the same band
@@ -232,9 +238,12 @@ All 6 neighbors now tile edge-to-edge with no gaps or overlaps — verified
 both mathematically and by compositing a 7-hex cluster of real art before
 and after wiring it in. `HEX_SIZE` (center-to-vertex, currently 32 — see
 technical-architecture.md for why it was halved twice from an initial 128)
-matches the art template exactly, so tiles render at native resolution when
-`camera.zoom === 1` (though at the current size, icons render somewhat
-*below* their own native resolution — fine, since downscaling stays sharp).
+matches the art template exactly, so the band background renders at native
+resolution when `camera.zoom === 1`. Feature icons (star/planet/wonder/
+asteroid-belt) are drawn at their own native pixel resolution independent
+of tile size — scaled only by `camera.zoom`, never stretched to fit a
+fraction of the tile — so they stay sharp at any zoom and never look
+mismatched against the (much smaller, post-halving) tile.
 
 - Flat-top orientation: flat edges top/bottom, points left/right (wider than
   tall) — matches the art template in `images/templates/`.

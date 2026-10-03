@@ -18,13 +18,21 @@ update it as decisions are actually made in code.
   `terrain1.png`/`terrain2.png` are all roughly 30-90px native; at
   `HEX_SIZE=128` they needed 2-3x upscaling, both too-small-looking and
   blurry), then 64 → 32 on direct feedback that tiles still looked too large
-  even at that size — icons now render somewhat *below* native resolution
-  (safe/sharp; it's upscaling that causes blur, not downscaling). See
-  `hexgrid.js`'s `HEX_SIZE` comment for the current sizing rationale. This
-  also means the 5 hand-painted band tiles need repainting against the
-  current (smallest) template (see `images/templates/README.md`) — the old
-  ones still render (same aspect ratio, just scaled down, not stretched) but
-  at progressively reduced effective resolution with each halving.
+  even at that size. See `hexgrid.js`'s `HEX_SIZE` comment for the current
+  sizing rationale. This also means the 5 hand-painted band tiles need
+  repainting against the current (smallest) template (see
+  `images/templates/README.md`) — the old ones still render (same aspect
+  ratio, just scaled down, not stretched) but at progressively reduced
+  effective resolution with each halving.
+  - **Feature icons are no longer scaled to fit the tile at all** —
+    `render.js`'s `drawIcon` now draws each sprite at its own native pixel
+    resolution, scaled only by `camera.zoom`. This was the actual fix for
+    icons looking undersized/blurry (the tile-size halvings above address a
+    *different* problem — the band background's apparent size — and would
+    have kept being insufficient on their own as long as icons were still
+    being stretched to a tile-relative fraction). Also dropped the smaller
+    size for secondary stars in binary/trinary systems — no reason for them
+    to differ from a primary star.
   - Earlier versions of this project used the tileset's diamond/iso-square
     projection formula directly on axial coordinates, which is **not** a true
     hex projection (confirmed by inspecting the FreeCiv Amplio tileset's own

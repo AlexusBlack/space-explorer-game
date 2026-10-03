@@ -11,6 +11,14 @@ from here.
   Confirm their source (likely the same FreeCiv Amplio/space tileset release)
   and update [`../images/CREDITS.md`](../images/CREDITS.md) accordingly
   before shipping a build that bundles them.
+- **Band brightness gradient partially flattened in the latest repaint.**
+  After repainting the 5 band tiles against the new 76×67px template,
+  `inner`→`medium`→`outer` still show a clear gradient (69 → 49 → 25 average
+  brightness), but `outer`/`interstellar`/`deep-space` now measure almost
+  identical (~24-25 each) where the original pass had them clearly separated
+  (25 → 15 → 9). Not changed without confirmation — may be intentional, or
+  just an artifact of a quick repaint at a much smaller canvas. See
+  `images/templates/README.md`.
 
 ## Resolved
 
@@ -119,11 +127,16 @@ from here.
   tile was oversized relative to them (icons were being upscaled 2-3x —
   both too-small-looking and blurry); targeted `star.png` (the largest
   common icon, 51×43 native) landing at ~50px. Second halving: direct
-  feedback that tiles still looked too large even at that size — icons now
-  render somewhat below native resolution (fine; downscaling stays sharp).
-  The 5 hand-painted band tiles were painted against an earlier, larger
-  template (originally 276×241px) and need repainting against the current
-  76×67px one — they still render in the meantime (same aspect ratio, just
-  scaled down, not stretched) but at progressively reduced effective
-  resolution. See `technical-architecture.md`'s Coordinate System section
-  and `images/templates/README.md`.
+  feedback that tiles still looked too large even at that size.
+  The 5 hand-painted band tiles were repainted against the current 76×67px
+  template (originally 276×241px) — confirmed correct dimensions,
+  transparency, and no leftover guide lines. See
+  `technical-architecture.md`'s Coordinate System section and
+  `images/templates/README.md`.
+- **Feature icons (star/planet/wonder/asteroid-belt) now render at their own
+  native pixel resolution, scaled only by `camera.zoom`** — not stretched to
+  a fraction of the (now much smaller, post-halving) tile size, which had
+  been causing them to render both scaled-down-looking and slightly blurry
+  depending on zoom. Also dropped the smaller size for secondary stars in
+  binary/trinary systems — no reason for them to differ from a primary
+  star's size. See `render.js`'s `drawIcon`.

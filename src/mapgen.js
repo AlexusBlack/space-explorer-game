@@ -189,7 +189,6 @@ function carveSystem(tiles, system, rng) {
       r,
       type: "star",
       band: "inner",
-      secondary: true,
       regionId: system.id,
     });
   }
