@@ -97,6 +97,12 @@ content bounding box):
   swirling orange accretion-disc sprite noted below; confirmed as the best
   black-hole stand-in once actually cropped and viewed at scale.
 
+Re-cropped once already after the project owner updated `terrain1.png`
+itself (refined the same 4 cells' art) — same source rows/columns, same
+grid layout, just re-extracted to pick up the edits. Current native sizes:
+`star.png`/`planet-uninhabited.png`/`planet-inhabited.png` 54×43px,
+`wonder-blackhole.png` 91×39px.
+
 Sixteen more (`icons/asteroid-belt-1.png` through `icons/asteroid-belt-16.png`)
 were cropped from `hills.png`'s full 4×4 grid, used unmodified (no opacity
 boost or recoloring needed — see `hills.png` above) and trimmed to content
