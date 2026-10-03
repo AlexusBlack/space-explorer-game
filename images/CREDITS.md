@@ -31,6 +31,17 @@ reproduced from the **FreeCiv "Amplio v2.0"** space tileset and the
 >
 > License: GPL v2
 
+`hills.png`'s credit panel reads:
+
+> **Amplio v2.0**
+>
+> Hill variations
+>
+> Tiles from Freeland by Peter Arbor
+> peter.arbor@gmail.com
+>
+> License: GPL v2
+
 ## `units.png`
 
 A grid of ship/unit sprites used for the player ship and initial pirate ship
@@ -56,13 +67,14 @@ unconfirmed, same tracking as `units.png` in
 
 Four sprites (`icons/star.png`, `icons/planet-uninhabited.png`,
 `icons/planet-inhabited.png`, `icons/wonder-blackhole.png`) cropped directly
-from `terrain1.png`, plus two (`icons/asteroid-belt-1.png`,
-`icons/asteroid-belt-2.png`) cropped from `terrain2.png` with their native
-near-invisible opacity boosted and recolored (same source silhouette, our
-own opacity curve/tint) — see
+from `terrain1.png`, plus sixteen (`icons/asteroid-belt-1.png` through
+`icons/asteroid-belt-16.png`) cropped directly from `hills.png` (unmodified
+— no opacity/color adjustment needed, unlike an earlier, now-replaced pass
+using `terrain2.png`'s much lower-opacity cloud blends) — see
 [`../docs/graphics-and-assets.md`](../docs/graphics-and-assets.md) for exact
-source cells. Same GPL v2 provenance as `terrain1.png`/`terrain2.png`
-themselves.
+source cells. Same GPL v2 provenance as `terrain1.png`/`hills.png`
+themselves. `terrain2.png` remains in the repo but is no longer used for
+anything.
 
 ## `starfield-*-hex.png` and `templates/`
 
@@ -76,10 +88,11 @@ original asset or source file.
 
 ## Notes
 
-- These two PNGs are **legend/reference sheets** (a labeled sample grid), not
-  cut, ready-to-use sprite frames. Treat them as a style/licensing reference;
-  any sprite actually cropped for use in-game should be re-exported at the
-  exact pixel dimensions the renderer expects and tracked in
+- `terrain1.png`, `terrain2.png`, and `hills.png` are all **legend/reference
+  sheets** (a labeled sample grid), not cut, ready-to-use sprite frames.
+  Treat them as a style/licensing reference; any sprite actually cropped for
+  use in-game should be re-exported at the exact pixel dimensions the
+  renderer expects and tracked in
   [`../docs/graphics-and-assets.md`](../docs/graphics-and-assets.md).
 - The original Amplio/FreeCiv tileset ships its own README with a fuller
   contributor list than fits in the sheet's credit panel; if a full copy of

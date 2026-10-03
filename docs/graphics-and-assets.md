@@ -2,11 +2,13 @@
 
 ## Source Tileset Inventory
 
-`images/terrain1.png` and `images/terrain2.png` are the only art currently in
-the repo. Both are **FreeCiv "Amplio v2.0" legend/credit reference sheets** —
-labeled sample grids documenting what's in the original tileset release, not
-pre-cut, ready-to-use sprite frames at final in-game dimensions. Full license
-attribution lives in [`../images/CREDITS.md`](../images/CREDITS.md).
+`images/terrain1.png`, `images/terrain2.png`, and `images/hills.png` are the
+sourced art currently in the repo (plus the hand-painted/generated files
+listed further down). All three are **FreeCiv "Amplio v2.0" legend/credit
+reference sheets** — labeled sample grids documenting what's in the original
+tileset release, not pre-cut, ready-to-use sprite frames at final in-game
+dimensions. Full license attribution lives in
+[`../images/CREDITS.md`](../images/CREDITS.md).
 
 ### `terrain1.png` (960×785px)
 
@@ -20,27 +22,32 @@ road/railroad edge overlays, and utility overlays (dither, mask, ocean
 blending, a yellow "user attention" highlight frame, a gray fog overlay, a
 cyan selection diamond, a flag icon).
 
-### `terrain2.png` (960×295px)
+### `terrain2.png` (960×295px) — superseded, no longer used
 
 Labeled "Forest and tropical forest from Battle for Wesnoth": a row of small
 green directional/movement chevron sprites, followed by 4 rows (32 cells, in
 2 duplicate/mirrored pairs — 16 unique shapes) of soft cloud-like blend
-textures. In the original FreeCiv: Space tileset these are used as
-**asteroid belts and Kuiper belts** — a space-relevant reuse despite the
-"forest" label inherited from the land tileset these blends were adapted
-from.
+textures. This was originally — mistakenly — provided and used as the
+asteroid/Kuiper belt art source; see `hills.png` below for the actual
+intended file, provided once the mistake was caught.
 
-**Important finding once actually measured, not just eyeballed**: these
-blend textures are extremely low-opacity by design (max alpha ~40/255,
-~16%, across every one of the 32 cells checked) — they're meant as a subtle
-blend/transition overlay, not a standalone visible sprite, and render as
-nearly invisible if composited at native opacity. Used anyway: the alpha
-channel (i.e. the actual *shape*, which is genuinely good — soft, organic
-cloud silhouettes) is kept, but boosted (~6x) and recolored to a visible
-blue-grey tint before cropping — see `images/icons/` below. This is still
-"using terrain2.png's graphics" in every meaningful sense (the silhouette
-data is 100% sourced from the sheet); only the opacity curve and tint are
-ours.
+**Kept here as a record of a real finding**: these blend textures are
+extremely low-opacity by design (max alpha ~40/255, ~16%, across every one
+of the 32 cells checked) — meant as a subtle blend/transition overlay, not a
+standalone visible sprite; they render as nearly invisible composited at
+native opacity. The previous asteroid-belt icons were built by keeping the
+alpha channel's shape but boosting (~6x) and recoloring it. That approach
+and those 2 sprites have been fully replaced by `hills.png`'s 16 variants
+below, which need no such treatment. `terrain2.png` itself remains in the
+repo but nothing currently uses it.
+
+### `hills.png` (535×197px)
+
+Labeled "Hill variations... Tiles from Freeland by Peter Arbor" — a 4×4 grid
+(16 cells) of soft grey-white blob/smudge silhouettes, each visually
+distinct. Unlike `terrain2.png`'s cloud blends, these are usable **directly,
+with no opacity boost or recoloring** — native max alpha runs ~126-141/255
+(~50-55%), clearly visible as-is.
 
 ### `units.png`
 
@@ -65,7 +72,7 @@ protrusions) for the pirate base structure introduced in MVP4. Same
 license/provenance caveat as `units.png` — no embedded credit panel, tracked
 in [`open-questions.md`](open-questions.md).
 
-### `images/icons/` — cropped from `terrain1.png`
+### `images/icons/` — cropped from `terrain1.png` / `hills.png`
 
 `terrain1.png`'s grid turned out to be perfectly regular (97×49px cells,
 8 columns × 16 rows, detected programmatically rather than eyeballed) —
@@ -90,13 +97,16 @@ content bounding box):
   swirling orange accretion-disc sprite noted below; confirmed as the best
   black-hole stand-in once actually cropped and viewed at scale.
 
-Two more were cropped from `terrain2.png` for asteroid/Kuiper belt tiles
-(see the opacity-boosting note above):
-
-- `icons/asteroid-belt-1.png` — row 3 (0-indexed), column 4 — a single
-  rounded cloud silhouette.
-- `icons/asteroid-belt-2.png` — row 3, column 1 — a dumbbell/peanut-shaped
-  silhouette, for contrast against variant 1.
+Sixteen more (`icons/asteroid-belt-1.png` through `icons/asteroid-belt-16.png`)
+were cropped from `hills.png`'s full 4×4 grid, used unmodified (no opacity
+boost or recoloring needed — see `hills.png` above) and trimmed to content
+bounding box like the others. Each belt tile picks one of the 16 at random,
+rendered in its original orientation (no synthetic rotation/flip — enough
+real variety from 16 distinct source shapes that none was needed). One
+variant (row 2, column 3, `asteroid-belt-12.png`) has a faint, very
+low-opacity rectangular wash next to its main silhouette — kept in rather
+than excluded, per "use the 16 as-is," but worth knowing about if it stands
+out in play.
 
 Each belt tile picks one of the 2 variants plus a random rotation and
 horizontal-flip (`mapgen.js`'s `pickBeltAppearance`, computed once at
@@ -171,9 +181,11 @@ the repetition becomes a real complaint during playtesting.
 **Resolved via `images/icons/` (see above):**
 - **Star**, **planet-uninhabited**, **planet-inhabited**, **wonder-blackhole**
   icons — cropped from `terrain1.png` and wired into the renderer.
-- **Asteroid-belt** icon (2 variants) — cropped from `terrain2.png`'s cloud
-  blend textures (opacity-boosted; see above) and wired into the renderer,
-  replacing the scattered-dot placeholder.
+- **Asteroid-belt** icon (16 variants) — cropped unmodified from `hills.png`
+  and wired into the renderer, replacing an earlier 2-variant pass built
+  from `terrain2.png`'s much fainter cloud blends (opacity-boosted; see
+  above), which was itself a replacement for the original scattered-dot
+  placeholder.
 
 **Resolved via `units.png` / `pirate-base.png`:**
 - **Player ship** sprite — row 2, column 3 of `units.png`.
@@ -207,7 +219,7 @@ have been pure wasted per-frame work for zero effect.
    the 5 hand-painted band tiles (`images/starfield-*-hex.png`) now cover
    every tile on the map; see above.
 2. ~~Star / planet-uninhabited / planet-inhabited / wonder-blackhole / asteroid-belt
-   icons~~ — **done**: cropped from `terrain1.png`/`terrain2.png`, see
+   icons~~ — **done**: cropped from `terrain1.png`/`hills.png`, see
    `images/icons/` above.
 3. Fog-of-war overlay — still needed for MVP1 (not yet cropped from
    `terrain1.png`).

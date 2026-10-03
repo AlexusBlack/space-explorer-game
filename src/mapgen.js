@@ -196,14 +196,11 @@ function carveSystem(tiles, system, rng) {
   return zoneCoords;
 }
 
-// Two belt sprite variants (cropped from terrain2.png); each tile picks one
-// plus a random rotation/flip so a handful of source images still read as
-// varied across the many belt tiles on a map.
+// 16 belt sprite variants (cropped from hills.png), rendered as-is — enough
+// real variety that no synthetic rotation/flip is needed.
 function pickBeltAppearance(rng) {
   return {
-    variant: rng() < 0.5 ? 1 : 2,
-    rotation: rng() * Math.PI * 2,
-    flip: rng() < 0.5,
+    variant: 1 + Math.floor(rng() * 16),
   };
 }
 

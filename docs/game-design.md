@@ -133,7 +133,7 @@ Pirates are this game's equivalent of Civilization 5's barbarians:
 | Uninhabited planet | — | Moderate XP on discovery |
 | Inhabited planet | other nations (per original Civ5-inspired concept) | Higher XP on discovery; may be a future hook for non-combat "other nations" content beyond MVP4 |
 | Natural wonder | Black hole | Highest flat XP; visually distinct tile (the tileset's swirling "oil"/black-hole-style disc). Trinary star systems are **not** a wonder — see "Stars" above; they're a real multi-tile structural feature of system generation, not a discoverable bonus. |
-| Asteroid / Kuiper belt | — | Terrain feature tile (reused greyish cloud art from `terrain2.png`); treated as a normal explorable tile for XP purposes unless/until given a distinct effect |
+| Asteroid / Kuiper belt | — | Terrain feature tile (16 hill-silhouette variants from `hills.png`); treated as a normal explorable tile for XP purposes unless/until given a distinct effect |
 
 ## Session End
 

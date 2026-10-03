@@ -43,10 +43,11 @@ from here.
   (Desert/Plains/Grassland/...) are not used for cosmetic per-system variety;
   they break starfield immersion. MVP0 uses a single neutral space tile
   instead. See `graphics-and-assets.md`.
-- **`terrain2.png`'s greyish clouds are asteroid/Kuiper belt tiles** (FreeCiv:
-  Space's actual intended use), not unusable filler — they're now a real MVP2
-  terrain-feature tile. See `graphics-and-assets.md` and `game-design.md`'s
-  Planets & Natural Wonders catalog.
+- **Asteroid/Kuiper belts are a real MVP2 terrain-feature tile**, not
+  unusable filler. _(Superseded: the art source for them has since changed
+  from `terrain2.png` to `hills.png` — see the dedicated entries below.)_
+  See `graphics-and-assets.md` and `game-design.md`'s Planets & Natural
+  Wonders catalog.
 - **True hex topology, not the square grid the tileset/freecivx actually use.**
   Confirmed via research that the Amplio tileset and freecivx's space
   generator are built for a non-hex isometric square grid; we use true
@@ -117,11 +118,23 @@ from here.
   `terrain2.png`**, not the scattered-dot placeholder. Finding along the
   way: the cloud blend textures are extremely low native opacity (max
   ~16%, every one of the 32 cells checked) — unusable at native opacity, so
-  the shape (alpha channel) was kept but boosted and recolored. 2 variants
-  (`icons/asteroid-belt-1.png`, `icons/asteroid-belt-2.png`), each belt tile
-  picking one plus a random rotation/flip computed once at generation time
-  (`mapgen.js`'s `pickBeltAppearance`) for variety from just 2 source crops.
-  See `graphics-and-assets.md`.
+  the shape (alpha channel) was kept but boosted and recolored. 2 variants,
+  each belt tile picking one plus a random rotation/flip computed once at
+  generation time for variety from just 2 source crops. _(Superseded — see
+  below: `terrain2.png` turned out to be the wrong file entirely, replaced
+  by `hills.png`.)_
+- **Asteroid-belt art source corrected from `terrain2.png` to `hills.png`**
+  — the project owner had provided the wrong file originally. `hills.png` is
+  a 4×4 grid (16 distinct variants, "Hill variations... Freeland by Peter
+  Arbor") usable directly with no opacity boost or recoloring (native max
+  alpha ~50-55%, vs. `terrain2.png`'s ~16%). All 16
+  (`icons/asteroid-belt-1.png` – `icons/asteroid-belt-16.png`) are in use;
+  the synthetic rotation/flip trick was dropped since 16 real variants
+  already give enough visual variety on their own
+  (`mapgen.js`'s `pickBeltAppearance` now just picks 1-16). One variant
+  (`asteroid-belt-12.png`) has a faint low-opacity rectangular wash next to
+  its main shape — kept in per "use the 16 as-is" rather than excluded. See
+  `graphics-and-assets.md`.
 - **`HEX_SIZE` halved twice (128 → 64 → 32)**, and the hex art template
   regenerated each time. First halving: real icon sprites made clear the
   tile was oversized relative to them (icons were being upscaled 2-3x —

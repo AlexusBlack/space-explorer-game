@@ -1,7 +1,7 @@
 // Canvas 2D rendering: per-tile band background image (precomputed at
 // generation time, see mapgen.js) with a feature icon layered on top where
 // present. All feature icons (star/planet/black-hole/asteroid-belt) are real
-// sprites cropped from terrain1.png/terrain2.png — see
+// sprites cropped from terrain1.png/hills.png — see
 // docs/graphics-and-assets.md for exact source cells.
 
 import { HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./hexgrid.js";
@@ -33,19 +33,6 @@ function drawIcon(ctx, img, cx, cy, zoom) {
   ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
 }
 
-// Only 2 source sprites exist, so each belt tile's precomputed rotation/flip
-// (see mapgen.js's pickBeltAppearance) is what keeps many belt tiles from
-// all looking identical.
-function drawAsteroidBelt(ctx, tile, iconImages, cx, cy, zoom) {
-  const img = iconImages && iconImages[`asteroid-belt-${tile.variant}`];
-  if (!img) return;
-  ctx.save();
-  ctx.translate(cx, cy);
-  ctx.rotate(tile.rotation);
-  if (tile.flip) ctx.scale(-1, 1);
-  drawIcon(ctx, img, 0, 0, zoom);
-  ctx.restore();
-}
 
 function drawLabel(ctx, text, p, hh, zoom) {
   ctx.fillStyle = "rgba(255,255,255,0.85)";
@@ -126,7 +113,7 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
           }
           break;
         case "asteroid-belt":
-          drawAsteroidBelt(ctx, tile, iconImages, p.x, p.y, camera.zoom);
+          drawIcon(ctx, iconImages && iconImages[`asteroid-belt-${tile.variant}`], p.x, p.y, camera.zoom);
           break;
         case "wonder-blackhole":
           drawIcon(ctx, iconImages && iconImages["wonder-blackhole"], p.x, p.y, camera.zoom);

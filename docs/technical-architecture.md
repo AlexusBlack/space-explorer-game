@@ -15,15 +15,13 @@ update it as decisions are actually made in code.
   native resolution at `camera.zoom === 1`. **`HEX_SIZE` has been halved
   twice**: 128 → 64 once real icon sprites were in place and the tile was
   clearly oversized relative to them (feature sprites cropped from
-  `terrain1.png`/`terrain2.png` are all roughly 30-90px native; at
+  `terrain1.png`/`hills.png` are all roughly 30-90px native; at
   `HEX_SIZE=128` they needed 2-3x upscaling, both too-small-looking and
   blurry), then 64 → 32 on direct feedback that tiles still looked too large
   even at that size. See `hexgrid.js`'s `HEX_SIZE` comment for the current
-  sizing rationale. This also means the 5 hand-painted band tiles need
-  repainting against the current (smallest) template (see
-  `images/templates/README.md`) — the old ones still render (same aspect
-  ratio, just scaled down, not stretched) but at progressively reduced
-  effective resolution with each halving.
+  sizing rationale. The 5 hand-painted band tiles have since been repainted
+  against the current (smallest) template (see
+  `images/templates/README.md`).
   - **Feature icons are no longer scaled to fit the tile at all** —
     `render.js`'s `drawIcon` now draws each sprite at its own native pixel
     resolution, scaled only by `camera.zoom`. This was the actual fix for
