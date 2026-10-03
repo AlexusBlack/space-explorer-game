@@ -52,6 +52,24 @@ protrusions) used for the pirate base structure (see
 unconfirmed, same tracking as `units.png` in
 [`../docs/open-questions.md`](../docs/open-questions.md).
 
+## `icons/`
+
+Four sprites (`icons/star.png`, `icons/planet-uninhabited.png`,
+`icons/planet-inhabited.png`, `icons/wonder-blackhole.png`) cropped directly
+from `terrain1.png` — see
+[`../docs/graphics-and-assets.md`](../docs/graphics-and-assets.md) for their
+exact source cells. Same GPL v2 provenance as `terrain1.png` itself.
+
+## `starfield-*-hex.png` and `templates/`
+
+The 5 hand-painted band tiles (`starfield-inner-hex.png`,
+`starfield-medium-hex.png`, `starfield-base-outer-hex.png`,
+`starfield-interstellar-hex.png`, `starfield-deep-space-hex.png`) and the
+`templates/` files are **original work by the project owner**, not derived
+from the Amplio/FreeCiv or Wesnoth tilesets — no GPL attribution applies to
+them. They fall under the project's own `LICENSE` (AGPLv3) like any other
+original asset or source file.
+
 ## Notes
 
 - These two PNGs are **legend/reference sheets** (a labeled sample grid), not

@@ -11,17 +11,27 @@ to carry forward unchanged through MVP4, rather than being retrofitted).
 *Technical spike, no players, no turns.*
 
 **In scope**
-- A procedural hex-map generator that takes a random seed and produces a map
-  of 1,000+ star systems (tiles), each flagged as blank, planet, natural
-  wonder, or (reserved for later) anomaly/pirate-base.
-- Isometric-diamond canvas renderer for the generated map.
+- A procedural true-hex map generator (ported from `freecivx`'s space map
+  generator — see `docs/technical-architecture.md`): largest-first spaced
+  placement of distinct star systems, each carved as concentric rings with a
+  wobbled boundary and sparse planet/wonder/asteroid-belt features, set in
+  mostly-empty deep space. Prototyping at ~100-150 systems (not yet the
+  concept doc's full 1,000+ — see Parking Lot). Every tile is tagged with a
+  band (inner/medium/outer/interstellar/deep-space) at generation time.
+- True flat-top hex canvas renderer using real hand-painted band art (one
+  image per band, loaded once at startup), with feature icons (star/planet/
+  wonder/belt) layered on top — only the hexes within the current viewport
+  are looked up per frame, not the whole map.
 - Pan/zoom camera controls.
 
 **Out of scope:** ships, movement, turns, UI chrome, persistence.
 
 **Definition of done:** given the same seed, the generator produces an
-identical map every time, and it renders as a scrollable, zoomable starfield
-on canvas.
+identical map every time (verified), systems read as visually distinct with
+real empty space between them (verified against a first implementation that
+instead rolled tile types independently per-hex and looked like noise — the
+whole reason for this rewrite), and it renders as a scrollable, zoomable
+starfield on canvas.
 
 ## MVP1 — Two-Player Hot-Seat Explore Loop
 
@@ -45,10 +55,11 @@ pulled forward), anomalies, pirates, combat, health.
 **Definition of done:** two people can hand one device back and forth, each
 explore the shared map independently without seeing the other's fog-of-war,
 watch their own XP counter increase, and resume an in-progress session after
-closing and reopening the page. The win condition (every tile revealed,
-combined across both players' fog-of-war) is implemented and checked after
-each move — verify it with a small test-sized map/seed, not by actually
-exhausting a 1,000+ tile map by hand.
+closing and reopening the page. The win condition (every star system
+discovered, combined across both players — see `game-design.md`'s Session
+End) is implemented and checked after each move; with ~100-150 systems this
+is now realistic to actually verify end-to-end in a playtest, not just at a
+toy scale.
 
 ## MVP2 — Points of Interest & Leveling
 
@@ -102,3 +113,16 @@ Earth without the session ending.
 - Accessibility pass (color-blind-safe tile distinctions, text scaling).
 - Original (non-GPL) art pass, if the reused FreeCiv/Wesnoth tileset ever
   needs replacing.
+- ~~True hex-shaped tile art~~ — **done**: 5 hand-painted band tiles plus a
+  true flat-top hex renderer, replacing the diamond placeholder.
+- Address the accepted star-speckle repetition in the band tiles (see
+  `graphics-and-assets.md`) if it becomes a real complaint during
+  playtesting — e.g. a few randomized variants per band.
+- Scale the map generator from ~100-150 systems to the concept doc's full
+  1,000+. Two things need revisiting together, not just placement: (1)
+  replace the O(n²) placement scan with a spatial grid/bucket index for
+  neighbor queries (flagged as necessary at that scale by the freecivx
+  research this generator is based on), and (2) stop fully materializing
+  every deep-space tile (fine at ~25k tiles, not at the 500k-2M+ a
+  1,000+-system map implies) — likely back to an implicit/sparse model or
+  chunked generation around each ship.

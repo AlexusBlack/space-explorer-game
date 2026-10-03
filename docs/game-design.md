@@ -14,7 +14,10 @@ game — losing a ship is a setback, not a game-over.
 
 - Two players, hot-seat on one device, each controlling one independent
   starship from the very first playable build (MVP1).
-- Both ships start at **Earth**, the shared home planet.
+- Both ships start at **Earth**, a planet in the shared home system (whose
+  star — the one every player's ship can see first — is "Sol"). Earth is a
+  planet tile, not the star itself; see "Stars" below for why that
+  distinction matters.
 - Each player has their own: fog-of-war/revealed-tile state, position,
   experience total, level, and ship stats (moves/turn, vision radius, health,
   attack). Players do not share progress with each other, even though they
@@ -26,21 +29,47 @@ game — losing a ship is a setback, not a game-over.
 
 ## Map & Coordinate System
 
-- A single hex map, generated once per game session from a random seed (not
-  fixed/shared across all playthroughs — see
+- A single true-hex map, generated once per game session from a random seed
+  (not fixed/shared across all playthroughs — see
   [`technical-architecture.md`](technical-architecture.md)).
-- 1,000+ star systems (tiles) in the initial generated map.
-- Rendered as an isometric-diamond grid (matching the tileset's diamond tile
-  shape), backed internally by axial/cube hex coordinates.
+- The map is **mostly empty deep space**, with distinct, spaced-apart star
+  systems scattered across it (not a uniformly-paved grid where every hex is
+  "a star system" — the concept doc's "1,000+ star systems" describes the
+  eventual number of separate, multi-tile systems, not the map's total tile
+  count). Prototyping at ~100-150 systems first; see `mvp-roadmap.md` for the
+  1,000+ scale-up.
+- Each system is a small cluster of tiles (a star, optionally a few planets/
+  asteroid-belt tiles, surrounded by a thin "interstellar" halo) rather than
+  a single hex — see `graphics-and-assets.md`/`technical-architecture.md` for
+  how these are generated and carved. Every tile (whether part of a system or
+  true deep space) is tagged with one of five **bands** — `inner`, `medium`,
+  `outer`, `interstellar`, `deep-space` — used to pick its background art.
+- Rendered as a true flat-top hex grid (6-neighbor axial coordinates,
+  genuine hex-shaped tile art) — see `technical-architecture.md` for the
+  rendering-math history here (the original diamond placeholder art was
+  actually a square-grid projection, not a hex one; resolved once real hex
+  art existed).
 - Both players explore the *same* generated map/seed within one game session;
   only their fog-of-war differs.
+
+## Stars
+
+Each system has 1-3 actual stars (not a decorative "wonder" — these are real
+tiles in the system, generated structurally): single-star 65% of systems,
+binary 25%, trinary 10%. This is a direct map-generation fact, not a special
+event to discover — a trinary system is simply a system with three star
+tiles clustered at its center, the same way a real trinary star system is
+still just "a system," not a bonus feature layered on top of one. The home
+system's star is **Sol** (always single-star); **Earth** is a separate
+planet tile within that system, not the star itself.
 
 ## Movement & Exploration
 
 - Each ship has a fixed number of moves per turn (increases with leveling).
 - Moving onto a previously-unexplored (fogged) tile reveals it and awards
   experience:
-  - Blank/empty tile: 1 XP.
+  - Deep space (the vast majority of hexes — not explicitly generated, see
+    `technical-architecture.md`): 1 XP.
   - Tile containing a planet: more than a blank tile; inhabited planets award
     more than uninhabited ones.
   - Tile containing a natural wonder (e.g. black hole, trinary star system):
@@ -79,12 +108,11 @@ ability" has no meaning without an unlock table to grant from.
 
 Pirates are this game's equivalent of Civilization 5's barbarians:
 
-- The map is divided into **regions**, each a fixed-radius cluster of hexes
-  (exact radius to be tuned during MVP4 implementation; precomputed once by
-  the MVP0 map generator so pirate logic can look up "which region is this
-  tile in" cheaply). Per region, there's a chance each turn (or on some other
-  cadence, to be tuned) that a pirate base spawns if no pirate base is
-  currently present in that region.
+- Each **star system is its own region** for pirate purposes (a tile's
+  `regionId` is simply its owning system's id — see
+  `technical-architecture.md`). Per region, there's a chance each turn (or on
+  some other cadence, to be tuned) that a pirate base spawns if no pirate
+  base is currently present in that region.
 - A pirate base produces pirate ships periodically, up to a support capacity
   cap (no further production once the cap is reached, until losses free up
   capacity).
@@ -104,23 +132,33 @@ Pirates are this game's equivalent of Civilization 5's barbarians:
 |---|---|---|
 | Uninhabited planet | — | Moderate XP on discovery |
 | Inhabited planet | other nations (per original Civ5-inspired concept) | Higher XP on discovery; may be a future hook for non-combat "other nations" content beyond MVP4 |
-| Natural wonder | Black hole, trinary star system | Highest flat XP; visually distinct tile (e.g. the tileset's swirling "oil"/black-hole-style disc, the glowing "Star" tile) |
+| Natural wonder | Black hole | Highest flat XP; visually distinct tile (the tileset's swirling "oil"/black-hole-style disc). Trinary star systems are **not** a wonder — see "Stars" above; they're a real multi-tile structural feature of system generation, not a discoverable bonus. |
 | Asteroid / Kuiper belt | — | Terrain feature tile (reused greyish cloud art from `terrain2.png`); treated as a normal explorable tile for XP purposes unless/until given a distinct effect |
 
 ## Session End
 
-**Win condition (MVP, confirmed): the map is fully explored.** The game ends
-once every tile has been revealed — by either player's fog-of-war, since the
-two players share one map and are implicitly cooperating toward mapping it
-completely. This is a cooperative completion condition, not a competitive
-one; per-player XP/level remain a personal-progress measure, not a scoring
-contest between the two players.
+**Win condition (MVP, revised): every star system has been discovered** —
+i.e. a ship (either player's) has revealed each system's star tile at least
+once. Originally framed as "the map is fully explored," but with the map now
+mostly deep space (not a uniformly-paved grid, see "Map & Coordinate System"
+above), literally revealing every single hex is no longer a reasonable or
+fun completion condition — it would mean carpet-covering tens of thousands
+of empty tiles. Discovering every *system* preserves the original intent
+(a shared, cooperative "have we mapped everything of substance" goal)
+without that grind. Still cooperative, not competitive, across both
+players' fog-of-war; per-player XP/level remain a personal-progress measure,
+not a scoring contest.
 
 ## Glossary
 
-- **Tile** — one hex (rendered as an isometric diamond) on the map; may be
-  blank, a planet, a natural wonder, an anomaly, or a pirate base.
+- **Tile** — one true hex on the map, tagged with a **band** (inner/medium/
+  outer/interstellar/deep-space, driving its background art) and optionally a
+  feature on top: star, planet, natural wonder, asteroid/Kuiper belt,
+  anomaly, or pirate base.
+- **System** — a cluster of tiles (a star, surrounding rings of possible
+  planets/belts, and an interstellar halo) generated as one unit; the
+  concept doc's "star system."
 - **Fog of war** — per-player tracking of which tiles have been revealed by
   that player's exploration.
-- **Region** — a fixed-radius cluster of hexes, precomputed by the map
-  generator, used for pirate base spawn-chance rolls.
+- **Region** — equivalent to a system's id; used for pirate base spawn-chance
+  rolls.

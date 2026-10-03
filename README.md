@@ -2,7 +2,8 @@
 
 A peaceful, friendly, browser-based 2D hot-seat space exploration game, built to be played by two people sharing one tablet. Inspired by the early-game "send an Explorer/Trireme out to map the world" loop from Civilization 5.
 
-This repo is currently in the design/pre-code stage. Start here:
+MVP0 (seeded map generator + canvas renderer) is implemented; see
+[`docs/mvp-roadmap.md`](docs/mvp-roadmap.md) for what's next. Start here:
 
 - [`concept-and-approach.md`](concept-and-approach.md) — the original one-page pitch (kept as-is, historical anchor).
 - [`docs/game-design.md`](docs/game-design.md) — mechanics: map, ships, XP/leveling, anomalies, pirates.
@@ -15,6 +16,16 @@ This repo is currently in the design/pre-code stage. Start here:
 ## Tech direction
 
 HTML5 Canvas, vanilla JavaScript, zero (or near-zero) runtime dependencies, no backend. Static files, deployable anywhere (e.g. GitHub Pages).
+
+## Running locally
+
+No build step. Serve the repo root over HTTP (plain `file://` won't work — ES modules need a real origin) and open it in a browser:
+
+```
+./serve.sh        # serves on http://localhost:8080 (pass a port to override)
+```
+
+Open `http://localhost:8080/?seed=earth` — the `seed` query param pins the generated map so you can reload and compare, or share a specific map with someone else.
 
 ## License
 

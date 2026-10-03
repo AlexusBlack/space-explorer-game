@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+<title>Space Explorer — MVP0</title>
+<style>
+  html, body { margin: 0; padding: 0; overflow: hidden; background: #05070d; }
+  canvas { display: block; touch-action: none; }
+  #hud {
+    position: fixed; top: 0; left: 0; right: 0;
+    display: flex; align-items: center; gap: 8px;
+    padding: 8px 10px; font: 12px/1.4 system-ui, sans-serif; color: #cfe0ff;
+    background: linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0));
+    pointer-events: none;
+  }
+  #hud > * { pointer-events: auto; }
+  #seed-label { opacity: 0.85; }
+  #seed-input {
+    width: 8em; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; border-radius: 4px; padding: 3px 6px; font: inherit;
+  }
+  button {
+    background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
+    color: #fff; border-radius: 4px; padding: 3px 8px; font: inherit; cursor: pointer;
+  }
+  button:hover { background: rgba(255,255,255,0.2); }
+</style>
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="hud">
+  <span id="seed-label">seed: —</span>
+  <input id="seed-input" placeholder="seed" />
+  <button id="new-map">New map</button>
+</div>
+<script type="module" src="src/main.js"></script>
+</body>
+</html>
