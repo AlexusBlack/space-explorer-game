@@ -154,36 +154,59 @@ space between systems, is).
   radius around each ship — full materialization is a deliberate, acceptable
   tradeoff at ~25k tiles, not at the 500k-2M+ tiles a 1000+-system map implies.
 
-## Data Model (sketch)
+## Data Model (as implemented, MVP1)
 
 ```
-GameState
-├── seed
-├── map: Tile[] (keyed by axial coordinate; every hex in the map radius is present)
-│     └── Tile: { type, band, regionId (= owning system's id, -1 for deep space),
-│                 revealed_by: Set<PlayerId>, ...type-specific data }
-│     Note: `home: true` marks the Earth *planet* tile (players start here);
-│     `sol: true` marks the home system's *star* tile. These are deliberately
-│     different tiles — Earth orbits Sol, it isn't Sol. Earth is simply a
-│     Rocky, inhabited planet like any other, and may itself have 0-2 moons.
-│     `planet`/`moon` tiles carry `planetClass`/`sprite`/`inhabited`; a moon
-│     additionally carries `parent: {q, r}` — see "Band Materialization."
-├── systems: [{ id, q, r, radius, isHome, starCount }]
+mapData (src/mapgen.js's generateMap return value, never persisted — cheaply
+         and deterministically rebuilt from `seed` via generateMap({seed}))
+├── seed, mapRadius, systems: [{ id, q, r, radius, isHome, starCount, phases }]
+├── systemsSkipped, totalHexCount, earth: {q, r}
+└── tiles: Map<"q,r", Tile> — every hex in the map radius, shared/singleton,
+      never mutated by player state. Tile: { q, r, type, band,
+      regionId (= owning system's id, -1 for deep space), ...type-specific }
+
+gameState (src/state.js, persisted — see "Persistence" below)
+├── activePlayerIndex, movesRemaining, won
 └── players: [PlayerState, PlayerState]
-      └── PlayerState: { ship_position, xp, level, moves_remaining,
-                          revealed_tiles, (later) health }
+      └── PlayerState: { color, q, r, xp, visionRadius, discovered: Set<"q,r"> }
 ```
 
-`revealed_by`/fog-of-war is tracked per tile per player (or equivalently, a
-revealed-tile set per player) — this is the piece of the model that must be
-right from MVP1 onward, since it's shared unchanged through MVP4.
+Fog-of-war (`discovered`) is deliberately kept **off** the shared `tiles`
+map and lives entirely as two independent per-player `Set`s of `axialKey`
+strings — both players read the same singleton tile objects, so storing a
+"revealed" flag on the tile itself would leak one player's discoveries into
+the other's render pass immediately. `src/render.js` only ever receives the
+*active* player's `discovered` set, which is what actually enforces "can't
+see the other player's fog" (a data-availability guarantee, not a runtime
+check).
+
+**Reveal is vision-radius-based, not single-tile.** Each `PlayerState`
+carries its own `visionRadius` (MVP1 default: 1, i.e. itself plus its 6
+neighbors — see `game-design.md`'s Leveling section) so a future leveling
+unlock can simply increase that one number with no other code change.
+Whenever a ship occupies or passes through a hex — every step of a tapped
+move's path, not just the destination — `src/state.js`'s `revealAround`
+reveals every tile within that player's `visionRadius` of that hex.
+Newly-revealed tiles award flat XP via `xpForTile`/`revealTile` regardless
+of whether they were the move's destination or just within vision range —
+there's no separate "seen vs. visited" XP tier in MVP1.
+
+**Fog exception — stars are always visible.** `render.js` always draws a
+`"star"` tile regardless of the active player's `discovered` set (every
+other tile type stays blank/fogged until actually discovered). This is a
+pure rendering/wayfinding aid toward the win condition — players can see
+where every system is from the start — and is independent of the
+`discovered` set: seeing a star this way does **not** mark it discovered,
+so it grants no XP and doesn't count toward the win condition below.
 
 **Win condition check**: with deep space now the vast majority of the map,
 "every tile revealed" is no longer the right completion condition (see
 `game-design.md`'s Session End) — it's **every system's star tile
-discovered** instead. Maintain a running count of systems with a discovered
-star tile against `systems.length`; O(1) per move, no need to scan the full
-tile map.
+discovered** instead. A system's primary star always sits at exactly
+`(system.q, system.r)` (see `mapgen.js`'s `carveSystem`), so
+`checkWinCondition` just tests, for every entry in `mapData.systems`,
+whether *either* player's `discovered` set contains that key — a
+cooperative union, O(systems × players) per move, run after every move.
 
 ## Rendering Loop
 
@@ -224,11 +247,22 @@ ever clips them, regardless of q/r iteration order.
 
 ## Persistence
 
-- `localStorage`, holding the seed plus both players' state (position, fog,
-  XP/level). Single device, single session is the stated use case — no
-  export/import or multi-device sync needed at this stage.
-- Persist after every turn-ending action at minimum (more frequently if
-  cheap) so a closed tab doesn't lose progress mid-turn.
+- Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`),
+  holding the seed, `activePlayerIndex`, `movesRemaining`, and both
+  players' `{ color, q, r, xp, visionRadius, discovered }` (`discovered`
+  serialized as a plain array of `axialKey` strings, restored back to a
+  real `Set` on load). Only the seed is stored for the map itself —
+  `tiles`/`systems` are always cheaply and deterministically rebuilt via
+  `generateMap({ seed })` rather than persisted. Single device, single
+  session, one save slot is the stated use case — no export/import or
+  multi-device sync needed at this stage; starting/loading a new seed
+  always overwrites it.
+- Persisted after every state-changing action — a move or an End Turn, not
+  debounced — not just at turn boundaries, so a closed tab never loses
+  progress mid-turn either. Payload is small and actions are
+  human-tap-paced, so synchronous `setItem` on every action is cheap.
+  `JSON.parse` and a `version` field are guarded so a corrupt or
+  old-schema save is treated as absent rather than throwing.
 
 ## Dependency Policy
 
@@ -236,15 +270,20 @@ Vanilla JS, zero shipped runtime dependencies, static-file deployable (e.g.
 GitHub Pages), no backend. See [`ui-ux-spec.md`](ui-ux-spec.md) for the
 rationale shared with the UI layer.
 
-## Module Layout (suggested, revisit once code exists)
+## Module Layout (as implemented)
 
 ```
 src/
-├── hexgrid.js       axial coordinate math, screen<->tile transforms
-├── mapgen.js        seeded map generator (places systems, bands every tile)
-├── render.js        canvas drawing (viewport-bounded tile lookup, icons)
-├── assets.js        per-band background image loading
-├── input.js         tap/pan/zoom/pinch handling
-├── state.js         GameState model, localStorage persistence (not yet built)
-└── main.js          wiring/game loop
+├── hexgrid.js         axial coordinate math, screen<->tile transforms,
+│                      hexLine (move-path interpolation for tap-to-move)
+├── mapgen.js          seeded map generator (places systems, bands every tile)
+├── planet-classes.js  planet/moon class -> sprite catalog (shared by
+│                      mapgen.js and assets.js)
+├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
+│                      fog-of-war skip, ship markers)
+├── assets.js          per-band/icon image loading
+├── input.js           tap/drag-pan/pinch-zoom/wheel-zoom handling
+├── state.js           player/turn GameState model, fog-of-war,
+│                      win-condition check, localStorage persistence
+└── main.js            wiring/game loop/turn orchestration
 ```

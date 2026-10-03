@@ -83,9 +83,13 @@ planet tile within that system, not the star itself.
   (exact thresholds to be tuned during MVP2 implementation/playtesting).
 - Leveling up unlocks, in rough order of introduction:
   1. More moves per turn.
-  2. Larger vision radius — **passive**: each turn, tiles within the ship's
-     current vision radius are revealed automatically, without needing to
-     move directly onto them (scout-like), stacking with reveal-on-visit.
+  2. Larger vision radius — **passive**: tiles within the ship's current
+     vision radius are revealed automatically whenever it moves, without
+     needing to move directly onto each one (scout-like), stacking with
+     reveal-on-visit. Every ship already has a small vision radius (1 hex:
+     itself plus its 6 neighbors) from MVP1 onward — this leveling unlock
+     is specifically about *increasing* that radius, not introducing the
+     mechanic from scratch.
   3. More health.
   4. Stronger attack.
 - Levels and their unlocks are per-player, not shared.

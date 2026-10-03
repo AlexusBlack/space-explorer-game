@@ -63,6 +63,27 @@ export function axialKey(q, r) {
   return `${q},${r}`;
 }
 
+// Tiny nudge (standard trick, see Red Blob Games' cube_linedraw) so a line
+// that passes exactly along a hex edge/corner rounds consistently instead of
+// landing on a floating-point tie between two neighboring hexes.
+const LINE_EPSILON_Q = 1e-6;
+const LINE_EPSILON_R = 1e-6;
+
+// Ordered hexes from `a` to `b` inclusive (length hexDistance(a,b)+1), via
+// axial linear interpolation rounded back to a whole hex at each step
+// (reuses roundAxial, the same cube-rounding `pixelToAxial` relies on).
+export function hexLine(a, b) {
+  const n = hexDistance(a, b);
+  const results = [];
+  for (let i = 0; i <= n; i++) {
+    const t = n === 0 ? 0 : i / n;
+    const qf = a.q + LINE_EPSILON_Q + (b.q - a.q) * t;
+    const rf = a.r + LINE_EPSILON_R + (b.r - a.r) * t;
+    results.push(roundAxial(qf, rf));
+  }
+  return results;
+}
+
 // All axial coordinates within `radius` hexes of the origin (a filled hexagon).
 export function hexesInRadius(radius) {
   const results = [];

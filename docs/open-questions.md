@@ -200,6 +200,37 @@ from here.
   depending on zoom. Also dropped the smaller size for secondary stars in
   binary/trinary systems — no reason for them to differ from a primary
   star's size. See `render.js`'s `drawIcon`.
+- **MVP1 (two-player hot-seat explore loop) implemented.** New `src/state.js`
+  owns the player/turn model: two `PlayerState`s (`color, q, r, xp,
+  visionRadius, discovered: Set<"q,r">`), a shared `activePlayerIndex`/
+  `movesRemaining`/`won`. Fog-of-war is kept entirely off the shared
+  `mapData.tiles` singletons (two independent per-player `Set`s instead) so
+  one player's discoveries can never leak into the other's render pass.
+  Tap-to-move is **distance-based**: a tap on any hex within
+  `hexDistance <= movesRemaining` moves the ship there in one action along
+  the straight hex line (`hexgrid.js`'s new `hexLine`), consuming that many
+  moves. Reveal is **vision-radius-based, not single-tile**: every ship has
+  a `visionRadius` (MVP1 default 1) and reveals the full disk around every
+  hex it occupies or passes through, not just the tapped destination — this
+  is deliberately the same mechanism `game-design.md`'s "passive vision
+  radius" leveling unlock will later just increase the radius of, not a
+  separate system. One rendering exception: **star tiles are always
+  visible** regardless of fog, as a wayfinding aid toward the
+  every-system-discovered win condition — seeing a star this way doesn't
+  mark it discovered, so it grants no XP and doesn't count toward winning;
+  only actually moving there (and thus adding it to that player's
+  `discovered` set) does. XP is a flat, MVP1-placeholder
+  `BASE_XP`/`FEATURE_XP` split (blank tiles vs. any planet/moon/
+  wonder-blackhole) — explicitly not the real inhabited/class-aware table,
+  which is MVP2 scope. Added `index.html` DOM for a bottom per-player HUD,
+  a win banner, and a full-screen pass-and-play interstitial (opaque, blocks
+  all canvas pointer events while visible, so one player's revealed map
+  never shows during handoff). `localStorage` (`explorer-game:save:v1`)
+  persists the seed plus both players' state after every move and every
+  End Turn, not just at turn boundaries; only the seed is stored for the
+  map itself, since `generateMap({seed})` is cheap and deterministic. See
+  `technical-architecture.md`'s Data Model and Persistence sections and
+  `game-design.md`'s Experience & Leveling section.
 - **Icons/labels were getting clipped by neighboring tiles' backgrounds.**
   With small tiles (64px wide) and native-size icons (up to ~90px wide,
   e.g. the black-hole sprite), an icon routinely spills into a neighboring

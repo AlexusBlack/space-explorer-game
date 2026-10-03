@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-<title>Space Explorer — MVP0</title>
+<title>Space Explorer — MVP1</title>
 <style>
   html, body { margin: 0; padding: 0; overflow: hidden; background: #05070d; }
   canvas { display: block; touch-action: none; }
@@ -25,6 +25,33 @@
     color: #fff; border-radius: 4px; padding: 3px 8px; font: inherit; cursor: pointer;
   }
   button:hover { background: rgba(255,255,255,0.2); }
+
+  #player-hud {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    display: flex; align-items: center; gap: 16px;
+    padding: 10px 12px; font: 13px/1.4 system-ui, sans-serif; color: #cfe0ff;
+    background: linear-gradient(rgba(0,0,0,0), rgba(0,0,0,0.6));
+    pointer-events: none;
+  }
+  #player-hud > * { pointer-events: auto; }
+  #turn-label { font-weight: 600; }
+  #end-turn { margin-left: auto; }
+
+  #win-banner {
+    position: fixed; top: 56px; left: 50%; transform: translateX(-50%);
+    padding: 8px 16px; font: 14px/1.4 system-ui, sans-serif; color: #05070d;
+    background: #8fe3a0; border-radius: 6px; display: none;
+  }
+  #win-banner.visible { display: block; }
+
+  #interstitial {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    background: #05070d; color: #cfe0ff; font: 16px/1.4 system-ui, sans-serif;
+    z-index: 10; cursor: pointer;
+  }
+  #interstitial.visible { display: flex; }
+  #interstitial-message { font-size: 1.3em; font-weight: 600; }
 </style>
 </head>
 <body>
@@ -32,7 +59,18 @@
 <div id="hud">
   <span id="seed-label">seed: —</span>
   <input id="seed-input" placeholder="seed" />
-  <button id="new-map">New map</button>
+  <button id="new-map">New Game</button>
+</div>
+<div id="player-hud">
+  <span id="turn-label"></span>
+  <span id="xp-label"></span>
+  <span id="moves-label"></span>
+  <button id="end-turn">End Turn</button>
+</div>
+<div id="win-banner">All star systems discovered!</div>
+<div id="interstitial">
+  <div id="interstitial-message"></div>
+  <button id="interstitial-continue">Tap to continue</button>
 </div>
 <script type="module" src="src/main.js"></script>
 </body>

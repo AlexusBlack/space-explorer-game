@@ -73,7 +73,7 @@ function visibleHexRange(camera, canvasW, canvasH) {
   };
 }
 
-export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages) {
+export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
 
@@ -103,6 +103,13 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
     for (let r = rMin; r <= rMax; r++) {
       const tile = mapData.tiles.get(axialKey(q, r));
       if (!tile) continue;
+      // Fog of war: every star tile is always visible (a wayfinding aid
+      // toward the win condition — seeing a star this way is not the same
+      // as "discovering" it, which still only comes from actually visiting
+      // it, see state.js's revealTile), everything else stays blank
+      // (the BACKGROUND fill above) until the active player has it in
+      // their own discovered set.
+      if (tile.type !== "star" && discovered && !discovered.has(axialKey(tile.q, tile.r))) continue;
 
       const world = axialToPixel(tile.q, tile.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
@@ -153,5 +160,22 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
 
   for (const [text, p] of pendingLabels) {
     drawLabel(ctx, text, p, hh, camera.zoom);
+  }
+
+  // Ship markers are drawn for both players regardless of whose turn it is
+  // — unlike fog, seeing where the ships are isn't privileged information.
+  if (ships) {
+    for (const ship of ships) {
+      const world = axialToPixel(ship.q, ship.r);
+      const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+      const radius = 8 * camera.zoom;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
+      ctx.fillStyle = ship.color;
+      ctx.fill();
+      ctx.lineWidth = 2;
+      ctx.strokeStyle = "rgba(255,255,255,0.9)";
+      ctx.stroke();
+    }
   }
 }

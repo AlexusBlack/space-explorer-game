@@ -3,11 +3,19 @@
 const MIN_ZOOM = 0.25;
 const MAX_ZOOM = 3;
 
-export function attachCameraControls(canvas, camera, onChange) {
+// A tap is a pointerdown->pointerup with little movement and not too much
+// time in between — anything else (drag, pinch) is not a tap.
+const TAP_MOVE_THRESHOLD = 10;
+const TAP_TIME_THRESHOLD = 500;
+
+export function attachCameraControls(canvas, camera, onChange, onTap) {
   const pointers = new Map();
   let lastDragPos = null;
   let pinchStartDist = null;
   let pinchStartZoom = null;
+  let tapCandidate = false;
+  let tapDownPos = null;
+  let tapDownTime = 0;
 
   function clampZoom(z) {
     return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
@@ -28,6 +36,11 @@ export function attachCameraControls(canvas, camera, onChange) {
 
   canvas.addEventListener("pointerdown", (e) => {
     canvas.setPointerCapture(e.pointerId);
+    if (pointers.size === 0) {
+      tapCandidate = true;
+      tapDownPos = { x: e.clientX, y: e.clientY };
+      tapDownTime = performance.now();
+    }
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 1) {
       lastDragPos = { x: e.clientX, y: e.clientY };
@@ -35,6 +48,7 @@ export function attachCameraControls(canvas, camera, onChange) {
       pinchStartDist = dist();
       pinchStartZoom = camera.zoom;
       lastDragPos = null;
+      tapCandidate = false;
     }
   });
 
@@ -43,6 +57,10 @@ export function attachCameraControls(canvas, camera, onChange) {
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
 
     if (pointers.size === 1 && lastDragPos) {
+      if (tapCandidate && tapDownPos) {
+        const moved = Math.hypot(e.clientX - tapDownPos.x, e.clientY - tapDownPos.y);
+        if (moved > TAP_MOVE_THRESHOLD) tapCandidate = false;
+      }
       const dx = e.clientX - lastDragPos.x;
       const dy = e.clientY - lastDragPos.y;
       camera.x -= dx / camera.zoom;
@@ -68,6 +86,15 @@ export function attachCameraControls(canvas, camera, onChange) {
     } else {
       lastDragPos = null;
     }
+    if (
+      pointers.size === 0 &&
+      tapCandidate &&
+      performance.now() - tapDownTime < TAP_TIME_THRESHOLD &&
+      onTap
+    ) {
+      onTap({ x: e.clientX, y: e.clientY });
+    }
+    if (pointers.size === 0) tapCandidate = false;
   }
 
   canvas.addEventListener("pointerup", releasePointer);
