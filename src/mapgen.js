@@ -197,13 +197,15 @@ function carveSystem(tiles, system, rng) {
   return zoneCoords;
 }
 
-function generateAsteroidDots(rng) {
-  const count = 5 + Math.floor(rng() * 4);
-  const dots = new Array(count);
-  for (let i = 0; i < count; i++) {
-    dots[i] = { ox: (rng() * 2 - 1) * 0.6, oy: (rng() * 2 - 1) * 0.6, rFrac: 0.06 + rng() * 0.08 };
-  }
-  return dots;
+// Two belt sprite variants (cropped from terrain2.png); each tile picks one
+// plus a random rotation/flip so a handful of source images still read as
+// varied across the many belt tiles on a map.
+function pickBeltAppearance(rng) {
+  return {
+    variant: rng() < 0.5 ? 1 : 2,
+    rotation: rng() * Math.PI * 2,
+    flip: rng() < 0.5,
+  };
 }
 
 function takeRandom(rng, list) {
@@ -310,7 +312,7 @@ function populateSystem(tiles, system, zoneCoords, rng) {
         ...coord,
         type: "asteroid-belt",
         regionId: system.id,
-        asteroidDots: generateAsteroidDots(rng),
+        ...pickBeltAppearance(rng),
       });
     }
   }

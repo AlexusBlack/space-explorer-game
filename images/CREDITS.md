@@ -56,9 +56,13 @@ unconfirmed, same tracking as `units.png` in
 
 Four sprites (`icons/star.png`, `icons/planet-uninhabited.png`,
 `icons/planet-inhabited.png`, `icons/wonder-blackhole.png`) cropped directly
-from `terrain1.png` — see
-[`../docs/graphics-and-assets.md`](../docs/graphics-and-assets.md) for their
-exact source cells. Same GPL v2 provenance as `terrain1.png` itself.
+from `terrain1.png`, plus two (`icons/asteroid-belt-1.png`,
+`icons/asteroid-belt-2.png`) cropped from `terrain2.png` with their native
+near-invisible opacity boosted and recolored (same source silhouette, our
+own opacity curve/tint) — see
+[`../docs/graphics-and-assets.md`](../docs/graphics-and-assets.md) for exact
+source cells. Same GPL v2 provenance as `terrain1.png`/`terrain2.png`
+themselves.
 
 ## `starfield-*-hex.png` and `templates/`
 

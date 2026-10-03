@@ -105,3 +105,12 @@ from here.
   overwritten by later planet placement), so some "trinary" systems only
   had 1-2 actual star tiles — now placed without replacement and excluded
   from the planet/belt sampling pools. See `game-design.md`'s Stars section.
+- **Asteroid/Kuiper belt icons replaced with real sprites cropped from
+  `terrain2.png`**, not the scattered-dot placeholder. Finding along the
+  way: the cloud blend textures are extremely low native opacity (max
+  ~16%, every one of the 32 cells checked) — unusable at native opacity, so
+  the shape (alpha channel) was kept but boosted and recolored. 2 variants
+  (`icons/asteroid-belt-1.png`, `icons/asteroid-belt-2.png`), each belt tile
+  picking one plus a random rotation/flip computed once at generation time
+  (`mapgen.js`'s `pickBeltAppearance`) for variety from just 2 source crops.
+  See `graphics-and-assets.md`.

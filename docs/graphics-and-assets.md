@@ -23,13 +23,24 @@ cyan selection diamond, a flag icon).
 ### `terrain2.png` (960×295px)
 
 Labeled "Forest and tropical forest from Battle for Wesnoth": a row of small
-green directional/movement chevron sprites, followed by several rows of
-faint, greyish cloud-like blend textures. In the original FreeCiv: Space
-tileset these greyish clouds are used as **asteroid belts and Kuiper belts**
-— a space-relevant reuse despite the "forest" label inherited from the
-land tileset these blends were adapted from. This repurposes what was
-previously thought to be unusable filler art into a real MVP tile type (see
-below).
+green directional/movement chevron sprites, followed by 4 rows (32 cells, in
+2 duplicate/mirrored pairs — 16 unique shapes) of soft cloud-like blend
+textures. In the original FreeCiv: Space tileset these are used as
+**asteroid belts and Kuiper belts** — a space-relevant reuse despite the
+"forest" label inherited from the land tileset these blends were adapted
+from.
+
+**Important finding once actually measured, not just eyeballed**: these
+blend textures are extremely low-opacity by design (max alpha ~40/255,
+~16%, across every one of the 32 cells checked) — they're meant as a subtle
+blend/transition overlay, not a standalone visible sprite, and render as
+nearly invisible if composited at native opacity. Used anyway: the alpha
+channel (i.e. the actual *shape*, which is genuinely good — soft, organic
+cloud silhouettes) is kept, but boosted (~6x) and recolored to a visible
+blue-grey tint before cropping — see `images/icons/` below. This is still
+"using terrain2.png's graphics" in every meaningful sense (the silhouette
+data is 100% sourced from the sheet); only the opacity curve and tint are
+ours.
 
 ### `units.png`
 
@@ -77,6 +88,19 @@ content bounding box):
 - `icons/wonder-blackhole.png` — row 0, column 4 ("Oil" label) — the
   swirling orange accretion-disc sprite noted below; confirmed as the best
   black-hole stand-in once actually cropped and viewed at scale.
+
+Two more were cropped from `terrain2.png` for asteroid/Kuiper belt tiles
+(see the opacity-boosting note above):
+
+- `icons/asteroid-belt-1.png` — row 3 (0-indexed), column 4 — a single
+  rounded cloud silhouette.
+- `icons/asteroid-belt-2.png` — row 3, column 1 — a dumbbell/peanut-shaped
+  silhouette, for contrast against variant 1.
+
+Each belt tile picks one of the 2 variants plus a random rotation and
+horizontal-flip (`mapgen.js`'s `pickBeltAppearance`, computed once at
+generation time) — enough combined variety from just 2 source crops that
+adjacent belt tiles don't read as obviously identical.
 
 **Good candidates not yet used, for future variety** (same survey, same
 grid): row 1 col 2 ("Buffalo," teal swirled gas giant), row 1 col 4
@@ -127,13 +151,13 @@ the repetition becomes a real complaint during playtesting.
   selection highlighting (needed starting MVP1).
 - The **gray fog overlay** — reusable directly for fog-of-war rendering
   (needed starting MVP1).
-- The **greyish cloud blend textures in `terrain2.png`** — asteroid belt and
-  Kuiper belt tiles (confirmed FreeCiv: Space usage); the asteroid-belt icon
-  is still a canvas-drawn placeholder (scattered dots), not yet cropped art.
 
 **Resolved via `images/icons/` (see above):**
 - **Star**, **planet-uninhabited**, **planet-inhabited**, **wonder-blackhole**
-  icons — all four cropped from `terrain1.png` and wired into the renderer.
+  icons — cropped from `terrain1.png` and wired into the renderer.
+- **Asteroid-belt** icon (2 variants) — cropped from `terrain2.png`'s cloud
+  blend textures (opacity-boosted; see above) and wired into the renderer,
+  replacing the scattered-dot placeholder.
 
 **Resolved via `units.png` / `pirate-base.png`:**
 - **Player ship** sprite — row 2, column 3 of `units.png`.
@@ -149,8 +173,7 @@ have been pure wasted per-frame work for zero effect.
 
 **Excluded from the asset pool (needs redraw or simply not relevant):**
 - The green directional/movement chevron row in `terrain2.png` — these are
-  Wesnoth unit-facing indicators, not terrain; no space-game relevance. (The
-  greyish cloud rows below the chevrons *are* usable — see above.)
+  Wesnoth unit-facing indicators, not terrain; no space-game relevance.
 - The Civ-land infrastructure overlays in `terrain1.png` (irrigation,
   farmland, mining, pollution, village, fallout) and the road/railroad edge
   overlays — these are land-terrain-specific and have no space-game
@@ -167,9 +190,9 @@ have been pure wasted per-frame work for zero effect.
 1. ~~Hex/diamond tile background~~ / ~~Starfield background~~ — **done**:
    the 5 hand-painted band tiles (`images/starfield-*-hex.png`) now cover
    every tile on the map; see above.
-2. ~~Star / planet-uninhabited / planet-inhabited / wonder-blackhole
-   icons~~ — **done**: cropped from `terrain1.png`, see `images/icons/`
-   above.
+2. ~~Star / planet-uninhabited / planet-inhabited / wonder-blackhole / asteroid-belt
+   icons~~ — **done**: cropped from `terrain1.png`/`terrain2.png`, see
+   `images/icons/` above.
 3. Fog-of-war overlay — still needed for MVP1 (not yet cropped from
    `terrain1.png`).
 4. Selection highlight diamond — still needed for MVP1.
@@ -179,10 +202,6 @@ have been pure wasted per-frame work for zero effect.
    a different unit design).
 6. Pirate ship sprite (for MVP4) — `units.png`, row 1 column 13.
 7. Pirate base sprite (for MVP4) — `pirate-base.png`.
-
-Asteroid/Kuiper belt *icon* is still a canvas-drawn placeholder (scattered
-dots) — the greyish cloud blend in `terrain2.png` noted elsewhere in this doc
-remains the option for a future real asteroid-belt icon pass.
 
 ## Tile Geometry & Canvas Mapping
 
@@ -241,5 +260,7 @@ closed-source or app-store distribution that conflicts with GPL v2
 obligations on the bundled art).
 
 Also parked: addressing the baked-in star-speckle repetition in the 5 band
-tiles (see above) if it becomes a real complaint during playtesting, and a
-real cropped asteroid-belt icon (currently a canvas-drawn placeholder).
+tiles (see above) if it becomes a real complaint during playtesting, and
+picking a few more of the catalogued-but-unused planet/wonder variants (see
+`images/icons/` above) for per-tile visual variety the same way asteroid
+belts already do.

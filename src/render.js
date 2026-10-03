@@ -1,8 +1,8 @@
 // Canvas 2D rendering: per-tile band background image (precomputed at
 // generation time, see mapgen.js) with a feature icon layered on top where
-// present. Star/planet/black-hole icons are real sprites cropped from
-// terrain1.png (see docs/graphics-and-assets.md for exact source cells);
-// asteroid belts are still a canvas-drawn placeholder.
+// present. All feature icons (star/planet/black-hole/asteroid-belt) are real
+// sprites cropped from terrain1.png/terrain2.png — see
+// docs/graphics-and-assets.md for exact source cells.
 
 import { HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./hexgrid.js";
 
@@ -16,6 +16,7 @@ const ICON_SIZE_FRAC = {
   "planet-uninhabited": 0.55,
   "planet-inhabited": 0.6,
   "wonder-blackhole": 1.4,
+  "asteroid-belt": 1.3,
 };
 
 // The band art template is 276x241px: a 256x221 (HEX_WIDTH x HEX_HEIGHT) hex
@@ -32,22 +33,26 @@ export function worldToScreen(camera, canvasW, canvasH, x, y) {
   };
 }
 
-function drawAsteroidBelt(ctx, dots, cx, cy, hw, hh) {
-  ctx.fillStyle = "rgba(170,170,180,0.55)";
-  for (const dot of dots) {
-    const r = Math.max(1, hw * dot.rFrac);
-    ctx.beginPath();
-    ctx.arc(cx + dot.ox * hw, cy + dot.oy * hh, r, 0, Math.PI * 2);
-    ctx.fill();
-  }
-}
-
 function drawIcon(ctx, img, cx, cy, targetSize) {
   if (!img) return;
   const scale = targetSize / Math.max(img.width, img.height);
   const w = img.width * scale;
   const h = img.height * scale;
   ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
+}
+
+// Only 2 source sprites exist, so each belt tile's precomputed rotation/flip
+// (see mapgen.js's pickBeltAppearance) is what keeps many belt tiles from
+// all looking identical.
+function drawAsteroidBelt(ctx, tile, iconImages, cx, cy, targetSize) {
+  const img = iconImages && iconImages[`asteroid-belt-${tile.variant}`];
+  if (!img) return;
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(tile.rotation);
+  if (tile.flip) ctx.scale(-1, 1);
+  drawIcon(ctx, img, 0, 0, targetSize);
+  ctx.restore();
 }
 
 function drawLabel(ctx, text, p, hh, zoom) {
@@ -133,7 +138,7 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
           break;
         }
         case "asteroid-belt":
-          drawAsteroidBelt(ctx, tile.asteroidDots, p.x, p.y, hw, hh);
+          drawAsteroidBelt(ctx, tile, iconImages, p.x, p.y, minDim * ICON_SIZE_FRAC["asteroid-belt"]);
           break;
         case "wonder-blackhole":
           drawIcon(

@@ -8,12 +8,15 @@ const BAND_IMAGE_PATHS = {
   "deep-space": "images/starfield-deep-space-hex.png",
 };
 
-// Cropped from images/terrain1.png — see docs/graphics-and-assets.md for exact source cells.
+// Cropped from images/terrain1.png / images/terrain2.png — see
+// docs/graphics-and-assets.md for exact source cells.
 const ICON_IMAGE_PATHS = {
   star: "images/icons/star.png",
   "planet-uninhabited": "images/icons/planet-uninhabited.png",
   "planet-inhabited": "images/icons/planet-inhabited.png",
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
+  "asteroid-belt-1": "images/icons/asteroid-belt-1.png",
+  "asteroid-belt-2": "images/icons/asteroid-belt-2.png",
 };
 
 function loadImage(path) {
