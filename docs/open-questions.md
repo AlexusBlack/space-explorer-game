@@ -22,6 +22,24 @@ from here.
 
 ## Resolved
 
+- **Icon extraction is now scripted (`scripts/extract-icons.py`), and 11
+  more planet variants were pre-extracted for a future variety pass.** The
+  script auto-detects each source sheet's grid from its own table-border
+  color rather than hardcoded cell sizes, and a declarative `MANIFEST` is
+  the single source of truth for where every icon comes from. Verified by
+  reproducing all pre-existing icons byte-for-byte before trusting its
+  output. Along the way, found and fixed a real clipping bug: the crop
+  inset (meant only to skip the sheets' border lines, which are exactly
+  1px thick) defaulted to 3px, shaving 2 extra pixels of real sprite
+  content off every edge — invisible on most icons, which have margin to
+  spare, but it flattened the bottom of `planet-uninhabited.png`, whose
+  circle sits almost flush against its cell's edge. Fixed by changing the
+  default to `inset=1` and re-extracting everything. The 11 new planet
+  variants (`planet-oasis`, `planet-buffalo`, `planet-ivory`, `planet-wheat`,
+  `planet-silk`, `planet-wine`, `planet-furs`, `planet-spice`,
+  `planet-fruit`, `planet-whales`, `planet-shield`) are extracted but **not
+  yet wired into `mapgen.js`/`render.js`** — that's a distinct next step.
+  See `graphics-and-assets.md`.
 - **Hot-seat model** — two independent ships (own fog-of-war/XP/level each)
   on a shared map, not one shared ship. _(Decided when drafting this
   documentation pass.)_
