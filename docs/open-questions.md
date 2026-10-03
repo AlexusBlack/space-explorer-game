@@ -153,3 +153,13 @@ from here.
   depending on zoom. Also dropped the smaller size for secondary stars in
   binary/trinary systems — no reason for them to differ from a primary
   star's size. See `render.js`'s `drawIcon`.
+- **Icons/labels were getting clipped by neighboring tiles' backgrounds.**
+  With small tiles (64px wide) and native-size icons (up to ~90px wide,
+  e.g. the black-hole sprite), an icon routinely spills into a neighboring
+  tile's screen space — and background/icon/label were all being drawn
+  together, tile by tile, so a later-processed neighboring tile's opaque
+  background silently painted over that spillover. Fixed by splitting
+  rendering into three full passes over the visible tiles (all backgrounds,
+  then all icons, then all labels) instead of one interleaved pass — same
+  fix pattern already applied to labels earlier, now generalized to icons
+  too. See `technical-architecture.md`'s Rendering Loop section.

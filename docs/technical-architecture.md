@@ -173,10 +173,23 @@ all ~24,700 stored tiles every frame just to cull most of them would have
 defeated the point of keeping per-frame work low.
 
 Per-band background art is loaded once at startup (`src/assets.js`) and
-drawn via `drawImage`, with any feature icon (star/planet/wonder/belt)
-layered on top — no procedural/random starfield layer anymore; it would be
-fully hidden under the now-universal band art and was removed rather than
-left running for no visible effect.
+drawn via `drawImage` — no procedural/random starfield layer anymore; it
+would be fully hidden under the now-universal band art and was removed
+rather than left running for no visible effect.
+
+**Rendering happens in three passes over the visible tiles, not one
+interleaved pass**: all band backgrounds first, then all feature icons
+(star/planet/wonder/belt), then all labels. Icons and labels routinely
+extend past their own tile's hex footprint — icons are drawn at native
+pixel size (see "Band Materialization" note on `HEX_SIZE`/icon sizing
+above) and tiles are small, so e.g. the ~86px-wide black-hole sprite is
+wider than the ~64px tile itself. Drawing a tile's background, icon, and
+label together before moving to the next tile meant a later-processed
+neighboring tile's opaque background would silently paint over the
+spillover part of an earlier tile's icon or label. Queuing icons/labels
+during the background pass and drawing them only once every background is
+down (`src/render.js`'s `pendingIcons`/`pendingLabels`) guarantees nothing
+ever clips them, regardless of q/r iteration order.
 
 ## Persistence
 

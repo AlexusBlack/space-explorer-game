@@ -33,7 +33,6 @@ function drawIcon(ctx, img, cx, cy, zoom) {
   ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
 }
 
-
 function drawLabel(ctx, text, p, hh, zoom) {
   ctx.fillStyle = "rgba(255,255,255,0.85)";
   ctx.font = `${Math.max(10, 12 * zoom)}px sans-serif`;
@@ -81,9 +80,17 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
 
   const { qMin, qMax, rMin, rMax } = visibleHexRange(camera, canvasW, canvasH);
 
-  // Labels are queued and drawn in a separate final pass (see below) so a
-  // later-drawn neighboring tile's opaque background can never paint over a
-  // label that spills past this tile's own edge.
+  // Backgrounds, icons, and labels are drawn in three separate passes over
+  // the same tiles, rather than interleaved tile-by-tile. Icons (and
+  // labels) routinely extend beyond their own tile's hex footprint — tiles
+  // are small (HEX_WIDTH=64 at HEX_SIZE=32) but icons stay at native pixel
+  // size, e.g. the ~86px-wide wonder-blackhole sprite. Drawing everything
+  // for one tile before moving to the next meant a later-processed
+  // neighboring tile's opaque background would silently paint over the
+  // spillover part of an earlier tile's icon. Collecting icons/labels and
+  // drawing them only after every background is down guarantees nothing
+  // ever clips them, regardless of iteration order.
+  const pendingIcons = [];
   const pendingLabels = [];
 
   const imgScale = (hw * 2) / HEX_WIDTH;
@@ -107,20 +114,20 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
         case "band":
           break;
         case "star":
-          drawIcon(ctx, iconImages && iconImages.star, p.x, p.y, camera.zoom);
+          pendingIcons.push([iconImages && iconImages.star, p]);
           if (tile.sol && camera.zoom > 0.5) {
             pendingLabels.push(["Sol", p]);
           }
           break;
         case "asteroid-belt":
-          drawIcon(ctx, iconImages && iconImages[`asteroid-belt-${tile.variant}`], p.x, p.y, camera.zoom);
+          pendingIcons.push([iconImages && iconImages[`asteroid-belt-${tile.variant}`], p]);
           break;
         case "wonder-blackhole":
-          drawIcon(ctx, iconImages && iconImages["wonder-blackhole"], p.x, p.y, camera.zoom);
+          pendingIcons.push([iconImages && iconImages["wonder-blackhole"], p]);
           break;
         case "planet-uninhabited":
         case "planet-inhabited":
-          drawIcon(ctx, iconImages && iconImages[tile.type], p.x, p.y, camera.zoom);
+          pendingIcons.push([iconImages && iconImages[tile.type], p]);
           if (tile.home && camera.zoom > 0.5) {
             pendingLabels.push(["Earth", p]);
           }
@@ -129,6 +136,10 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
           break;
       }
     }
+  }
+
+  for (const [img, p] of pendingIcons) {
+    drawIcon(ctx, img, p.x, p.y, camera.zoom);
   }
 
   for (const [text, p] of pendingLabels) {
