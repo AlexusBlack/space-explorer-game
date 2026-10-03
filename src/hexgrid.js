@@ -2,14 +2,14 @@
 // See docs/technical-architecture.md and docs/graphics-and-assets.md.
 //
 // HEX_SIZE matches the art template exactly (center-to-vertex distance) so
-// tile art renders at native resolution when camera.zoom === 1. Sized so a
-// ~50x50px icon (star.png is 51x43 — the sprites cropped from terrain1.png/
-// terrain2.png are all in that ballpark) lands at or near its own native
-// resolution rather than being upscaled and blurry: with ICON_SIZE_FRAC.star
-// (0.9, see render.js) at minDim*0.9 ≈ 50px, minDim (HEX_HEIGHT/2) ≈ 55.6,
-// giving HEX_SIZE ≈ 64.
+// tile art renders at native resolution when camera.zoom === 1. Was 128,
+// then 64 (sized so a ~50px icon like star.png landed near its own native
+// resolution), then halved again to 32 on direct feedback that tiles still
+// looked too large on screen — icons are now drawn somewhat below their
+// native resolution (safe/sharp when downscaling, unlike the blurry
+// upscaling the original HEX_SIZE=128 caused).
 
-export const HEX_SIZE = 64;
+export const HEX_SIZE = 32;
 export const HEX_WIDTH = 2 * HEX_SIZE;
 export const HEX_HEIGHT = Math.sqrt(3) * HEX_SIZE;
 

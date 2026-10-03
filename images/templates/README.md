@@ -2,21 +2,21 @@
 
 ## `hex-tile-template.png`
 
-144×126px (the hex silhouette itself is 128×110px, plus an 8px margin on all
+76×67px (the hex silhouette itself is 64×55px, plus a 6px margin on all
 sides so guide lines aren't clipped at the edge).
 
-**Updated 2026-10-03: resized down from the original 276×241px template.**
-At the old scale, the real star/planet/wonder/asteroid-belt sprites cropped
-from `terrain1.png`/`terrain2.png` (all roughly 30-90px native) had to be
-upscaled 2-3x to look properly sized against the tile, which read as too
-small and blurry. The hex is now sized so a ~50px icon (e.g. `star.png`,
-51×43px) lands at or near its own native resolution instead — see
-`src/hexgrid.js`'s `HEX_SIZE` comment for the exact math. **The 5
-`starfield-*-hex.png` band tiles painted against the old template are now
-the wrong scale and need to be repainted against this one.**
+**Updated 2026-10-03: halved again, from 144×126px to 76×67px**, per direct
+feedback that tiles still looked too large even after the first resize (down
+from an original 276×241px). Icons now render somewhat *below* their native
+resolution rather than at/near it — safe (downscaling stays sharp; it's
+upscaling that causes blur), just smaller on screen. **The 5
+`starfield-*-hex.png` band tiles are painted against an earlier, larger
+template and need repainting against this one** — they still render without
+distortion in the meantime (same aspect ratio, just scaled down) but at
+progressively reduced effective resolution.
 
 - **Orientation: flat-top** (flat edges top/bottom, points left/right) —
-  unchanged from before.
+  unchanged.
 - **Outside the hex outline must stay fully transparent** (alpha 0). The
   renderer draws this exact bitmap once per tile position; anything opaque
   outside the hex silhouette will visibly overlap into neighboring tiles.
@@ -28,9 +28,11 @@ the wrong scale and need to be repainted against this one.**
   select-and-delete (or color-key them out) before exporting your final art.
   They're a saturated, unlikely-to-collide color specifically so they're
   easy to isolate and remove.
-- At this smaller size there's much less room for painted-in detail (fewer
-  pixels to work with) before it reads as noise rather than texture — a
-  simpler, lower-frequency pattern than before will likely read better.
+- At 64×55px there's very little room for painted-in detail — a few soft
+  speckles/a subtle gradient is about the practical ceiling before it reads
+  as noise. If you want more visible texture, this is a sign `HEX_SIZE`
+  should be adjusted back up rather than fighting the resolution — worth
+  flagging if the next repaint still doesn't look right.
 
 ## `hex-tile-tiling-preview.png`
 

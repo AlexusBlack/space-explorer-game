@@ -19,12 +19,12 @@ const ICON_SIZE_FRAC = {
   "asteroid-belt": 1.3,
 };
 
-// The band art template is 144x126px: a 128x110 (HEX_WIDTH x HEX_HEIGHT) hex
-// silhouette centered with an 8px alignment-guide margin on each side. The
+// The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
+// silhouette centered with a 6px alignment-guide margin on each side. The
 // full image must be scaled (not cropped) so its *content* exactly fills the
 // tile, or that margin shows up as a visible transparent gap between tiles.
-const TEMPLATE_IMAGE_WIDTH = 144;
-const TEMPLATE_IMAGE_HEIGHT = 126;
+const TEMPLATE_IMAGE_WIDTH = 76;
+const TEMPLATE_IMAGE_HEIGHT = 67;
 
 export function worldToScreen(camera, canvasW, canvasH, x, y) {
   return {

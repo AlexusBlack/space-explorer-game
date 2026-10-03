@@ -20,10 +20,9 @@ function writeSeedToUrl(seed) {
   history.replaceState(null, "", `${location.pathname}?${params.toString()}`);
 }
 
-// Zoomed out by default since tile art renders at native resolution at
-// zoom 1 — see hexgrid.js's HEX_SIZE. 0.6 keeps the same apparent on-screen
-// hex size (and map breadth visible by default) as the old HEX_SIZE=128 did
-// at 0.3, now that HEX_SIZE is half as large.
+// Left at 0.6 (not re-compensated for the latest HEX_SIZE halving) so tiles
+// actually render smaller on screen by default, per direct feedback that
+// they still looked too large even after the first halving.
 const DEFAULT_ZOOM = 0.6;
 
 const camera = { x: 0, y: 0, zoom: DEFAULT_ZOOM };

@@ -12,19 +12,19 @@ update it as decisions are actually made in code.
   `axialToPixel`/`pixelToAxial`), using standard Red Blob Games formulas —
   `x = size*1.5*q`, `y = size*(√3/2*q + √3*r)` — where `HEX_SIZE` matches the
   art template's center-to-vertex distance exactly, so tile art renders at
-  native resolution at `camera.zoom === 1`. **`HEX_SIZE` was halved from 128
-  to 64** once real icon sprites were in place and it became clear the tile
-  was oversized relative to them — the feature sprites cropped from
-  `terrain1.png`/`terrain2.png` are all roughly 30-90px native, and at
-  `HEX_SIZE=128` they had to be upscaled 2-3x to read as properly
-  proportioned against the tile, which looked both too-small and blurry. See
-  `hexgrid.js`'s `HEX_SIZE` comment for the exact sizing math (targets
-  `star.png`, the largest common icon, landing at ~50px — at or near its own
-  51x43 native resolution). This also means the 5 hand-painted band tiles
-  need repainting against the new, smaller template (see
-  `images/templates/README.md`) — the old ones still render (same aspect
-  ratio, just scaled down, not stretched) but at reduced effective
-  resolution.
+  native resolution at `camera.zoom === 1`. **`HEX_SIZE` has been halved
+  twice**: 128 → 64 once real icon sprites were in place and the tile was
+  clearly oversized relative to them (feature sprites cropped from
+  `terrain1.png`/`terrain2.png` are all roughly 30-90px native; at
+  `HEX_SIZE=128` they needed 2-3x upscaling, both too-small-looking and
+  blurry), then 64 → 32 on direct feedback that tiles still looked too large
+  even at that size — icons now render somewhat *below* native resolution
+  (safe/sharp; it's upscaling that causes blur, not downscaling). See
+  `hexgrid.js`'s `HEX_SIZE` comment for the current sizing rationale. This
+  also means the 5 hand-painted band tiles need repainting against the
+  current (smallest) template (see `images/templates/README.md`) — the old
+  ones still render (same aspect ratio, just scaled down, not stretched) but
+  at progressively reduced effective resolution with each halving.
   - Earlier versions of this project used the tileset's diamond/iso-square
     projection formula directly on axial coordinates, which is **not** a true
     hex projection (confirmed by inspecting the FreeCiv Amplio tileset's own
