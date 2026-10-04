@@ -162,20 +162,16 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
     drawLabel(ctx, text, p, hh, camera.zoom);
   }
 
-  // Ship markers are drawn for both players regardless of whose turn it is
-  // — unlike fog, seeing where the ships are isn't privileged information.
+  // Ship markers (the same sprite for every player — see index.html's
+  // top-right player badge for how players are told apart) are drawn for
+  // both players regardless of whose turn it is: unlike fog, seeing where
+  // the ships are isn't privileged information.
   if (ships) {
+    const shipImg = iconImages && iconImages.ship;
     for (const ship of ships) {
       const world = axialToPixel(ship.q, ship.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
-      const radius = 8 * camera.zoom;
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, radius, 0, Math.PI * 2);
-      ctx.fillStyle = ship.color;
-      ctx.fill();
-      ctx.lineWidth = 2;
-      ctx.strokeStyle = "rgba(255,255,255,0.9)";
-      ctx.stroke();
+      drawIcon(ctx, shipImg, p.x, p.y, camera.zoom);
     }
   }
 }

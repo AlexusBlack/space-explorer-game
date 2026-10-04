@@ -29,27 +29,29 @@ ICONS_DIR = IMAGES_DIR / "icons"
 BORDER_COLOR = (26, 61, 91)
 BORDER_TOL = 20
 
+# units.png (and presumably pirate-base.png-style sheets) use a different
+# convention entirely: no labeled border-line color, just a solid
+# chroma-key green background between/around sprites (and, for sprites
+# meant to be used as-is, as their "transparent" background too).
+CHROMA_GREEN = (0, 255, 0)
+CHROMA_TOL = 30
 
-def detect_grid(img):
-    """Auto-detects row/column boundary pixel coordinates from the sheet's
-    own table border lines, rather than assuming a fixed cell size."""
+
+def _grid_from_color(img, color, tol):
+    """Shared row/column boundary detection: a row/column is a divider if
+    nearly every pixel across its full span matches `color` within `tol`."""
     w, h = img.size
     px = img.convert("RGB").load()
 
+    def matches(p):
+        return all(abs(p[i] - color[i]) <= tol for i in range(3))
+
     def row_frac(y, x0, x1):
-        hits = sum(
-            1
-            for x in range(x0, x1)
-            if all(abs(px[x, y][i] - BORDER_COLOR[i]) <= BORDER_TOL for i in range(3))
-        )
+        hits = sum(1 for x in range(x0, x1) if matches(px[x, y]))
         return hits / (x1 - x0)
 
     def col_frac(x, y0, y1):
-        hits = sum(
-            1
-            for y in range(y0, y1)
-            if all(abs(px[x, y][i] - BORDER_COLOR[i]) <= BORDER_TOL for i in range(3))
-        )
+        hits = sum(1 for y in range(y0, y1) if matches(px[x, y]))
         return hits / (y1 - y0)
 
     # Scan only the left portion for row lines, in case a credits panel with
@@ -58,6 +60,35 @@ def detect_grid(img):
     rows = [y for y in range(h) if row_frac(y, 0, scan_w) > 0.5]
     cols = [x for x in range(w) if col_frac(x, 0, h) > 0.5]
     return rows, cols
+
+
+def detect_grid(img):
+    """Auto-detects row/column boundary pixel coordinates from the sheet's
+    own divider lines, rather than assuming a fixed cell size. Tries the
+    labeled-legend-sheet border color first (terrain1.png/hills.png style);
+    falls back to chroma-key green dividers (units.png style) if that finds
+    nothing, so this keeps working across both sheet conventions without
+    per-source configuration."""
+    rows, cols = _grid_from_color(img, BORDER_COLOR, BORDER_TOL)
+    if rows and cols:
+        return rows, cols
+    return _grid_from_color(img, CHROMA_GREEN, CHROMA_TOL)
+
+
+def remove_chroma_key(img, color=CHROMA_GREEN, tol=CHROMA_TOL):
+    """For chroma-key sheets (units.png): makes background-colored pixels
+    transparent so the sprite can be composited like every other icon."""
+    img = img.convert("RGBA")
+    src = img.load()
+    out = Image.new("RGBA", img.size, (0, 0, 0, 0))
+    dst = out.load()
+    for y in range(img.height):
+        for x in range(img.width):
+            r, g, b, a = src[x, y]
+            if all(abs(v - c) <= tol for v, c in zip((r, g, b), color)):
+                continue
+            dst[x, y] = (r, g, b, a)
+    return out
 
 
 def crop_cell(img, rows, cols, row, col, inset=1):
@@ -117,6 +148,9 @@ MANIFEST = [
     ("planet-shield", "terrain1.png", 11, 4),
     # -- hills.png: 16 asteroid/Kuiper belt variants, used as-is --
     *[(f"asteroid-belt-{i + 1}", "hills.png", i // 4, i % 4) for i in range(16)],
+    # -- units.png: ship sprites (chroma-key green background, see
+    # graphics-and-assets.md's units.png section) --
+    ("ship", "units.png", 1, 2, {"chroma_key": True}),  # rounded tan/beige craft
 ]
 
 
@@ -138,6 +172,8 @@ def main():
         img, rows, cols = grids[source]
 
         cell = crop_cell(img, rows, cols, row, col, inset=opts.get("inset", 1))
+        if opts.get("chroma_key"):
+            cell = remove_chroma_key(cell)
         result = trim(cell, pad=opts.get("pad", 2))
         if "boost" in opts:
             result = boost_and_tint(result, opts["boost"], opts["tint"])

@@ -199,6 +199,14 @@ where every system is from the start — and is independent of the
 `discovered` set: seeing a star this way does **not** mark it discovered,
 so it grants no XP and doesn't count toward the win condition below.
 
+**Ship markers**: both players' ships are always drawn (regardless of whose
+turn it is — unlike fog, ship position isn't privileged information),
+using `images/icons/ship.png` (cropped from `units.png`, see
+`graphics-and-assets.md`) — the **same sprite for both players**. Players
+are told apart by a small color-coded badge fixed to the screen's top-right
+corner (`index.html`'s `#player-badge`, updated in `main.js`'s `updateHud`)
+rather than by recoloring or swapping the ship icon itself.
+
 **Win condition check**: with deep space now the vast majority of the map,
 "every tile revealed" is no longer the right completion condition (see
 `game-design.md`'s Session End) — it's **every system's star tile

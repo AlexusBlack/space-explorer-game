@@ -22,6 +22,7 @@ const xpLabel = document.getElementById("xp-label");
 const movesLabel = document.getElementById("moves-label");
 const endTurnButton = document.getElementById("end-turn");
 const winBanner = document.getElementById("win-banner");
+const playerBadge = document.getElementById("player-badge");
 const interstitial = document.getElementById("interstitial");
 const interstitialMessage = document.getElementById("interstitial-message");
 
@@ -102,7 +103,7 @@ function resizeCanvas() {
 function frame(bandImages, iconImages) {
   if (needsRedraw) {
     const active = gameState.players[gameState.activePlayerIndex];
-    const ships = gameState.players.map((p) => ({ q: p.q, r: p.r, color: p.color }));
+    const ships = gameState.players.map((p) => ({ q: p.q, r: p.r }));
     render(ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages, active.discovered, ships);
     needsRedraw = false;
   }
@@ -116,6 +117,11 @@ function updateHud() {
   turnLabel.style.color = active.color;
   xpLabel.textContent = `XP: ${active.xp}`;
   movesLabel.textContent = `Moves: ${gameState.movesRemaining}/${MOVES_PER_TURN}`;
+  // Both ships render with the same sprite on the map (see render.js) — this
+  // corner badge, colored per the active player, is the actual way to tell
+  // players apart, i.e. whose turn it currently is.
+  playerBadge.style.background = active.color;
+  playerBadge.textContent = `P${playerNum}`;
 }
 
 function showWinBanner() {

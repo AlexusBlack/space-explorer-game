@@ -231,6 +231,24 @@ from here.
   map itself, since `generateMap({seed})` is cheap and deterministic. See
   `technical-architecture.md`'s Data Model and Persistence sections and
   `game-design.md`'s Experience & Leveling section.
+- **Real ship sprite wired in, replacing the colored-circle ship marker;
+  player distinction moved to a corner badge.** `images/icons/ship.png` is
+  now cropped from `units.png` row 2, column 3 (a rounded tan/beige craft
+  with twin cylindrical nacelles) and used for both players' map markers —
+  no per-player recolor/second sprite, superseding the earlier
+  `graphics-and-assets.md` note suggesting one. `units.png` turned out to
+  use solid chroma-key green dividers/background rather than the
+  bordered-table color `terrain1.png`/`hills.png` use, so
+  `scripts/extract-icons.py`'s grid auto-detection and crop pipeline were
+  extended (a chroma-key fallback for `detect_grid`, and a
+  `remove_chroma_key` step gated by a per-entry `chroma_key` MANIFEST flag)
+  rather than hardcoding this one sheet's layout — verified to reproduce
+  every pre-existing icon byte-for-byte before trusting the new path. Since
+  both ships now look identical on the map, the player-color distinction
+  moved entirely to a new fixed-position `#player-badge` in the screen's
+  top-right corner, colored per the active player and doubling as a
+  compact turn indicator. See `graphics-and-assets.md`'s `units.png`
+  section and `technical-architecture.md`'s Rendering Loop section.
 - **Icons/labels were getting clipped by neighboring tiles' backgrounds.**
   With small tiles (64px wide) and native-size icons (up to ~90px wide,
   e.g. the black-hole sprite), an icon routinely spills into a neighboring

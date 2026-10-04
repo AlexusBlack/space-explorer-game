@@ -52,12 +52,17 @@ with no opacity boost or recoloring** — native max alpha runs ~126-141/255
 ### `units.png`
 
 A grid of ready-to-use unit/ship sprites (unlike `terrain1.png`/`terrain2.png`,
-this is not a labeled legend sheet — cells are separated by green guide lines
-only, with many cells deliberately left blank as unused slots). Two sprites
-are designated for use:
+this is not a labeled legend sheet — cells are separated by solid chroma-key
+green divider lines, not a bordered-table color, with many cells deliberately
+left blank as unused slots; a uniform 65×49px, 20-column × 6-row grid,
+auto-detected by `scripts/extract-icons.py`'s `detect_grid` the same way the
+other sheets are — see below). Two sprites are designated for use:
 
-- **Player ship** — row 2, column 3 (a rounded tan/beige craft).
-- **Initial pirate ship** — row 1, column 13 (a blue/white angular fighter).
+- **Player ship** — row 2, column 3 (a rounded tan/beige craft with twin
+  cylindrical nacelles) — **extracted and wired in**, see
+  `images/icons/ship.png` below.
+- **Initial pirate ship** — row 1, column 13 (a blue/white angular fighter) —
+  not yet extracted, parked for MVP4.
 
 This resolves the ship-sprite gap noted below: both MVP0's visual
 completeness and MVP4's pirate-ship requirement now have source art.
@@ -169,6 +174,18 @@ low-opacity rectangular wash next to its main silhouette — kept in rather
 than excluded, per "use the 16 as-is," but worth knowing about if it stands
 out in play.
 
+`icons/ship.png` (63×44px) is cropped from `units.png` row 2, column 3 the
+same way, except that sheet's chroma-key green background (rather than a
+bordered-table color) needed an extra step: `extract-icons.py`'s
+`remove_chroma_key` makes every near-pure-green pixel transparent before the
+usual crop-to-bounding-box trim, so the sprite composites cleanly like every
+other icon despite the source sheet's different convention. One MANIFEST
+entry (`{"chroma_key": true}`) opts a cell into this step; everything else
+about the pipeline (grid auto-detection, trim, inset) is shared with
+`terrain1.png`/`hills.png`. Used for both players' ships — see
+`technical-architecture.md`'s Rendering Loop section for how players are
+told apart instead (a corner badge, not a per-ship recolor).
+
 The 13 planet-like candidates from this survey are now all extracted and
 wired in (see table above). One candidate from the same survey remains
 unextracted, since it's a wonder, not a planet: row 6, column 4 ("oil
@@ -240,9 +257,12 @@ the repetition becomes a real complaint during playtesting.
   placeholder.
 
 **Resolved via `units.png` / `pirate-base.png`:**
-- **Player ship** sprite — row 2, column 3 of `units.png`.
-- **Initial pirate ship** sprite — row 1, column 13 of `units.png`.
-- **Pirate base** sprite — `pirate-base.png` (standalone file).
+- **Player ship** sprite — row 2, column 3 of `units.png`, extracted to
+  `images/icons/ship.png` and wired into `render.js`'s ship markers.
+- **Initial pirate ship** sprite — row 1, column 13 of `units.png` (source
+  identified, not yet extracted — MVP4).
+- **Pirate base** sprite — `pirate-base.png` (standalone file, not yet
+  extracted — MVP4).
 
 **Resolved via the 5 hand-painted band tiles** (see above) — the
 procedurally-generated starfield this section originally called for was
@@ -274,12 +294,18 @@ have been pure wasted per-frame work for zero effect.
    icons~~ — **done**: cropped from `terrain1.png`/`hills.png`, see
    `images/icons/` above.
 3. Fog-of-war overlay — still needed for MVP1 (not yet cropped from
-   `terrain1.png`).
+   `terrain1.png`; MVP1 instead ships with a plain blank/background fog
+   treatment, see `technical-architecture.md`'s Data Model section — this
+   overlay would be a future visual upgrade, not a functional gap).
 4. Selection highlight diamond — still needed for MVP1.
-5. Player ship sprite — `units.png`, row 2 column 3. MVP1 needs a second,
-   visually distinct ship for player 2 (a recolor/tint of this sprite, or a
-   second sprite picked from `units.png`, is sufficient — doesn't need to be
-   a different unit design).
+5. ~~Player ship sprite~~ — **done**: `images/icons/ship.png`, cropped from
+   `units.png` row 2 column 3 (a rounded tan/beige craft with twin
+   cylindrical nacelles). Both players' ships render with this exact same
+   sprite — the originally-suggested per-player recolor/second-sprite idea
+   was dropped in favor of a single color-coded badge in the screen's
+   top-right corner (see `index.html`'s `#player-badge` /
+   `technical-architecture.md`'s Rendering Loop section) as the actual way
+   players are told apart, decoupled from the ship icon itself.
 6. Pirate ship sprite (for MVP4) — `units.png`, row 1 column 13.
 7. Pirate base sprite (for MVP4) — `pirate-base.png`.
 

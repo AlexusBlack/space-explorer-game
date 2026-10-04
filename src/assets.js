@@ -10,11 +10,12 @@ const BAND_IMAGE_PATHS = {
   "deep-space": "images/starfield-deep-space-hex.png",
 };
 
-// Cropped from images/terrain1.png / images/hills.png — see
-// docs/graphics-and-assets.md for exact source cells.
+// Cropped from images/terrain1.png / images/hills.png / images/units.png —
+// see docs/graphics-and-assets.md for exact source cells.
 const ICON_IMAGE_PATHS = {
   star: "images/icons/star.png",
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
+  ship: "images/icons/ship.png",
 };
 for (const sprites of Object.values(PLANET_CLASSES)) {
   for (const sprite of sprites) {
