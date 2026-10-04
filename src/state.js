@@ -93,6 +93,7 @@ export function createNewGame(mapData) {
   return {
     activePlayerIndex: 0,
     movesRemaining: MOVES_PER_TURN,
+    turnNumber: 1,
     won: false,
     players,
   };
@@ -114,6 +115,7 @@ export function serializeState(seed, gameState) {
     seed,
     activePlayerIndex: gameState.activePlayerIndex,
     movesRemaining: gameState.movesRemaining,
+    turnNumber: gameState.turnNumber,
     players: gameState.players.map((player) => ({
       color: player.color,
       q: player.q,
@@ -129,6 +131,9 @@ export function deserializeState(raw) {
   return {
     activePlayerIndex: raw.activePlayerIndex,
     movesRemaining: raw.movesRemaining,
+    // Old saves predating the turn counter default to turn 1 rather than
+    // surfacing as "Turn undefined" in the HUD.
+    turnNumber: raw.turnNumber ?? 1,
     won: false,
     players: raw.players.map((p) => ({
       color: p.color,

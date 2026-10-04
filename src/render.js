@@ -35,6 +35,65 @@ function drawIcon(ctx, img, cx, cy, zoom) {
   ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
 }
 
+// Reusable scratch canvas for recoloring the selection-pulse sprite at draw
+// time (one per player color, since the asset itself is a neutral grayscale
+// alpha mask) — created once rather than allocating a canvas every frame.
+const SELECT_FRAME_SIZE = 48;
+// Raw asset averages ~8% alpha per frame; boosted so the pulse is actually
+// visible (canvas clamps the composited result to fully opaque regardless
+// of how far past 1 this goes) — tuned by eye during manual verification.
+const SELECT_BOOST = 3;
+const selectScratch = document.createElement("canvas");
+selectScratch.width = SELECT_FRAME_SIZE;
+selectScratch.height = SELECT_FRAME_SIZE;
+const selectCtx = selectScratch.getContext("2d");
+
+// images/select-alpha.png is a grayscale, native-alpha 8-frame strip
+// (confirmed ~8% average alpha per frame) rather than a flat-color sprite,
+// so it can be recolored per-player the same way scripts/extract-icons.py's
+// boost_and_tint keeps a shape's alpha but swaps its color — done here at
+// runtime instead of baked into a file, since the tint must follow whatever
+// color a player is assigned rather than being fixed ahead of time. `boost`
+// compensates for the asset's low native opacity (canvas clamps the result
+// to fully opaque regardless, so it's safe to push past 1).
+function drawSelectionPulse(ctx, img, frameIndex, cx, cy, zoom, color, boost) {
+  if (!img) return;
+  selectCtx.clearRect(0, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE);
+  selectCtx.drawImage(
+    img,
+    frameIndex * SELECT_FRAME_SIZE, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE,
+    0, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE
+  );
+  selectCtx.globalCompositeOperation = "source-in";
+  selectCtx.fillStyle = color;
+  selectCtx.fillRect(0, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE);
+  selectCtx.globalCompositeOperation = "source-over";
+
+  const w = SELECT_FRAME_SIZE * zoom;
+  const h = SELECT_FRAME_SIZE * zoom;
+  ctx.save();
+  ctx.globalAlpha = boost;
+  ctx.drawImage(selectScratch, cx - w / 2, cy - h / 2, w, h);
+  ctx.restore();
+}
+
+// Small per-player-colored marker at a ship's hex's upper-right vertex —
+// lets two same-sprite ships be told apart directly on the map, rather than
+// only via the screen-corner #player-badge (which only says whose turn it
+// is, not which on-screen ship is whose).
+function drawOwnerDot(ctx, cx, cy, hw, hh, zoom, color) {
+  const dotX = cx + hw * 0.55;
+  const dotY = cy - hh * 0.8;
+  const radius = Math.max(3, 5 * zoom);
+  ctx.beginPath();
+  ctx.arc(dotX, dotY, radius, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.lineWidth = Math.max(1, 1.5 * zoom);
+  ctx.strokeStyle = "rgba(5,7,13,0.9)";
+  ctx.stroke();
+}
+
 function drawLabel(ctx, text, p, hh, zoom) {
   ctx.fillStyle = "rgba(255,255,255,0.85)";
   ctx.font = `${Math.max(10, 12 * zoom)}px sans-serif`;
@@ -73,7 +132,7 @@ function visibleHexRange(camera, canvasW, canvasH) {
   };
 }
 
-export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships) {
+export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
 
@@ -162,16 +221,22 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
     drawLabel(ctx, text, p, hh, camera.zoom);
   }
 
-  // Ship markers (the same sprite for every player — see index.html's
-  // top-right player badge for how players are told apart) are drawn for
+  // Ship markers (the same sprite for every player — the screen-corner
+  // #player-badge, the per-tile owner dot below, and the active-player
+  // selection pulse are how players are actually told apart) are drawn for
   // both players regardless of whose turn it is: unlike fog, seeing where
   // the ships are isn't privileged information.
   if (ships) {
     const shipImg = iconImages && iconImages.ship;
+    const selectImg = iconImages && iconImages.select;
     for (const ship of ships) {
       const world = axialToPixel(ship.q, ship.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+      if (ship.active) {
+        drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, camera.zoom, ship.color, SELECT_BOOST);
+      }
       drawIcon(ctx, shipImg, p.x, p.y, camera.zoom);
+      drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, ship.color);
     }
   }
 }

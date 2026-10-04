@@ -16,6 +16,10 @@ const ICON_IMAGE_PATHS = {
   star: "images/icons/star.png",
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
   ship: "images/icons/ship.png",
+  // Not cropped/chroma-keyed like the sprites above — already has real
+  // per-pixel alpha. An 8-frame (48x48 each) horizontal strip, recolored
+  // per-player at draw time in render.js rather than baked into a file.
+  select: "images/select-alpha.png",
 };
 for (const sprites of Object.values(PLANET_CLASSES)) {
   for (const sprite of sprites) {

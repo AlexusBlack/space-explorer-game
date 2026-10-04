@@ -242,10 +242,15 @@ the repetition becomes a real complaint during playtesting.
 ## Usable As-Is vs. Needs Sourcing vs. Needs Redraw
 
 **Still usable as-is (crop directly from `terrain1.png`), not yet done:**
-- The **cyan selection diamond** overlay — reusable directly for tile/ship
-  selection highlighting (needed starting MVP1).
 - The **gray fog overlay** — reusable directly for fog-of-war rendering
   (needed starting MVP1).
+
+**Superseded, never cropped:**
+- The **cyan selection diamond** overlay from `terrain1.png` — originally
+  earmarked for tile/ship selection highlighting. Superseded by
+  `images/select-alpha.png` (see below), which better suited the
+  "active ship is currently being commanded" use case once that file
+  turned up in `images/`.
 
 **Resolved via `images/icons/` (see above):**
 - **Star**, **planet-uninhabited**, **planet-inhabited**, **wonder-blackhole**
@@ -259,6 +264,20 @@ the repetition becomes a real complaint during playtesting.
 **Resolved via `units.png` / `pirate-base.png`:**
 - **Player ship** sprite — row 2, column 3 of `units.png`, extracted to
   `images/icons/ship.png` and wired into `render.js`'s ship markers.
+- **Active-ship selection pulse** — `images/select-alpha.png`, a standalone
+  384x48px grayscale, native-alpha 8-frame horizontal strip (48x48 per
+  frame, ~8% average alpha per frame — a faint pulse, not a hard-edged flat
+  sprite). Unlike every other icon, it is *not* run through
+  `scripts/extract-icons.py` (no chroma-key or border-grid cropping is
+  needed — it already has real per-pixel alpha); `src/assets.js` loads it
+  directly as `select`. `src/render.js`'s `drawSelectionPulse` recolors it
+  per-player at draw time — same alpha-preserving idea as
+  `extract-icons.py`'s `boost_and_tint` (keep the shape's alpha, swap its
+  RGB to a flat color), done at runtime via an offscreen-canvas
+  `source-in` composite instead of baked into a file, since the tint must
+  follow whichever color a player is assigned rather than being fixed
+  ahead of time. Drawn under the ship sprite only for the currently active
+  player's ship.
 - **Initial pirate ship** sprite — row 1, column 13 of `units.png` (source
   identified, not yet extracted — MVP4).
 - **Pirate base** sprite — `pirate-base.png` (standalone file, not yet
@@ -297,15 +316,19 @@ have been pure wasted per-frame work for zero effect.
    `terrain1.png`; MVP1 instead ships with a plain blank/background fog
    treatment, see `technical-architecture.md`'s Data Model section — this
    overlay would be a future visual upgrade, not a functional gap).
-4. Selection highlight diamond — still needed for MVP1.
+4. ~~Selection highlight diamond~~ — **done, via a different asset**:
+   `images/select-alpha.png` (an 8-frame animated alpha strip, not the
+   `terrain1.png` diamond originally proposed here), tinted per-player and
+   pulsed under the active player's ship. See the "Resolved via `units.png`"
+   list above and `technical-architecture.md`'s Ship markers section.
 5. ~~Player ship sprite~~ — **done**: `images/icons/ship.png`, cropped from
    `units.png` row 2 column 3 (a rounded tan/beige craft with twin
    cylindrical nacelles). Both players' ships render with this exact same
-   sprite — the originally-suggested per-player recolor/second-sprite idea
-   was dropped in favor of a single color-coded badge in the screen's
-   top-right corner (see `index.html`'s `#player-badge` /
-   `technical-architecture.md`'s Rendering Loop section) as the actual way
-   players are told apart, decoupled from the ship icon itself.
+   sprite; players are told apart by the screen-corner `#player-badge`
+   (whose turn it is), a small per-tile color dot on each ship's hex
+   (which ship is whose), and the active player's pulsing selection
+   animation (which ship is currently being commanded) — see
+   `technical-architecture.md`'s Ship markers section.
 6. Pirate ship sprite (for MVP4) — `units.png`, row 1 column 13.
 7. Pirate base sprite (for MVP4) — `pirate-base.png`.
 

@@ -15,6 +15,7 @@ import {
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const seedLabel = document.getElementById("seed-label");
+const turnCountLabel = document.getElementById("turn-count-label");
 const seedInput = document.getElementById("seed-input");
 const newMapButton = document.getElementById("new-map");
 const turnLabel = document.getElementById("turn-label");
@@ -100,11 +101,29 @@ function resizeCanvas() {
   requestRedraw();
 }
 
+// 8 frames * 150ms = a 1.2s pulse loop for the active player's selection
+// animation. This is the one periodic (not purely dirty-flag) redraw
+// source in the render loop — suppressed while the pass-and-play
+// interstitial covers the screen, since nothing need animate underneath it.
+const SELECT_FRAME_MS = 150;
+let lastSelectFrame = -1;
+
 function frame(bandImages, iconImages) {
+  const interstitialVisible = interstitial.classList.contains("visible");
+  const selectFrame = Math.floor(performance.now() / SELECT_FRAME_MS) % 8;
+  if (!interstitialVisible && selectFrame !== lastSelectFrame) {
+    lastSelectFrame = selectFrame;
+    requestRedraw();
+  }
   if (needsRedraw) {
     const active = gameState.players[gameState.activePlayerIndex];
-    const ships = gameState.players.map((p) => ({ q: p.q, r: p.r }));
-    render(ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages, active.discovered, ships);
+    const ships = gameState.players.map((p, i) => ({
+      q: p.q,
+      r: p.r,
+      color: p.color,
+      active: i === gameState.activePlayerIndex,
+    }));
+    render(ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages, active.discovered, ships, selectFrame);
     needsRedraw = false;
   }
   requestAnimationFrame(() => frame(bandImages, iconImages));
@@ -113,6 +132,7 @@ function frame(bandImages, iconImages) {
 function updateHud() {
   const active = gameState.players[gameState.activePlayerIndex];
   const playerNum = gameState.activePlayerIndex + 1;
+  turnCountLabel.textContent = `Turn ${gameState.turnNumber}`;
   turnLabel.textContent = `Player ${playerNum}'s turn`;
   turnLabel.style.color = active.color;
   xpLabel.textContent = `XP: ${active.xp}`;
@@ -164,6 +184,11 @@ function handleTap(screenPos) {
 function endTurn() {
   saveGame(currentSeed, gameState);
   gameState.activePlayerIndex = (gameState.activePlayerIndex + 1) % gameState.players.length;
+  // "Turn N" counts full rounds, not individual End Turn presses — only
+  // increment once the turn has wrapped back around to the first player.
+  if (gameState.activePlayerIndex === 0) {
+    gameState.turnNumber += 1;
+  }
   gameState.movesRemaining = MOVES_PER_TURN;
   saveGame(currentSeed, gameState);
   updateHud();

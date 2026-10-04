@@ -166,7 +166,7 @@ mapData (src/mapgen.js's generateMap return value, never persisted — cheaply
       regionId (= owning system's id, -1 for deep space), ...type-specific }
 
 gameState (src/state.js, persisted — see "Persistence" below)
-├── activePlayerIndex, movesRemaining, won
+├── activePlayerIndex, movesRemaining, turnNumber, won
 └── players: [PlayerState, PlayerState]
       └── PlayerState: { color, q, r, xp, visionRadius, discovered: Set<"q,r"> }
 ```
@@ -203,9 +203,24 @@ so it grants no XP and doesn't count toward the win condition below.
 turn it is — unlike fog, ship position isn't privileged information),
 using `images/icons/ship.png` (cropped from `units.png`, see
 `graphics-and-assets.md`) — the **same sprite for both players**. Players
-are told apart by a small color-coded badge fixed to the screen's top-right
-corner (`index.html`'s `#player-badge`, updated in `main.js`'s `updateHud`)
-rather than by recoloring or swapping the ship icon itself.
+are told apart three ways, each answering a different question:
+- A small color-coded badge fixed to the screen's top-right corner
+  (`index.html`'s `#player-badge`, updated in `main.js`'s `updateHud`) —
+  "whose turn is it."
+- A small color-coded dot drawn at the upper-right corner of each ship's
+  own hex tile (`render.js`'s `drawOwnerDot`, drawn for both ships always,
+  same "not privileged information" policy as the ship sprite itself) —
+  "which on-screen ship is whose."
+- A pulsing selection animation drawn under the *active* player's ship only
+  (`render.js`'s `drawSelectionPulse`, using `images/select-alpha.png` — an
+  8-frame grayscale alpha strip recolored to that player's color at draw
+  time via an offscreen-canvas `source-in` composite, the same
+  alpha-preserving idea as `extract-icons.py`'s `boost_and_tint` but done
+  at runtime since the tint must follow whichever color a player is
+  assigned) — "which ship is currently being commanded."
+
+None of these recolor or swap the ship icon itself — the sprite stays
+identical for both players throughout.
 
 **Win condition check**: with deep space now the vast majority of the map,
 "every tile revealed" is no longer the right completion condition (see
@@ -220,7 +235,14 @@ cooperative union, O(systems × players) per move, run after every move.
 
 Canvas 2D, redraw-on-change (no need for a continuous animation loop given
 turn-based, low-frequency updates) — redraw triggers: camera pan/zoom, ship
-movement, turn change, pass-and-play interstitial show/hide.
+movement, turn change, pass-and-play interstitial show/hide, plus one
+periodic source: the active-player selection pulse (see "Ship markers"
+above) advances through its 8 frames on a ~150ms tick (`main.js`'s
+`frame()`, gated behind a simple frame-index comparison so a full canvas
+redraw only actually happens when the visible frame changes, not on every
+`requestAnimationFrame` tick). That tick — and the animation itself — is
+suppressed while the pass-and-play interstitial is visible, since nothing
+needs to animate underneath a fully-covering overlay.
 
 Per redraw, the tile loop looks up only the hexes within the current
 viewport (inverse-projecting the four screen corners to an axial q/r
@@ -256,15 +278,16 @@ ever clips them, regardless of q/r iteration order.
 ## Persistence
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`),
-  holding the seed, `activePlayerIndex`, `movesRemaining`, and both
-  players' `{ color, q, r, xp, visionRadius, discovered }` (`discovered`
-  serialized as a plain array of `axialKey` strings, restored back to a
-  real `Set` on load). Only the seed is stored for the map itself —
-  `tiles`/`systems` are always cheaply and deterministically rebuilt via
-  `generateMap({ seed })` rather than persisted. Single device, single
-  session, one save slot is the stated use case — no export/import or
-  multi-device sync needed at this stage; starting/loading a new seed
-  always overwrites it.
+  holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
+  and both players' `{ color, q, r, xp, visionRadius, discovered }`
+  (`discovered` serialized as a plain array of `axialKey` strings, restored
+  back to a real `Set` on load). Only the seed is stored for the map
+  itself — `tiles`/`systems` are always cheaply and deterministically
+  rebuilt via `generateMap({ seed })` rather than persisted. Single device,
+  single session, one save slot is the stated use case — no export/import
+  or multi-device sync needed at this stage; starting/loading a new seed
+  always overwrites it. `turnNumber` defaults to `1` when deserializing a
+  save from before the field existed, rather than surfacing as `undefined`.
 - Persisted after every state-changing action — a move or an End Turn, not
   debounced — not just at turn boundaries, so a closed tab never loses
   progress mid-turn either. Payload is small and actions are
