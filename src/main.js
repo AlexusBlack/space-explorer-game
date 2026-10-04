@@ -133,7 +133,7 @@ function frame(bandImages, iconImages) {
 function updateHud() {
   const active = gameState.players[gameState.activePlayerIndex];
   const playerNum = gameState.activePlayerIndex + 1;
-  turnCountLabel.textContent = `Turn ${gameState.turnNumber}`;
+  turnCountLabel.textContent = `Turn ${gameState.turnNumber ?? 1}`;
   turnLabel.textContent = `Player ${playerNum}'s turn`;
   turnLabel.style.color = active.color;
   xpLabel.textContent = `XP: ${active.xp}`;
@@ -187,8 +187,12 @@ function endTurn() {
   gameState.activePlayerIndex = (gameState.activePlayerIndex + 1) % gameState.players.length;
   // "Turn N" counts full rounds, not individual End Turn presses — only
   // increment once the turn has wrapped back around to the first player.
+  // Nullish-coalesced rather than a plain `+= 1` so a gameState object
+  // that somehow reached here without turnNumber (e.g. a stale in-memory
+  // reference from before this field existed) self-heals to "Turn 2"
+  // instead of permanently latching onto NaN.
   if (gameState.activePlayerIndex === 0) {
-    gameState.turnNumber += 1;
+    gameState.turnNumber = (gameState.turnNumber ?? 1) + 1;
   }
   gameState.movesRemaining = MOVES_PER_TURN;
   saveGame(currentSeed, gameState);
