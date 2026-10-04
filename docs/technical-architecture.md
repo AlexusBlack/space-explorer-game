@@ -211,13 +211,11 @@ are told apart three ways, each answering a different question:
   own hex tile (`render.js`'s `drawOwnerDot`, drawn for both ships always,
   same "not privileged information" policy as the ship sprite itself) —
   "which on-screen ship is whose."
-- A pulsing selection animation drawn under the *active* player's ship only
-  (`render.js`'s `drawSelectionPulse`, using `images/select-alpha.png` — an
-  8-frame grayscale alpha strip recolored to that player's color at draw
-  time via an offscreen-canvas `source-in` composite, the same
-  alpha-preserving idea as `extract-icons.py`'s `boost_and_tint` but done
-  at runtime since the tint must follow whichever color a player is
-  assigned) — "which ship is currently being commanded."
+- A "marching ants" selection animation drawn under the *active* player's
+  ship only (`render.js`'s `drawSelectionPulse`, using
+  `images/select-alpha.png` — a 4-frame white dashed-oval strip, drawn as
+  its own original color, not recolored per player) — "which ship is
+  currently being commanded."
 
 None of these recolor or swap the ship icon itself — the sprite stays
 identical for both players throughout.
@@ -237,7 +235,7 @@ Canvas 2D, redraw-on-change (no need for a continuous animation loop given
 turn-based, low-frequency updates) — redraw triggers: camera pan/zoom, ship
 movement, turn change, pass-and-play interstitial show/hide, plus one
 periodic source: the active-player selection pulse (see "Ship markers"
-above) advances through its 8 frames on a ~150ms tick (`main.js`'s
+above) advances through its 4 frames on a ~150ms tick (`main.js`'s
 `frame()`, gated behind a simple frame-index comparison so a full canvas
 redraw only actually happens when the visible frame changes, not on every
 `requestAnimationFrame` tick). That tick — and the animation itself — is

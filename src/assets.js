@@ -17,8 +17,8 @@ const ICON_IMAGE_PATHS = {
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
   ship: "images/icons/ship.png",
   // Not cropped/chroma-keyed like the sprites above — already has real
-  // per-pixel alpha. An 8-frame (48x48 each) horizontal strip, recolored
-  // per-player at draw time in render.js rather than baked into a file.
+  // per-pixel alpha. A 4-frame (96x48 each) "marching ants" selection-oval
+  // strip, drawn as-is (no per-player recolor) in render.js.
   select: "images/select-alpha.png",
 };
 for (const sprites of Object.values(PLANET_CLASSES)) {

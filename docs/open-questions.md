@@ -266,18 +266,17 @@ from here.
   a small color-coded dot at the upper-right corner of each ship's own hex
   (`drawOwnerDot`, both ships, always — ship position isn't privileged
   info). Separately, `images/select-alpha.png` (an untracked 384×48px
-  grayscale, native-alpha 8-frame strip found sitting in `images/`,
-  unrelated to the never-cropped `terrain1.png` "cyan selection diamond"
-  this doc and `graphics-and-assets.md` previously flagged for the same
-  purpose — that older plan is now superseded) is recolored per-player at
-  draw time (`drawSelectionPulse`, an offscreen-canvas `source-in`
-  composite — the same alpha-preserving idea as `extract-icons.py`'s
-  `boost_and_tint`, done at runtime since the tint must follow whichever
-  color a player is assigned) and pulsed under the currently active
-  player's ship only, reinforcing which ship is presently under command.
-  This is the one source of a periodic (not purely dirty-flag) redraw in
-  `main.js`'s render loop — an 8-frame, ~150ms-per-frame cycle, suppressed
-  while the pass-and-play interstitial is visible. Also added a `turnNumber`
+  white "marching ants" dashed-oval strip, 4 frames of 96×48 each, found
+  sitting in `images/`, unrelated to the never-cropped `terrain1.png`
+  "cyan selection diamond" this doc and `graphics-and-assets.md` previously
+  flagged for the same purpose — that older plan is now superseded) is
+  drawn as-is (`drawSelectionPulse`, no per-player recolor — the asset's
+  own white reads fine as a neutral highlight under any ship) and animated
+  under the currently active player's ship only, reinforcing which ship is
+  presently under command. This is the one source of a periodic (not
+  purely dirty-flag) redraw in `main.js`'s render loop — a 4-frame,
+  ~150ms-per-frame cycle, suppressed while the pass-and-play interstitial
+  is visible. Also added a `turnNumber`
   field to `gameState` (starts at 1, persisted, defaults to 1 on an
   old-shape save), incremented in `main.js`'s `endTurn()` only when the
   active-player index wraps back to 0 — i.e. it counts full P1+P2 rounds,

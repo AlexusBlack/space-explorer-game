@@ -1,5 +1,5 @@
 import { generateMap } from "./mapgen.js";
-import { render } from "./render.js";
+import { render, SELECT_FRAME_COUNT } from "./render.js";
 import { attachCameraControls } from "./input.js";
 import { loadBandImages, loadIconImages } from "./assets.js";
 import { hexDistance, hexLine, pixelToAxial, axialToPixel, axialKey } from "./hexgrid.js";
@@ -101,16 +101,17 @@ function resizeCanvas() {
   requestRedraw();
 }
 
-// 8 frames * 150ms = a 1.2s pulse loop for the active player's selection
-// animation. This is the one periodic (not purely dirty-flag) redraw
-// source in the render loop — suppressed while the pass-and-play
-// interstitial covers the screen, since nothing need animate underneath it.
+// SELECT_FRAME_COUNT frames * 150ms = a short "marching ants" cycle for the
+// active player's selection animation. This is the one periodic (not purely
+// dirty-flag) redraw source in the render loop — suppressed while the
+// pass-and-play interstitial covers the screen, since nothing need animate
+// underneath it.
 const SELECT_FRAME_MS = 150;
 let lastSelectFrame = -1;
 
 function frame(bandImages, iconImages) {
   const interstitialVisible = interstitial.classList.contains("visible");
-  const selectFrame = Math.floor(performance.now() / SELECT_FRAME_MS) % 8;
+  const selectFrame = Math.floor(performance.now() / SELECT_FRAME_MS) % SELECT_FRAME_COUNT;
   if (!interstitialVisible && selectFrame !== lastSelectFrame) {
     lastSelectFrame = selectFrame;
     requestRedraw();

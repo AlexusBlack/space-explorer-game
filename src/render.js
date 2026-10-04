@@ -35,46 +35,22 @@ function drawIcon(ctx, img, cx, cy, zoom) {
   ctx.drawImage(img, cx - w / 2, cy - h / 2, w, h);
 }
 
-// Reusable scratch canvas for recoloring the selection-pulse sprite at draw
-// time (one per player color, since the asset itself is a neutral grayscale
-// alpha mask) — created once rather than allocating a canvas every frame.
-const SELECT_FRAME_SIZE = 48;
-// Raw asset averages ~8% alpha per frame; boosted so the pulse is actually
-// visible (canvas clamps the composited result to fully opaque regardless
-// of how far past 1 this goes) — tuned by eye during manual verification.
-const SELECT_BOOST = 3;
-const selectScratch = document.createElement("canvas");
-selectScratch.width = SELECT_FRAME_SIZE;
-selectScratch.height = SELECT_FRAME_SIZE;
-const selectCtx = selectScratch.getContext("2d");
+// images/select-alpha.png is a 4-frame horizontal strip (96x48 per frame)
+// of a white dashed "marching ants" selection oval — drawn as-is (no
+// per-player recolor; it reads fine as a neutral highlight under any ship).
+const SELECT_FRAME_WIDTH = 96;
+const SELECT_FRAME_HEIGHT = 48;
+export const SELECT_FRAME_COUNT = 4;
 
-// images/select-alpha.png is a grayscale, native-alpha 8-frame strip
-// (confirmed ~8% average alpha per frame) rather than a flat-color sprite,
-// so it can be recolored per-player the same way scripts/extract-icons.py's
-// boost_and_tint keeps a shape's alpha but swaps its color — done here at
-// runtime instead of baked into a file, since the tint must follow whatever
-// color a player is assigned rather than being fixed ahead of time. `boost`
-// compensates for the asset's low native opacity (canvas clamps the result
-// to fully opaque regardless, so it's safe to push past 1).
-function drawSelectionPulse(ctx, img, frameIndex, cx, cy, zoom, color, boost) {
+function drawSelectionPulse(ctx, img, frameIndex, cx, cy, zoom) {
   if (!img) return;
-  selectCtx.clearRect(0, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE);
-  selectCtx.drawImage(
+  const w = SELECT_FRAME_WIDTH * zoom;
+  const h = SELECT_FRAME_HEIGHT * zoom;
+  ctx.drawImage(
     img,
-    frameIndex * SELECT_FRAME_SIZE, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE,
-    0, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE
+    frameIndex * SELECT_FRAME_WIDTH, 0, SELECT_FRAME_WIDTH, SELECT_FRAME_HEIGHT,
+    cx - w / 2, cy - h / 2, w, h
   );
-  selectCtx.globalCompositeOperation = "source-in";
-  selectCtx.fillStyle = color;
-  selectCtx.fillRect(0, 0, SELECT_FRAME_SIZE, SELECT_FRAME_SIZE);
-  selectCtx.globalCompositeOperation = "source-over";
-
-  const w = SELECT_FRAME_SIZE * zoom;
-  const h = SELECT_FRAME_SIZE * zoom;
-  ctx.save();
-  ctx.globalAlpha = boost;
-  ctx.drawImage(selectScratch, cx - w / 2, cy - h / 2, w, h);
-  ctx.restore();
 }
 
 // Small per-player-colored marker at a ship's hex's upper-right vertex —
@@ -233,7 +209,7 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
       const world = axialToPixel(ship.q, ship.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
       if (ship.active) {
-        drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, camera.zoom, ship.color, SELECT_BOOST);
+        drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, camera.zoom);
       }
       drawIcon(ctx, shipImg, p.x, p.y, camera.zoom);
       drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, ship.color);
