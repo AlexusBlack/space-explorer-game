@@ -413,3 +413,12 @@ from here.
   replaces (which incidentally also happened to block the free-repeat-
   attack exploit that rule was originally chosen to avoid, since 4 is a
   fixed nonzero cost either way).
+
+- **Upgrade tracks extended from Mk I/II to Mk I-V (5 tiers each)**, direct
+  user request "to allow longer playtesting" — with only 12 total
+  upgrades (6 tracks × 2 tiers), a long session quickly exhausted the
+  catalog, leaving pending picks permanently banked/unspendable. Tiers
+  III-V continue the exact same per-tier bonus as I/II (e.g. Health stays
+  +25/tier, now five times instead of twice) — pure catalog extension, no
+  new balance numbers invented. 30 total upgrades now exist across
+  speed/vision/science/health/attack/repair.

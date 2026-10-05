@@ -98,7 +98,11 @@ planet tile within that system, not the star itself.
   past 1 grants the player one **upgrade pick**, chosen from whichever
   entries in a catalog (`src/upgrades.js`) are currently offerable. Each
   upgrade belongs to a flavor "track" (e.g. Speed, Vision, Science) with
-  tiered entries (Mk I, Mk II, ...); an entry's prerequisite can be any
+  five tiered entries each, Mk I through Mk V (extended from an original
+  Mk I/II-only run specifically to give longer playtest sessions more
+  picks to spend before every track maxes out — tiers III-V continue the
+  same per-tier bonus as I/II, no new balance decisions); an entry's
+  prerequisite can be any
   other upgrade, including one in a *different* track — e.g. "Onboard
   Science Lab Mk I" requires "Extended Vision Mk I" even though Science
   and Vision are different tracks. A player who crosses multiple level
