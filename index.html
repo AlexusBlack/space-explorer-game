@@ -61,6 +61,16 @@
   }
   #interstitial.visible { display: flex; }
   #interstitial-message { font-size: 1.3em; font-weight: 600; }
+
+  #upgrade-picker {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; flex-direction: column; gap: 12px;
+    background: #05070d; color: #cfe0ff; font: 16px/1.4 system-ui, sans-serif;
+    z-index: 10;
+  }
+  #upgrade-picker.visible { display: flex; }
+  #upgrade-picker-title { font-size: 1.2em; font-weight: 600; }
+  #upgrade-picker-options { display: flex; flex-direction: column; gap: 8px; }
 </style>
 </head>
 <body>
@@ -73,6 +83,7 @@
 </div>
 <div id="player-hud">
   <span id="turn-label"></span>
+  <span id="level-label"></span>
   <span id="xp-label"></span>
   <span id="moves-label"></span>
   <button id="end-turn">End Turn</button>
@@ -82,6 +93,10 @@
 <div id="interstitial">
   <div id="interstitial-message"></div>
   <button id="interstitial-continue">Tap to continue</button>
+</div>
+<div id="upgrade-picker">
+  <div id="upgrade-picker-title">Level up! Choose an upgrade:</div>
+  <div id="upgrade-picker-options"></div>
 </div>
 <script type="module" src="src/main.js"></script>
 </body>

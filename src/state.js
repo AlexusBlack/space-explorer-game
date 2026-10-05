@@ -1,6 +1,7 @@
-// Per-player game state: fog-of-war, position, XP, turn/move budget, and
-// localStorage persistence. Pure logic, no DOM/canvas — see main.js for
-// wiring and render.js for how `discovered` drives what's actually drawn.
+// Per-player game state: fog-of-war, position, XP, leveling/upgrades,
+// turn/move budget, and localStorage persistence. Pure logic, no
+// DOM/canvas — see main.js for wiring and render.js for how `discovered`
+// drives what's actually drawn.
 //
 // Fog-of-war is deliberately kept OFF the shared `mapData.tiles` objects
 // (both players read the same Map built once by generateMap) and instead
@@ -9,30 +10,98 @@
 // render pass immediately.
 
 import { axialKey, hexesInRadius } from "./hexgrid.js";
+import { UPGRADES, availableUpgrades } from "./upgrades.js";
 
-export const MOVES_PER_TURN = 8;
-export const BASE_XP = 1;
-// Flat XP bonus for any planet/moon/wonder-blackhole tile. No distinction by
-// inhabited/class/wonder-vs-planet yet — that real table is MVP2 scope (see
-// docs/game-design.md's Planets & Natural Wonders XP table). This is
-// deliberately the simplest thing that satisfies "worth more than a blank
-// tile" for MVP1.
-export const FEATURE_XP = 2;
-// Hexes within this many steps of the ship are auto-revealed whenever the
-// ship occupies or passes through a hex — not just the single hex it's on.
-// Stored per-player (not a global constant used directly) so a future MVP's
-// leveling unlock can simply increase one player's number in place.
-export const DEFAULT_VISION_RADIUS = 1;
 export const PLAYER_COLORS = ["#4fd1ff", "#ff9f4f"];
 export const SAVE_KEY = "explorer-game:save:v1";
 const SAVE_VERSION = 1;
 
-function isFeatureTile(tile) {
-  return tile.type === "planet" || tile.type === "moon" || tile.type === "wonder-blackhole";
-}
+// --- XP table -------------------------------------------------------------
+// Flat XP for a tile with no notable feature: plain band tiles (deep
+// space), star tiles, and asteroid/Kuiper belts — game-design.md
+// explicitly treats belts "as a normal explorable tile for XP purposes."
+export const BASE_XP = 1;
+// Planet/moon tiles, split by the independent `inhabited` boolean.
+export const UNINHABITED_FEATURE_XP = 5;
+export const INHABITED_FEATURE_XP = 10;
+// Natural wonders (currently only wonder-blackhole) are the single
+// highest flat reward, per game-design.md's Planets & Natural Wonders
+// table. First-pass numbers — tunable during playtesting.
+export const WONDER_XP = 20;
 
 export function xpForTile(tile) {
-  return isFeatureTile(tile) ? FEATURE_XP : BASE_XP;
+  switch (tile.type) {
+    case "wonder-blackhole":
+      return WONDER_XP;
+    case "planet":
+    case "moon":
+      return tile.inhabited ? INHABITED_FEATURE_XP : UNINHABITED_FEATURE_XP;
+    default:
+      return BASE_XP; // band (deep space), star, asteroid-belt
+  }
+}
+
+// --- Leveling ---------------------------------------------------------
+// `xp` is a MONOTONIC LIFETIME TOTAL — it must never be decremented, even
+// if a future feature lets XP double as a spendable currency for
+// something else (that would need its own separate spendable-balance
+// field). `level` is derived from this lifetime total, so decrementing xp
+// would make level go backwards, which must never happen.
+//
+// Cumulative XP to REACH a level (level 1 is free/0 XP, and costs grow
+// each level — 100, 200, 300... more XP than the last). First-pass
+// numbers, explicitly tunable alongside the upgrade catalog in
+// upgrades.js.
+export const LEVEL_XP_STEP = 50;
+export function cumulativeXpForLevel(level) {
+  return LEVEL_XP_STEP * level * (level - 1);
+}
+export function levelForXp(xp) {
+  let level = 1;
+  while (xp >= cumulativeXpForLevel(level + 1)) level += 1;
+  return level;
+}
+export function playerLevel(player) {
+  return levelForXp(player.xp);
+}
+
+// Reaching a level grants one upgrade PICK (not a fixed automatic effect —
+// see upgrades.js) — how many the player has earned (by level) but not
+// yet spent (recorded in unlockedUpgrades). Level 1 owes none; every
+// level past that owes exactly one pick each.
+export function pendingUpgradePicks(player) {
+  return Math.max(0, playerLevel(player) - 1 - player.unlockedUpgrades.size);
+}
+
+export const MOVES_PER_TURN_BASE = 8;
+export const VISION_RADIUS_BASE = 1;
+
+function sumUpgradeBonus(player, field) {
+  let total = 0;
+  for (const id of player.unlockedUpgrades) {
+    total += UPGRADES[id]?.[field] ?? 0;
+  }
+  return total;
+}
+export function movesPerTurnForPlayer(player) {
+  return MOVES_PER_TURN_BASE + sumUpgradeBonus(player, "movesPerTurnBonus");
+}
+export function visionRadiusForPlayer(player) {
+  return VISION_RADIUS_BASE + sumUpgradeBonus(player, "visionRadiusBonus");
+}
+export function xpBonusForPlayer(player) {
+  return sumUpgradeBonus(player, "xpBonusPerTile");
+}
+
+// Records a chosen upgrade. Returns false (no-op) if it isn't actually
+// offerable right now (already taken, or its prerequisite isn't yet) —
+// defensive guard against a caller bug, mirrors revealTile's own "return
+// whether it happened" pattern.
+export function unlockUpgrade(player, upgradeId) {
+  const offered = availableUpgrades(player.unlockedUpgrades).some((u) => u.id === upgradeId);
+  if (!offered) return false;
+  player.unlockedUpgrades.add(upgradeId);
+  return true;
 }
 
 // Marks one tile discovered for `player` if it isn't already. Returns
@@ -42,17 +111,17 @@ export function revealTile(player, tile, { awardXp = true } = {}) {
   const key = axialKey(tile.q, tile.r);
   if (player.discovered.has(key)) return false;
   player.discovered.add(key);
-  if (awardXp) player.xp += xpForTile(tile);
+  if (awardXp) player.xp += xpForTile(tile) + xpBonusForPlayer(player);
   return true;
 }
 
-// Reveals every tile within `player.visionRadius` of `center` (which is
-// itself always included, at offset {0,0}). The only place vision radius is
-// actually applied — both the initial spawn reveal and every step of a move
-// funnel through this, so increasing visionRadius later needs no other
-// code changes.
+// Reveals every tile within the player's (derived, upgrade-dependent)
+// vision radius of `center` (which is itself always included, at offset
+// {0,0}). The only place vision radius is actually applied — both the
+// initial spawn reveal and every step of a move funnel through this.
 export function revealAround(mapData, player, center, { awardXp = true } = {}) {
-  for (const offset of hexesInRadius(player.visionRadius)) {
+  const radius = visionRadiusForPlayer(player);
+  for (const offset of hexesInRadius(radius)) {
     const tile = mapData.tiles.get(axialKey(center.q + offset.q, center.r + offset.r));
     if (tile) revealTile(player, tile, { awardXp });
   }
@@ -64,7 +133,7 @@ function createPlayer(color) {
     q: 0,
     r: 0,
     xp: 0,
-    visionRadius: DEFAULT_VISION_RADIUS,
+    unlockedUpgrades: new Set(), // chosen upgrade ids — real progress, persisted
     discovered: new Set(),
   };
 }
@@ -92,7 +161,7 @@ export function createNewGame(mapData) {
   });
   return {
     activePlayerIndex: 0,
-    movesRemaining: MOVES_PER_TURN,
+    movesRemaining: movesPerTurnForPlayer(players[0]),
     turnNumber: 1,
     won: false,
     players,
@@ -121,7 +190,7 @@ export function serializeState(seed, gameState) {
       q: player.q,
       r: player.r,
       xp: player.xp,
-      visionRadius: player.visionRadius,
+      unlockedUpgrades: [...player.unlockedUpgrades],
       discovered: [...player.discovered],
     })),
   };
@@ -140,7 +209,9 @@ export function deserializeState(raw) {
       q: p.q,
       r: p.r,
       xp: p.xp,
-      visionRadius: p.visionRadius ?? DEFAULT_VISION_RADIUS,
+      // Old saves predating leveling (or a stale visionRadius field, now
+      // fully derived and no longer read) start with no upgrades chosen.
+      unlockedUpgrades: new Set(p.unlockedUpgrades ?? []),
       discovered: new Set(p.discovered),
     })),
   };

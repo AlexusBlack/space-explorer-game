@@ -283,3 +283,39 @@ from here.
   not individual End Turn presses — and surfaced as "Turn N" in the top
   HUD. See `technical-architecture.md`'s Ship markers, Rendering Loop, and
   Persistence sections, and `graphics-and-assets.md`'s asset notes.
+- **MVP2 (points of interest & leveling) implemented.** `src/state.js`'s
+  flat MVP1 placeholder XP (`BASE_XP=1`/`FEATURE_XP=2`, no inhabited/class
+  distinction) is replaced by a real table: 1 XP for a blank tile (band/
+  star/asteroid-belt, unchanged), 5 for an uninhabited planet/moon, 10 for
+  an inhabited one, 20 for a natural wonder. `levelForXp`/
+  `cumulativeXpForLevel` derive a level from a player's lifetime XP via
+  `50 * level * (level-1)` (level 2 at 100 XP, level 3 at 300, each level
+  costing progressively more). Leveling is **player-choice-driven, not
+  automatic fixed stat boosts** — an initial draft of the implementation
+  plan assumed the latter from `game-design.md`'s loosely-worded "unlocks,
+  in rough order" list, corrected by the project owner during planning:
+  each level past 1 grants one upgrade *pick* from a new catalog module,
+  `src/upgrades.js` (`UPGRADES`/`availableUpgrades`), where an entry's
+  `requires` can name any other entry — including one in a *different*
+  track, not just an earlier tier of its own (e.g. "Onboard Science Lab
+  Mk I" requires "Extended Vision Mk I") — so "track" is purely a display
+  grouping, not an isolation boundary. MVP2 ships three tracks: Speed
+  (+2 moves/turn/tier), Vision (+1 passive vision radius/tier), Science
+  (+1 XP per tile discovered/tier, cross-track-gated behind Vision Mk I).
+  `level`, `visionRadius`, moves-per-turn, and the XP bonus are all
+  derived from `xp` + the player's `unlockedUpgrades` set on every call,
+  never stored directly — only `xp` (a monotonic lifetime counter, kept
+  separate in principle from any future XP-as-currency spend mechanic,
+  which would need its own balance field so `level` can never regress)
+  and the actually-*chosen* `unlockedUpgrades` are persisted; the old
+  per-player `visionRadius` save field is dropped entirely (derived now).
+  A new blocking `#upgrade-picker` overlay in `main.js`/`index.html`
+  (same full-screen/pointer-capturing pattern as the existing pass-and-
+  play `#interstitial`) presents whichever upgrades are currently
+  offerable the moment a pick is owed, resolving multiple pending picks
+  one at a time; if a pick is owed but nothing's offerable (every
+  reachable tier already taken), it's left banked rather than forced,
+  since a later MVP adding more tracks gives it something to spend on.
+  See `technical-architecture.md`'s Data Model ("Leveling & upgrades"),
+  Persistence, and Module Layout sections, and `game-design.md`'s
+  Movement & Exploration / Experience & Leveling sections.

@@ -67,32 +67,53 @@ planet tile within that system, not the star itself.
 
 - Each ship has a fixed number of moves per turn (increases with leveling).
 - Moving onto a previously-unexplored (fogged) tile reveals it and awards
-  experience:
+  experience (see `src/state.js`'s `xpForTile` for the authoritative
+  table; `src/upgrades.js`'s Science Lab track can add a further flat
+  bonus on top of these base amounts):
   - Deep space (the vast majority of hexes — not explicitly generated, see
-    `technical-architecture.md`): 1 XP.
-  - Tile containing a planet or moon: more than a blank tile; inhabited
-    bodies award more than uninhabited ones (see "Planets & Natural Wonders"
-    below — inhabited is independent of a body's class).
-  - Tile containing a natural wonder (e.g. black hole, trinary star system):
-    the highest flat reward of the "discovery" rewards.
+    `technical-architecture.md`), star tiles, and asteroid/Kuiper belts:
+    **1 XP**.
+  - Tile containing an uninhabited planet or moon: **5 XP**.
+  - Tile containing an inhabited planet or moon: **10 XP**.
+  - Tile containing a natural wonder (e.g. black hole, trinary star
+    system): **20 XP**, the highest flat reward.
 - Already-revealed tiles can be revisited freely without additional reward.
 
 ## Experience & Leveling
 
-- A single XP total per player drives a level number via a threshold table
-  (exact thresholds to be tuned during MVP2 implementation/playtesting).
-- Leveling up unlocks, in rough order of introduction:
-  1. More moves per turn.
-  2. Larger vision radius — **passive**: tiles within the ship's current
-     vision radius are revealed automatically whenever it moves, without
-     needing to move directly onto each one (scout-like), stacking with
-     reveal-on-visit. Every ship already has a small vision radius (1 hex:
-     itself plus its 6 neighbors) from MVP1 onward — this leveling unlock
-     is specifically about *increasing* that radius, not introducing the
-     mechanic from scratch.
-  3. More health.
-  4. Stronger attack.
-- Levels and their unlocks are per-player, not shared.
+- A single XP total per player is a **monotonic lifetime counter** — it
+  only ever increases, and drives a `level` number via a cumulative
+  threshold table where each level costs more XP than the last:
+  `cumulativeXpForLevel(level) = 50 * level * (level - 1)` — level 1 is
+  free (0 XP), level 2 needs 100, level 3 needs 300, level 4 needs 600,
+  level 5 needs 1000, and so on (first-pass numbers, tunable in
+  `src/state.js`). If a future feature lets XP double as a spendable
+  currency for something else, it needs its own separate spendable
+  balance — this lifetime total must stay append-only forever, since
+  `level` must never go backwards.
+- **Leveling up does not automatically apply a fixed effect.** Each level
+  past 1 grants the player one **upgrade pick**, chosen from whichever
+  entries in a catalog (`src/upgrades.js`) are currently offerable. Each
+  upgrade belongs to a flavor "track" (e.g. Speed, Vision, Science) with
+  tiered entries (Mk I, Mk II, ...); an entry's prerequisite can be any
+  other upgrade, including one in a *different* track — e.g. "Onboard
+  Science Lab Mk I" requires "Extended Vision Mk I" even though Science
+  and Vision are different tracks. A player who crosses multiple level
+  thresholds in one burst (e.g. a single long move revealing a lot of XP
+  at once) owes multiple picks, resolved one at a time.
+- MVP2 ships three tracks: **Speed** (+2 moves per turn per tier),
+  **Vision** (+1 *passive* vision radius per tier — tiles within the
+  ship's current vision radius are revealed automatically whenever it
+  moves, without needing to move directly onto each one, stacking with
+  reveal-on-visit; every ship already has a small vision radius (1 hex)
+  from MVP1 onward, this just increases it), and **Science** (+1 XP per
+  tile discovered per tier, gated behind Vision Mk I). Health and attack
+  tracks arrive with MVP4, once pirates/combat exist for them to matter
+  against.
+- If a pick is owed but the catalog has nothing left to offer (every
+  reachable tier already taken), it's simply left banked/unspendable —
+  not forced or discarded — until a later MVP adds more tracks.
+- Levels, XP, and chosen upgrades are all per-player, not shared.
 
 ## Anomalies
 
@@ -158,10 +179,10 @@ but it never changes which sprite is drawn.
 
 | Type | Examples | Notes |
 |---|---|---|
-| Uninhabited planet/moon | any of the 5 classes | Moderate XP on discovery |
-| Inhabited planet/moon | any of the 5 classes | Higher XP on discovery |
-| Natural wonder | Black hole | Highest flat XP; visually distinct tile (the tileset's swirling "oil"/black-hole-style disc). Trinary star systems are **not** a wonder — see "Stars" above; they're a real multi-tile structural feature of system generation, not a discoverable bonus. |
-| Asteroid / Kuiper belt | — | Terrain feature tile (16 hill-silhouette variants from `hills.png`); treated as a normal explorable tile for XP purposes unless/until given a distinct effect |
+| Uninhabited planet/moon | any of the 5 classes | 5 XP on discovery |
+| Inhabited planet/moon | any of the 5 classes | 10 XP on discovery |
+| Natural wonder | Black hole | 20 XP, the highest flat reward; visually distinct tile (the tileset's swirling "oil"/black-hole-style disc). Trinary star systems are **not** a wonder — see "Stars" above; they're a real multi-tile structural feature of system generation, not a discoverable bonus. |
+| Asteroid / Kuiper belt | — | Terrain feature tile (16 hill-silhouette variants from `hills.png`); 1 XP, treated as a normal explorable tile unless/until given a distinct effect |
 
 ## Session End
 

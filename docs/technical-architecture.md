@@ -168,8 +168,14 @@ mapData (src/mapgen.js's generateMap return value, never persisted — cheaply
 gameState (src/state.js, persisted — see "Persistence" below)
 ├── activePlayerIndex, movesRemaining, turnNumber, won
 └── players: [PlayerState, PlayerState]
-      └── PlayerState: { color, q, r, xp, visionRadius, discovered: Set<"q,r"> }
+      └── PlayerState: { color, q, r, xp, unlockedUpgrades: Set<upgradeId>,
+            discovered: Set<"q,r"> }
 ```
+Only `xp` and `unlockedUpgrades` are persisted leveling state — `level`,
+`visionRadius`, moves-per-turn, and the per-tile XP bonus are all derived
+from them on demand (see "Leveling & upgrades" below), never stored
+directly, so they can never drift out of sync with the current thresholds
+or catalog.
 
 Fog-of-war (`discovered`) is deliberately kept **off** the shared `tiles`
 map and lives entirely as two independent per-player `Set`s of `axialKey`
@@ -180,16 +186,37 @@ the other's render pass immediately. `src/render.js` only ever receives the
 see the other player's fog" (a data-availability guarantee, not a runtime
 check).
 
-**Reveal is vision-radius-based, not single-tile.** Each `PlayerState`
-carries its own `visionRadius` (MVP1 default: 1, i.e. itself plus its 6
-neighbors — see `game-design.md`'s Leveling section) so a future leveling
-unlock can simply increase that one number with no other code change.
-Whenever a ship occupies or passes through a hex — every step of a tapped
-move's path, not just the destination — `src/state.js`'s `revealAround`
-reveals every tile within that player's `visionRadius` of that hex.
-Newly-revealed tiles award flat XP via `xpForTile`/`revealTile` regardless
-of whether they were the move's destination or just within vision range —
-there's no separate "seen vs. visited" XP tier in MVP1.
+**Reveal is vision-radius-based, not single-tile.** Whenever a ship
+occupies or passes through a hex — every step of a tapped move's path,
+not just the destination — `src/state.js`'s `revealAround` reveals every
+tile within `visionRadiusForPlayer(player)` of that hex (base 1 — itself
+plus its 6 neighbors — plus any Vision-track upgrade bonuses; see
+"Leveling & upgrades" below). Newly-revealed tiles award XP via
+`xpForTile`/`revealTile` (plus any Science-track flat bonus) regardless of
+whether they were the move's destination or just within vision range —
+there's no separate "seen vs. visited" XP tier.
+
+**Leveling & upgrades.** `player.xp` is a **monotonic lifetime total** —
+it only ever increases (even if a future feature lets XP double as a
+spendable currency elsewhere, that needs its own separate balance field,
+since `level` must never go backwards). `src/state.js`'s `levelForXp`
+derives a level from it via a cumulative-cost threshold table
+(`cumulativeXpForLevel`); `playerLevel(player)` is the convenience
+wrapper. Leveling up does **not** automatically apply a fixed stat
+change — each level past 1 grants one upgrade *pick* from
+`src/upgrades.js`'s `UPGRADES` catalog, which the player chooses among
+whatever `availableUpgrades(player.unlockedUpgrades)` currently offers
+(a catalog entry's `requires` can name any other entry, including one in
+a different "track" — tracks are a display grouping only, not an
+isolation boundary). `pendingUpgradePicks(player)` (level minus 1 minus
+how many have already been spent) tells `main.js` when to show the
+upgrade-picker overlay; if a pick is owed but nothing's currently
+offerable (every reachable tier already taken), it's left banked rather
+than forced. `movesPerTurnForPlayer`/`visionRadiusForPlayer`/
+`xpBonusForPlayer` sum whichever catalog entries' `movesPerTurnBonus`/
+`visionRadiusBonus`/`xpBonusPerTile` fields are present in
+`player.unlockedUpgrades`, each on top of a base constant
+(`MOVES_PER_TURN_BASE`/`VISION_RADIUS_BASE`).
 
 **Fog exception — stars are always visible.** `render.js` always draws a
 `"star"` tile regardless of the active player's `discovered` set (every
@@ -277,15 +304,21 @@ ever clips them, regardless of q/r iteration order.
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`),
   holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
-  and both players' `{ color, q, r, xp, visionRadius, discovered }`
-  (`discovered` serialized as a plain array of `axialKey` strings, restored
-  back to a real `Set` on load). Only the seed is stored for the map
-  itself — `tiles`/`systems` are always cheaply and deterministically
-  rebuilt via `generateMap({ seed })` rather than persisted. Single device,
-  single session, one save slot is the stated use case — no export/import
-  or multi-device sync needed at this stage; starting/loading a new seed
-  always overwrites it. `turnNumber` defaults to `1` when deserializing a
-  save from before the field existed, rather than surfacing as `undefined`.
+  and both players' `{ color, q, r, xp, unlockedUpgrades, discovered }`
+  (`discovered` and `unlockedUpgrades` both serialized as plain arrays,
+  restored back to real `Set`s on load). `visionRadius` is **not**
+  persisted — it's fully derived from `xp`/`unlockedUpgrades` (see
+  "Leveling & upgrades" above), so retuning thresholds or the upgrade
+  catalog later re-evaluates every existing save automatically rather than
+  leaving it stuck on a stale stored value. Only the seed is stored for
+  the map itself — `tiles`/`systems` are always cheaply and
+  deterministically rebuilt via `generateMap({ seed })` rather than
+  persisted. Single device, single session, one save slot is the stated
+  use case — no export/import or multi-device sync needed at this stage;
+  starting/loading a new seed always overwrites it. `turnNumber` defaults
+  to `1` and `unlockedUpgrades` defaults to an empty set when
+  deserializing a save from before those fields existed, rather than
+  surfacing as `undefined`/throwing.
 - Persisted after every state-changing action — a move or an End Turn, not
   debounced — not just at turn boundaries, so a closed tab never loses
   progress mid-turn either. Payload is small and actions are
@@ -308,11 +341,15 @@ src/
 ├── mapgen.js          seeded map generator (places systems, bands every tile)
 ├── planet-classes.js  planet/moon class -> sprite catalog (shared by
 │                      mapgen.js and assets.js)
+├── upgrades.js        leveling upgrade catalog (tracks, tiers,
+│                      cross-track prerequisites) consumed by state.js
+│                      and main.js
 ├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
 │                      fog-of-war skip, ship markers)
 ├── assets.js          per-band/icon image loading
 ├── input.js           tap/drag-pan/pinch-zoom/wheel-zoom handling
-├── state.js           player/turn GameState model, fog-of-war,
-│                      win-condition check, localStorage persistence
+├── state.js           player/turn GameState model, fog-of-war, XP/
+│                      leveling, win-condition check, localStorage
+│                      persistence
 └── main.js            wiring/game loop/turn orchestration
 ```

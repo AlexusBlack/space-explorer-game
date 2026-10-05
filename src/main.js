@@ -4,13 +4,18 @@ import { attachCameraControls } from "./input.js";
 import { loadBandImages, loadIconImages } from "./assets.js";
 import { hexDistance, hexLine, pixelToAxial, axialToPixel, axialKey } from "./hexgrid.js";
 import {
-  MOVES_PER_TURN,
   createNewGame,
   applyMove,
   checkWinCondition,
   saveGame,
   loadGame,
+  movesPerTurnForPlayer,
+  playerLevel,
+  pendingUpgradePicks,
+  unlockUpgrade,
+  cumulativeXpForLevel,
 } from "./state.js";
+import { availableUpgrades } from "./upgrades.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -19,6 +24,7 @@ const turnCountLabel = document.getElementById("turn-count-label");
 const seedInput = document.getElementById("seed-input");
 const newMapButton = document.getElementById("new-map");
 const turnLabel = document.getElementById("turn-label");
+const levelLabel = document.getElementById("level-label");
 const xpLabel = document.getElementById("xp-label");
 const movesLabel = document.getElementById("moves-label");
 const endTurnButton = document.getElementById("end-turn");
@@ -26,6 +32,8 @@ const winBanner = document.getElementById("win-banner");
 const playerBadge = document.getElementById("player-badge");
 const interstitial = document.getElementById("interstitial");
 const interstitialMessage = document.getElementById("interstitial-message");
+const upgradePicker = document.getElementById("upgrade-picker");
+const upgradePickerOptions = document.getElementById("upgrade-picker-options");
 
 function readSeedFromUrl() {
   const params = new URLSearchParams(location.search);
@@ -133,11 +141,13 @@ function frame(bandImages, iconImages) {
 function updateHud() {
   const active = gameState.players[gameState.activePlayerIndex];
   const playerNum = gameState.activePlayerIndex + 1;
+  const level = playerLevel(active);
   turnCountLabel.textContent = `Turn ${gameState.turnNumber ?? 1}`;
   turnLabel.textContent = `Player ${playerNum}'s turn`;
   turnLabel.style.color = active.color;
-  xpLabel.textContent = `XP: ${active.xp}`;
-  movesLabel.textContent = `Moves: ${gameState.movesRemaining}/${MOVES_PER_TURN}`;
+  levelLabel.textContent = `Level ${level}`;
+  xpLabel.textContent = `XP: ${active.xp}/${cumulativeXpForLevel(level + 1)}`;
+  movesLabel.textContent = `Moves: ${gameState.movesRemaining}/${movesPerTurnForPlayer(active)}`;
   // Both ships render with the same sprite on the map (see render.js) — this
   // corner badge, colored per the active player, is the actual way to tell
   // players apart, i.e. whose turn it currently is.
@@ -159,10 +169,47 @@ function afterStateChange() {
   saveGame(currentSeed, gameState);
   updateHud();
   requestRedraw();
+  maybeShowUpgradePicker();
+}
+
+function renderUpgradeOptions(player) {
+  const options = availableUpgrades(player.unlockedUpgrades);
+  upgradePickerOptions.innerHTML = "";
+  for (const upgrade of options) {
+    const btn = document.createElement("button");
+    btn.textContent = `${upgrade.name} — ${upgrade.description}`;
+    btn.addEventListener("click", () => {
+      unlockUpgrade(player, upgrade.id);
+      saveGame(currentSeed, gameState);
+      updateHud();
+      maybeShowUpgradePicker();
+    });
+    upgradePickerOptions.appendChild(btn);
+  }
+}
+
+// Shows (or keeps showing, refreshed) the picker if the active player has
+// both a pending pick AND something the catalog can currently offer them;
+// hides it and resumes play otherwise — including the case where a pick
+// is banked/owed but nothing's offerable yet (e.g. every upgrade already
+// taken), which is a graceful no-op until a later MVP adds more tracks to
+// spend it on.
+function maybeShowUpgradePicker() {
+  const active = gameState.players[gameState.activePlayerIndex];
+  const owed = pendingUpgradePicks(active);
+  const options = availableUpgrades(active.unlockedUpgrades);
+  if (owed > 0 && options.length > 0) {
+    renderUpgradeOptions(active);
+    upgradePicker.classList.add("visible");
+  } else {
+    upgradePicker.classList.remove("visible");
+    requestRedraw();
+  }
 }
 
 function handleTap(screenPos) {
   if (interstitial.classList.contains("visible")) return;
+  if (upgradePicker.classList.contains("visible")) return;
 
   const active = gameState.players[gameState.activePlayerIndex];
   const worldX = (screenPos.x - window.innerWidth / 2) / camera.zoom + camera.x;
@@ -194,7 +241,8 @@ function endTurn() {
   if (gameState.activePlayerIndex === 0) {
     gameState.turnNumber = (gameState.turnNumber ?? 1) + 1;
   }
-  gameState.movesRemaining = MOVES_PER_TURN;
+  const nextActive = gameState.players[gameState.activePlayerIndex];
+  gameState.movesRemaining = movesPerTurnForPlayer(nextActive);
   saveGame(currentSeed, gameState);
   updateHud();
   interstitialMessage.textContent = `Pass to Player ${gameState.activePlayerIndex + 1}`;
@@ -206,6 +254,7 @@ function dismissInterstitial() {
   interstitial.classList.remove("visible");
   const active = gameState.players[gameState.activePlayerIndex];
   centerCameraOn(active.q, active.r);
+  maybeShowUpgradePicker();
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -236,8 +285,10 @@ if (saved && (!urlSeed || urlSeed === saved.seed)) {
   }
   const active = gameState.players[gameState.activePlayerIndex];
   centerCameraOn(active.q, active.r);
+  maybeShowUpgradePicker();
 } else {
   startNewGame(urlSeed || "earth");
+  maybeShowUpgradePicker();
 }
 
 const [bandImages, iconImages] = await Promise.all([loadBandImages(), loadIconImages()]);
