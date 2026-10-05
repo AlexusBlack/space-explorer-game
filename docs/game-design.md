@@ -180,11 +180,20 @@ melee-only for MVP4 (no ranged units, no fortify bonus).
   (`PIRATE_BASE_SUPPORT_CAP`) — no further production once the cap is
   reached, until ship losses free up capacity.
 - Every existing pirate ship then roams up to `PIRATE_SHIP_SPEED` (6) hexes
-  that round, one at a time, re-evaluating each step: within detection
-  range of the nearer player it has a chance to path greedily toward them,
-  otherwise (or the remainder of that chance) it takes a random step.
-  Encountering a player partway through cuts the remaining steps short —
-  see "Melee attacks stop one hex short" below, which applies to pirates
+  that round, one at a time, re-evaluating each step. Within detection
+  range of the nearer player, it has a chance to path greedily toward
+  them — **not a flat chance**: a ship at full health relative to that
+  player chases up to `PIRATE_CHASE_CHANCE` (90%) of the time, but the
+  more it falls behind in relative HP, the less it presses the attack. If
+  it rolls "don't chase" and it's badly outmatched (relative health below
+  `PIRATE_FLEE_HEALTH_RATIO`, 50%), it actively flees — steps *away* from
+  the player — instead of wandering randomly; a healthier ship that just
+  didn't roll a chase takes a plain random step as before. The net effect:
+  a healthy pirate presses in aggressively, a wounded one becomes
+  increasingly erratic (an occasional lunge mixed with mostly running),
+  and a badly wounded one actively disengages. Encountering a player
+  partway through a round's steps cuts the remaining steps short — see
+  "Melee attacks stop one hex short" below, which applies to pirates
   attacking too.
 
 **Combat is symmetric**: a player can also attack a pirate ship or base by

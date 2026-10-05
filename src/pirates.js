@@ -30,7 +30,18 @@ export const PIRATE_BASE_BOUNTY_XP = 30; // tunable
 // moves. Clamped at 0 by the caller (main.js), never goes negative.
 export const ATTACK_MOVE_COST = 4; // tunable
 export const PIRATE_SHIP_DETECTION_RADIUS = 6; // hexes — tunable
-export const PIRATE_CHASE_CHANCE = 0.6; // vs. random wander — tunable
+// Chase chance is no longer a flat value — it's this CEILING, scaled down
+// by how a pirate ship's own health fraction compares to the specific
+// player it's facing (see stepPirateShip's healthRatio). At full relative
+// health (its HP% >= the player's HP%, clamped to 1) it chases 90% of the
+// time; the weaker it gets relative to that player, the less it chases.
+export const PIRATE_CHASE_CHANCE = 0.9; // tunable — ceiling, scaled by health ratio
+// Below this pirate-vs-player relative-health ratio, a step that rolls
+// "don't chase" actively flees (steps toward the neighbor that maximizes
+// distance from the player) instead of wandering randomly — the "run away
+// when hurt" behavior. At or above this ratio, "don't chase" falls back
+// to plain random wander as before.
+export const PIRATE_FLEE_HEALTH_RATIO = 0.5; // tunable
 // Hexes a pirate ship advances per round-tick (re-evaluating chase/wander
 // each step, so it can react mid-round if the nearest player changes).
 // Engaging combat (see stepPirateShip) always consumes the rest of this
@@ -130,6 +141,24 @@ function stepToward(mapData, from, target) {
   return best;
 }
 
+// Greedy flee: the materialized neighbor that MAXIMIZES hexDistance from
+// `avoid` — the mirror image of stepToward, used when a pirate ship is
+// badly outmatched (relative health) by the player it's facing.
+function stepAwayFrom(mapData, from, avoid) {
+  const neighbors = axialNeighbors(from.q, from.r).filter((n) => mapData.tiles.has(axialKey(n.q, n.r)));
+  if (!neighbors.length) return from;
+  let best = neighbors[0];
+  let bestDist = hexDistance(best, avoid);
+  for (const n of neighbors.slice(1)) {
+    const d = hexDistance(n, avoid);
+    if (d > bestDist) {
+      best = n;
+      bestDist = d;
+    }
+  }
+  return best;
+}
+
 function findNearestPlayer(players, from) {
   let nearest = null;
   let nearestDist = Infinity;
@@ -144,24 +173,46 @@ function findNearestPlayer(players, from) {
 }
 
 // One pirate ship's roam for this round: up to PIRATE_SHIP_SPEED single-hex
-// steps, each re-evaluating chase/wander fresh (within
-// PIRATE_SHIP_DETECTION_RADIUS of the nearer player, PIRATE_CHASE_CHANCE
-// odds of a greedy step toward them; otherwise a random materialized
-// neighbor step — ships move freely across any tile type, same as
-// players). If a candidate step lands on a player's tile, resolves combat
-// with the PIRATE as attacker WITHOUT moving there first — per the
-// "attacking ship doesn't occupy the target's tile unless it destroys the
-// opponent" rule, the ship only actually advances onto that hex if the
-// player is defeated; otherwise it stays at its prior position, having
-// spent the REST of this round's movement attacking rather than advancing
-// (mirrors Civ5: a melee attack consumes the unit's action for the turn).
-// Returns a {message} event for the overlay queue, or null if the ship
-// used its whole speed budget without ever encountering a player.
+// steps, each re-evaluating behavior fresh. Within PIRATE_SHIP_DETECTION_
+// RADIUS of the nearer player, chase chance isn't flat — it's
+// PIRATE_CHASE_CHANCE scaled by healthRatio, the pirate's own HP fraction
+// relative to that player's (clamped to 1, so being relatively healthier
+// never chases MORE than the ceiling): a ship at full relative health
+// chases aggressively, a battered one rarely does. When a step rolls
+// "don't chase" AND healthRatio has dropped below PIRATE_FLEE_HEALTH_
+// RATIO, it actively flees (steps away from the player) instead of
+// wandering — otherwise (healthy but unlucky roll, or no player in range
+// at all) it's a plain random materialized-neighbor step, same as always.
+// Ships move freely across any tile type, same as players.
+//
+// If a candidate step lands on a player's tile, resolves combat with the
+// PIRATE as attacker WITHOUT moving there first — per the "attacking ship
+// doesn't occupy the target's tile unless it destroys the opponent" rule,
+// the ship only actually advances onto that hex if the player is
+// defeated; otherwise it stays at its prior position, having spent the
+// REST of this round's movement attacking rather than advancing (mirrors
+// Civ5: a melee attack consumes the unit's action for the turn). Returns
+// a {message} event for the overlay queue, or null if the ship used its
+// whole speed budget without ever encountering a player.
 function stepPirateShip(mapData, gameState, ship, rng) {
   for (let step = 0; step < PIRATE_SHIP_SPEED; step++) {
     const { player: nearest, distance } = findNearestPlayer(gameState.players, ship);
-    const shouldChase = nearest && distance <= PIRATE_SHIP_DETECTION_RADIUS && rng() < PIRATE_CHASE_CHANCE;
-    const next = shouldChase ? stepToward(mapData, ship, nearest) : randomNeighbor(mapData, ship, rng);
+    let next;
+    if (nearest && distance <= PIRATE_SHIP_DETECTION_RADIUS) {
+      const pirateHealthFrac = ship.health / ship.maxHealth;
+      const playerHealthFrac = nearest.currentHealth / maxHealthForPlayer(nearest);
+      const healthRatio = Math.min(1, pirateHealthFrac / Math.max(playerHealthFrac, 0.01));
+      const chaseChance = PIRATE_CHASE_CHANCE * healthRatio;
+      if (rng() < chaseChance) {
+        next = stepToward(mapData, ship, nearest);
+      } else if (healthRatio < PIRATE_FLEE_HEALTH_RATIO) {
+        next = stepAwayFrom(mapData, ship, nearest);
+      } else {
+        next = randomNeighbor(mapData, ship, rng);
+      }
+    } else {
+      next = randomNeighbor(mapData, ship, rng);
+    }
 
     const playerHere = gameState.players.find((p) => p.q === next.q && p.r === next.r);
     if (!playerHere) {

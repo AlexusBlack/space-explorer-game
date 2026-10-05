@@ -282,11 +282,21 @@ from `main.js`'s `endTurn`, exactly where `activePlayerIndex` wraps back to
 0 — i.e. once per round, not per-player-turn or per-move): spawn-chance
 rolls per eligible region, production rolls per base under its support
 cap, then up to `PIRATE_SHIP_SPEED` (6) single-hex roam/attack steps per
-existing ship (greedy chase toward the nearer player within detection
-range, else a random materialized-neighbor step, re-evaluated fresh each
-step) — encountering a player ends that ship's movement for the round
-early, via the stop-short rule below, same as the player's own attacks
-consume their whole action. `findPirateAt(gameState, q, r)` is a plain
+existing ship, re-evaluated fresh each step. Within
+`PIRATE_SHIP_DETECTION_RADIUS` of the nearer player, chase chance isn't
+flat: `healthRatio = min(1, (ship.health/ship.maxHealth) /
+(player.currentHealth/maxHealthForPlayer(player)))` scales
+`PIRATE_CHASE_CHANCE` (a 0.9 ceiling) down as the ship falls behind that
+player in relative HP, so a healthy ship chases aggressively and a
+battered one rarely does. A step that rolls "don't chase" either flees
+(steps toward the materialized neighbor that *maximizes* distance from the
+player, via `stepAwayFrom` — the mirror of `stepToward`) if `healthRatio`
+is below `PIRATE_FLEE_HEALTH_RATIO` (0.5), or falls back to a plain random
+materialized-neighbor step otherwise (same as when no player is in
+detection range at all). Encountering a player mid-step ends that ship's
+movement for the round early, via the stop-short rule below, same as the
+player's own attacks consume their whole action. `findPirateAt(gameState,
+q, r)` is a plain
 position-based lookup (not tied to a specific player's current position) —
 `main.js` calls it against the player's *tapped move target* before
 committing any movement, and `stepPirateShip` calls it (inline, once per
