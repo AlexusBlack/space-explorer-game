@@ -281,14 +281,17 @@ counts ships whose `baseId` matches a still-present base).
 from `main.js`'s `endTurn`, exactly where `activePlayerIndex` wraps back to
 0 — i.e. once per round, not per-player-turn or per-move): spawn-chance
 rolls per eligible region, production rolls per base under its support
-cap, then one roam/attack step per existing ship (greedy chase toward the
-nearer player within detection range, else a random materialized-neighbor
-step). `findPirateAt(gameState, q, r)` is a plain position-based lookup
-(not tied to a specific player's current position) — `main.js` calls it
-against the player's *tapped move target* before committing any movement,
-and `stepPirateShip` calls it (inline) against a candidate roam-step
-destination before committing the ship's movement, both for the
-stop-short rule below.
+cap, then up to `PIRATE_SHIP_SPEED` (6) single-hex roam/attack steps per
+existing ship (greedy chase toward the nearer player within detection
+range, else a random materialized-neighbor step, re-evaluated fresh each
+step) — encountering a player ends that ship's movement for the round
+early, via the stop-short rule below, same as the player's own attacks
+consume their whole action. `findPirateAt(gameState, q, r)` is a plain
+position-based lookup (not tied to a specific player's current position) —
+`main.js` calls it against the player's *tapped move target* before
+committing any movement, and `stepPirateShip` calls it (inline, once per
+step) against each candidate roam-step destination before committing the
+ship's movement, both for the stop-short rule below.
 
 **HP/attack scale (combat-rebalance update): 100 HP shared by player
 ships, pirate raiders, and pirate bases alike; player attack ~2x a

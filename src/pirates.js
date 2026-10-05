@@ -31,6 +31,11 @@ export const PIRATE_BASE_BOUNTY_XP = 30; // tunable
 export const ATTACK_MOVE_COST = 4; // tunable
 export const PIRATE_SHIP_DETECTION_RADIUS = 6; // hexes — tunable
 export const PIRATE_CHASE_CHANCE = 0.6; // vs. random wander — tunable
+// Hexes a pirate ship advances per round-tick (re-evaluating chase/wander
+// each step, so it can react mid-round if the nearest player changes).
+// Engaging combat (see stepPirateShip) always consumes the rest of this
+// budget for the round, same as a player's own attack action.
+export const PIRATE_SHIP_SPEED = 6; // tunable
 
 // Picks a free coordinate for a new base: scans hexesInRadius(system.radius)
 // offset from (system.q, system.r), filtered to materialized "band" tiles
@@ -138,30 +143,43 @@ function findNearestPlayer(players, from) {
   return { player: nearest, distance: nearestDist };
 }
 
-// One pirate ship's roam step for this round: within
+// One pirate ship's roam for this round: up to PIRATE_SHIP_SPEED single-hex
+// steps, each re-evaluating chase/wander fresh (within
 // PIRATE_SHIP_DETECTION_RADIUS of the nearer player, PIRATE_CHASE_CHANCE
 // odds of a greedy step toward them; otherwise a random materialized
-// neighbor step. Ships move freely across any tile type, same as players.
-// If the candidate step lands on a player's tile, resolves combat with the
-// PIRATE as attacker WITHOUT moving there first — per the "attacking ship
-// doesn't occupy the target's tile unless it destroys the opponent" rule,
-// the ship only actually advances onto that hex if the player is defeated;
-// otherwise it stays at its prior position, having spent this round's
-// action attacking rather than advancing (mirrors Civ5: a non-lethal
-// melee attack doesn't move the attacker). Returns a {message} event for
-// the overlay queue, or null if nothing notable happened.
+// neighbor step — ships move freely across any tile type, same as
+// players). If a candidate step lands on a player's tile, resolves combat
+// with the PIRATE as attacker WITHOUT moving there first — per the
+// "attacking ship doesn't occupy the target's tile unless it destroys the
+// opponent" rule, the ship only actually advances onto that hex if the
+// player is defeated; otherwise it stays at its prior position, having
+// spent the REST of this round's movement attacking rather than advancing
+// (mirrors Civ5: a melee attack consumes the unit's action for the turn).
+// Returns a {message} event for the overlay queue, or null if the ship
+// used its whole speed budget without ever encountering a player.
 function stepPirateShip(mapData, gameState, ship, rng) {
-  const { player: nearest, distance } = findNearestPlayer(gameState.players, ship);
-  const shouldChase = nearest && distance <= PIRATE_SHIP_DETECTION_RADIUS && rng() < PIRATE_CHASE_CHANCE;
-  const next = shouldChase ? stepToward(mapData, ship, nearest) : randomNeighbor(mapData, ship, rng);
+  for (let step = 0; step < PIRATE_SHIP_SPEED; step++) {
+    const { player: nearest, distance } = findNearestPlayer(gameState.players, ship);
+    const shouldChase = nearest && distance <= PIRATE_SHIP_DETECTION_RADIUS && rng() < PIRATE_CHASE_CHANCE;
+    const next = shouldChase ? stepToward(mapData, ship, nearest) : randomNeighbor(mapData, ship, rng);
 
-  const playerHere = gameState.players.find((p) => p.q === next.q && p.r === next.r);
-  if (!playerHere) {
-    ship.q = next.q;
-    ship.r = next.r;
-    return null;
+    const playerHere = gameState.players.find((p) => p.q === next.q && p.r === next.r);
+    if (!playerHere) {
+      ship.q = next.q;
+      ship.r = next.r;
+      continue;
+    }
+
+    return resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng);
   }
+  return null;
+}
 
+// Resolves one pirate-as-attacker fight against `playerHere`, who occupies
+// `next` (the candidate hex the ship was about to step onto). Factored out
+// of stepPirateShip's loop since combat always ends that ship's movement
+// for the round regardless of which step number encountered the player.
+function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   playerHere.inCombatThisRound = true;
   const tile = mapData.tiles.get(axialKey(next.q, next.r)); // defender's tile
   const attacker = { attack: ship.attack, health: ship.health, maxHealth: ship.maxHealth };

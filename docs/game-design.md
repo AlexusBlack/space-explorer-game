@@ -179,10 +179,13 @@ melee-only for MVP4 (no ranged units, no fortify bonus).
   (`PIRATE_BASE_PRODUCTION_CHANCE`), up to a support capacity cap
   (`PIRATE_BASE_SUPPORT_CAP`) — no further production once the cap is
   reached, until ship losses free up capacity.
-- Every existing pirate ship then takes one roam step: within detection
+- Every existing pirate ship then roams up to `PIRATE_SHIP_SPEED` (6) hexes
+  that round, one at a time, re-evaluating each step: within detection
   range of the nearer player it has a chance to path greedily toward them,
   otherwise (or the remainder of that chance) it takes a random step.
-  Landing on a player's tile triggers combat with the pirate as attacker.
+  Encountering a player partway through cuts the remaining steps short —
+  see "Melee attacks stop one hex short" below, which applies to pirates
+  attacking too.
 
 **Combat is symmetric**: a player can also attack a pirate ship or base by
 simply moving their own ship toward its tile (see "Melee attacks stop one
