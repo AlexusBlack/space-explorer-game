@@ -37,6 +37,17 @@
   #turn-label { font-weight: 600; }
   #end-turn { margin-left: auto; }
 
+  /* Larger touch targets for iPad — the default `button` padding/font-size
+     (meant for the compact seed-bar "New Game" button) was too small to
+     comfortably tap for these two, which carry real gameplay consequences
+     (ending a turn, dismissing a result overlay) and get tapped every turn. */
+  #end-turn, #interstitial-continue, #anomaly-continue, #combat-continue {
+    padding: 16px 32px;
+    font-size: 18px;
+    min-height: 48px;
+    border-radius: 8px;
+  }
+
   #player-badge {
     position: fixed; top: 10px; right: 10px;
     width: 34px; height: 34px; border-radius: 50%;
