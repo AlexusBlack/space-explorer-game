@@ -117,18 +117,40 @@ planet tile within that system, not the star itself.
 
 ## Anomalies
 
-Anomalies are special tiles that, when discovered, trigger one random effect
-from:
+Anomalies are special tiles — rendered as a question mark in a black circle
+— seeded onto the map two ways: a small per-system chance (same mechanism
+as a natural wonder) and a very sparse scatter directly in deep space, so
+flying through otherwise-empty space has an occasional real payoff too
+(`src/mapgen.js`'s `ANOMALY_SYSTEM_CHANCE`/`ANOMALY_DEEPSPACE_CHANCE`).
 
-- **Wormhole** — teleports the ship to a random map location.
-- **Bulk experience points** — a large flat XP bonus.
-- **Local map reveal** — instantly reveals a radius of nearby tiles without
-  needing to visit them.
-- **Free ability** — grants the next leveling-table unlock immediately,
-  without needing to cross the XP threshold for it.
+**Unlike every other discovery, an anomaly's effect does not fire on mere
+reveal.** Simply seeing it within vision radius pays only the normal flat
+discovery XP, same as any blank tile. The effect only triggers when a
+ship's move actually **lands on** the tile — and doing so **destroys it,
+permanently, for both players**: it reverts to an ordinary tile the instant
+either player visits it, so it can never be triggered a second time by
+anyone. This is a deliberate choice (confirmed during MVP3 planning) that
+makes landing on one a real decision, not an automatic drive-by bonus.
 
-Anomalies are introduced after the leveling system exists (MVP3), since "free
-ability" has no meaning without an unlock table to grant from.
+Landing on a live anomaly triggers one random effect from:
+
+- **Wormhole** — teleports the ship to a random map location (never another
+  anomaly tile) and reveals around the new position, awarding XP for
+  whatever's newly discovered there same as any move.
+- **Bulk experience points** — a large flat XP bonus
+  (`src/state.js`'s `ANOMALY_BULK_XP`).
+- **Local map reveal** — instantly reveals a radius of nearby tiles well
+  beyond normal vision range (`ANOMALY_REVEAL_RADIUS`) without needing to
+  visit them individually — and awards XP for each newly-revealed tile
+  exactly like any other reveal, not just unfogging silently.
+- **Free ability** — immediately grants one random currently-available
+  upgrade pick (see "Experience & Leveling" above), without needing to
+  cross a level threshold for it. If every upgrade the catalog can
+  currently offer is already unlocked, the game rerolls among the other
+  three effects instead of wasting the anomaly on a no-op.
+
+Anomalies were introduced once the leveling system exists (MVP3), since
+"free ability" has no meaning without an unlock table to grant from.
 
 ## Pirates
 

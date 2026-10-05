@@ -44,6 +44,14 @@ const RING_FRACS = { inner: 0.35, medium: 0.65, outer: 1.0 };
 // marked inhabited (drives only a text label today — see render.js). A
 // single easily-tunable knob, deliberately not varied by class/zone.
 const INHABITED_CHANCE = 0.05;
+// Anomaly placement: a per-system chance (same mechanism as the
+// wonder-blackhole roll below) plus a very sparse scatter directly in deep
+// space, so flying through otherwise-empty space has a real payoff too.
+// First-pass, tunable — see MVP3 in docs/mvp-roadmap.md.
+// 8x the original first-pass rates (0.12/0.0004) — playtesting found the
+// original, then a 4x bump, both too sparse to reliably encounter early.
+const ANOMALY_SYSTEM_CHANCE = 0.96;
+const ANOMALY_DEEPSPACE_CHANCE = 0.0032;
 const WOBBLE_HARMONICS = [
   { freq: 2, weight: 1 },
   { freq: 3, weight: 0.5 },
@@ -395,6 +403,17 @@ function populateSystem(tiles, system, zoneCoords, rng) {
     }
   }
 
+  // Anomalies carry no extra gen-time data — which of the four discovery
+  // effects fires is rolled at trigger time (see state.js's triggerAnomaly),
+  // same "nothing special to store yet" treatment as wonder-blackhole above.
+  if (rng() < ANOMALY_SYSTEM_CHANCE) {
+    const pool = outerPool.length ? outerPool : mediumPool.length ? mediumPool : innerPool;
+    const coord = takeRandom(rng, pool);
+    if (coord) {
+      tiles.set(axialKey(coord.q, coord.r), { ...coord, type: "anomaly", regionId: system.id });
+    }
+  }
+
   const beltPool = rng() < 0.5 ? zoneCoords.medium : zoneCoords.outer;
   const beltBandStart = rng();
   for (const coord of beltPool) {
@@ -430,7 +449,12 @@ export function generateMap({ seed } = {}) {
   for (const { q, r } of hexesInRadius(MAP_RADIUS)) {
     const key = axialKey(q, r);
     if (!tiles.has(key)) {
-      tiles.set(key, { q, r, type: "band", band: "deep-space", regionId: -1 });
+      tiles.set(
+        key,
+        rng() < ANOMALY_DEEPSPACE_CHANCE
+          ? { q, r, type: "anomaly", band: "deep-space", regionId: -1 }
+          : { q, r, type: "band", band: "deep-space", regionId: -1 }
+      );
     }
   }
 

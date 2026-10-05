@@ -71,6 +71,15 @@
   #upgrade-picker.visible { display: flex; }
   #upgrade-picker-title { font-size: 1.2em; font-weight: 600; }
   #upgrade-picker-options { display: flex; flex-direction: column; gap: 8px; }
+
+  #anomaly-overlay {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    background: #05070d; color: #cfe0ff; font: 16px/1.4 system-ui, sans-serif;
+    z-index: 10; cursor: pointer;
+  }
+  #anomaly-overlay.visible { display: flex; }
+  #anomaly-message { font-size: 1.3em; font-weight: 600; text-align: center; max-width: 80%; }
 </style>
 </head>
 <body>
@@ -97,6 +106,10 @@
 <div id="upgrade-picker">
   <div id="upgrade-picker-title">Level up! Choose an upgrade:</div>
   <div id="upgrade-picker-options"></div>
+</div>
+<div id="anomaly-overlay">
+  <div id="anomaly-message"></div>
+  <button id="anomaly-continue">Tap to continue</button>
 </div>
 <script type="module" src="src/main.js"></script>
 </body>

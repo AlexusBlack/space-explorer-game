@@ -277,6 +277,15 @@ the repetition becomes a real complaint during playtesting.
   identified, not yet extracted — MVP4).
 - **Pirate base** sprite — `pirate-base.png` (standalone file, not yet
   extracted — MVP4).
+- **Anomaly icon** — `images/icons/anomaly.png` (48x48, a black circle with
+  a white "?"), the user-specified MVP3 visual. Like `select-alpha.png`
+  above, this is *synthesized*, not cropped from a tilesheet — no such icon
+  exists in `terrain1.png`/`terrain2.png`/`hills.png`/`units.png`, so it
+  isn't in `scripts/extract-icons.py`'s `MANIFEST` at all. Instead,
+  `scripts/generate-anomaly-icon.py` draws it directly with Pillow
+  (`ImageDraw`), sized to match the ~50x47px scale of the planet/star
+  icons; run it directly (`python3 scripts/generate-anomaly-icon.py`) to
+  regenerate.
 
 **Resolved via the 5 hand-painted band tiles** (see above) — the
 procedurally-generated starfield this section originally called for was

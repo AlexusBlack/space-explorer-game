@@ -15,6 +15,9 @@ const BAND_IMAGE_PATHS = {
 const ICON_IMAGE_PATHS = {
   star: "images/icons/star.png",
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
+  // Synthesized, not cropped from a sheet (see
+  // scripts/generate-anomaly-icon.py) — same treatment as `select` below.
+  anomaly: "images/icons/anomaly.png",
   ship: "images/icons/ship.png",
   // Not cropped/chroma-keyed like the sprites above — already has real
   // per-pixel alpha. A 4-frame (96x48 each) "marching ants" selection-oval

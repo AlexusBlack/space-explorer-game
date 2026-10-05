@@ -115,13 +115,14 @@ export function revealTile(player, tile, { awardXp = true } = {}) {
   return true;
 }
 
-// Reveals every tile within the player's (derived, upgrade-dependent)
-// vision radius of `center` (which is itself always included, at offset
-// {0,0}). The only place vision radius is actually applied — both the
-// initial spawn reveal and every step of a move funnel through this.
-export function revealAround(mapData, player, center, { awardXp = true } = {}) {
-  const radius = visionRadiusForPlayer(player);
-  for (const offset of hexesInRadius(radius)) {
+// Reveals every tile within `radius` (default: the player's derived,
+// upgrade-dependent vision radius) of `center` (itself always included, at
+// offset {0,0}). Both the initial spawn reveal and every step of a move
+// funnel through this with the default radius; an anomaly's local-reveal
+// effect passes an explicit, larger radius instead.
+export function revealAround(mapData, player, center, { awardXp = true, radius } = {}) {
+  const r = radius ?? visionRadiusForPlayer(player);
+  for (const offset of hexesInRadius(r)) {
     const tile = mapData.tiles.get(axialKey(center.q + offset.q, center.r + offset.r));
     if (tile) revealTile(player, tile, { awardXp });
   }
@@ -164,8 +165,95 @@ export function createNewGame(mapData) {
     movesRemaining: movesPerTurnForPlayer(players[0]),
     turnNumber: 1,
     won: false,
+    // Shared across both players, NOT per-player — an anomaly tile is a
+    // one-shot world resource: whichever player lands on it first destroys
+    // it (reverts to a plain band tile) for both. Stores the axialKey of
+    // every destroyed anomaly so loadGame can replay the destruction onto a
+    // freshly-regenerated mapData (mapData itself is never persisted — see
+    // applyDestroyedAnomalies below).
+    destroyedAnomalies: new Set(),
     players,
   };
+}
+
+// --- Anomalies --------------------------------------------------------
+// Visiting an anomaly tile destroys it (one-time only, shared across both
+// players — see createNewGame's destroyedAnomalies comment) and triggers
+// one of four random effects. Unlike every other discovery (XP for
+// planets/wonders), this does NOT fire on mere reveal/vision — only when a
+// player's move actually lands on the tile (confirmed design choice; see
+// docs/game-design.md's Anomalies section).
+export const ANOMALY_BULK_XP = 50; // first-pass, tunable
+export const ANOMALY_REVEAL_RADIUS = 5; // first-pass, tunable — bigger than
+                                         // any MVP2 vision radius
+
+const ANOMALY_EFFECTS = ["wormhole", "bulk-xp", "local-reveal", "free-upgrade"];
+
+// If `player` is standing on a still-live anomaly tile, destroys it
+// (mutates the shared mapData tile in place to a plain band tile, so it
+// renders and behaves as empty space for both players from now on) and
+// records the destruction so it survives a reload. Returns the
+// pre-destruction tile for the caller to pass to triggerAnomaly, or null if
+// the player isn't on a live anomaly.
+export function checkAnomalyLanding(mapData, gameState, player) {
+  const tile = mapData.tiles.get(axialKey(player.q, player.r));
+  if (!tile || tile.type !== "anomaly") return null;
+  gameState.destroyedAnomalies.add(axialKey(tile.q, tile.r));
+  tile.type = "band";
+  return tile;
+}
+
+// Replays previously-destroyed anomalies onto a freshly-regenerated
+// mapData (generateMap is deterministic from the seed alone and knows
+// nothing about session history, so without this a reload would
+// resurrect every anomaly a player already consumed).
+export function applyDestroyedAnomalies(mapData, gameState) {
+  for (const key of gameState.destroyedAnomalies) {
+    const tile = mapData.tiles.get(key);
+    if (tile) tile.type = "band";
+  }
+}
+
+// Resolves one of the four anomaly effects for `player` and mutates state
+// accordingly. `rng` defaults to Math.random (this doesn't need to be
+// seeded/deterministic like map generation does — same as the plain
+// Math.random() already used for "New Game" seed strings in main.js) but is
+// injectable so tests can force every branch. If "free ability grant" is
+// rolled but the catalog has nothing left to offer, rerolls among the
+// other three rather than wasting the anomaly on a no-op.
+export function triggerAnomaly(mapData, player, tile, rng = Math.random) {
+  let effect = ANOMALY_EFFECTS[Math.floor(rng() * ANOMALY_EFFECTS.length)];
+  if (effect === "free-upgrade" && availableUpgrades(player.unlockedUpgrades).length === 0) {
+    const fallback = ANOMALY_EFFECTS.filter((e) => e !== "free-upgrade");
+    effect = fallback[Math.floor(rng() * fallback.length)];
+  }
+  switch (effect) {
+    case "wormhole": {
+      const candidates = [...mapData.tiles.values()].filter((t) => t.type !== "anomaly");
+      const dest = candidates[Math.floor(rng() * candidates.length)];
+      player.q = dest.q;
+      player.r = dest.r;
+      revealAround(mapData, player, dest);
+      return {
+        effect,
+        message: "Wormhole! Your ship is yanked through a tear in space to a new region of the map.",
+      };
+    }
+    case "bulk-xp":
+      player.xp += ANOMALY_BULK_XP;
+      return { effect, message: `Salvaged data cache: +${ANOMALY_BULK_XP} XP.` };
+    case "local-reveal":
+      // awardXp defaults true — the bonus discoveries this uncovers should
+      // pay out XP exactly like any other reveal, not just unfog silently.
+      revealAround(mapData, player, player, { radius: ANOMALY_REVEAL_RADIUS });
+      return { effect, message: "Long-range sensor burst reveals the surrounding region." };
+    case "free-upgrade": {
+      const options = availableUpgrades(player.unlockedUpgrades);
+      const choice = options[Math.floor(rng() * options.length)];
+      unlockUpgrade(player, choice.id);
+      return { effect, message: `Salvaged tech installed: ${choice.name}!` };
+    }
+  }
 }
 
 // Every placed system's primary star tile sits at exactly (system.q,
@@ -185,6 +273,7 @@ export function serializeState(seed, gameState) {
     activePlayerIndex: gameState.activePlayerIndex,
     movesRemaining: gameState.movesRemaining,
     turnNumber: gameState.turnNumber,
+    destroyedAnomalies: [...gameState.destroyedAnomalies],
     players: gameState.players.map((player) => ({
       color: player.color,
       q: player.q,
@@ -204,6 +293,8 @@ export function deserializeState(raw) {
     // surfacing as "Turn undefined" in the HUD.
     turnNumber: raw.turnNumber ?? 1,
     won: false,
+    // Old saves predating MVP3 have no destroyed anomalies yet.
+    destroyedAnomalies: new Set(raw.destroyedAnomalies ?? []),
     players: raw.players.map((p) => ({
       color: p.color,
       q: p.q,

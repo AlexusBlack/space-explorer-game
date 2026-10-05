@@ -14,6 +14,9 @@ import {
   pendingUpgradePicks,
   unlockUpgrade,
   cumulativeXpForLevel,
+  checkAnomalyLanding,
+  triggerAnomaly,
+  applyDestroyedAnomalies,
 } from "./state.js";
 import { availableUpgrades } from "./upgrades.js";
 
@@ -34,6 +37,8 @@ const interstitial = document.getElementById("interstitial");
 const interstitialMessage = document.getElementById("interstitial-message");
 const upgradePicker = document.getElementById("upgrade-picker");
 const upgradePickerOptions = document.getElementById("upgrade-picker-options");
+const anomalyOverlay = document.getElementById("anomaly-overlay");
+const anomalyMessage = document.getElementById("anomaly-message");
 
 function readSeedFromUrl() {
   const params = new URLSearchParams(location.search);
@@ -163,12 +168,34 @@ function hideWinBanner() {
   winBanner.classList.remove("visible");
 }
 
-function afterStateChange() {
+// `suppressUpgradePicker` lets the anomaly-landing path defer the upgrade
+// picker check until after the anomaly result overlay is dismissed, so the
+// two blocking overlays never try to show at once.
+function afterStateChange({ suppressUpgradePicker = false } = {}) {
   gameState.won = checkWinCondition(mapData, gameState.players);
   if (gameState.won) showWinBanner();
   saveGame(currentSeed, gameState);
   updateHud();
   requestRedraw();
+  if (!suppressUpgradePicker) maybeShowUpgradePicker();
+}
+
+// Shows the result of a just-triggered anomaly in a blocking overlay (same
+// pattern as the pass-and-play interstitial). Recenter the camera first if
+// the effect was a teleport, so the player immediately sees where they
+// ended up once they dismiss the message.
+function showAnomalyOverlay(result) {
+  if (result.effect === "wormhole") {
+    const active = gameState.players[gameState.activePlayerIndex];
+    centerCameraOn(active.q, active.r);
+  }
+  anomalyMessage.textContent = result.message;
+  anomalyOverlay.classList.add("visible");
+  requestRedraw();
+}
+
+function dismissAnomalyOverlay() {
+  anomalyOverlay.classList.remove("visible");
   maybeShowUpgradePicker();
 }
 
@@ -210,6 +237,7 @@ function maybeShowUpgradePicker() {
 function handleTap(screenPos) {
   if (interstitial.classList.contains("visible")) return;
   if (upgradePicker.classList.contains("visible")) return;
+  if (anomalyOverlay.classList.contains("visible")) return;
 
   const active = gameState.players[gameState.activePlayerIndex];
   const worldX = (screenPos.x - window.innerWidth / 2) / camera.zoom + camera.x;
@@ -226,7 +254,15 @@ function handleTap(screenPos) {
   const path = hexLine(current, target);
   applyMove(mapData, active, path);
   gameState.movesRemaining -= distance;
-  afterStateChange();
+
+  const anomalyTile = checkAnomalyLanding(mapData, gameState, active);
+  if (anomalyTile) {
+    const result = triggerAnomaly(mapData, active, anomalyTile);
+    afterStateChange({ suppressUpgradePicker: true });
+    showAnomalyOverlay(result);
+  } else {
+    afterStateChange();
+  }
 }
 
 function endTurn() {
@@ -270,6 +306,7 @@ seedInput.addEventListener("keydown", (e) => {
 
 endTurnButton.addEventListener("click", endTurn);
 interstitial.addEventListener("pointerdown", dismissInterstitial);
+anomalyOverlay.addEventListener("pointerdown", dismissAnomalyOverlay);
 
 resizeCanvas();
 
@@ -278,6 +315,10 @@ const saved = loadGame();
 if (saved && (!urlSeed || urlSeed === saved.seed)) {
   loadMap(saved.seed);
   gameState = saved.gameState;
+  // mapData was just regenerated fresh from the seed (never persisted
+  // directly) — replay any anomalies a prior session already destroyed so
+  // they don't reappear.
+  applyDestroyedAnomalies(mapData, gameState);
   updateHud();
   if (checkWinCondition(mapData, gameState.players)) {
     gameState.won = true;

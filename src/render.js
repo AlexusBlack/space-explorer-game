@@ -169,6 +169,9 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
         case "wonder-blackhole":
           pendingIcons.push([iconImages && iconImages["wonder-blackhole"], p]);
           break;
+        case "anomaly":
+          pendingIcons.push([iconImages && iconImages["anomaly"], p]);
+          break;
         case "planet":
           pendingIcons.push([iconImages && iconImages[tile.sprite], p, 1]);
           if (tile.home && camera.zoom > 0.5) {

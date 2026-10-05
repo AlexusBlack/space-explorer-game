@@ -110,6 +110,18 @@ side of this; the key algorithmic ideas:
 - Each tile's `regionId` is simply **its system's id** (`-1` for deep space)
   — pirate spawn logic (MVP4) can look up "which system-region is this tile
   part of" as a plain field read, no separate region-clustering pass needed.
+- **Anomalies** are seeded two ways, both tunable: `populateSystem` rolls a
+  per-system chance (`ANOMALY_SYSTEM_CHANCE`, same mechanism as the
+  `wonder-blackhole` roll just above it) claiming a zone-pool hex, and the
+  deep-space sweep (below) separately rolls a rarer per-tile chance
+  (`ANOMALY_DEEPSPACE_CHANCE`) to seed one directly into otherwise-empty
+  space instead of a plain band tile. Both rates were raised to 8x their
+  original first-pass values (0.12→0.96, 0.0004→0.0032) across two rounds
+  of playtesting feedback, each prior rate still too sparse to reliably
+  encounter within the first few turns — purely a probability bump, no
+  placement guarantee; an unlucky seed can still in principle place every
+  anomaly far from home. At `0.96` per system, nearly every system has
+  one — anomalies are now a near-ubiquitous feature, not a rare find.
 
 ## Band Materialization
 
@@ -125,7 +137,8 @@ space between systems, is).
 
 - A tile's `type` is either the generic `"band"` (a plain backdrop tile, no
   feature on it) or a specific feature (`star`, `planet`, `moon`,
-  `wonder-blackhole`, `asteroid-belt`) layered on top of its own band. Every
+  `wonder-blackhole`, `asteroid-belt`, `anomaly`) layered on top of its own
+  band. Every
   materialized tile — feature or plain — carries a `band` field the renderer
   uses to pick the background image; only `"band"` type tiles have *nothing
   else* drawn on top. `planet`/`moon` tiles additionally carry `planetClass`
@@ -167,6 +180,7 @@ mapData (src/mapgen.js's generateMap return value, never persisted — cheaply
 
 gameState (src/state.js, persisted — see "Persistence" below)
 ├── activePlayerIndex, movesRemaining, turnNumber, won
+├── destroyedAnomalies: Set<"q,r"> — shared, NOT per-player (see "Anomalies" below)
 └── players: [PlayerState, PlayerState]
       └── PlayerState: { color, q, r, xp, unlockedUpgrades: Set<upgradeId>,
             discovered: Set<"q,r"> }
@@ -217,6 +231,32 @@ than forced. `movesPerTurnForPlayer`/`visionRadiusForPlayer`/
 `visionRadiusBonus`/`xpBonusPerTile` fields are present in
 `player.unlockedUpgrades`, each on top of a base constant
 (`MOVES_PER_TURN_BASE`/`VISION_RADIUS_BASE`).
+
+**Anomalies** (`type: "anomaly"` tiles, `src/mapgen.js`) carry no extra
+gen-time data — which of four effects fires is rolled at trigger time, not
+stored on the tile (same "nothing to store yet" treatment as
+`wonder-blackhole`). Unlike every other feature, an anomaly's effect does
+**not** fire on reveal — `src/state.js`'s `checkAnomalyLanding(mapData,
+gameState, player)` only fires when a player's position, after a move,
+exactly matches a still-live anomaly tile. On a hit, it **mutates the
+shared `mapData` tile object in place** (`tile.type = "band"`) — the
+anomaly is destroyed globally, for both players, the instant either one
+lands on it, not tracked per-player. Since `mapData` is never persisted
+(always cheaply regenerated from the seed via `generateMap`), the
+destruction itself is recorded in the persisted, gameState-level
+`destroyedAnomalies` Set; `applyDestroyedAnomalies(mapData, gameState)` is
+called once at boot after a saved game's `mapData` is regenerated, to
+replay every previously-destroyed tile back to `"band"` before play
+resumes — otherwise a reload would resurrect every anomaly a player had
+already consumed. `src/state.js`'s `triggerAnomaly(mapData, player, tile,
+rng)` then resolves one of wormhole / bulk-XP / local-reveal / free-upgrade
+uniformly at random (`rng` defaults to `Math.random`, injectable for
+tests); if free-upgrade is rolled but `availableUpgrades` has nothing left
+to offer, it rerolls among the other three rather than wasting the
+anomaly. The local-reveal effect reuses `revealAround` with an explicit
+`radius` override (bigger than any upgrade-boosted vision radius) and
+awards XP for whatever it newly reveals exactly like any other reveal —
+it's a bonus discovery burst, not a free unfog.
 
 **Fog exception — stars are always visible.** `render.js` always draws a
 `"star"` tile regardless of the active player's `discovered` set (every
@@ -304,21 +344,24 @@ ever clips them, regardless of q/r iteration order.
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`),
   holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
-  and both players' `{ color, q, r, xp, unlockedUpgrades, discovered }`
-  (`discovered` and `unlockedUpgrades` both serialized as plain arrays,
-  restored back to real `Set`s on load). `visionRadius` is **not**
+  the shared `destroyedAnomalies` set, and both players'
+  `{ color, q, r, xp, unlockedUpgrades, discovered }` (`discovered`,
+  `unlockedUpgrades`, and `destroyedAnomalies` all serialized as plain
+  arrays, restored back to real `Set`s on load). `visionRadius` is **not**
   persisted — it's fully derived from `xp`/`unlockedUpgrades` (see
   "Leveling & upgrades" above), so retuning thresholds or the upgrade
   catalog later re-evaluates every existing save automatically rather than
   leaving it stuck on a stale stored value. Only the seed is stored for
   the map itself — `tiles`/`systems` are always cheaply and
   deterministically rebuilt via `generateMap({ seed })` rather than
-  persisted. Single device, single session, one save slot is the stated
-  use case — no export/import or multi-device sync needed at this stage;
-  starting/loading a new seed always overwrites it. `turnNumber` defaults
-  to `1` and `unlockedUpgrades` defaults to an empty set when
-  deserializing a save from before those fields existed, rather than
-  surfacing as `undefined`/throwing.
+  persisted (which is exactly why destroyed anomalies need their own
+  persisted record and a replay step at load — see "Anomalies" above).
+  Single device, single session, one save slot is the stated use case — no
+  export/import or multi-device sync needed at this stage; starting/loading
+  a new seed always overwrites it. `turnNumber` defaults to `1`,
+  `unlockedUpgrades` defaults to an empty set, and `destroyedAnomalies`
+  defaults to an empty set when deserializing a save from before those
+  fields existed, rather than surfacing as `undefined`/throwing.
 - Persisted after every state-changing action — a move or an End Turn, not
   debounced — not just at turn boundaries, so a closed tab never loses
   progress mid-turn either. Payload is small and actions are
@@ -349,7 +392,7 @@ src/
 ├── assets.js          per-band/icon image loading
 ├── input.js           tap/drag-pan/pinch-zoom/wheel-zoom handling
 ├── state.js           player/turn GameState model, fog-of-war, XP/
-│                      leveling, win-condition check, localStorage
-│                      persistence
+│                      leveling, anomaly landing/effects, win-condition
+│                      check, localStorage persistence
 └── main.js            wiring/game loop/turn orchestration
 ```

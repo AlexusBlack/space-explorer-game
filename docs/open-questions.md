@@ -319,3 +319,25 @@ from here.
   See `technical-architecture.md`'s Data Model ("Leveling & upgrades"),
   Persistence, and Module Layout sections, and `game-design.md`'s
   Movement & Exploration / Experience & Leveling sections.
+
+- **MVP3 (anomalies) implemented.** Anomaly tiles (question-mark-in-circle
+  icon, synthesized via `scripts/generate-anomaly-icon.py` rather than
+  cropped from a tilesheet) are seeded both per-system
+  (`ANOMALY_SYSTEM_CHANCE`, same mechanism as `wonder-blackhole`) and as a
+  very sparse deep-space scatter (`ANOMALY_DEEPSPACE_CHANCE`), via
+  `src/mapgen.js`. **Deliberate trigger-rule decision, confirmed with the
+  project owner during planning**: unlike every other discovery, an
+  anomaly's effect does *not* fire on mere reveal/vision — only when a
+  player's move actually *lands on* the tile, via `src/state.js`'s
+  `checkAnomalyLanding`. Landing **destroys the tile globally, for both
+  players** (mutates it to a plain band tile; tracked in a new
+  gameState-level — not per-player — `destroyedAnomalies` Set, replayed
+  onto a freshly-regenerated `mapData` at load via
+  `applyDestroyedAnomalies`, since `mapData` itself is never persisted).
+  `triggerAnomaly` then resolves one of four effects uniformly at random
+  (wormhole teleport, bulk XP, local map reveal, free upgrade pick),
+  rerolling away from free-upgrade if the catalog has nothing left to
+  offer. The local-reveal effect awards XP for its newly-revealed tiles
+  exactly like any other reveal, not just a silent unfog. See
+  `technical-architecture.md`'s new "Anomalies" subsection and
+  `game-design.md`'s Anomalies section.
