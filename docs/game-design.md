@@ -90,7 +90,10 @@ planet tile within that system, not the star itself.
   `src/state.js`). If a future feature lets XP double as a spendable
   currency for something else, it needs its own separate spendable
   balance — this lifetime total must stay append-only forever, since
-  `level` must never go backwards.
+  `level` must never go backwards. **One sanctioned exception (MVP4):**
+  losing a melee fight applies a flat, confirmed XP penalty (see "Pirates &
+  Combat" below) — `level` may visibly drop as a result; this is
+  intentional, not a bug, and no other code path may decrement XP.
 - **Leveling up does not automatically apply a fixed effect.** Each level
   past 1 grants the player one **upgrade pick**, chosen from whichever
   entries in a catalog (`src/upgrades.js`) are currently offerable. Each
@@ -107,9 +110,15 @@ planet tile within that system, not the star itself.
   moves, without needing to move directly onto each one, stacking with
   reveal-on-visit; every ship already has a small vision radius (1 hex)
   from MVP1 onward, this just increases it), and **Science** (+1 XP per
-  tile discovered per tier, gated behind Vision Mk I). Health and attack
-  tracks arrive with MVP4, once pirates/combat exist for them to matter
-  against.
+  tile discovered per tier, gated behind Vision Mk I). MVP4 adds **Health**
+  (+25 max health per tier, on a 100-HP base — Civ5 scale), **Attack** (+3
+  attack per tier on a 12-attack base, gated behind Health Mk I — armor
+  before weapons), and **Repair** (+5 passive healing per round per tier,
+  also gated behind Health Mk I), now that pirates/combat exist for them to
+  matter against. A ship's `currentHealth` depletes during combat and does
+  **not** regenerate automatically every round — only if it wasn't on
+  either side of a fight that round (passive healing, see "Pirates &
+  Combat" below) or via a full respawn-at-Earth after a loss.
 - If a pick is owed but the catalog has nothing left to offer (every
   reachable tier already taken), it's simply left banked/unspendable —
   not forced or discarded — until a later MVP adds more tracks.
@@ -152,27 +161,103 @@ Landing on a live anomaly triggers one random effect from:
 Anomalies were introduced once the leveling system exists (MVP3), since
 "free ability" has no meaning without an unlock table to grant from.
 
-## Pirates
+## Pirates & Combat
 
-Pirates are this game's equivalent of Civilization 5's barbarians:
+Pirates are this game's equivalent of Civilization 5's barbarians, and
+combat is "spiritually inspired" by Civ5's own melee resolution — a
+strength-ratio damage modifier plus random variance — simplified to
+melee-only for MVP4 (no ranged units, no fortify bonus).
 
+**Spawn, production, roam (per full round):**
 - Each **star system is its own region** for pirate purposes (a tile's
-  `regionId` is simply its owning system's id — see
-  `technical-architecture.md`). Per region, there's a chance each turn (or on
-  some other cadence, to be tuned) that a pirate base spawns if no pirate
-  base is currently present in that region.
-- A pirate base produces pirate ships periodically, up to a support capacity
-  cap (no further production once the cap is reached, until losses free up
-  capacity).
-- Pirate ships roam the map and will attack player ships and planets they
-  encounter.
-- Combat resolution (attack/flee) and ship stats (health, attack) are
-  introduced together with pirates in MVP4 — there is no reason for a ship to
-  have a health stat before anything in the game can damage it.
-- **Losing a ship is a soft penalty**: the player's ship respawns at Earth,
-  losing some banked XP and/or turn progress, but the game continues. This
-  keeps pirates a real but non-punishing threat, consistent with the game's
-  "peaceful friendly" tone.
+  `regionId` is simply its owning system's id). Once per full round (after
+  BOTH players have completed a turn — not per-player-turn, not per-move),
+  every region with no pirate base currently present gets an independent
+  spawn-chance roll (`PIRATE_BASE_SPAWN_CHANCE`, `src/pirates.js`); the
+  shared home system is never eligible.
+- Each existing base then rolls to produce one new pirate ship
+  (`PIRATE_BASE_PRODUCTION_CHANCE`), up to a support capacity cap
+  (`PIRATE_BASE_SUPPORT_CAP`) — no further production once the cap is
+  reached, until ship losses free up capacity.
+- Every existing pirate ship then takes one roam step: within detection
+  range of the nearer player it has a chance to path greedily toward them,
+  otherwise (or the remainder of that chance) it takes a random step.
+  Landing on a player's tile triggers combat with the pirate as attacker.
+
+**Combat is symmetric**: a player can also attack a pirate ship or base by
+simply moving their own ship toward its tile (see "Melee attacks stop one
+hex short" below) — pirates are a target to hunt, not just a threat to
+react to. There is no player-vs-player combat.
+
+**HP/attack scale (Civ5-like): fights take several hits across multiple
+turns, not one.** Player ships, pirate raider ships, and pirate bases all
+share the same 100 max health pool; a player's attack (12 base) is roughly
+2x a standard pirate raider's (6), while a pirate base hits harder (8) to
+stay a credible siege target despite having no more health than a raider.
+`src/combat.js`'s damage constants (4-8 per hit at parity, ported directly
+from Civ5's own 100-HP convention) were already sized for this scale; the
+original MVP4 pass used a much smaller HP pool (8-30), which made most
+fights resolve in one or two hits — this rebalance is purely stat tuning,
+no combat-formula changes.
+
+**Resolution** (`src/combat.js`'s `resolveCombat`): a single mutual
+exchange per engagement, not a multi-round loop within one call — repeated
+taps/engagements across turns are what make a fight multi-hit. The
+attacker hits first; the defender only counters if it survives that hit —
+exactly like Civ5's own melee combat. Effective strength is `attack *
+woundedMultiplier * (1 + terrainBonus)`; a wounded unit fights
+progressively weaker as it loses health (floored at 20% effective
+strength), and the defender gets a flat terrain bonus from whichever tile
+the fight occurs on:
+
+| Terrain | Defense bonus |
+|---|---|
+| Empty space / plain tile | +0% |
+| Planet / moon | +15% |
+| Asteroid belt | +25% |
+| Star | +50% |
+| Black hole (wonder) | +75% |
+
+**Melee attacks stop one hex short unless they land the killing blow.** An
+attacking ship never advances onto the defender's tile mid-fight — it
+engages from the hex immediately before the target along its move path,
+and only actually moves onto that tile if the attack destroys the
+defender. A fight that leaves the defender alive ends with the attacker
+adjacent, free to tap the same target again (next turn, or later the same
+turn if moves remain) to continue the engagement. This applies
+symmetrically: a pirate ship's own roam-step attack on a player works the
+same way — no forward progress that round unless it wins. Attacking always
+costs a flat 4 moves (`ATTACK_MOVE_COST`), regardless of how far the ship
+traveled to engage or whether it ends up advancing — simpler than, and
+replacing, an earlier "full tapped distance" rule.
+
+**Destroying a pirate base** grants a one-time XP bounty
+(`PIRATE_BASE_BOUNTY_XP`) and frees that region to spawn a new base later.
+Ships the base already produced are not retroactively destroyed — they
+become ownerless but otherwise fight normally.
+
+**Losing a ship is a soft penalty**: a flat, tunable XP deduction
+(`SHIP_LOSS_XP_PENALTY`, floored at 0 — a confirmed, deliberate one-time
+exception to XP's otherwise-monotonic lifetime-counter rule, see
+"Experience & Leveling" above), full respawn at Earth with health restored
+to max, and — only when the loss happened on the player's own
+move-and-attack (not from a pirate's own round-tick attack) — forfeiture of
+any moves remaining that turn. The game continues; this is never a session
+-ending loss, consistent with the "peaceful friendly" tone.
+
+**Passive healing**: a ship that wasn't on either side of a fight during a
+full round (not attacked, and didn't attack) regenerates some health at
+the start of the next round — eligibility is purely "no combat happened,"
+not a proximity/detection-range check, so simply avoiding an engagement for
+one round is enough to start recovering. The base heal rate is upgradeable
+via the **Repair** track (see "Experience & Leveling" above). Pirates do
+not get passive healing — only player ships.
+
+**Not in scope for MVP4**: pirates do not attack planets (planets have no
+health/ownership concept in this codebase yet) — only player ships and
+pirate bases are ever combat targets. Pirate markers are fog-gated like any
+tile feature (only visible once the active player has discovered that
+hex).
 
 ## Planets & Natural Wonders
 

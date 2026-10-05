@@ -61,8 +61,9 @@ other sheets are — see below). Two sprites are designated for use:
 - **Player ship** — row 2, column 3 (a rounded tan/beige craft with twin
   cylindrical nacelles) — **extracted and wired in**, see
   `images/icons/ship.png` below.
-- **Initial pirate ship** — row 1, column 13 (a blue/white angular fighter) —
-  not yet extracted, parked for MVP4.
+- **Initial pirate ship** — row 1, column 13 (a blue/white angular fighter)
+  — **extracted and wired in (MVP4)**, see `images/icons/pirate-ship.png`
+  below (59×35px, via the same chroma-key crop as `ship.png`).
 
 This resolves the ship-sprite gap noted below: both MVP0's visual
 completeness and MVP4's pirate-ship requirement now have source art.
@@ -73,9 +74,12 @@ tracked in [`open-questions.md`](open-questions.md).
 ### `pirate-base.png`
 
 A standalone sprite (a dark metallic space-station design with turret-like
-protrusions) for the pirate base structure introduced in MVP4. Same
-license/provenance caveat as `units.png` — no embedded credit panel, tracked
-in [`open-questions.md`](open-questions.md).
+protrusions) for the pirate base structure introduced in MVP4. **Wired in
+directly** (MVP4) — referenced as-is from `images/pirate-base.png`, no
+`extract-icons.py` crop step needed (it's already a complete 64×64 sprite
+with real per-pixel alpha), same treatment as `images/select-alpha.png`.
+Same license/provenance caveat as `units.png` — no embedded credit panel,
+tracked in [`open-questions.md`](open-questions.md).
 
 ### `images/icons/` — cropped from `terrain1.png` / `hills.png`
 
@@ -273,10 +277,13 @@ the repetition becomes a real complaint during playtesting.
   as-is, in its own original white, with no per-player recolor — it reads
   fine as a neutral highlight under any ship. Drawn under the ship sprite
   only for the currently active player's ship.
-- **Initial pirate ship** sprite — row 1, column 13 of `units.png` (source
-  identified, not yet extracted — MVP4).
-- **Pirate base** sprite — `pirate-base.png` (standalone file, not yet
-  extracted — MVP4).
+- **Initial pirate ship** sprite — row 1, column 13 of `units.png`,
+  extracted (MVP4) to `images/icons/pirate-ship.png` (59×35px) via the same
+  chroma-key crop as `ship.png`, wired into `render.js`'s new pirate-ship
+  marker pass.
+- **Pirate base** sprite — `pirate-base.png` (standalone file, MVP4),
+  referenced directly (no crop step) into `render.js`'s new pirate-base
+  marker pass.
 - **Anomaly icon** — `images/icons/anomaly.png` (48x48, a black circle with
   a white "?"), the user-specified MVP3 visual. Like `select-alpha.png`
   above, this is *synthesized*, not cropped from a tilesheet — no such icon
@@ -334,8 +341,10 @@ have been pure wasted per-frame work for zero effect.
    (which ship is whose), and the active player's pulsing selection
    animation (which ship is currently being commanded) — see
    `technical-architecture.md`'s Ship markers section.
-6. Pirate ship sprite (for MVP4) — `units.png`, row 1 column 13.
-7. Pirate base sprite (for MVP4) — `pirate-base.png`.
+6. ~~Pirate ship sprite~~ — **done (MVP4)**: `images/icons/pirate-ship.png`,
+   cropped from `units.png` row 1 column 13.
+7. ~~Pirate base sprite~~ — **done (MVP4)**: `images/pirate-base.png`,
+   wired in directly.
 
 ## Tile Geometry & Canvas Mapping
 

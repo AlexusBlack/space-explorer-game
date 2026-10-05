@@ -151,6 +151,7 @@ MANIFEST = [
     # -- units.png: ship sprites (chroma-key green background, see
     # graphics-and-assets.md's units.png section) --
     ("ship", "units.png", 1, 2, {"chroma_key": True}),  # rounded tan/beige craft
+    ("pirate-ship", "units.png", 0, 12, {"chroma_key": True}),  # blue/white angular fighter
 ]
 
 

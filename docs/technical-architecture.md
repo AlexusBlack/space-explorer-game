@@ -181,15 +181,22 @@ mapData (src/mapgen.js's generateMap return value, never persisted — cheaply
 gameState (src/state.js, persisted — see "Persistence" below)
 ├── activePlayerIndex, movesRemaining, turnNumber, won
 ├── destroyedAnomalies: Set<"q,r"> — shared, NOT per-player (see "Anomalies" below)
+├── pirateBases: [{ id, q, r, regionId, health, maxHealth }] — dynamic
+│     entities, NOT a mapData tile mutation (see "Pirates & Combat" below)
+├── pirateShips: [{ id, q, r, health, maxHealth, attack, baseId }]
+├── nextPirateEntityId — shared id counter for both arrays above
 └── players: [PlayerState, PlayerState]
       └── PlayerState: { color, q, r, xp, unlockedUpgrades: Set<upgradeId>,
-            discovered: Set<"q,r"> }
+            discovered: Set<"q,r">, currentHealth, inCombatThisRound }
 ```
 Only `xp` and `unlockedUpgrades` are persisted leveling state — `level`,
 `visionRadius`, moves-per-turn, and the per-tile XP bonus are all derived
 from them on demand (see "Leveling & upgrades" below), never stored
 directly, so they can never drift out of sync with the current thresholds
-or catalog.
+or catalog. `maxHealth`/`attack` (MVP4) are derived the same way; only the
+depletable `currentHealth` is stored directly, since it's mutable
+moment-to-moment combat state, not a pure function of `xp`/
+`unlockedUpgrades`.
 
 Fog-of-war (`discovered`) is deliberately kept **off** the shared `tiles`
 map and lives entirely as two independent per-player `Set`s of `axialKey`
@@ -257,6 +264,101 @@ anomaly. The local-reveal effect reuses `revealAround` with an explicit
 `radius` override (bigger than any upgrade-boosted vision radius) and
 awards XP for whatever it newly reveals exactly like any other reveal —
 it's a bonus discovery burst, not a free unfog.
+
+**Pirates & Combat (MVP4, `src/pirates.js` + `src/combat.js`).** Pirate
+bases/ships are dynamic `gameState` records, not mapData tile mutations
+like anomaly destruction — a pirate can sit on top of any tile without
+altering it, so nothing about them needs replaying onto a
+freshly-regenerated map at load (unlike `destroyedAnomalies`). A region
+"has a base" purely by whether some entry in `gameState.pirateBases`
+carries its `regionId` — no separate flag; destroying a base simply
+removes that entry, which both frees the region and does **not**
+retroactively remove ships it already produced (they become ownerless
+orphans, harmless, since `produceFromBases`'s support-cap check only
+counts ships whose `baseId` matches a still-present base).
+
+`tickPirates(mapData, gameState, rng)` orchestrates one full round (called
+from `main.js`'s `endTurn`, exactly where `activePlayerIndex` wraps back to
+0 — i.e. once per round, not per-player-turn or per-move): spawn-chance
+rolls per eligible region, production rolls per base under its support
+cap, then one roam/attack step per existing ship (greedy chase toward the
+nearer player within detection range, else a random materialized-neighbor
+step). `findPirateAt(gameState, q, r)` is a plain position-based lookup
+(not tied to a specific player's current position) — `main.js` calls it
+against the player's *tapped move target* before committing any movement,
+and `stepPirateShip` calls it (inline) against a candidate roam-step
+destination before committing the ship's movement, both for the
+stop-short rule below.
+
+**HP/attack scale (combat-rebalance update): 100 HP shared by player
+ships, pirate raiders, and pirate bases alike; player attack ~2x a
+raider's; pirate bases hit harder (8 vs. a raider's 6) to compensate for
+having no more health** — a deliberate bump from the original MVP4 pass's
+much smaller pool (8-30 HP), which made most fights resolve in one or two
+hits.
+`combat.js`'s damage constants (4-8 per hit at parity) were already ported
+directly from Civ5's own 100-HP convention, so this rebalance is pure stat
+tuning — no changes to `resolveCombat` itself, which already operates on
+dimensionless ratios/fractions and so was scale-independent all along.
+
+`combat.js`'s `resolveCombat(attacker, defender, terrainBonusPct, rng)` is
+a single mutual exchange (not a multi-round loop) per call — repeated
+calls across turns (via repeated taps or roam steps) are what make an
+engagement multi-hit, not looping inside one call. Adapted from Civ5's own
+melee formula: `effectiveStrength = attack * woundedMultiplier * (1 +
+terrainBonus)`, a strength-ratio damage modifier (`m = 0.5 + (r+3)^4/512`,
+Civ5's own constant), and random damage within a min/spread band. The
+attacker hits first; the defender only counters if it survives that hit.
+The defender's terrain bonus is keyed by whichever tile type the fight
+occurs on: `band` +0%, `planet`/`moon` +15%, `asteroid-belt` +25%, `star`
++50%, `wonder-blackhole` +75% — `TERRAIN_DEFENSE_BONUS` in `combat.js`.
+
+**"Stop short unless destroyed" — the attacker never shares the
+defender's tile mid-fight.** Both `main.js`'s `handleTap` (player attacking
+a pirate) and `pirates.js`'s `stepPirateShip` (pirate attacking a player)
+follow the same pattern: resolve combat using the *defender's* tile for
+the terrain bonus, without first moving the attacker onto it; only commit
+the attacker's position change to that tile if `resolveCombat` reports
+`defenderDefeated`. For the player, this means a multi-hex tapped move
+that targets a live pirate applies only up to the second-to-last hex of
+the path (`path.slice(0, -1)`) before combat resolves, with a final
+`applyMove(mapData, active, [target])` only on a kill; a flat
+`ATTACK_MOVE_COST` (`src/pirates.js`) is spent from `movesRemaining`
+(clamped at 0) regardless of the tapped distance or whether the ship
+actually advances — simpler than, and replacing, an earlier "full tapped
+distance" rule. For a pirate ship, this simply
+means not updating `ship.q/r` in the non-kill branch — Civ5-style, a
+non-lethal melee attack spends the turn's action with no forward
+progress. A consequence: a player's final position after `handleTap` can
+never coincide with a still-*live* pirate (either it died and was
+removed, or the move stopped one hex short) — so the anomaly check that
+follows always runs safely against wherever the player actually ended up,
+with no risk of firing against a tile that also holds a live pirate.
+
+Losing a fight calls `state.js`'s `applyShipLoss`: a flat, tunable XP
+penalty floored at 0 (`SHIP_LOSS_XP_PENALTY`) — the **one sanctioned
+exception** to "xp never decreases" (see "Leveling & upgrades" above) —
+full respawn at Earth with `currentHealth` reset to max. Moves-remaining
+forfeiture for the current turn is handled by the caller
+(`main.js`'s `handleTap`), only on the player-initiated-attack path; a
+round-tick pirate-initiated loss has no "current active player's moves" to
+meaningfully forfeit.
+
+**Passive healing** (`state.js`'s `tickPassiveHealing`, called from
+`main.js`'s `endTurn` right after `tickPirates`, same once-per-round
+cadence): any player whose `inCombatThisRound` is still `false` regenerates
+`passiveHealForPlayer(player)` HP, clamped at `maxHealthForPlayer`; the
+flag is then reset to `false` for both players regardless, for the next
+round. `inCombatThisRound` is set `true` by `resolvePlayerAttack` (the
+instant a player attacks) and by `stepPirateShip` (the instant a pirate's
+attack resolves against a player) — it spans the whole round (both
+players' individual turns plus the round-tick itself), since a
+player-initiated fight happens *during* their own turn, before the round
+wraps, while a pirate-initiated fight only ever happens *during* the
+round-tick. Eligibility is deliberately "no combat happened this round,"
+not a proximity/detection-range check (confirmed with the user). Pirates
+themselves have no passive healing — only `PlayerState` carries
+`inCombatThisRound`/benefits from this.
 
 **Fog exception — stars are always visible.** `render.js` always draws a
 `"star"` tile regardless of the active player's `discovered` set (every
@@ -344,24 +446,31 @@ ever clips them, regardless of q/r iteration order.
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`),
   holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
-  the shared `destroyedAnomalies` set, and both players'
-  `{ color, q, r, xp, unlockedUpgrades, discovered }` (`discovered`,
-  `unlockedUpgrades`, and `destroyedAnomalies` all serialized as plain
-  arrays, restored back to real `Set`s on load). `visionRadius` is **not**
-  persisted — it's fully derived from `xp`/`unlockedUpgrades` (see
+  the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
+  `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
+  and both players' `{ color, q, r, xp, unlockedUpgrades, discovered,
+  currentHealth, inCombatThisRound }` (`discovered`, `unlockedUpgrades`, and
+  `destroyedAnomalies` all serialized as plain arrays, restored back to
+  real `Set`s on load). `visionRadius`/`maxHealth`/`attack` are **not**
+  persisted — they're fully derived from `xp`/`unlockedUpgrades` (see
   "Leveling & upgrades" above), so retuning thresholds or the upgrade
   catalog later re-evaluates every existing save automatically rather than
   leaving it stuck on a stale stored value. Only the seed is stored for
   the map itself — `tiles`/`systems` are always cheaply and
   deterministically rebuilt via `generateMap({ seed })` rather than
   persisted (which is exactly why destroyed anomalies need their own
-  persisted record and a replay step at load — see "Anomalies" above).
+  persisted record and a replay step at load — see "Anomalies" above;
+  pirates need no such replay step, since they're dynamic records, not a
+  tile mutation).
   Single device, single session, one save slot is the stated use case — no
   export/import or multi-device sync needed at this stage; starting/loading
   a new seed always overwrites it. `turnNumber` defaults to `1`,
-  `unlockedUpgrades` defaults to an empty set, and `destroyedAnomalies`
-  defaults to an empty set when deserializing a save from before those
-  fields existed, rather than surfacing as `undefined`/throwing.
+  `unlockedUpgrades` defaults to an empty set, `destroyedAnomalies`
+  defaults to an empty set, `pirateBases`/`pirateShips` default to `[]`,
+  `nextPirateEntityId` defaults to `1`, `currentHealth` defaults to
+  `HEALTH_BASE`, and `inCombatThisRound` defaults to `false`, when
+  deserializing a save from before those fields
+  existed, rather than surfacing as `undefined`/throwing.
 - Persisted after every state-changing action — a move or an End Turn, not
   debounced — not just at turn boundaries, so a closed tab never loses
   progress mid-turn either. Payload is small and actions are
@@ -387,12 +496,18 @@ src/
 ├── upgrades.js        leveling upgrade catalog (tracks, tiers,
 │                      cross-track prerequisites) consumed by state.js
 │                      and main.js
+├── combat.js          pure melee combat math (terrain bonus table,
+│                      wounded-unit penalty, Civ5-style strength-ratio
+│                      damage resolution) — no other project imports
+├── pirates.js         pirate base/ship spawn, production, roam AI, and
+│                      combat orchestration, consumed by main.js
 ├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
-│                      fog-of-war skip, ship markers)
+│                      fog-of-war skip, ship markers, pirate markers)
 ├── assets.js          per-band/icon image loading
 ├── input.js           tap/drag-pan/pinch-zoom/wheel-zoom handling
 ├── state.js           player/turn GameState model, fog-of-war, XP/
-│                      leveling, anomaly landing/effects, win-condition
-│                      check, localStorage persistence
+│                      leveling, anomaly landing/effects, ship-loss
+│                      (MVP4), win-condition check, localStorage
+│                      persistence
 └── main.js            wiring/game loop/turn orchestration
 ```

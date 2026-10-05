@@ -70,6 +70,18 @@ function drawOwnerDot(ctx, cx, cy, hw, hh, zoom, color) {
   ctx.stroke();
 }
 
+// Small floating health bar, drawn above a pirate base/ship marker (MVP4).
+function drawHealthBar(ctx, cx, cy, zoom, frac) {
+  const w = 24 * zoom;
+  const h = 4 * zoom;
+  const x = cx - w / 2;
+  const y = cy - 28 * zoom;
+  ctx.fillStyle = "rgba(0,0,0,0.6)";
+  ctx.fillRect(x - 1, y - 1, w + 2, h + 2);
+  ctx.fillStyle = frac > 0.5 ? "#8fe3a0" : frac > 0.25 ? "#ffd166" : "#ff5555";
+  ctx.fillRect(x, y, w * Math.max(0, frac), h);
+}
+
 function drawLabel(ctx, text, p, hh, zoom) {
   ctx.fillStyle = "rgba(255,255,255,0.85)";
   ctx.font = `${Math.max(10, 12 * zoom)}px sans-serif`;
@@ -108,7 +120,10 @@ function visibleHexRange(camera, canvasW, canvasH) {
   };
 }
 
-export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame) {
+export function render(
+  ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame,
+  pirateBases, pirateShips
+) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
 
@@ -198,6 +213,35 @@ export function render(ctx, canvasW, canvasH, camera, mapData, bandImages, iconI
 
   for (const [text, p] of pendingLabels) {
     drawLabel(ctx, text, p, hh, camera.zoom);
+  }
+
+  // Pirate bases/ships (MVP4): dynamic markers, not tile features, so they
+  // draw in their own pass rather than the tile-type switch above. Unlike
+  // player ships below, pirates ARE fog-gated — only drawn once the active
+  // player has discovered that hex — so an always-visible pirate base
+  // can't leak map structure through enemy vision. Drawn before player
+  // ships so a player standing on a pirate's tile reads as "on top of" it.
+  if (pirateBases) {
+    const baseImg = iconImages && iconImages["pirate-base"];
+    for (const base of pirateBases) {
+      const key = axialKey(base.q, base.r);
+      if (discovered && !discovered.has(key)) continue;
+      const world = axialToPixel(base.q, base.r);
+      const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+      drawIcon(ctx, baseImg, p.x, p.y, camera.zoom);
+      drawHealthBar(ctx, p.x, p.y, camera.zoom, base.health / base.maxHealth);
+    }
+  }
+  if (pirateShips) {
+    const shipImg = iconImages && iconImages["pirate-ship"];
+    for (const ship of pirateShips) {
+      const key = axialKey(ship.q, ship.r);
+      if (discovered && !discovered.has(key)) continue;
+      const world = axialToPixel(ship.q, ship.r);
+      const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+      drawIcon(ctx, shipImg, p.x, p.y, camera.zoom);
+      drawHealthBar(ctx, p.x, p.y, camera.zoom, ship.health / ship.maxHealth);
+    }
   }
 
   // Ship markers (the same sprite for every player — the screen-corner

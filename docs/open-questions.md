@@ -341,3 +341,75 @@ from here.
   exactly like any other reveal, not just a silent unfog. See
   `technical-architecture.md`'s new "Anomalies" subsection and
   `game-design.md`'s Anomalies section.
+
+- **MVP4 (pirates & combat) implemented.** Four design decisions were
+  confirmed with the project owner via AskUserQuestion before planning:
+  (1) **pirates act once per full round** (hooked into `main.js`'s
+  `endTurn`, exactly where `activePlayerIndex` wraps back to 0), not
+  per-player-turn or per-move; (2) **combat is symmetric and pirate bases
+  are destructible** — a player can land on a pirate ship or base to
+  attack it (reusing MVP3's landing-trigger pattern), destroying a base
+  pays a one-time XP bounty and frees its region to spawn a new one later;
+  there is no player-vs-player combat; (3) **terrain defense bonus
+  magnitude is Civ5-style**: `band` +0%, `planet`/`moon` +15%,
+  `asteroid-belt` +25%, `star` +50%, `wonder-blackhole` +75%, applied to
+  the defender only, keyed by the single shared tile the fight occurs on;
+  (4) **ship loss is a flat XP penalty** (floored at 0) plus a full
+  respawn-at-Earth with health restored to max — a confirmed, deliberate,
+  one-time exception to the "`xp` never decreases" rule stated elsewhere.
+  **Deliberate scope-narrowing, not asked**: pirates never attack planets
+  (the roadmap's own Definition of Done only requires damaging/destroying
+  a player *ship*, and planets have no health/ownership concept anywhere
+  in this codebase) — only player ships and pirate bases are ever combat
+  targets. Combat resolution (`src/combat.js`'s `resolveCombat`) adapts
+  Civ5's own melee formula (strength-ratio damage modifier, wounded-unit
+  penalty) into a single mutual exchange, not a multi-round loop. See
+  `technical-architecture.md`'s new "Pirates & Combat" subsection and
+  `game-design.md`'s "Pirates & Combat" section. The `units.png`/
+  `pirate-base.png` licensing question above remains unresolved — this
+  work did not address it.
+
+- **MVP4 combat rebalance implemented** (supersedes some phrasing in the
+  MVP4 entry above — fights are no longer resolved by simply "landing on"
+  a pirate's tile; see below). Playtesting found the original MVP4 HP pool
+  (8-30) made nearly every fight resolve in one or two hits. Four
+  decisions confirmed with the user via AskUserQuestion: (1) **HP/attack
+  rescaled to ~100 (Civ5 scale)**: both player ships and pirate raiders get
+  100 max health; player attack (12) is ~2x a standard raider's (6);
+  pirate bases (150 HP / 8 attack) are deliberately tougher, encouraging a
+  multi-turn siege rather than a drive-by kill. `combat.js`'s damage
+  constants were already ported from Civ5's own 100-HP convention, so no
+  formula changes were needed — this was pure stat tuning. (2) **Passive
+  healing eligibility is "no combat happened this round"** (not a
+  proximity/detection check) — a new `PlayerState.inCombatThisRound` flag,
+  set by either side of a resolved fight and reset once per round by
+  `state.js`'s `tickPassiveHealing` (called from `main.js`'s `endTurn`
+  alongside `tickPirates`). (3) **Passive healing is upgradeable via a new
+  "Repair" track** (two tiers, `+5`/round each, gated behind Health Mk I,
+  mirroring how Attack is gated behind Health) rather than folded into the
+  existing Health track. (4) **A melee attack always costs the player's
+  full tapped move distance**, whether or not the ship ends up advancing —
+  chosen specifically to block a free-repeat-attack exploit (re-engaging
+  an already-adjacent, still-alive target would otherwise cost 0 moves).
+  **Structural change, not just tuning**: an attacking ship (player or
+  pirate) now never moves onto the defender's tile unless the attack
+  destroys it — `src/pirates.js`'s `findPirateAt(gameState, q, r)`
+  replaced `checkPirateLanding`, letting `main.js` check the player's
+  *tapped target* before committing any movement, splitting the move so it
+  only completes the final hex on a kill; `stepPirateShip` applies the
+  same rule in the reverse direction. See `technical-architecture.md`'s
+  "Pirates & Combat" subsection and `game-design.md`'s "Pirates & Combat"
+  section (both rewritten) for the full current mechanics.
+
+- **Immediate follow-up tuning, same session**: two quick adjustments to
+  the rebalance above, direct from the user. Pirate base health dropped
+  150→100 (`PIRATE_BASE_MAX_HEALTH`), matching player ships/raiders
+  exactly — a base's only remaining toughness edge is its higher attack
+  (8 vs. a raider's 6). The "full tapped move distance" attack-cost rule
+  was replaced with a flat `ATTACK_MOVE_COST = 4` (`src/pirates.js`,
+  consumed in `main.js`'s `handleTap`, clamped at 0) — attacking now
+  always costs exactly 4 moves regardless of tapped distance or whether
+  the ship ends up advancing, simpler than the distance-based rule it
+  replaces (which incidentally also happened to block the free-repeat-
+  attack exploit that rule was originally chosen to avoid, since 4 is a
+  fixed nonzero cost either way).

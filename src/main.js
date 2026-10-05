@@ -10,6 +10,8 @@ import {
   saveGame,
   loadGame,
   movesPerTurnForPlayer,
+  maxHealthForPlayer,
+  tickPassiveHealing,
   playerLevel,
   pendingUpgradePicks,
   unlockUpgrade,
@@ -19,6 +21,7 @@ import {
   applyDestroyedAnomalies,
 } from "./state.js";
 import { availableUpgrades } from "./upgrades.js";
+import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -30,6 +33,7 @@ const turnLabel = document.getElementById("turn-label");
 const levelLabel = document.getElementById("level-label");
 const xpLabel = document.getElementById("xp-label");
 const movesLabel = document.getElementById("moves-label");
+const healthLabel = document.getElementById("health-label");
 const endTurnButton = document.getElementById("end-turn");
 const winBanner = document.getElementById("win-banner");
 const playerBadge = document.getElementById("player-badge");
@@ -39,6 +43,8 @@ const upgradePicker = document.getElementById("upgrade-picker");
 const upgradePickerOptions = document.getElementById("upgrade-picker-options");
 const anomalyOverlay = document.getElementById("anomaly-overlay");
 const anomalyMessage = document.getElementById("anomaly-message");
+const combatOverlay = document.getElementById("combat-overlay");
+const combatMessage = document.getElementById("combat-message");
 
 function readSeedFromUrl() {
   const params = new URLSearchParams(location.search);
@@ -137,7 +143,10 @@ function frame(bandImages, iconImages) {
       color: p.color,
       active: i === gameState.activePlayerIndex,
     }));
-    render(ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages, active.discovered, ships, selectFrame);
+    render(
+      ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages,
+      active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips
+    );
     needsRedraw = false;
   }
   requestAnimationFrame(() => frame(bandImages, iconImages));
@@ -153,6 +162,7 @@ function updateHud() {
   levelLabel.textContent = `Level ${level}`;
   xpLabel.textContent = `XP: ${active.xp}/${cumulativeXpForLevel(level + 1)}`;
   movesLabel.textContent = `Moves: ${gameState.movesRemaining}/${movesPerTurnForPlayer(active)}`;
+  healthLabel.textContent = `HP: ${active.currentHealth}/${maxHealthForPlayer(active)}`;
   // Both ships render with the same sprite on the map (see render.js) — this
   // corner badge, colored per the active player, is the actual way to tell
   // players apart, i.e. whose turn it currently is.
@@ -196,7 +206,27 @@ function showAnomalyOverlay(result) {
 
 function dismissAnomalyOverlay() {
   anomalyOverlay.classList.remove("visible");
-  maybeShowUpgradePicker();
+  if (!showNextCombatOverlay()) maybeShowUpgradePicker();
+}
+
+// Queued combat result messages (MVP4): more than one can arrive from a
+// single end-of-round pirate tick (several ships may each fight someone),
+// so — unlike the anomaly overlay, which only ever has one message at a
+// time — these are shown one at a time via this queue rather than all at
+// once.
+let pendingCombatEvents = [];
+
+function showNextCombatOverlay() {
+  if (!pendingCombatEvents.length) return false;
+  combatMessage.textContent = pendingCombatEvents.shift();
+  combatOverlay.classList.add("visible");
+  requestRedraw();
+  return true;
+}
+
+function dismissCombatOverlay() {
+  combatOverlay.classList.remove("visible");
+  if (!showNextCombatOverlay()) maybeShowUpgradePicker();
 }
 
 function renderUpgradeOptions(player) {
@@ -238,6 +268,7 @@ function handleTap(screenPos) {
   if (interstitial.classList.contains("visible")) return;
   if (upgradePicker.classList.contains("visible")) return;
   if (anomalyOverlay.classList.contains("visible")) return;
+  if (combatOverlay.classList.contains("visible")) return;
 
   const active = gameState.players[gameState.activePlayerIndex];
   const worldX = (screenPos.x - window.innerWidth / 2) / camera.zoom + camera.x;
@@ -252,16 +283,58 @@ function handleTap(screenPos) {
   if (distance <= 0 || distance > gameState.movesRemaining) return;
 
   const path = hexLine(current, target);
-  applyMove(mapData, active, path);
-  gameState.movesRemaining -= distance;
+  // Live pirate at the TAPPED TARGET, checked before committing any
+  // movement — needed for the "attacking ship doesn't move onto the
+  // target's tile unless it destroys the opponent" rule below.
+  const pirateAtTarget = findPirateAt(gameState, target.q, target.r);
 
-  const anomalyTile = checkAnomalyLanding(mapData, gameState, active);
-  if (anomalyTile) {
-    const result = triggerAnomaly(mapData, active, anomalyTile);
-    afterStateChange({ suppressUpgradePicker: true });
-    showAnomalyOverlay(result);
+  let suppressUpgradePicker = false;
+
+  if (pirateAtTarget) {
+    // Stop one hex short of a live pirate; only advance onto its tile if
+    // this attack finishes it off. Attacking costs a flat ATTACK_MOVE_COST
+    // regardless of how far the ship traveled to engage (or whether it
+    // was already adjacent) — simpler than, and replaces, the earlier
+    // "full tapped distance" rule.
+    const approachPath = path.length > 1 ? path.slice(0, -1) : [current];
+    applyMove(mapData, active, approachPath);
+    gameState.movesRemaining = Math.max(0, gameState.movesRemaining - ATTACK_MOVE_COST);
+
+    const combatResult = resolvePlayerAttack(mapData, gameState, active, pirateAtTarget);
+    pendingCombatEvents.push(combatResult.message);
+    suppressUpgradePicker = true;
+    if (combatResult.defenderDefeated) {
+      applyMove(mapData, active, [target]); // vacated — advance in
+    }
+    if (combatResult.attackerDefeated) {
+      // Ship lost this turn — forfeit remaining moves. Only this path
+      // (the player's own live turn) does this; a round-tick pirate
+      // attack has no "current active player's moves" to forfeit (see
+      // state.js's applyShipLoss comment).
+      gameState.movesRemaining = 0;
+    }
   } else {
-    afterStateChange();
+    applyMove(mapData, active, path);
+    gameState.movesRemaining -= distance;
+  }
+
+  // Always checked against the player's FINAL actual position (full move,
+  // or the kill-then-advance path above) — never fires against a tile the
+  // player merely stopped short of. Since a live pirate can never occupy
+  // the same tile as a just-destroyed one, there's no risk of this
+  // double-firing against a tile that also happens to hold a pirate.
+  const anomalyTile = checkAnomalyLanding(mapData, gameState, active);
+  let anomalyResult = null;
+  if (anomalyTile) {
+    anomalyResult = triggerAnomaly(mapData, active, anomalyTile);
+    suppressUpgradePicker = true;
+  }
+
+  afterStateChange({ suppressUpgradePicker });
+  if (anomalyTile) {
+    showAnomalyOverlay(anomalyResult);
+  } else if (pendingCombatEvents.length) {
+    showNextCombatOverlay();
   }
 }
 
@@ -276,6 +349,14 @@ function endTurn() {
   // instead of permanently latching onto NaN.
   if (gameState.activePlayerIndex === 0) {
     gameState.turnNumber = (gameState.turnNumber ?? 1) + 1;
+    // Pirates act once per full round (both players' turns complete), not
+    // per-player-turn or per-move — see docs/game-design.md's Pirates
+    // section. Any resulting combat messages queue behind whatever's
+    // already pending and surface once the pass-and-play interstitial
+    // below is dismissed (see dismissInterstitial's tail).
+    const events = tickPirates(mapData, gameState);
+    for (const event of events) pendingCombatEvents.push(event.message);
+    tickPassiveHealing(gameState);
   }
   const nextActive = gameState.players[gameState.activePlayerIndex];
   gameState.movesRemaining = movesPerTurnForPlayer(nextActive);
@@ -290,7 +371,7 @@ function dismissInterstitial() {
   interstitial.classList.remove("visible");
   const active = gameState.players[gameState.activePlayerIndex];
   centerCameraOn(active.q, active.r);
-  maybeShowUpgradePicker();
+  if (!showNextCombatOverlay()) maybeShowUpgradePicker();
 }
 
 window.addEventListener("resize", resizeCanvas);
@@ -307,6 +388,7 @@ seedInput.addEventListener("keydown", (e) => {
 endTurnButton.addEventListener("click", endTurn);
 interstitial.addEventListener("pointerdown", dismissInterstitial);
 anomalyOverlay.addEventListener("pointerdown", dismissAnomalyOverlay);
+combatOverlay.addEventListener("pointerdown", dismissCombatOverlay);
 
 resizeCanvas();
 

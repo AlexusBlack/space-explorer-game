@@ -19,6 +19,11 @@ const ICON_IMAGE_PATHS = {
   // scripts/generate-anomaly-icon.py) — same treatment as `select` below.
   anomaly: "images/icons/anomaly.png",
   ship: "images/icons/ship.png",
+  "pirate-ship": "images/icons/pirate-ship.png",
+  // Already a complete standalone sprite (64x64, real per-pixel alpha) —
+  // referenced directly, no extract-icons.py step needed, same treatment
+  // as `select` below.
+  "pirate-base": "images/pirate-base.png",
   // Not cropped/chroma-keyed like the sprites above — already has real
   // per-pixel alpha. A 4-frame (96x48 each) "marching ants" selection-oval
   // strip, drawn as-is (no per-player recolor) in render.js.

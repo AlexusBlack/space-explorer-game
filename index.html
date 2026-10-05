@@ -80,6 +80,15 @@
   }
   #anomaly-overlay.visible { display: flex; }
   #anomaly-message { font-size: 1.3em; font-weight: 600; text-align: center; max-width: 80%; }
+
+  #combat-overlay {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; flex-direction: column; gap: 16px;
+    background: #05070d; color: #cfe0ff; font: 16px/1.4 system-ui, sans-serif;
+    z-index: 10; cursor: pointer;
+  }
+  #combat-overlay.visible { display: flex; }
+  #combat-message { font-size: 1.3em; font-weight: 600; text-align: center; max-width: 80%; }
 </style>
 </head>
 <body>
@@ -95,6 +104,7 @@
   <span id="level-label"></span>
   <span id="xp-label"></span>
   <span id="moves-label"></span>
+  <span id="health-label"></span>
   <button id="end-turn">End Turn</button>
 </div>
 <div id="player-badge"></div>
@@ -110,6 +120,10 @@
 <div id="anomaly-overlay">
   <div id="anomaly-message"></div>
   <button id="anomaly-continue">Tap to continue</button>
+</div>
+<div id="combat-overlay">
+  <div id="combat-message"></div>
+  <button id="combat-continue">Tap to continue</button>
 </div>
 <script type="module" src="src/main.js"></script>
 </body>

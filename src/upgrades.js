@@ -1,12 +1,15 @@
 // Ship upgrades a player can pick one of each time they level up. Each
-// belongs to a "track" (a themed progression — speed, vision, science)
-// purely for display grouping; a tier's `requires` is the id of any OTHER
-// upgrade (same track or a different one) that must already be unlocked
-// before this one is offered — e.g. "science-1" requires "vision-1" even
-// though they're different tracks. MVP2 implements the tracks matching
-// docs/game-design.md's first leveling unlocks (moves, vision) plus one
-// extra (science/XP) to exercise cross-track gating; MVP4 adds more
-// (health, attack) once pirates/combat exist for them to matter against.
+// belongs to a "track" (a themed progression — speed, vision, science,
+// health, attack, repair) purely for display grouping; a tier's `requires`
+// is the id of any OTHER upgrade (same track or a different one) that must
+// already be unlocked before this one is offered — e.g. "science-1"
+// requires "vision-1" even though they're different tracks, and
+// "attack-1"/"repair-1" both require "health-1" (armor before either
+// weapons or repair systems) the same way. MVP2 shipped speed/vision/
+// science; MVP4 adds health/attack/repair now that pirates/combat exist
+// for them to matter against. health-1/2's and attack-1/2's bonuses were
+// rescaled 5x/1.5x (to +25/+3 per tier) alongside the combat-rebalance
+// update's ~100 HP/attack baseline — see state.js's HEALTH_BASE/ATTACK_BASE.
 export const UPGRADES = {
   "speed-1": {
     id: "speed-1",
@@ -55,6 +58,54 @@ export const UPGRADES = {
     name: "Onboard Science Lab Mk II",
     description: "+1 XP per tile discovered",
     xpBonusPerTile: 1,
+  },
+  "health-1": {
+    id: "health-1",
+    track: "health",
+    requires: null,
+    name: "Reinforced Hull Mk I",
+    description: "+25 max health",
+    maxHealthBonus: 25,
+  },
+  "health-2": {
+    id: "health-2",
+    track: "health",
+    requires: "health-1",
+    name: "Reinforced Hull Mk II",
+    description: "+25 max health",
+    maxHealthBonus: 25,
+  },
+  "attack-1": {
+    id: "attack-1",
+    track: "attack",
+    requires: "health-1", // cross-track prerequisite: armor before weapons
+    name: "Laser Cannon Mk I",
+    description: "+3 attack",
+    attackBonus: 3,
+  },
+  "attack-2": {
+    id: "attack-2",
+    track: "attack",
+    requires: "attack-1",
+    name: "Laser Cannon Mk II",
+    description: "+3 attack",
+    attackBonus: 3,
+  },
+  "repair-1": {
+    id: "repair-1",
+    track: "repair",
+    requires: "health-1", // armor before repair systems, mirrors attack-1
+    name: "Auto-Repair Mk I",
+    description: "+5 passive healing per round",
+    passiveHealBonus: 5,
+  },
+  "repair-2": {
+    id: "repair-2",
+    track: "repair",
+    requires: "repair-1",
+    name: "Auto-Repair Mk II",
+    description: "+5 passive healing per round",
+    passiveHealBonus: 5,
   },
 };
 

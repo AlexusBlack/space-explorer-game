@@ -48,6 +48,11 @@ export function xpForTile(tile) {
 // field). `level` is derived from this lifetime total, so decrementing xp
 // would make level go backwards, which must never happen.
 //
+// ONE SANCTIONED EXCEPTION (MVP4, confirmed with the user): losing a
+// melee fight applies a flat XP penalty via applyShipLoss below, floored
+// at 0. `level`/pendingUpgradePicks may visibly drop as a result — this is
+// intentional, not a bug. No other code path may decrement xp.
+//
 // Cumulative XP to REACH a level (level 1 is free/0 XP, and costs grow
 // each level — 100, 200, 300... more XP than the last). First-pass
 // numbers, explicitly tunable alongside the upgrade catalog in
@@ -93,6 +98,21 @@ export function xpBonusForPlayer(player) {
   return sumUpgradeBonus(player, "xpBonusPerTile");
 }
 
+// ~100 HP/attack scale (Civ5-like), not the original MVP4 first-pass
+// numbers (HEALTH_BASE was 10, ATTACK_BASE was 3) — bumped per playtesting
+// feedback so fights take several hits across multiple turns instead of
+// resolving in one exchange. combat.js's damage constants (4-8 per hit at
+// parity) were already ported directly from Civ5's own 100-HP convention,
+// so this is the scale they were designed for — no formula changes needed.
+export const HEALTH_BASE = 100; // tunable
+export const ATTACK_BASE = 12; // tunable — ~2x a standard pirate raider's attack
+export function maxHealthForPlayer(player) {
+  return HEALTH_BASE + sumUpgradeBonus(player, "maxHealthBonus");
+}
+export function attackForPlayer(player) {
+  return ATTACK_BASE + sumUpgradeBonus(player, "attackBonus");
+}
+
 // Records a chosen upgrade. Returns false (no-op) if it isn't actually
 // offerable right now (already taken, or its prerequisite isn't yet) —
 // defensive guard against a caller bug, mirrors revealTile's own "return
@@ -136,6 +156,19 @@ function createPlayer(color) {
     xp: 0,
     unlockedUpgrades: new Set(), // chosen upgrade ids — real progress, persisted
     discovered: new Set(),
+    // Depletes during combat, persisted (unlike the derived moves/vision/xp
+    // helpers above) since it's mutable moment-to-moment state, not a pure
+    // function of xp/unlockedUpgrades. Respawn-only full heal (see
+    // applyShipLoss below) — a damaged-but-surviving ship stays damaged
+    // until it dies or a future MVP adds a heal-at-Earth mechanic.
+    currentHealth: HEALTH_BASE,
+    // Did this player fight (either side) during the round currently in
+    // progress? Spans both players' turns plus the round-tick — reset to
+    // false only once tickPassiveHealing processes the completed round.
+    // Transient in the sense that it's only meaningful mid-round, but
+    // still persisted (see serializeState) so a reload mid-round doesn't
+    // let a just-fought ship sneak in an undeserved heal.
+    inCombatThisRound: false,
   };
 }
 
@@ -172,6 +205,13 @@ export function createNewGame(mapData) {
     // freshly-regenerated mapData (mapData itself is never persisted — see
     // applyDestroyedAnomalies below).
     destroyedAnomalies: new Set(),
+    // Pirate entities (MVP4): dynamic gameState records, NOT a mapData tile
+    // mutation like anomaly destruction was — a pirate base/ship can sit on
+    // top of any tile without altering it, so nothing here needs replaying
+    // onto a freshly-regenerated map the way applyDestroyedAnomalies does.
+    pirateBases: [], // [{ id, q, r, regionId, health, maxHealth }]
+    pirateShips: [], // [{ id, q, r, health, maxHealth, attack, baseId }]
+    nextPirateEntityId: 1, // shared id counter for both arrays above
     players,
   };
 }
@@ -256,6 +296,50 @@ export function triggerAnomaly(mapData, player, tile, rng = Math.random) {
   }
 }
 
+// --- Combat / ship loss -------------------------------------------------
+// Losing a melee fight (see combat.js's resolveCombat, orchestrated by
+// pirates.js) is a flat, tunable XP penalty, floored at 0 — see the
+// SANCTIONED EXCEPTION note above levelForXp. Resets the losing player's
+// position to Earth and fully heals them (respawn-only heal — see
+// createPlayer's currentHealth comment); does NOT touch
+// gameState.movesRemaining, since whether/how a turn's remaining moves
+// should be forfeited depends on which path (player-initiated attack vs.
+// a pirate's own round-tick attack) triggered the loss — left to the
+// caller (see main.js).
+export const SHIP_LOSS_XP_PENALTY = 25; // tunable
+export function applyShipLoss(mapData, gameState, player) {
+  player.xp = Math.max(0, player.xp - SHIP_LOSS_XP_PENALTY);
+  player.currentHealth = maxHealthForPlayer(player);
+  player.q = mapData.earth.q;
+  player.r = mapData.earth.r;
+  revealAround(mapData, player, mapData.earth, { awardXp: false });
+}
+
+// Passive healing: a ship that wasn't on either side of a fight during the
+// just-completed round regenerates some health, upgradeable via the Repair
+// track (see upgrades.js). Confirmed with the user: eligibility is "no
+// combat happened this round" (not a proximity/detection-range check).
+export const PASSIVE_HEAL_BASE = 5; // tunable
+export function passiveHealForPlayer(player) {
+  return PASSIVE_HEAL_BASE + sumUpgradeBonus(player, "passiveHealBonus");
+}
+
+// Called once per round (main.js's endTurn, right after tickPirates, at
+// the same point the round wraps back to player 0) — heals any player who
+// wasn't on either side of a resolved fight this round, then resets the
+// flag for the next round regardless of outcome.
+export function tickPassiveHealing(gameState) {
+  for (const player of gameState.players) {
+    if (!player.inCombatThisRound) {
+      player.currentHealth = Math.min(
+        maxHealthForPlayer(player),
+        player.currentHealth + passiveHealForPlayer(player)
+      );
+    }
+    player.inCombatThisRound = false;
+  }
+}
+
 // Every placed system's primary star tile sits at exactly (system.q,
 // system.r) (see mapgen.js's carveSystem) — win condition is the union of
 // both players' discovered sets covering every one of those coordinates.
@@ -274,6 +358,9 @@ export function serializeState(seed, gameState) {
     movesRemaining: gameState.movesRemaining,
     turnNumber: gameState.turnNumber,
     destroyedAnomalies: [...gameState.destroyedAnomalies],
+    pirateBases: gameState.pirateBases,
+    pirateShips: gameState.pirateShips,
+    nextPirateEntityId: gameState.nextPirateEntityId,
     players: gameState.players.map((player) => ({
       color: player.color,
       q: player.q,
@@ -281,6 +368,8 @@ export function serializeState(seed, gameState) {
       xp: player.xp,
       unlockedUpgrades: [...player.unlockedUpgrades],
       discovered: [...player.discovered],
+      currentHealth: player.currentHealth,
+      inCombatThisRound: player.inCombatThisRound,
     })),
   };
 }
@@ -295,6 +384,10 @@ export function deserializeState(raw) {
     won: false,
     // Old saves predating MVP3 have no destroyed anomalies yet.
     destroyedAnomalies: new Set(raw.destroyedAnomalies ?? []),
+    // Old saves predating MVP4 have no pirates yet.
+    pirateBases: raw.pirateBases ?? [],
+    pirateShips: raw.pirateShips ?? [],
+    nextPirateEntityId: raw.nextPirateEntityId ?? 1,
     players: raw.players.map((p) => ({
       color: p.color,
       q: p.q,
@@ -304,6 +397,11 @@ export function deserializeState(raw) {
       // fully derived and no longer read) start with no upgrades chosen.
       unlockedUpgrades: new Set(p.unlockedUpgrades ?? []),
       discovered: new Set(p.discovered),
+      // Old saves predating MVP4 start at full health.
+      currentHealth: p.currentHealth ?? HEALTH_BASE,
+      // Old saves predating the combat-rebalance update have no mid-round
+      // combat state to resume — default to "didn't fight."
+      inCombatThisRound: p.inCombatThisRound ?? false,
     })),
   };
 }
