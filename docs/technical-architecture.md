@@ -497,6 +497,35 @@ Vanilla JS, zero shipped runtime dependencies, static-file deployable (e.g.
 GitHub Pages), no backend. See [`ui-ux-spec.md`](ui-ux-spec.md) for the
 rationale shared with the UI layer.
 
+Offline dev tooling is exempt as long as nothing it needs ships: the species
+portrait pipeline (`scripts/species_art/`) is Python in a gitignored venv,
+like `scripts/extract-icons.py`, and the game only consumes its static outputs.
+
+## Species Portrait Manifest (`species/species_images.json`)
+
+Written by `scripts/species_art` (`finalize` / `manifest`), not yet read by any
+runtime module. Keyed by species id as a string:
+
+```json
+{ "version": 1, "canvas": {"w": 1024, "h": 1024}, "generated": "...",
+  "species": { "1": { "id": 1, "key": "Ursavi",
+    "cutout": "species/images/cutout/001-Ursavi.webp",
+    "thumb":  "species/images/thumb/001-Ursavi.webp",
+    "anchor": "bottom-center", "pivot": [512, 968], "bbox": [x0, y0, x1, y1],
+    "blend": "normal",
+    "raw": "...", "method": "B", "style": "A", "model": "gpt-image-2",
+    "quality": "medium", "size": "1024x1024", "prompt": "...", "prompt_hash": "...",
+    "attempts": 1, "cost_usd": 0.053, "status": "approved", "review_notes": "" } } }
+```
+
+Runtime code needs only `cutout`, `thumb`, `anchor`, `pivot`, `bbox` and
+`blend`; the rest is provenance. To place a portrait, map `pivot` (canvas px)
+to the scene's floor point (grounded species) or centre point (floaters and
+swimmers). `bbox` is the subject's tight box on the 1024 canvas, for hit
+testing or tighter framing. `blend: "screen"` marks glow layers that look
+best drawn with `globalCompositeOperation = "screen"`. `raw` points into the
+gitignored `species/work/` and won't exist in a fresh clone.
+
 ## Module Layout (as implemented)
 
 ```

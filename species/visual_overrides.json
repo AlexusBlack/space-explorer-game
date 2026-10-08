@@ -1,0 +1,2654 @@
+{
+ "version": 1,
+ "_doc": "Hand-curated prompt inputs per species id (see scripts/species_art/README.md). visual = creature-only text (setting/props/action removed); traits = visible traits from description; body_plan picks the neutral pose; pose overrides it; method overrides the locked background/cutout method; curated = visual differs from image_notes' pre-';' text.",
+ "species": {
+  "1": {
+   "visual": "Hulking hunched shoulders, dense shaggy fur with mineral-dust tint, blunt muzzle with extra nostril slits, long curved digging claws",
+   "traits": "Massive heavy-bodied quadruped built with thick layered fat.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "2": {
+   "visual": "Long-necked white bear silhouette, translucent fibre-optic fur glowing faintly, black skin, small ears",
+   "traits": "Massive, powerful apex-predator build.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "3": {
+   "visual": "Lean canid, elongated legs, double-ridged spine crest, pale eyes with horizontal pupils, frost on muzzle fur",
+   "traits": "Lean, long-bodied endurance-runner build.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "4": {
+   "visual": "Slender russet canid, oversized bushy tail with banded tip, narrow pointed snout, sharp amber eyes",
+   "traits": "Small, light-framed omnivore.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "5": {
+   "visual": "Very small pale fox, ears as long as body with visible blood vessels glowing red, sand-coloured fur",
+   "traits": "Tiny forager with fur-soled feet.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "6": {
+   "visual": "Muscular big cat, bold stripes in unusual colours (teal on charcoal), longer forelimbs, glowing eyes",
+   "traits": "Very large, powerful felid with a unique stripe pattern.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "7": {
+   "visual": "Big cat with flaring crest-mane like a ruff of quills, sandy hide, heavy jaw",
+   "traits": "Large, powerful felid; the dense neck mane darkens in mature individuals.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "8": {
+   "visual": "Pale grey spotted cat, extremely long thick tail, wide paws, frost crystals in fur",
+   "traits": "Thick smoky fur over a lithe, compact predator's body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "9": {
+   "visual": "Very slim spotted cat, tiny head, tear-line markings under eyes, deep chest, long slender legs",
+   "traits": "Light build with a flexible spine and visible non-retracting claws.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "10": {
+   "visual": "Medium cat with long black ear tufts, facial ruff, spotted grey-gold fur, oversized paws",
+   "traits": "Stocky body with a short tail.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "11": {
+   "visual": "Sloping back, massive neck and jaw, spotted coarse fur, rounded ears, grinning mouth",
+   "traits": "Powerful, heavy-fronted scavenger build.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "12": {
+   "visual": "Low bear-like mustelid, dark brown fur with pale side band, thick claws",
+   "traits": "Compact, ferociously strong body with thick frost-resistant fur and powerful jaws.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "13": {
+   "visual": "Small otter, dense whiskered face, very dense plush fur, webbed hind feet, small dexterous forepaws",
+   "traits": "Small, sleek marine mammal.",
+   "body_plan": "legged",
+   "pose": "sitting upright on its haunches, forepaws held at chest",
+   "curated": true,
+   "method": null
+  },
+  "14": {
+   "visual": "Stocky low animal, black body with silver-white back mantle, tiny eyes, long digging claws",
+   "traits": "Stocky body with thick, loose skin.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "15": {
+   "visual": "Small black mammal with bold white dorsal stripes, plumed raised tail",
+   "traits": "Small omnivore with bold high-contrast warning colouration.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "16": {
+   "visual": "Grey ringed-tail mammal with black bandit mask, nimble hands with long dexterous fingers",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "17": {
+   "visual": "Small russet arboreal mammal, white face mask, ringed tail",
+   "traits": "Dense russet fur and a false thumb on each forepaw.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "18": {
+   "visual": "Round bear with patchy contrast coat in unusual colours (cream and indigo)",
+   "traits": "Large, calm bear with a visible pseudo-thumb on each forepaw.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "19": {
+   "visual": "Huge grey wrinkled body, long trunk ending in two finger-lips, large fan ears with veins, tusks",
+   "traits": "Gigantic herbivore with a thick, muscular prehensile trunk.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "20": {
+   "visual": "Massive shaggy proboscidean, long curved crossing tusks, domed head",
+   "traits": "Long shaggy coat, small ears and a fatty shoulder hump.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "21": {
+   "visual": "Barrel-bodied herbivore, plated folded hide, multiple horns in a row, wide square mouth",
+   "traits": "Armoured giant grazer with thick keratin horns.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "22": {
+   "visual": "Barrel body, eyes and nostrils on top of head, enormous gaping mouth, reddish sweat sheen",
+   "traits": "Huge, bulky semi-aquatic herbivore.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "23": {
+   "visual": "Very tall neck, patchwork tessellated coat, ossicone horns, long dark tongue",
+   "traits": "Towering animal with extremely long neck and legs.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "24": {
+   "visual": "Short-necked giraffid, chocolate body, zebra-striped legs, large ears",
+   "traits": "Velvety coat texture and a long flexible tongue.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "25": {
+   "visual": "Long-legged humped ungulate, long eyelashes, splayed padded feet",
+   "traits": "Large fat-storing hump and slit-like closable nostrils.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "26": {
+   "visual": "Long-necked woolly camelid, banana-shaped ears, thick fleece, calm expression",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "27": {
+   "visual": "Elegant deer, enormous branching antlers with velvet, reddish-brown coat",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "28": {
+   "visual": "Stocky deer with broad antlers, thick pale fur, wide hooves",
+   "traits": "Cold-adapted herbivore with large, reflective eyes.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "29": {
+   "visual": "Massive humped bovine, shaggy front half, short horns, small eyes",
+   "traits": "Towering shoulder hump with thick mane and dense head fur.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "30": {
+   "visual": "Low shaggy bovine, long skirt-like coat, horns sweeping down then up",
+   "traits": "Floor-length coat over ultra-fine underwool.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "31": {
+   "visual": "Goat with huge ridged backswept horns",
+   "traits": "Sure-footed climber with soft-centred hooves.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "32": {
+   "visual": "Muscular single-hoofed runner, flowing mane, wide-set eyes",
+   "traits": "Long-legged grazer with expressive ears.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "33": {
+   "visual": "Equid with bold geometric stripes in alien colours, upright mane",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "34": {
+   "visual": "Bristly boar with upturned tusks, flat snout disc, wedge-shaped body",
+   "traits": "Tough, stocky omnivore.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "35": {
+   "visual": "Rounded body, black front and rear with white saddle, short trunk-like snout",
+   "traits": "Placid, heavy-set forest herbivore.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "36": {
+   "visual": "Massive great ape, broad chest, silver back saddle, deep-set eyes",
+   "traits": "Large, powerful primate built for knuckle-walking.",
+   "body_plan": "legged",
+   "pose": "knuckle-walking stance on all fours",
+   "curated": false,
+   "method": null
+  },
+  "37": {
+   "visual": "Shaggy orange ape, extremely long arms, flanged cheek pads",
+   "traits": "Large arboreal ape with grasping feet and a pendulous throat sac.",
+   "body_plan": "legged",
+   "pose": "sitting upright, very long arms resting on the ground",
+   "curated": true,
+   "method": null
+  },
+  "38": {
+   "visual": "Slim dark-furred ape, parted head hair, pink lips, upright stance",
+   "traits": "Slender great ape with an expressive face.",
+   "body_plan": "legged",
+   "pose": "standing upright on two legs, arms relaxed",
+   "curated": false,
+   "method": null
+  },
+  "39": {
+   "visual": "Primate with ridged blue-and-red face, golden beard, long fangs",
+   "traits": "Large ground-dwelling primate with a vividly coloured rump.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "40": {
+   "visual": "Grey primate with long black-and-white ringed tail, orange eyes",
+   "traits": "Agile primate with a fox-like face and large reflective eyes.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "41": {
+   "visual": "Gaunt primate, bat-like ears, huge eyes, skeletal long middle finger, shaggy dark fur",
+   "traits": "Prominent, continuously growing incisors.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "42": {
+   "visual": "Tiny primate, gigantic round eyes, long thin fingers with pads",
+   "traits": "Tiny primate whose eyes are each larger than its brain; long hind legs.",
+   "body_plan": "legged",
+   "pose": "crouched upright on long hind legs, hands resting forward",
+   "curated": true,
+   "method": null
+  },
+  "43": {
+   "visual": "Slow-moving mammal with long curved claws, green-tinted algae fur, sleepy smile",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "sitting upright, long clawed arms relaxed at its sides",
+   "curated": true,
+   "method": null
+  },
+  "44": {
+   "visual": "Long tubular head, bushy flag tail, diagonal stripe on shoulder, curled claws",
+   "traits": "Large toothless insectivore with huge foreclaws.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "45": {
+   "visual": "Armour-banded mammal with pointed ears and snout, scaly tail",
+   "traits": "Small, low-slung burrower.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "46": {
+   "visual": "Body covered in overlapping bronze scales like pinecone, curled tail, tiny head",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "47": {
+   "visual": "Duck-billed furry mammal, flat tail, webbed feet, glowing sensory bill",
+   "traits": "Small semi-aquatic mammal with spurs on its hind ankles.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "48": {
+   "visual": "Spiny round body, tube snout, powerful digging claws",
+   "traits": "Small, low-slung egg-laying insectivore.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "49": {
+   "visual": "Upright marsupial, huge hind feet, thick tail, belly pouch",
+   "traits": "Powerful, muscular hind legs.",
+   "body_plan": "legged",
+   "pose": "standing upright on hind legs and tail",
+   "curated": true,
+   "method": null
+  },
+  "50": {
+   "visual": "Fluffy grey marsupial, large leathery nose, round ears",
+   "traits": "Stocky tree-dwelling marsupial.",
+   "body_plan": "legged",
+   "pose": "sitting upright on its haunches, forepaws resting in front",
+   "curated": true,
+   "method": null
+  },
+  "51": {
+   "visual": "Stout low marsupial, tiny eyes, wide blunt head, digging claws",
+   "traits": "Barrel-shaped body with a hard, flat rump.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "52": {
+   "visual": "Black stocky marsupial, white chest band, red ears when agitated, gaping jaws",
+   "traits": "Stocky, powerful-jawed carnivore.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "53": {
+   "visual": "Tiny big-eyed glider, furred gliding membranes along its flanks, dorsal stripe",
+   "traits": "Small marsupial with a skin membrane stretched between fore and hind limbs.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "54": {
+   "visual": "Bat with fox-like face, large leathery wings",
+   "traits": "Large fruit bat with a metre-plus wingspan.",
+   "body_plan": "legged",
+   "pose": "standing on hind feet and folded wing-arms",
+   "curated": true,
+   "method": null
+  },
+  "55": {
+   "visual": "Small pug-nosed bat, pointed ears, sharp incisors, infrared glow on nose",
+   "traits": "Small bat with heat-sensing pits on its nose.",
+   "body_plan": "legged",
+   "pose": "standing on hind feet and folded wing-arms",
+   "curated": false,
+   "method": null
+  },
+  "56": {
+   "visual": "Dark velvety mole, pink star-shaped tentacle nose, huge shovel paws",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "57": {
+   "visual": "Wrinkled pink hairless rodent, protruding front teeth, tiny eyes",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "58": {
+   "visual": "Stout rodent, orange incisors, scaly paddle tail",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "59": {
+   "visual": "Rodent with crest of very long banded quills raised, hollow rattle quills on tail",
+   "traits": "Quills barbed at their tips.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "60": {
+   "visual": "White hare with black ear tips, thick fur",
+   "traits": "Large hare with short ears.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "61": {
+   "visual": "Large calm rodent, barrel body, blunt face",
+   "traits": "Large semi-aquatic rodent with webbed toes.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "62": {
+   "visual": "Small round grey rodent, huge ears, enormous fluffy fur",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "63": {
+   "visual": "Spiny round mammal, pointed snout, tiny legs",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "64": {
+   "visual": "Tiny shrew with long whiskers, pointed snout",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "65": {
+   "visual": "Black-and-white cetacean with tall dorsal fin, eye patch",
+   "traits": "Large toothed marine predator.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "66": {
+   "visual": "Colossal streamlined filter-feeder with throat pleats, mottled blue-grey",
+   "traits": "Enormous whale with baleen plates in its mouth.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "67": {
+   "visual": "Huge blocky head, wrinkled skin, narrow lower jaw, scars from tentacles",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "68": {
+   "visual": "Mottled grey whale with long spiral tusk, no dorsal fin",
+   "traits": "Single spiralling tusk up to three metres long.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "69": {
+   "visual": "Sleek grey dolphin, curved smile",
+   "traits": "Agile, streamlined marine mammal.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "70": {
+   "visual": "Wrinkled brown pinniped, long ivory tusks, thick bristly moustache",
+   "traits": "Large blubbery marine mammal.",
+   "body_plan": "legged",
+   "pose": "resting upright on its fore-flippers, hind flippers behind",
+   "curated": true,
+   "method": null
+  },
+  "71": {
+   "visual": "Long spotted seal, huge reptile-like head, wide grin",
+   "traits": "Sleek seal with a wide gape and interlocking teeth.",
+   "body_plan": "legged",
+   "pose": "resting on its belly, propped up on fore-flippers",
+   "curated": false,
+   "method": null
+  },
+  "72": {
+   "visual": "Rotund grey sirenian, paddle tail, whiskered snout",
+   "traits": "Large, gentle aquatic herbivore.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "73": {
+   "visual": "Broad-winged raptor, golden nape feathers, hooked beak, intense eyes",
+   "traits": "Large raptor with powerful talons.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "74": {
+   "visual": "Grey crested eagle with double head crest, massive yellow legs and talons",
+   "traits": "Heavy eagle with a feathered facial disc.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "75": {
+   "visual": "Slate-backed falcon with dark moustache marks",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "76": {
+   "visual": "White owl with black flecks, yellow eyes, feathered talons",
+   "traits": "Large, densely plumaged owl.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "77": {
+   "visual": "Pale owl with heart-shaped white face, dark eyes, fringed wing feathers",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "78": {
+   "visual": "Glossy black bird with iridescent sheen, shaggy throat feathers, heavy beak",
+   "traits": "Large corvid.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "79": {
+   "visual": "Cobalt blue parrot, yellow eye-ring and beak base, huge curved beak",
+   "traits": "Large parrot with a nut-cracking beak.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "80": {
+   "visual": "Plump moss-green owl-faced parrot, whiskery face",
+   "traits": "Heavy, flightless parrot.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "81": {
+   "visual": "White parrot raising a sulphur-yellow crest, dark beak",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "82": {
+   "visual": "Upright penguin with golden ear patches, sleek black back",
+   "traits": "Large flightless bird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "83": {
+   "visual": "Huge white seabird, extremely long narrow wings",
+   "traits": "Has the largest wingspan of any living bird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "84": {
+   "visual": "Large white bird with giant expandable bill pouch",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "85": {
+   "visual": "Long-legged pink wader, sharply bent downturned bill",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "86": {
+   "visual": "Giant flightless bird, long bare neck, fluffy plumes, two-toed legs",
+   "traits": "The largest of birds, with powerful muscular legs.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "87": {
+   "visual": "Black-feathered bird with blue neck, red wattles, tall horn casque, dagger claw",
+   "traits": "Large, heavy-bodied flightless bird with dagger-like inner toe claws.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "88": {
+   "visual": "Round fuzzy brown bird, long thin bill, no visible wings",
+   "traits": "Small and flightless, with nostrils at the very tip of its bill.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "89": {
+   "visual": "Iridescent blue bird fanning huge eye-spot train",
+   "traits": "Ground bird whose enormous train of eye-spotted feathers dwarfs its body.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "90": {
+   "visual": "Tiny iridescent bird, small fast wings, needle bill",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "91": {
+   "visual": "Black-and-white bird with huge yellow bill and casque",
+   "traits": "Large forest bird; the hollow casque sits atop a strongly curved bill.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "92": {
+   "visual": "Black bird with giant orange bill, white throat, blue eye-ring",
+   "traits": "The huge but lightweight bill dominates its compact body.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "93": {
+   "visual": "Bird with long cascading red-orange plumes",
+   "traits": "Flowing plumes trail far beyond its body like sails.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "94": {
+   "visual": "Brown bird with fanned silvery lyre-shaped tail",
+   "traits": "Sturdy ground-dwelling bird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "95": {
+   "visual": "Vulture with rust-orange stained chest, black beard bristles, red eye ring",
+   "traits": "Large mountain vulture whose plumage is stained by iron-rich mud.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "96": {
+   "visual": "Tall raptor on stilt legs, quill crest, orange face",
+   "traits": "Long eyelashes frame its eyes on a slender, long-legged frame.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "97": {
+   "visual": "White swan with S-curved neck, orange bill with black knob",
+   "traits": "Large waterbird with powerful wings.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "98": {
+   "visual": "Tall white crane with black neck, red crown patch",
+   "traits": "The red crown patch is bare skin.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "99": {
+   "visual": "Grey bird with enormous clog-shaped bill, staring eyes",
+   "traits": "Massive, tall-standing swamp bird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "100": {
+   "visual": "Sooty crescent-winged bird, tiny feet",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": "resting, long crescent wings folded past its tail",
+   "curated": true,
+   "method": null
+  },
+  "101": {
+   "visual": "Black angular-winged bird with inflated red throat pouch",
+   "traits": "Huge wingspan relative to its light body.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "102": {
+   "visual": "Black-and-white bird with striped colourful bill",
+   "traits": "Compact, stocky diving bird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "103": {
+   "visual": "Round white grouse with feathered feet and red eye comb",
+   "traits": "Feathered feet are broad like snowshoes.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "104": {
+   "visual": "Black bird with red crown, chisel beak",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "105": {
+   "visual": "Mottled brown-grey ground bird, heavy scratching feet with thick claws, small rounded head, sensitive heat-testing beak",
+   "traits": "Sturdy ground-dwelling bird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "106": {
+   "visual": "Orange and black songbird, faint toxic shimmer on feathers",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "107": {
+   "visual": "Reddish-brown bird with hooked bill, spotted wings",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "108": {
+   "visual": "Glossy blue-black bird with violet eyes",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "109": {
+   "visual": "Grey hawk-like bird with barred chest",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "110": {
+   "visual": "Feathered raptor-bird with teeth, clawed wings, long feathered tail",
+   "traits": "The feathered tail is built on a long bony core.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "111": {
+   "visual": "Brown bird with spiky crest, blue face skin, red eyes",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "112": {
+   "visual": "White tern with black cap and red bill, forked tail",
+   "traits": "Small, slender seabird.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "113": {
+   "visual": "Black bird with hooked bill",
+   "traits": "",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "114": {
+   "visual": "Plump grey flightless bird with big hooked bill, tufted tail",
+   "traits": "Large ground bird with stubby wings.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "115": {
+   "visual": "Giant wingless bird with long neck, hair-like feathers",
+   "traits": "Stands several metres tall, covered in thick shaggy plumage.",
+   "body_plan": "bird",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "116": {
+   "visual": "Huge monitor lizard, forked yellow tongue, scaly armour-like hide",
+   "traits": "The largest of lizards, with serrated teeth.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "117": {
+   "visual": "Heavily scaled crocodilian, raised eyes, broad snout",
+   "traits": "Huge armoured body with massively powerful jaws.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "118": {
+   "visual": "Crocodilian with extremely narrow snout, knob on tip",
+   "traits": "The narrow jaw is lined with many small teeth.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "119": {
+   "visual": "Giant tortoise, domed shell, wrinkled long neck",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "120": {
+   "visual": "Huge turtle with ridged leathery shell, long front flippers",
+   "traits": "The largest of turtles; its shell is flexible and leathery rather than bony.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "121": {
+   "visual": "Prehistoric-looking turtle with spiked ridged shell, hooked beak, lure tongue",
+   "traits": "Heavy, bulky turtle with an armoured shell.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "122": {
+   "visual": "Chameleon with vivid shifting colour bands, turret eyes, curled tail",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "123": {
+   "visual": "Black spiny iguana with salt-crusted head",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "124": {
+   "visual": "Small spiky lizard, ochre and tan camouflage",
+   "traits": "Covered entirely in spikes, with a knobbly false head on the back of its neck.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "125": {
+   "visual": "Small lizard with colourful rib-supported wing flaps",
+   "traits": "A bright extendable flag hangs under its throat.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "126": {
+   "visual": "Blue-grey gecko with orange spots, big eyes, broad adhesive toe pads",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "127": {
+   "visual": "Beaded black-and-orange lizard, thick tail",
+   "traits": "Slow, heavy-bodied lizard with a fat-storing tail.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "128": {
+   "visual": "Flat wide lizard with horn crown, pebble camouflage",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "129": {
+   "visual": "Lizard with huge open neck frill, gaping mouth",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "130": {
+   "visual": "Green crested lizard",
+   "traits": "Tall crests run along its head, back and tail, with long hind legs.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "131": {
+   "visual": "Lizard-like reptile with spiny crest, olive skin, small eye on forehead",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "132": {
+   "visual": "Long olive snake with spread hood",
+   "traits": "Exceptionally long venomous snake.",
+   "body_plan": "serpentine",
+   "pose": "coiled, front of body raised upright with hood spread",
+   "curated": true,
+   "method": null
+  },
+  "133": {
+   "visual": "Huge python with geometric pattern, coiled",
+   "traits": "Net-like reticulated pattern, with heat-sensing pits along the lips.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "134": {
+   "visual": "Sandy viper with horned eyes",
+   "traits": "A rattle tips its tail.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "135": {
+   "visual": "Slender grey snake with open black mouth",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "136": {
+   "visual": "Green-and-black snake with flattened body",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "137": {
+   "visual": "Black-and-yellow sea snake with paddle tail",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "138": {
+   "visual": "Pinkish ringed worm-like reptile, blunt head",
+   "traits": "Tiny, nearly hidden eyes.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "139": {
+   "visual": "Massive quadruped with three horns and wide frill",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "140": {
+   "visual": "Huge bipedal theropod, massive head, tiny arms, feathery patches",
+   "traits": "Enormous bone-crushing jaws.",
+   "body_plan": "legged",
+   "pose": "standing on two hind legs, tail held out level behind",
+   "curated": false,
+   "method": null
+  },
+  "141": {
+   "visual": "Pterosaur with long backward crest, membranous wings",
+   "traits": "Toothless beak and a wingspan over six metres.",
+   "body_plan": "legged",
+   "pose": "standing on hind feet and folded wing-arms",
+   "curated": false,
+   "method": null
+  },
+  "142": {
+   "visual": "Long-necked marine reptile with four flippers",
+   "traits": "Broad, barrel-like body.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "143": {
+   "visual": "Low armoured dinosaur with osteoderm plates and tail club",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "144": {
+   "visual": "Feathered small raptor with sickle toe claw",
+   "traits": "Grasping clawed hands.",
+   "body_plan": "legged",
+   "pose": "standing on two hind legs, tail held out level behind",
+   "curated": false,
+   "method": null
+  },
+  "145": {
+   "visual": "Gigantic sauropod with upright neck",
+   "traits": "Colossal, with forelimbs longer than hind limbs.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "146": {
+   "visual": "Dinosaur with two rows of back plates, tail spikes",
+   "traits": "Small head on a large body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "147": {
+   "visual": "Small glossy gold frog, vivid warning colour, wet skin sheen",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "148": {
+   "visual": "Pink axolotl with feathery red gill fronds, smiling face, translucent skin",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "149": {
+   "visual": "Black salamander with yellow or orange blotches",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "150": {
+   "visual": "Huge flat brown salamander with wrinkled skin folds, tiny eyes",
+   "traits": "The largest of amphibians, with a broad flattened head and body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "151": {
+   "visual": "Warty brown toad with large parotoid glands",
+   "traits": "Large, hardy toad.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "152": {
+   "visual": "Brown frog with dark mask",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "153": {
+   "visual": "Green frog with red eyes, blue flanks, orange feet",
+   "traits": "Slender build with suction-cup toes.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "154": {
+   "visual": "Round green frog with huge mouth and horn-like eyelids",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "155": {
+   "visual": "Green frog with large black-webbed feet",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "156": {
+   "visual": "Pale pink eel-like salamander with red gills, no eyes",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting low, long eel-like body extended on tiny legs",
+   "curated": false,
+   "method": null
+  },
+  "157": {
+   "visual": "Blue-grey ringed legless amphibian",
+   "traits": "Small sensory tentacles on the head.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "158": {
+   "visual": "Flat leaf-like toad with honeycomb pits on back",
+   "traits": "Star-shaped sensory tips on its fingers.",
+   "body_plan": "legged",
+   "pose": "resting flat, limbs splayed out to the sides",
+   "curated": false,
+   "method": null
+  },
+  "159": {
+   "visual": "Huge olive frog with toothlike jaw projections",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "160": {
+   "visual": "Frog with loose baggy skin folds",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "161": {
+   "visual": "Slimy mottled grey frog, broad flat head, large dark eyes, distended throat pouch, smooth wet skin",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "162": {
+   "visual": "Huge torpedo shark with serrated teeth, countershading",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "163": {
+   "visual": "Hammerhead shark with wide T-shaped head",
+   "traits": "Eyes sit at the outer tips of the hammer-shaped head.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "164": {
+   "visual": "Huge spotted shark with wide mouth",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "165": {
+   "visual": "Bulky grey shark with parasite-clouded eyes",
+   "traits": "Slow, heavy-bodied cold-water shark.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "166": {
+   "visual": "Massive manta ray with broad wing-like fins, cephalic lobes",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "167": {
+   "visual": "Long dark eel with electric arcs",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "168": {
+   "visual": "Seahorse with curled prehensile tail, armour rings",
+   "traits": "Upright body with a horse-like head.",
+   "body_plan": "swimmer",
+   "pose": "upright, tail curled beneath it, side view",
+   "curated": true,
+   "method": null
+  },
+  "169": {
+   "visual": "Ornate seadragon covered in translucent leafy fronds, golden-olive body, tiny tube snout",
+   "traits": "Nearly invisible transparent fins and a long tapering tail.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "170": {
+   "visual": "Black anglerfish with glowing lure and needle teeth",
+   "traits": "Huge mouth and bulging belly, the lure dangling from a modified spine.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "171": {
+   "visual": "Slender black fish with huge needle fangs outside jaw, row of glowing blue photophores, long lure ray",
+   "traits": "Mouth held permanently open by the fangs, with light organs along the belly.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "172": {
+   "visual": "Whip-thin black eel with enormous balloon pouch mouth, tiny eyes, pink glowing tail tip",
+   "traits": "A loosely hinged jaw makes up most of the body.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "173": {
+   "visual": "Small dark fish with clear glass-like dome head, glowing green tubular eyes visible inside, fan fins",
+   "traits": "Tube eyes angled upward inside the fluid-filled transparent dome.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "174": {
+   "visual": "Very long silver ribbon fish with continuous red crest fin",
+   "traits": "Ribbon-shaped body many metres long, the red dorsal fin running its whole length.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "175": {
+   "visual": "Heavy dark-blue fish with white speckles, fleshy limb-like lobed fins, tri-lobed tail",
+   "traits": "Ancient heavy-scaled build with a large hinged skull.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "176": {
+   "visual": "Eel-like grey fish with thread-thin whip fins",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "177": {
+   "visual": "Inflated round pufferfish covered in spines, big expressive eyes, beak teeth",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "178": {
+   "visual": "Lumpy warty fish indistinguishable from mossy rock, upturned mouth, raised venom spines",
+   "traits": "Algae-crusted, rock-like skin texture.",
+   "body_plan": "swimmer",
+   "pose": "resting flat on its belly, side three-quarter view",
+   "curated": false,
+   "method": null
+  },
+  "179": {
+   "visual": "Fish with red-white zebra stripes, long feathery fan fins and venom spines spread like a mane",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "180": {
+   "visual": "Silver-blue fish with wide transparent wing-like pectoral fins",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": "level side three-quarter view, wing-like fins extended",
+   "curated": true,
+   "method": null
+  },
+  "181": {
+   "visual": "Bug-eyed fish with bulging periscope eyes on top of head, muscular front fins",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "propped upright on its front fins, tail resting on the ground",
+   "curated": true,
+   "method": null
+  },
+  "182": {
+   "visual": "Translucent ghostly white fish with crocodile-like snout, visible pale gills",
+   "traits": "Colourless blood gives the whole body a pale, bloodless look.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "183": {
+   "visual": "Huge grey disc-shaped fish with tall fins, small mouth",
+   "traits": "Flattened disc body with no true tail, tall fins top and bottom.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "184": {
+   "visual": "Sleek dark-backed fish with long flat sword bill, crescent tail",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "185": {
+   "visual": "Fish with tall blue spotted sail fin raised, long spear bill, iridescent blue-silver flanks",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "186": {
+   "visual": "Silver fish with red belly, underslung jaw with triangular teeth",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "187": {
+   "visual": "Huge elongated fish with red-tipped scales on rear, flat head",
+   "traits": "Large, armour-like mineral-reinforced scales.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "188": {
+   "visual": "Large grey sturgeon with five rows of bony scutes, pointed snout, whisker barbels",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "189": {
+   "visual": "Mottled eel with circular sucker mouth ringed by teeth, seven gill pores",
+   "traits": "Smooth eel-like body without paired fins.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "190": {
+   "visual": "Pink-grey eel-like fish with barbels",
+   "traits": "Tiny, nearly blind eyes.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "191": {
+   "visual": "Small fish with long flowing jewel-coloured fins",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "192": {
+   "visual": "Small iridescent blue fish",
+   "traits": "Tiny, compact body.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "193": {
+   "visual": "Orange-and-white banded fish",
+   "traits": "Small body with a glossy protective mucus coating.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "194": {
+   "visual": "Silver fish with black bands, upturned spitting mouth",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "195": {
+   "visual": "Fish with bulging eyes split horizontally into two pupils, set high on the head",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "196": {
+   "visual": "Dark brown fish with long trunk-like chin appendage",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "197": {
+   "visual": "Thin silver hatchet-shaped fish with upturned eyes, glowing belly",
+   "traits": "Mirror-like sides with downward-pointing light organs.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "198": {
+   "visual": "Translucent pink tadpole-like fish with visible organs, gelatinous body",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "199": {
+   "visual": "Brown flattened fish with bright red lips, leg-like fins",
+   "traits": "Small lure on the head.",
+   "body_plan": "legged",
+   "pose": "propped on its leg-like fins, flat body low to the ground",
+   "curated": true,
+   "method": null
+  },
+  "200": {
+   "visual": "Slender grey fish with ridged suction disc on top of head",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "201": {
+   "visual": "Small silvery fish",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "202": {
+   "visual": "Ant with strong leaf-cutting mandibles",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "203": {
+   "visual": "Ant with long sickle mandibles",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "204": {
+   "visual": "Golden-striped hairy bee",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "205": {
+   "visual": "Large wasp with orange head, black-and-gold stripes, big mandibles",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "206": {
+   "visual": "Pale soft-bodied termite",
+   "traits": "Blind, eyeless head.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "207": {
+   "visual": "Pink-white mantis with petal-shaped legs, resembling a flower, raptorial forelegs",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "standing on four hind legs, raptorial forelegs folded in front",
+   "curated": false,
+   "method": null
+  },
+  "208": {
+   "visual": "Orange-and-blue beetle with pointed spraying abdomen tip",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "209": {
+   "visual": "Black beetle with spiked head shield",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "210": {
+   "visual": "Large beetle with bold black-and-white patterning, Y-shaped head horn",
+   "traits": "Very heavy, bulky body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "211": {
+   "visual": "Beetle with very long pincer horns, olive-gold shell with black spots",
+   "traits": "Massive, heavy-bodied build.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "212": {
+   "visual": "Glossy dark brown beetle with large branching antler mandibles",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "213": {
+   "visual": "Matte black beetle, infrared pits on body",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "214": {
+   "visual": "Black beetle with domed back beaded with water droplets",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "215": {
+   "visual": "Glowing beetle with yellow-green abdomen light",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "216": {
+   "visual": "Orange-black veined butterfly",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "perched on its legs, wings open flat",
+   "curated": true,
+   "method": null
+  },
+  "217": {
+   "visual": "Large iridescent blue butterfly, brown underside eye-spots",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "perched, wings partly open showing blue upper side and eye-spotted underside",
+   "curated": true,
+   "method": null
+  },
+  "218": {
+   "visual": "Pale green moth with long curved tails, feathery antennae",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "perched with wings spread flat, tails trailing below",
+   "curated": false,
+   "method": null
+  },
+  "219": {
+   "visual": "Huge reddish-brown moth with snake-head wingtip patterns, translucent windows",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "perched with wings spread flat",
+   "curated": false,
+   "method": null
+  },
+  "220": {
+   "visual": "Huge dragonfly with net-veined wings, large compound eyes",
+   "traits": "Enormous wingspan.",
+   "body_plan": "legged",
+   "pose": "perched, four wings held flat out to the sides",
+   "curated": false,
+   "method": null
+  },
+  "221": {
+   "visual": "Flat green leaf-shaped insect with vein patterns and leafy leg lobes",
+   "traits": "Leaf-like body with brown edges and bite-mark notches.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "222": {
+   "visual": "Very long twig-like insect",
+   "traits": "Over half a metre long including its thin legs.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "223": {
+   "visual": "Yellow-black locust",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "224": {
+   "visual": "Black cicada with red eyes and orange-veined wings",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "225": {
+   "visual": "Velvety brown cricket with mole-like digging forelegs",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "226": {
+   "visual": "Massive spiny-legged cricket",
+   "traits": "Huge, heavy, flightless body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "227": {
+   "visual": "Glossy chestnut wingless roach, horned bumps on male's thorax, segmented armour",
+   "traits": "Large, stout body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "228": {
+   "visual": "Thin long-legged insect",
+   "traits": "Light body with fine water-repellent hairs on its long legs.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "229": {
+   "visual": "Dark olive beetle with yellow rim, silver air bubble under shell, swimming legs fringed with hairs",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "230": {
+   "visual": "Flat brown bug with thick grasping forelegs, eggs on back, breathing tube at tail",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "231": {
+   "visual": "Tiny dark wingless midge",
+   "traits": "Very small, compact body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "232": {
+   "visual": "Pale amber wingless insect with long antennae and tail cerci",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "233": {
+   "visual": "Small red segmented larva",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "234": {
+   "visual": "Antlion larva with large sickle jaws",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "235": {
+   "visual": "Fuzzy red-and-black ant-like wasp, bright velvet hair",
+   "traits": "Wingless, with a very hard exoskeleton.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "236": {
+   "visual": "Metallic blue-black wasp with bright orange wings",
+   "traits": "Large-bodied.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "237": {
+   "visual": "Silvery bristly insect with long antennae and three tail filaments",
+   "traits": "Primitive wingless body covered in silvery scales.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "238": {
+   "visual": "Pale yellow scorpion with raised segmented tail and stinger, thin pincers",
+   "traits": "Slender body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "239": {
+   "visual": "Glossy black scorpion with blue-green fluorescent glow, large knobbly claws",
+   "traits": "Large, heavy body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "240": {
+   "visual": "Massive hairy brown tarantula, fangs visible",
+   "traits": "Leg span the size of a dinner plate.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "241": {
+   "visual": "Tiny dark spider, glossy round abdomen, long fine legs, a few gleaming silk strands trailing from its spinnerets",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "242": {
+   "visual": "Tiny spider with raised iridescent fan-shaped abdomen display, colourful patterns, big eyes",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "243": {
+   "visual": "Spider with silvery air film clinging to its abdomen",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "244": {
+   "visual": "Glossy black spider with red hourglass marking",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "245": {
+   "visual": "Glossy black spider with large fangs",
+   "traits": "Large, robust body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "246": {
+   "visual": "Fringed brown jumping spider with large forward eyes",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "247": {
+   "visual": "Tiny bark-grey spider, knobbly bark-textured abdomen, long banded legs, oversized silk-spinning spinnerets",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "248": {
+   "visual": "Tan hairy arachnid with huge forward-projecting chelicerae and long pedipalps",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "249": {
+   "visual": "Flat dark arachnid with very long whip-like feeler legs and spiny folded claws",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "250": {
+   "visual": "Tiny round body suspended on extremely long thin legs",
+   "traits": "A single fused round body with no visible waist.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "251": {
+   "visual": "Long glossy red-brown segmented centipede with yellow legs and curved forcipule fangs",
+   "traits": "Large and armoured with overlapping plates.",
+   "body_plan": "legged",
+   "pose": "body stretched out low on its many legs in a gentle curve",
+   "curated": false,
+   "method": null
+  },
+  "252": {
+   "visual": "Thread-thin pale cream millipede with hundreds of tiny legs",
+   "traits": "Over 700 legs on a pale, nearly eyeless body.",
+   "body_plan": "legged",
+   "pose": "body loosely curved, resting on its many tiny legs",
+   "curated": true,
+   "method": null
+  },
+  "253": {
+   "visual": "Black millipede with bright yellow side spots",
+   "traits": "Long, segmented armoured body in bold warning colours.",
+   "body_plan": "legged",
+   "pose": "body loosely curved, resting on its many legs",
+   "curated": true,
+   "method": null
+  },
+  "254": {
+   "visual": "Plush red velvet mite",
+   "traits": "Tiny, bright red body covered in velvety hair.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "255": {
+   "visual": "Small brown arachnid with oversized pincers",
+   "traits": "Tiny tailless body with large scorpion-like pincers held forward.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "256": {
+   "visual": "Horseshoe-shaped olive-brown shell with long spike tail",
+   "traits": "Ancient armoured arthropod with a domed carapace hiding its legs.",
+   "body_plan": "legged",
+   "pose": "resting flat under its shell, spike tail extended behind",
+   "curated": true,
+   "method": null
+  },
+  "257": {
+   "visual": "Huge segmented eurypterid with spiny claws and paddle legs",
+   "traits": "Giant armoured arthropod up to 2.5 metres long.",
+   "body_plan": "legged",
+   "pose": "resting on its walking legs, paddle legs spread to the sides",
+   "curated": true,
+   "method": null
+  },
+  "258": {
+   "visual": "Rainbow-coloured shrimp with stalked trinocular eyes, folded striking clubs, armoured segments",
+   "traits": "Stout armoured body with large, prominent eyes.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "259": {
+   "visual": "Small translucent shrimp with one giant claw",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "260": {
+   "visual": "Dark blue-green lobster with two different claws, long antennae",
+   "traits": "Heavily armoured; one claw a thick crusher, the other a slimmer cutter.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "261": {
+   "visual": "Huge purple-orange land crab, massive claws",
+   "traits": "The largest land arthropod, with a heavy armoured body.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "262": {
+   "visual": "White crab with long silky-haired arms",
+   "traits": "Pale and eyeless.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "263": {
+   "visual": "Pale shrimp with dorsal reflective patch",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "264": {
+   "visual": "Huge orange crab with extremely long spindly legs",
+   "traits": "Leg span up to 3.7 metres, the longest of any arthropod.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "265": {
+   "visual": "Translucent orange krill, tiny glowing photophores",
+   "traits": "Small, slender shrimp-like body.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "266": {
+   "visual": "Large segmented grey-lilac isopod with big reflective compound eyes and many legs",
+   "traits": "Resembles a giant pill bug.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "267": {
+   "visual": "Grey segmented pill bug",
+   "traits": "Armoured land crustacean with overlapping plates.",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "268": {
+   "visual": "Bright red crab",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "269": {
+   "visual": "Crab with red claws emerging from a spiral shell",
+   "traits": "Soft spiralled abdomen tucked inside a borrowed shell.",
+   "body_plan": "legged",
+   "pose": "standing on its legs, spiral shell carried on its back",
+   "curated": true,
+   "method": null
+  },
+  "270": {
+   "visual": "White-shelled goose barnacle on a long dark stalk, feathery legs extended",
+   "traits": "",
+   "body_plan": "sessile",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "271": {
+   "visual": "Shield-shaped olive crustacean with three eyes and forked tail",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting flat under its shield carapace, forked tail trailing",
+   "curated": true,
+   "method": null
+  },
+  "272": {
+   "visual": "Translucent red brine shrimp",
+   "traits": "Tiny, slender crustacean.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "273": {
+   "visual": "Transparent alien-looking amphipod with huge eyes inside a clear gelatinous barrel",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "274": {
+   "visual": "Trilobite with trident head spine, crystal eyes and spiny segmented shell",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "275": {
+   "visual": "Segmented swimmer with undulating side flaps, curved spiny head claws and disc mouth",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "276": {
+   "visual": "Creature with five mushroom-like stalked eyes and long clawed nozzle, segmented body",
+   "traits": "Small, with swimming lobes along its sides.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "277": {
+   "visual": "Worm-like body with pairs of long back spines and soft clawed legs, small head",
+   "traits": "Small and slender.",
+   "body_plan": "legged",
+   "pose": "standing on its soft legs, back spines pointing upward",
+   "curated": false,
+   "method": null
+  },
+  "278": {
+   "visual": "Octopus with textured shifting skin, curled arms, intelligent eye",
+   "traits": "Eight-armed, with colour-changing skin.",
+   "body_plan": "swimmer",
+   "pose": "resting upright with arms curled around it",
+   "curated": false,
+   "method": null
+  },
+  "279": {
+   "visual": "Small yellow octopus with glowing electric blue rings",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": "resting upright with arms curled around it",
+   "curated": false,
+   "method": null
+  },
+  "280": {
+   "visual": "Dark red cephalopod with webbed cloak, glowing eyes",
+   "traits": "Webbed arms lined with soft spines.",
+   "body_plan": "swimmer",
+   "pose": "drifting upright, webbed cloak half-spread, arms hanging down",
+   "curated": false,
+   "method": null
+  },
+  "281": {
+   "visual": "Huge red squid with dinner-plate eyes, two long feeding tentacles",
+   "traits": "Enormous, with toothed suckers on its long tentacles.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "282": {
+   "visual": "Red squid with flashing white-red patterned skin",
+   "traits": "Large, muscular squid.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "283": {
+   "visual": "Cuttlefish with rippling colour stripes and undulating fin skirt",
+   "traits": "W-shaped pupils.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "284": {
+   "visual": "Small cuttlefish with flashing purple, yellow and red patterns",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": "resting on the tips of its lower arms and fin edges",
+   "curated": true,
+   "method": null
+  },
+  "285": {
+   "visual": "Striped cream-and-brown spiral shell with many tentacles",
+   "traits": "Pinhole eyes beneath a leathery shell hood.",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "286": {
+   "visual": "Octopus inside white paper-thin ribbed shell",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "287": {
+   "visual": "Pale pink octopus with ear-like fins, webbed arms spread",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "hovering upright, webbed arms spread like a skirt",
+   "curated": false,
+   "method": null
+  },
+  "288": {
+   "visual": "Patterned cone shell with extended proboscis harpoon",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting on its muscular foot, shell on top",
+   "curated": false,
+   "method": null
+  },
+  "289": {
+   "visual": "Snail with metallic black shell and scaly armoured foot",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting on its armoured foot, shell on top",
+   "curated": true,
+   "method": null
+  },
+  "290": {
+   "visual": "Blue-silver sea slug with feathery finger appendages",
+   "traits": "Small, flattened body.",
+   "body_plan": "floater",
+   "pose": "lying flat, finger appendages spread outward",
+   "curated": true,
+   "method": null
+  },
+  "291": {
+   "visual": "Emerald green leaf-like sea slug with veined body",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting flat on its foot, leaf-like flaps raised",
+   "curated": false,
+   "method": null
+  },
+  "292": {
+   "visual": "Huge clam with iridescent blue mantle",
+   "traits": "Colourful mantle between massive wavy shell valves.",
+   "body_plan": "sessile",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "293": {
+   "visual": "Large brown-and-cream striped conical shell, glistening grey body with eye stalks",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting on its muscular foot, shell on top",
+   "curated": true,
+   "method": null
+  },
+  "294": {
+   "visual": "Long bright-yellow slug with dark spots, extended eye tentacles",
+   "traits": "A single breathing pore on the side of its mantle.",
+   "body_plan": "legged",
+   "pose": "resting stretched out on its muscular foot",
+   "curated": true,
+   "method": null
+  },
+  "295": {
+   "visual": "Thin violet spiral shell hanging under a raft of silvery bubbles",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "hanging upside down beneath its bubble raft",
+   "curated": true,
+   "method": null
+  },
+  "296": {
+   "visual": "Translucent glass-like winged slug with glowing orange core organs",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "upright, wing-like lobes spread to the sides",
+   "curated": true,
+   "method": null
+  },
+  "297": {
+   "visual": "Ribbed ochre spiral shell with tentacles extending",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "298": {
+   "visual": "Reddish leathery oval body",
+   "traits": "Eight armour plates hidden beneath a thick mantle.",
+   "body_plan": "legged",
+   "pose": "resting flat on its foot",
+   "curated": true,
+   "method": null
+  },
+  "299": {
+   "visual": "Bright red sea slug with flowing white-edged mantle",
+   "traits": "",
+   "body_plan": "swimmer",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "300": {
+   "visual": "Translucent violet-blue gas bladder with crest sail, curtain of long blue tentacles",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "301": {
+   "visual": "Transparent cube bell with tentacle bundles at each corner, tiny eye clusters",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "302": {
+   "visual": "Huge red-gold bell with masses of fine hair-like tentacles",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "303": {
+   "visual": "Tiny transparent bell with bright red core, fine tentacles",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "304": {
+   "visual": "Translucent saucer with four-leaf pattern, fringe of short tentacles",
+   "traits": "Four glowing horseshoe-shaped gonads.",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "305": {
+   "visual": "Long glowing string of linked translucent units, bioluminescent blue",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "hanging as a long vertical chain",
+   "curated": true,
+   "method": null
+  },
+  "306": {
+   "visual": "Small oval blue disc with clear triangular sail",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "floating flat, sail standing upright",
+   "curated": true,
+   "method": null
+  },
+  "307": {
+   "visual": "Dark crimson crowned bell with a ring of swirling blue light",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "308": {
+   "visual": "Red anemone with tentacles open, blue beads at base",
+   "traits": "",
+   "body_plan": "sessile",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "309": {
+   "visual": "Branching coral, tiny polyps glowing",
+   "traits": "",
+   "body_plan": "sessile",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "310": {
+   "visual": "Clear lobed jelly with rainbow light rippling down comb rows",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "311": {
+   "visual": "Long transparent ribbon with iridescent edges",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "drifting horizontally as a gently curved ribbon",
+   "curated": true,
+   "method": null
+  },
+  "312": {
+   "visual": "Tall white tubes with blood-red plumes",
+   "traits": "",
+   "body_plan": "sessile",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "313": {
+   "visual": "Pale worm with fleece of bacterial filaments, red gill plumes",
+   "traits": "Housed in a pale papery tube.",
+   "body_plan": "sessile",
+   "pose": "emerging from its upright tube, gill plumes at the top",
+   "curated": true,
+   "method": null
+  },
+  "314": {
+   "visual": "Very long blue-grey earthworm with pink head",
+   "traits": "Can exceed a metre in length.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "315": {
+   "visual": "Dark olive leech with orange stripes and toothy sucker",
+   "traits": "Suckers at both ends of its body.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "316": {
+   "visual": "Iridescent long worm with snapping scissor jaws",
+   "traits": "Several metres long.",
+   "body_plan": "serpentine",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "317": {
+   "visual": "Velvety dark segmented worm with stubby legs",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "318": {
+   "visual": "Dark chocolate-brown extremely long thin worm coiled into a glossy tangle",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": "coiled into a loose glossy tangle",
+   "curated": true,
+   "method": null
+  },
+  "319": {
+   "visual": "Flat brown arrow-headed worm with two cross-eyed eyespots",
+   "traits": "",
+   "body_plan": "serpentine",
+   "pose": "lying flat, body stretched out in a gentle curve",
+   "curated": true,
+   "method": null
+  },
+  "320": {
+   "visual": "Spiny purple-red starfish with 15+ thorn-covered arms",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "lying flat with arms spread evenly",
+   "curated": true,
+   "method": null
+  },
+  "321": {
+   "visual": "Big soft orange-purple sea star with many arms",
+   "traits": "Up to 24 arms lined with thousands of tube feet.",
+   "body_plan": "legged",
+   "pose": "lying flat with arms spread evenly",
+   "curated": true,
+   "method": null
+  },
+  "322": {
+   "visual": "Purple spiny ball with transparent tube feet extended",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "resting on its tube feet, spines radiating outward",
+   "curated": true,
+   "method": null
+  },
+  "323": {
+   "visual": "Pink translucent sea cucumber with leg-like tube feet and tentacle 'horns'",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "324": {
+   "visual": "Fractal branching tan arms forming a living net",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": "small central disc with branching arms spread upward like a net",
+   "curated": true,
+   "method": null
+  },
+  "325": {
+   "visual": "Red-orange feathery arms, delicate pinnules",
+   "traits": "Ten feathery arms with small claw-like appendages underneath.",
+   "body_plan": "legged",
+   "pose": "perched on small claw-like appendages, ten feathery arms raised",
+   "curated": true,
+   "method": null
+  },
+  "326": {
+   "visual": "Plump barrel-shaped eight-legged micro-animal with clawed stubby feet",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "327": {
+   "visual": "Glassy white tube sponge with lattice walls, glowing faintly",
+   "traits": "",
+   "body_plan": "sessile",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "328": {
+   "visual": "Microscopic translucent rotifer with spinning wheel cilia",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": "upright, wheel-like ciliated crown at the top",
+   "curated": true,
+   "method": null
+  },
+  "329": {
+   "visual": "Glowing pink-blue tube colony",
+   "traits": "Hollow tube built of thousands of tiny individuals.",
+   "body_plan": "floater",
+   "pose": "drifting with the tube held vertically",
+   "curated": true,
+   "method": null
+  },
+  "330": {
+   "visual": "Transparent barrel-shaped units linked in a chain",
+   "traits": "",
+   "body_plan": "floater",
+   "pose": null,
+   "curated": true,
+   "method": null
+  },
+  "331": {
+   "visual": "Bright yellow branching vein network",
+   "traits": "",
+   "body_plan": "sessile",
+   "pose": "spread as a flat fan-shaped network",
+   "curated": true,
+   "method": null
+  }
+ }
+}

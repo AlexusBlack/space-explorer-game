@@ -198,6 +198,16 @@ src/
 └── main.js         wiring/game loop/turn orchestration
 ```
 
+**Species portraits** (`species/`, `scripts/species_art/`): an offline Python
+pipeline (gitignored venv; not a game dependency) that generates one RGBA
+portrait per species with OpenAI `gpt-image-2`. Read
+`scripts/species_art/README.md` first. Hard rules from the user: the API key
+lives only in the gitignored `.env` and is never printed or committed; **every
+paid step stops at a human review gate**, so never run a paid command (`--yes`)
+without explicit approval for that stage. `species/work/` (raws, run state,
+review verdicts, spend log) is gitignored and machine-local. Verify changes
+with `python -m scripts.species_art selftest` (offline, mock API).
+
 `mapData` (from `mapgen.js`) is **never persisted** — always cheaply and
 deterministically regenerated from `seed`. `gameState` (from `state.js`)
 **is** persisted to `localStorage` (single save slot). Anything that

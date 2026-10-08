@@ -1,0 +1,7461 @@
+[
+ {
+  "id": 1,
+  "key": "Ursavi",
+  "group": "Mammal",
+  "prototype": "Grizzly bear",
+  "scientific": "Ursus arctos",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Earbay",
+   "Susru",
+   "Ur'ar",
+   "Bier",
+   "Ursusyr",
+   "Arktoz",
+   "Urarctos",
+   "Bearvi"
+  ],
+  "description": "Massive omnivorous quadrupeds that can rear upright to over three metres. Thick layered fat lets them enter months-long torpor through harsh seasons, and their sense of smell outperforms most sensor gear.",
+  "image_notes": "Hulking hunched shoulders, dense shaggy fur with mineral-dust tint, blunt muzzle with extra nostril slits, long curved digging claws; overcast tundra light"
+ },
+ {
+  "id": 2,
+  "key": "Thalvorn",
+  "group": "Mammal",
+  "prototype": "Polar bear",
+  "scientific": "Ursus maritimus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Ur'ma",
+   "Ursusae",
+   "Maritimuz",
+   "Thaltimus",
+   "Bearvorn",
+   "Sumitiram",
+   "Ursusway",
+   "Ur-Ma"
+  ],
+  "description": "Semi-aquatic apex predators of ice shelves and sub-ice oceans. Translucent hollow fur over black skin traps faint starlight as heat, and they can hold breath long enough to hunt beneath ice crusts.",
+  "image_notes": "Long-necked white bear silhouette, translucent fibre-optic fur glowing faintly, black skin, small ears, standing on cracked blue ice under a ringed gas giant sky"
+ },
+ {
+  "id": 3,
+  "key": "Kerrath",
+  "group": "Mammal",
+  "prototype": "Grey wolf",
+  "scientific": "Canis lupus",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Olfway",
+   "Sinac",
+   "Ca'lu",
+   "Wulf",
+   "Canisyr",
+   "Lupuz",
+   "Kerlupus",
+   "Wolfrath"
+  ],
+  "description": "Lean endurance runners living in tight family packs. They communicate across long distances with layered howls carrying harmonic information, and can track prey for days over broken terrain.",
+  "image_notes": "Lean canid, elongated legs, double-ridged spine crest, pale eyes with horizontal pupils, frost on muzzle fur; moonlit ridge"
+ },
+ {
+  "id": 4,
+  "key": "Vulpeen",
+  "group": "Mammal",
+  "prototype": "Red fox",
+  "scientific": "Vulpes vulpes",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Edray",
+   "Sepluv",
+   "Vul'vul",
+   "Vulpesae",
+   "Vulpez",
+   "Vulvulpes",
+   "Redpeen",
+   "Ulpesvay"
+  ],
+  "description": "Small, adaptable omnivores with acute low-frequency hearing used to detect prey under soil. They thrive on the fringes of any ecosystem and cache surplus food in scattered hidden stores.",
+  "image_notes": "Slender russet canid, oversized bushy tail with banded tip, narrow pointed snout, sharp amber eyes; twilight scrubland"
+ },
+ {
+  "id": 5,
+  "key": "Fennari",
+  "group": "Mammal",
+  "prototype": "Fennec fox",
+  "scientific": "Vulpes zerda",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ennecfay",
+   "Vul'zer",
+   "Finnic",
+   "Vulpesari",
+   "Zerda",
+   "Fenzerda",
+   "Fenri",
+   "Adrez"
+  ],
+  "description": "Tiny desert foragers with enormous ears that radiate excess heat and pick up insect movement underground. Fur-soled feet insulate them from scorching rock and they rarely need to drink.",
+  "image_notes": "Very small pale fox, ears as long as body with visible blood vessels glowing red, sand-coloured fur, standing on cracked basalt with lava glow in distance"
+ },
+ {
+  "id": 6,
+  "key": "Pantheru",
+  "group": "Mammal",
+  "prototype": "Tiger",
+  "scientific": "Panthera tigris",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Igertay",
+   "Arehtnap",
+   "Pan'tig",
+   "Togir",
+   "Pantheos",
+   "Tigriz",
+   "Pantigris",
+   "Tiru"
+  ],
+  "description": "Solitary striped ambush hunters, the largest felids of their homeworld. Each individual's stripe pattern is unique, and they are strong swimmers despite their mass.",
+  "image_notes": "Muscular big cat, bold stripes in unusual colours (teal on charcoal), longer forelimbs, glowing eyes; dense alien jungle mist"
+ },
+ {
+  "id": 7,
+  "key": "Leonyx",
+  "group": "Mammal",
+  "prototype": "Lion",
+  "scientific": "Panthera leo",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Ionlay",
+   "Pan'leo",
+   "Loun",
+   "Pantheari",
+   "Leoleo",
+   "Lionnyx",
+   "Antherapay",
+   "Pan-Leo"
+  ],
+  "description": "Social big cats living in cooperative prides on open plains. Males grow dense neck manes that darken with age and health, and the species tolerates intense daytime heat by resting through the hottest hours.",
+  "image_notes": "Big cat with flaring crest-mane like a ruff of quills, sandy hide, heavy jaw; heat-shimmer savanna under a white-hot sun"
+ },
+ {
+  "id": 8,
+  "key": "Snevra",
+  "group": "Mammal",
+  "prototype": "Snow leopard",
+  "scientific": "Panthera uncia",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Eopardlay",
+   "Pan'un",
+   "Liuperd",
+   "Pantheith",
+   "Unkia",
+   "Snevuncia",
+   "Leora",
+   "Aicnu"
+  ],
+  "description": "Elusive high-altitude predators with thick smoky fur and a long tail used for balance and as a scarf against wind. Wide furred paws act as snowshoes on loose ice and scree.",
+  "image_notes": "Pale grey spotted cat, extremely long thick tail wrapped around body, wide paws, frost crystals in fur; icy cliffs"
+ },
+ {
+  "id": 9,
+  "key": "Acinyx",
+  "group": "Mammal",
+  "prototype": "Cheetah",
+  "scientific": "Acinonyx jubatus",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Eetahchay",
+   "Xynonica",
+   "Chiiteh",
+   "Aciesh",
+   "Jubatuz",
+   "Abatus",
+   "Cheenyx",
+   "Sutabuj"
+  ],
+  "description": "The fastest sprinters of their world, built light with a flexible spine and non-retracting claws for grip. They hunt in daylight and overheat quickly after a chase.",
+  "image_notes": "Very slim spotted cat, tiny head, tear-line markings under eyes, deep chest, mid-sprint pose with blurred legs; dusty plains"
+ },
+ {
+  "id": 10,
+  "key": "Lyncari",
+  "group": "Mammal",
+  "prototype": "Eurasian lynx",
+  "scientific": "Lynx lynx",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ynxlay",
+   "Xnyl",
+   "Lynx'lynx",
+   "Lynx",
+   "Lynxoth",
+   "Lynks",
+   "Lynlynx",
+   "Lynxri"
+  ],
+  "description": "Stocky forest cats with tufted ears, short tails and huge padded feet. They hunt by patient stalking in deep snow and have exceptional low-light vision.",
+  "image_notes": "Medium cat with long black ear tufts, facial ruff, spotted grey-gold fur, oversized paws; snowy conifer-like alien forest"
+ },
+ {
+  "id": 11,
+  "key": "Hyenoth",
+  "group": "Mammal",
+  "prototype": "Spotted hyena",
+  "scientific": "Crocuta crocuta",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Yenahay",
+   "Atucorc",
+   "Cro'cro",
+   "Hyine",
+   "Crocuix",
+   "Krokuta",
+   "Hyecuta",
+   "Ocutacray"
+  ],
+  "description": "Powerful scavenger-hunters with bone-crushing jaws and digestion able to dissolve bone. They live in large clans and use a wide repertoire of whoops and giggling calls.",
+  "image_notes": "Sloping back, massive neck and jaw, spotted coarse fur, rounded ears, grinning mouth; dry red badlands"
+ },
+ {
+  "id": 12,
+  "key": "Mustelk",
+  "group": "Mammal",
+  "prototype": "Wolverine",
+  "scientific": "Gulo gulo",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Olverineway",
+   "Olug",
+   "Gu'gu",
+   "Wulvironi",
+   "Guloae",
+   "Gulo",
+   "Musgulo",
+   "Woltelk"
+  ],
+  "description": "Compact, ferociously strong mustelids that roam huge territories through snow. Frost-resistant fur and powerful jaws let them feed on frozen carcasses others cannot open.",
+  "image_notes": "Low bear-like mustelid, dark brown fur with pale side band, thick claws, snow on back; blizzard"
+ },
+ {
+  "id": 13,
+  "key": "Lutrani",
+  "group": "Mammal",
+  "prototype": "Sea otter",
+  "scientific": "Enhydra lutris",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Otterway",
+   "Ardyhne",
+   "En'lut",
+   "Uttir",
+   "Enhydeen",
+   "Lutriz",
+   "Lutlutris",
+   "Otni"
+  ],
+  "description": "Small marine mammals with the densest fur of any homeworld animal instead of blubber. They float on their backs, use stones as tools to open shellfish, and hold hands while resting.",
+  "image_notes": "Floating otter on back cracking a shell on its chest, dense whiskered face, webbed hind feet; icy kelp waters"
+ },
+ {
+  "id": 14,
+  "key": "Melleth",
+  "group": "Mammal",
+  "prototype": "Honey badger",
+  "scientific": "Mellivora capensis",
+  "planetoids": [
+   "toxic",
+   "molten"
+  ],
+  "name_variants": [
+   "Adgerbay",
+   "Arovillem",
+   "Mel'ca",
+   "Bedgir",
+   "Melliund",
+   "Kapenziz",
+   "Melpensis",
+   "Badleth"
+  ],
+  "description": "Fearless, thick-skinned omnivores with high resistance to venoms. Loose skin lets them twist inside a predator's grip, and they dig rapidly into hard ground.",
+  "image_notes": "Stocky low animal, black body with silver-white back mantle, tiny eyes, long digging claws; sulphur haze"
+ },
+ {
+  "id": 15,
+  "key": "Mephix",
+  "group": "Mammal",
+  "prototype": "Striped skunk",
+  "scientific": "Mephitis mephitis",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Unkskay",
+   "Sitihpem",
+   "Mep'mep",
+   "Skank",
+   "Mephiix",
+   "Mefitiz",
+   "Mephitis",
+   "Skunkhix"
+  ],
+  "description": "Small omnivores that defend themselves with a sprayed sulphur-thiol chemical aimed with precision. Their bold contrast colouring serves as a warning to predators.",
+  "image_notes": "Small black mammal with bold white dorsal stripes, plumed raised tail, faint yellow-green vapour; acidic fog"
+ },
+ {
+  "id": 16,
+  "key": "Procyra",
+  "group": "Mammal",
+  "prototype": "Raccoon",
+  "scientific": "Procyon lotor",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Accoonray",
+   "Noycorp",
+   "Pro'lo",
+   "Reccuun",
+   "Procyonoth",
+   "Lotor",
+   "Prolotor",
+   "Racra"
+  ],
+  "description": "Clever nocturnal omnivores with highly sensitive, dexterous forepaws used to feel and manipulate objects, often in water. Strong memory for solving physical puzzles.",
+  "image_notes": "Grey ringed-tail mammal with black bandit mask, nimble hands with long fingers handling an object; wet riverbank at night"
+ },
+ {
+  "id": 17,
+  "key": "Ailuvo",
+  "group": "Mammal",
+  "prototype": "Red panda",
+  "scientific": "Ailurus fulgens",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Andapay",
+   "Surulia",
+   "Ai'ful",
+   "Pende",
+   "Ailuora",
+   "Fulgenz",
+   "Aifulgens",
+   "Panvo"
+  ],
+  "description": "Small arboreal mammals with dense russet fur and ringed tails. A false thumb from an extended wrist bone helps them grip stalks; they live on a low-energy plant diet.",
+  "image_notes": "Small russet arboreal mammal, white face mask, ringed tail, sitting on mossy branch; cool misty bamboo-like forest"
+ },
+ {
+  "id": 18,
+  "key": "Bambrel",
+  "group": "Mammal",
+  "prototype": "Giant panda",
+  "scientific": "Ailuropoda melanoleuca",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Adoporulia",
+   "Ai'me",
+   "Ailuiun",
+   "Melanoleuka",
+   "Bamleuca",
+   "Panbrel",
+   "Acuelonalem",
+   "Ai-Me"
+  ],
+  "description": "Large, calm bears specialised in eating fibrous plants for most of their waking hours. Their bold black-and-white coat and pseudo-thumb are distinctive.",
+  "image_notes": "Round bear with patchy contrast coat in unusual colours (cream and indigo), chewing fibrous stalks; foggy mountain grove"
+ },
+ {
+  "id": 19,
+  "key": "Elephar",
+  "group": "Mammal",
+  "prototype": "African elephant",
+  "scientific": "Loxodonta africana",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Elephantway",
+   "Atnodoxol",
+   "Lo'af",
+   "Iliphent",
+   "Loxoul",
+   "Afrikana",
+   "Ecana",
+   "Ehar"
+  ],
+  "description": "Gigantic herbivores with a muscular prehensile trunk used for breathing, grasping and communication. They hear and send infrasound through the ground over many kilometres.",
+  "image_notes": "Huge grey wrinkled body, long trunk ending in two finger-lips, large fan ears with veins, tusks; dry plain"
+ },
+ {
+  "id": 20,
+  "key": "Mammuth",
+  "group": "Mammal",
+  "prototype": "Woolly mammoth",
+  "scientific": "Mammuthus primigenius",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Ammothmay",
+   "Suhtummam",
+   "Mam'pri",
+   "Memmuth",
+   "Mammutiun",
+   "Primigeniuz",
+   "Mamgenius",
+   "Suinegimirp"
+  ],
+  "description": "Cold-adapted giants with long shaggy coats, small ears and huge spiralling tusks used to clear snow from food. They store fat in a shoulder hump.",
+  "image_notes": "Massive shaggy proboscidean, long curved crossing tusks, domed head, snow sticking to fur; aurora sky"
+ },
+ {
+  "id": 21,
+  "key": "Rhinokh",
+  "group": "Mammal",
+  "prototype": "White rhinoceros",
+  "scientific": "Ceratotherium simum",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Ce'si",
+   "Rhonucirus",
+   "Ceraae",
+   "Zimum",
+   "Rhisimum",
+   "Mumis",
+   "Ke-Zi",
+   "Simumae"
+  ],
+  "description": "Armoured grazing giants with one or more keratin horns. Their thick folded hide resists heat and abrasion, and they wallow in mud to cool off.",
+  "image_notes": "Barrel-bodied herbivore, plated folded hide, multiple horns in a row, wide square mouth; cracked mud flats"
+ },
+ {
+  "id": 22,
+  "key": "Hippodra",
+  "group": "Mammal",
+  "prototype": "Hippopotamus",
+  "scientific": "Hippopotamus amphibius",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Hip'am",
+   "Hippoeen",
+   "Amfibiuz",
+   "Hipphibius",
+   "Hipra",
+   "Suibihpma",
+   "Hip-Am",
+   "Amphieth"
+  ],
+  "description": "Huge semi-aquatic herbivores that secrete a red skin fluid acting as sunscreen and antimicrobial. Despite their bulk they move fast and spend days submerged.",
+  "image_notes": "Barrel body half-submerged, eyes and nostrils on top of head, enormous gaping mouth, reddish sweat sheen; murky greenish lake"
+ },
+ {
+  "id": 23,
+  "key": "Kamelopar",
+  "group": "Mammal",
+  "prototype": "Giraffe",
+  "scientific": "Giraffa camelopardalis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Iraffegay",
+   "Affarig",
+   "Gi'ca",
+   "Goreffi",
+   "Girafund",
+   "Kadalis",
+   "Gipar",
+   "Iraffagay"
+  ],
+  "description": "Towering browsers with extremely long necks and legs, reaching food no other animal can. A powerful heart and special valves manage blood pressure from hoof to head.",
+  "image_notes": "Very tall neck, patchwork tessellated coat, ossicone horns, long dark tongue; tall alien trees with crowns high up"
+ },
+ {
+  "id": 24,
+  "key": "Okavi",
+  "group": "Mammal",
+  "prototype": "Okapi",
+  "scientific": "Okapia johnstoni",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Okapiway",
+   "Aipako",
+   "O'joh",
+   "Ukepo",
+   "Okaae",
+   "Johnztoni",
+   "Onstoni",
+   "Inotsnhoj"
+  ],
+  "description": "Shy forest browsers with velvety dark coats and striped hindquarters. A long flexible tongue strips leaves and cleans their large ears.",
+  "image_notes": "Short-necked giraffid, chocolate body, zebra-striped legs, large ears; dark rainforest understory"
+ },
+ {
+  "id": 25,
+  "key": "Dromeka",
+  "group": "Mammal",
+  "prototype": "Dromedary camel",
+  "scientific": "Camelus dromedarius",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Amelcay",
+   "Sulemac",
+   "Ca'dro",
+   "Cemil",
+   "Cameund",
+   "Dromedariuz",
+   "Drodarius",
+   "Caka"
+  ],
+  "description": "Desert survivors that tolerate extreme dehydration and body temperature swings. A fat hump serves as an energy reserve and their nostrils close against sandstorms.",
+  "image_notes": "Long-legged humped ungulate, long eyelashes, splayed padded feet, heat-haze; black glassy volcanic desert"
+ },
+ {
+  "id": 26,
+  "key": "Lamuun",
+  "group": "Mammal",
+  "prototype": "Llama",
+  "scientific": "Lama glama",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Amallay",
+   "Amal",
+   "La'gla",
+   "Lleme",
+   "Lamaul",
+   "Glama",
+   "Laglama",
+   "Llamuun"
+  ],
+  "description": "High-altitude herbivores with blood that binds oxygen efficiently in thin air. They have dense insulating wool and spit stomach contents when annoyed.",
+  "image_notes": "Long-necked woolly camelid, banana-shaped ears, thick fleece, calm expression; thin-atmosphere plateau"
+ },
+ {
+  "id": 27,
+  "key": "Cervath",
+  "group": "Mammal",
+  "prototype": "Red deer",
+  "scientific": "Cervus elaphus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Eerday",
+   "Suvrec",
+   "Cer'e",
+   "Diir",
+   "Cervusos",
+   "Elafuz",
+   "Cerlaphus",
+   "Deervath"
+  ],
+  "description": "Graceful herbivores whose males regrow large branching antlers each year. Seasonal roaring contests and keen hearing define their behaviour.",
+  "image_notes": "Elegant deer, enormous branching antlers with velvet, reddish-brown coat; misty heath"
+ },
+ {
+  "id": 28,
+  "key": "Rangithi",
+  "group": "Mammal",
+  "prototype": "Reindeer",
+  "scientific": "Rangifer tarandus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Eindeerray",
+   "Refignar",
+   "Ran'ta",
+   "Riondiir",
+   "Rangiesh",
+   "Taranduz",
+   "Ranrandus",
+   "Reinhi"
+  ],
+  "description": "Migratory cold-world herbivores whose eyes shift colour seasonally to see in long darkness. Both sexes grow antlers and wide hooves dig through snow to reach lichen.",
+  "image_notes": "Stocky deer with broad antlers, thick pale fur, wide hooves, frosted breath; endless snowfield at twilight"
+ },
+ {
+  "id": 29,
+  "key": "Bisonne",
+  "group": "Mammal",
+  "prototype": "American bison",
+  "scientific": "Bison bison",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Isonbay",
+   "Nosib",
+   "Bi'bi",
+   "Bosun",
+   "Bisoniun",
+   "Bizon",
+   "Bibison",
+   "Bine"
+  ],
+  "description": "Heavy grazing herbivores with a towering shoulder hump and thick mane. They move in vast herds and face into storms with their dense head fur.",
+  "image_notes": "Massive humped bovine, shaggy front half, short horns, small eyes; windswept grassland"
+ },
+ {
+  "id": 30,
+  "key": "Ovimos",
+  "group": "Mammal",
+  "prototype": "Muskox",
+  "scientific": "Ovibos moschatus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Uskoxmay",
+   "Sobivo",
+   "O'mos",
+   "Maskux",
+   "Ovieth",
+   "Mozkhatuz",
+   "Ochatus",
+   "Musmos"
+  ],
+  "description": "Ice-age grazers with a floor-length coat and ultra-fine underwool. When threatened they form a defensive ring with horns facing outward.",
+  "image_notes": "Low shaggy bovine, long skirt-like coat, horns sweeping down then up; blizzard"
+ },
+ {
+  "id": 31,
+  "key": "Capreth",
+  "group": "Mammal",
+  "prototype": "Alpine ibex",
+  "scientific": "Capra ibex",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Ibexway",
+   "Arpac",
+   "Cap'i",
+   "Obix",
+   "Capraak",
+   "Ibeks",
+   "Capibex",
+   "Ireth"
+  ],
+  "description": "Sure-footed climbers with soft-centred hooves that grip near-vertical rock. Males carry long ridged backward-curving horns.",
+  "image_notes": "Goat with huge ridged backswept horns balancing on sheer cliff face; thin cold air"
+ },
+ {
+  "id": 32,
+  "key": "Equinar",
+  "group": "Mammal",
+  "prototype": "Horse",
+  "scientific": "Equus ferus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Orsehay",
+   "Suuqe",
+   "Hursi",
+   "Equusari",
+   "Feruz",
+   "Eferus",
+   "Hornar",
+   "Suref"
+  ],
+  "description": "Fast, long-legged grazers built for running on a single hoofed toe per leg. Highly social with expressive ears and a wide field of vision.",
+  "image_notes": "Muscular single-hoofed runner, flowing mane, wide-set eyes; open plain"
+ },
+ {
+  "id": 33,
+  "key": "Zebrun",
+  "group": "Mammal",
+  "prototype": "Plains zebra",
+  "scientific": "Equus quagga",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ebrazay",
+   "E'quag",
+   "Zibre",
+   "Equusund",
+   "Kwagga",
+   "Zebquagga",
+   "Aggauq",
+   "Equusway"
+  ],
+  "description": "Striped grazing equids that move in large herds. The dazzling stripe pattern confuses biting pests and predators.",
+  "image_notes": "Equid with bold geometric stripes in alien colours, upright mane; golden savanna"
+ },
+ {
+  "id": 34,
+  "key": "Suidra",
+  "group": "Mammal",
+  "prototype": "Wild boar",
+  "scientific": "Sus scrofa",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Oarbay",
+   "Sus'scro",
+   "Buer",
+   "Susyr",
+   "Zkrofa",
+   "Suidscrofa",
+   "Boarra",
+   "Aforcs"
+  ],
+  "description": "Tough, intelligent omnivores that root through soil with a disc-shaped snout. Tusks double as weapons and tools; extremely tolerant of poor food.",
+  "image_notes": "Bristly boar with upturned tusks, flat snout disc, wedge-shaped body; muddy forest"
+ },
+ {
+  "id": 35,
+  "key": "Tapiro",
+  "group": "Mammal",
+  "prototype": "Malayan tapir",
+  "scientific": "Tapirus indicus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Apirtay",
+   "Suripat",
+   "Ta'in",
+   "Tepor",
+   "Tapiund",
+   "Indikuz",
+   "Tadicus",
+   "Taro"
+  ],
+  "description": "Placid forest herbivores with a short prehensile snout. Their contrasting two-tone coat breaks up their outline in moonlight.",
+  "image_notes": "Rounded body, black front and rear with white saddle, short trunk-like snout; moonlit jungle"
+ },
+ {
+  "id": 36,
+  "key": "Gorrun",
+  "group": "Mammal",
+  "prototype": "Western gorilla",
+  "scientific": "Gorilla gorilla",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Orillagay",
+   "Allirog",
+   "Go'go",
+   "Gurolle",
+   "Gorilos",
+   "Gorilla",
+   "Gorrilla",
+   "Gorun"
+  ],
+  "description": "Large, powerful primates that move on knuckles and eat vast amounts of vegetation. Mature males develop silver back fur.",
+  "image_notes": "Massive great ape, broad chest, silver back saddle, deep-set eyes; dense green foliage"
+ },
+ {
+  "id": 37,
+  "key": "Pongari",
+  "group": "Mammal",
+  "prototype": "Bornean orangutan",
+  "scientific": "Pongo pygmaeus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ognop",
+   "Pon'pyg",
+   "Urengaten",
+   "Pongoeth",
+   "Pygmaeuz",
+   "Ponpygmaeus",
+   "Sueamgyp",
+   "Ongopay"
+  ],
+  "description": "Arboreal great apes with very long arms and grasping feet. Mature males grow large cheek pads and throat sacs used for long calls.",
+  "image_notes": "Shaggy orange ape, extremely long arms, flanged cheek pads, hanging from vines; canopy"
+ },
+ {
+  "id": 38,
+  "key": "Bonovi",
+  "group": "Mammal",
+  "prototype": "Bonobo",
+  "scientific": "Pan paniscus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Onobobay",
+   "Pan'pa",
+   "Bunubu",
+   "Panund",
+   "Panizkuz",
+   "Boniscus",
+   "Bovi",
+   "Sucsinap"
+  ],
+  "description": "Slender great apes with flexible social bonds and expressive faces. Frequent upright walking frees their hands for carrying.",
+  "image_notes": "Slim dark-furred ape, parted head hair, pink lips, upright stance; riverside forest"
+ },
+ {
+  "id": 39,
+  "key": "Mandrel",
+  "group": "Mammal",
+  "prototype": "Mandrill",
+  "scientific": "Mandrillus sphinx",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Andrillmay",
+   "Sullirdnam",
+   "Man'sphinx",
+   "Mendroll",
+   "Mandrilund",
+   "Zfinks",
+   "Mansphinx",
+   "Xnihps"
+  ],
+  "description": "Large ground-dwelling primates with vividly coloured faces and rumps that intensify with health. Long canines and cheek pouches for food storage.",
+  "image_notes": "Primate with ridged blue-and-red face, golden beard, long fangs; humid jungle floor"
+ },
+ {
+  "id": 40,
+  "key": "Lemuri",
+  "group": "Mammal",
+  "prototype": "Ring-tailed lemur",
+  "scientific": "Lemur catta",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Emurlay",
+   "Rumel",
+   "Le'cat",
+   "Limar",
+   "Lemurak",
+   "Katta",
+   "Lecatta",
+   "Leri"
+  ],
+  "description": "Agile, sun-basking primates with long banded tails used for balance and scent signalling. Large reflective eyes and a fox-like face.",
+  "image_notes": "Grey primate with long black-and-white ringed tail, orange eyes, sunbathing pose; dry forest"
+ },
+ {
+  "id": 41,
+  "key": "Daubeth",
+  "group": "Mammal",
+  "prototype": "Aye-aye",
+  "scientific": "Daubentonia madagascariensis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ayeway",
+   "Ainotnebuad",
+   "Dau'ma",
+   "Daubenae",
+   "Dauriensis",
+   "Ayebeth",
+   "Dau-Ma",
+   "Madaund"
+  ],
+  "description": "Nocturnal primates with an elongated, thin middle finger used to tap wood and extract grubs. Continuously growing incisors and huge sensitive ears.",
+  "image_notes": "Gaunt primate, bat-like ears, huge eyes, skeletal long middle finger, shaggy dark fur; night"
+ },
+ {
+  "id": 42,
+  "key": "Tarsev",
+  "group": "Mammal",
+  "prototype": "Tarsier",
+  "scientific": "Carlito syrichta",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Arsiertay",
+   "Otilrac",
+   "Car'sy",
+   "Tersoir",
+   "Carliiun",
+   "Zyrikhta",
+   "Tarrichta",
+   "Athcirys"
+  ],
+  "description": "Tiny insectivorous primates with each eye larger than their brain. They can rotate their heads almost fully and leap many times their body length.",
+  "image_notes": "Tiny primate clinging to branch, gigantic round eyes, long thin fingers with pads; dark forest"
+ },
+ {
+  "id": 43,
+  "key": "Slothri",
+  "group": "Mammal",
+  "prototype": "Three-toed sloth",
+  "scientific": "Bradypus variegatus",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Othslay",
+   "Supydarb",
+   "Bra'va",
+   "Sluth",
+   "Bradyesh",
+   "Variegatuz",
+   "Slotgatus",
+   "Slothhri"
+  ],
+  "description": "Extremely slow-moving herbivores that spend nearly their whole lives hanging upside down. Their fur hosts algae colonies that provide camouflage.",
+  "image_notes": "Hanging mammal with long curved claws, green-tinted algae fur, sleepy smile; on gas giants depict clinging to floating vine mats"
+ },
+ {
+  "id": 44,
+  "key": "Myrmek",
+  "group": "Mammal",
+  "prototype": "Giant anteater",
+  "scientific": "Myrmecophaga tridactyla",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Anteaterway",
+   "Myr'tri",
+   "Entietir",
+   "Tridaktyla",
+   "Myrtyla",
+   "Anmek",
+   "Alytcadirt",
+   "Myr-Tri"
+  ],
+  "description": "Toothless insectivores with a tube-like snout and a sticky tongue that flicks many times per second. Huge foreclaws tear open insect mounds.",
+  "image_notes": "Long tubular head, bushy flag tail, diagonal stripe on shoulder, curled claws; termite mounds"
+ },
+ {
+  "id": 45,
+  "key": "Armadox",
+  "group": "Mammal",
+  "prototype": "Nine-banded armadillo",
+  "scientific": "Dasypus novemcinctus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Supysad",
+   "Da'no",
+   "Ermedollu",
+   "Dasyiun",
+   "Arcinctus",
+   "Ardox",
+   "Asypusday",
+   "Da-No"
+  ],
+  "description": "Burrowing mammals with flexible bony armour bands. They can hold their breath to cross rivers on the bottom and dig rapidly.",
+  "image_notes": "Armour-banded mammal with pointed ears and snout, scaly tail; cracked hot earth"
+ },
+ {
+  "id": 46,
+  "key": "Pangoli",
+  "group": "Mammal",
+  "prototype": "Sunda pangolin",
+  "scientific": "Manis javanica",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Angolinpay",
+   "Sinam",
+   "Ma'ja",
+   "Pengulon",
+   "Maniseen",
+   "Javanika",
+   "Pannica",
+   "Panli"
+  ],
+  "description": "Scaled insectivores covered in overlapping keratin plates. They roll into a tight armoured ball and use a very long tongue anchored near the pelvis.",
+  "image_notes": "Body covered in overlapping bronze scales like pinecone, curled tail, tiny head; dusk"
+ },
+ {
+  "id": 47,
+  "key": "Ornithar",
+  "group": "Mammal",
+  "prototype": "Platypus",
+  "scientific": "Ornithorhynchus anatinus",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Atypusplay",
+   "Pletypas",
+   "Ornitith",
+   "Anatinuz",
+   "Ortinus",
+   "Plahar",
+   "Sunitana",
+   "Anaos"
+  ],
+  "description": "Egg-laying semi-aquatic mammals with an electroreceptive bill to sense prey in murky water. Males have venomous ankle spurs.",
+  "image_notes": "Duck-billed furry mammal, flat tail, webbed feet, glowing sensory bill; dark toxic stream"
+ },
+ {
+  "id": 48,
+  "key": "Echidra",
+  "group": "Mammal",
+  "prototype": "Short-beaked echidna",
+  "scientific": "Tachyglossus aculeatus",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Echidnaway",
+   "Tac'a",
+   "Ichodne",
+   "Tachygae",
+   "Akuleatuz",
+   "Ecleatus",
+   "Ecra",
+   "Sutaeluca"
+  ],
+  "description": "Spiny egg-laying insectivores with a slender electroreceptive snout. They have low body temperature and can dig straight down to vanish.",
+  "image_notes": "Spiny round body, tube snout, powerful digging claws; red desert soil"
+ },
+ {
+  "id": 49,
+  "key": "Macropa",
+  "group": "Mammal",
+  "prototype": "Red kangaroo",
+  "scientific": "Osphranter rufus",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Angarookay",
+   "Retnarhpso",
+   "Os'ru",
+   "Kengeruu",
+   "Osphraneth",
+   "Rufuz",
+   "Macrufus",
+   "Kanpa"
+  ],
+  "description": "Bounding marsupials that move by hopping on powerful hind legs, using elastic tendons to save energy. Young develop in a pouch.",
+  "image_notes": "Upright hopping marsupial, huge hind feet, thick tail, joey in pouch; red heat-shimmer outback"
+ },
+ {
+  "id": 50,
+  "key": "Koalun",
+  "group": "Mammal",
+  "prototype": "Koala",
+  "scientific": "Phascolarctos cinereus",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Oalakay",
+   "Phas'ci",
+   "Kuele",
+   "Phascoari",
+   "Kinereuz",
+   "Koanereus",
+   "Suerenic",
+   "Faz-Ki"
+  ],
+  "description": "Tree-dwelling marsupials whose specialised gut detoxifies foliage poisonous to most animals. They sleep most of the day to conserve energy.",
+  "image_notes": "Fluffy grey marsupial gripping a tree, large leathery nose, round ears; trees with toxic-green leaves in haze"
+ },
+ {
+  "id": 51,
+  "key": "Wombrak",
+  "group": "Mammal",
+  "prototype": "Common wombat",
+  "scientific": "Vombatus ursinus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ombatway",
+   "Sutabmov",
+   "Vom'ur",
+   "Wumbet",
+   "Vombaeen",
+   "Urzinuz",
+   "Womsinus",
+   "Sunisru"
+  ],
+  "description": "Barrel-shaped burrowing marsupials with a backward-facing pouch and a hard rump used to block tunnels. They produce cube-shaped droppings.",
+  "image_notes": "Stout low marsupial, tiny eyes, wide blunt head, digging claws; burrow entrance"
+ },
+ {
+  "id": 52,
+  "key": "Sarcoph",
+  "group": "Mammal",
+  "prototype": "Tasmanian devil",
+  "scientific": "Sarcophilus harrisii",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Evilday",
+   "Sulihpocras",
+   "Sar'har",
+   "Divol",
+   "Sarcopiun",
+   "Harrizii",
+   "Sarrisii",
+   "Decoph"
+  ],
+  "description": "Stocky carnivorous marsupials with one of the strongest bites relative to size. Loud screeching contests occur over carcasses.",
+  "image_notes": "Black stocky marsupial, white chest band, red ears when agitated, gaping jaws; night scrub"
+ },
+ {
+  "id": 53,
+  "key": "Petaura",
+  "group": "Mammal",
+  "prototype": "Sugar glider",
+  "scientific": "Petaurus breviceps",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Iderglay",
+   "Suruatep",
+   "Pe'bre",
+   "Glodir",
+   "Petauora",
+   "Brevikepz",
+   "Peviceps",
+   "Glira"
+  ],
+  "description": "Small gliding marsupials with a skin membrane stretched between limbs. On low-gravity or dense-air worlds they glide vast distances feeding on sap.",
+  "image_notes": "Tiny big-eyed glider, membrane spread, dorsal stripe, gliding between floating platforms"
+ },
+ {
+  "id": 54,
+  "key": "Chiropt",
+  "group": "Mammal",
+  "prototype": "Large flying fox",
+  "scientific": "Pteropus vampyrus",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Yingflay",
+   "Suporetp",
+   "Pte'vam",
+   "Flyong",
+   "Pteroiun",
+   "Vampyruz",
+   "Chipyrus",
+   "Flyingropt"
+  ],
+  "description": "Large fruit-eating bats with metre-plus wingspans and keen vision. They roost hanging in huge colonies and fly long distances at night.",
+  "image_notes": "Bat with fox-like face, leathery wings spread wide, roosting upside down in floating colony"
+ },
+ {
+  "id": 55,
+  "key": "Desmovi",
+  "group": "Mammal",
+  "prototype": "Vampire bat",
+  "scientific": "Desmodus rotundus",
+  "planetoids": [
+   "gas_giant",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ampirevay",
+   "Sudomsed",
+   "Des'ro",
+   "Vempori",
+   "Desmoora",
+   "Rotunduz",
+   "Destundus",
+   "Vamvi"
+  ],
+  "description": "Small blood-feeding bats with heat-sensing nose pits and anticoagulant saliva. They can walk and run on the ground with folded wings.",
+  "image_notes": "Small pug-nosed bat, pointed ears, sharp incisors, infrared glow on nose; dark cavern"
+ },
+ {
+  "id": 56,
+  "key": "Talpex",
+  "group": "Mammal",
+  "prototype": "Star-nosed mole",
+  "scientific": "Condylura cristata",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Olemay",
+   "Arulydnoc",
+   "Con'cris",
+   "Muli",
+   "Condyund",
+   "Kriztata",
+   "Taltata",
+   "Mopex"
+  ],
+  "description": "Burrowing insectivores with a ring of 22 fleshy tentacles on the nose packed with touch receptors. They can smell underwater by blowing bubbles.",
+  "image_notes": "Dark velvety mole, pink star-shaped tentacle nose, huge shovel paws; wet soil tunnel"
+ },
+ {
+  "id": 57,
+  "key": "Heterok",
+  "group": "Mammal",
+  "prototype": "Naked mole-rat",
+  "scientific": "Heterocephalus glaber",
+  "planetoids": [
+   "molten",
+   "toxic"
+  ],
+  "name_variants": [
+   "Akednay",
+   "He'gla",
+   "Nekid",
+   "Heteix",
+   "Glaber",
+   "Heglaber",
+   "Narok",
+   "Rebalg"
+  ],
+  "description": "Hairless, nearly blind burrowers that live in colonies with a single breeding female. They survive minutes without oxygen, feel little pain from acids, and rarely develop age-related decline.",
+  "image_notes": "Wrinkled pink hairless rodent, protruding front teeth, tiny eyes, in narrow hot tunnels"
+ },
+ {
+  "id": 58,
+  "key": "Castori",
+  "group": "Mammal",
+  "prototype": "North American beaver",
+  "scientific": "Castor canadensis",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Eaverbay",
+   "Rotsac",
+   "Cas'ca",
+   "Bievir",
+   "Castorul",
+   "Kanadenziz",
+   "Casdensis",
+   "Beari"
+  ],
+  "description": "Semi-aquatic engineers that fell trees and build dams and lodges, reshaping waterways. Iron-reinforced orange teeth and a flat paddle tail.",
+  "image_notes": "Stout rodent, orange incisors, scaly paddle tail, building lodge of sticks; icy pond"
+ },
+ {
+  "id": 59,
+  "key": "Hystrel",
+  "group": "Mammal",
+  "prototype": "Crested porcupine",
+  "scientific": "Hystrix cristata",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Orcupinepay",
+   "Xirtsyh",
+   "Hys'cris",
+   "Purcaponi",
+   "Hystrixeen",
+   "Hystata",
+   "Portrel",
+   "Atatsirc"
+  ],
+  "description": "Rodents armed with long barbed quills that detach on contact. They rattle hollow tail quills as a warning.",
+  "image_notes": "Rodent with crest of very long banded quills raised, rattling tail; rocky scrub night"
+ },
+ {
+  "id": 60,
+  "key": "Lepor",
+  "group": "Mammal",
+  "prototype": "Arctic hare",
+  "scientific": "Lepus arcticus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Arehay",
+   "Supel",
+   "Le'ar",
+   "Heri",
+   "Lepuseth",
+   "Arktikuz",
+   "Lecticus",
+   "Hapor"
+  ],
+  "description": "Large hares with dense white coats and short ears to save heat. They gather in groups and run upright on hind legs when alarmed.",
+  "image_notes": "White hare with black ear tips, upright run, thick fur; snowfield"
+ },
+ {
+  "id": 61,
+  "key": "Hydrochar",
+  "group": "Mammal",
+  "prototype": "Capybara",
+  "scientific": "Hydrochoerus hydrochaeris",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Apybaracay",
+   "Hyd'hyd",
+   "Cepybere",
+   "Hydroceth",
+   "Hydhaeris",
+   "Cahar",
+   "Hyd-Hyd",
+   "Hydrocani"
+  ],
+  "description": "The largest rodents of their homeworld, semi-aquatic grazers with webbed toes. Extremely tolerant of other species sitting on or near them.",
+  "image_notes": "Large calm rodent, barrel body, blunt face, small birds perched on back; marsh"
+ },
+ {
+  "id": 62,
+  "key": "Chinchar",
+  "group": "Mammal",
+  "prototype": "Chinchilla",
+  "scientific": "Chinchilla lanigera",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Allihcnihc",
+   "Chin'la",
+   "Choncholle",
+   "Chinchileen",
+   "Lanigera",
+   "Chingera",
+   "Areginal",
+   "Khin-La"
+  ],
+  "description": "Small mountain rodents with extraordinarily dense fur that resists parasites. They bathe in volcanic dust to clean their coats.",
+  "image_notes": "Small round grey rodent, huge ears, enormous fluffy fur, dust bathing; high cold mountains"
+ },
+ {
+  "id": 63,
+  "key": "Erinak",
+  "group": "Mammal",
+  "prototype": "European hedgehog",
+  "scientific": "Erinaceus europaeus",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Edgehoghay",
+   "Suecanire",
+   "Hidgihug",
+   "Eriiun",
+   "Europaeuz",
+   "Eropaeus",
+   "Hednak",
+   "Sueaporue"
+  ],
+  "description": "Small insectivores covered in spines that roll into a ball. They anoint their spines with foamy saliva after encountering new scents.",
+  "image_notes": "Spiny round mammal, pointed snout, tiny legs; leaf litter"
+ },
+ {
+  "id": 64,
+  "key": "Sorexi",
+  "group": "Mammal",
+  "prototype": "Etruscan shrew",
+  "scientific": "Suncus etruscus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ewshray",
+   "Sucnus",
+   "Sun'et",
+   "Shriw",
+   "Suncusari",
+   "Etruzkuz",
+   "Soruscus",
+   "Shrewxi"
+  ],
+  "description": "Among the smallest mammals, with a heartbeat over 1,000 per minute. Constant feeding fuels a ferocious metabolism; they hunt prey nearly their size.",
+  "image_notes": "Tiny shrew with long whiskers, pointed snout; magnified scale next to pebbles, heat-shimmer"
+ },
+ {
+  "id": 65,
+  "key": "Orcinar",
+  "group": "Mammal",
+  "prototype": "Orca",
+  "scientific": "Orcinus orca",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Orcaway",
+   "Sunicro",
+   "Or'or",
+   "Urce",
+   "Orciiun",
+   "Orka",
+   "Ororca",
+   "Ornar"
+  ],
+  "description": "Large toothed marine predators living in long-lived family pods with distinct hunting techniques and vocal dialects. Echolocation lets them hunt under ice.",
+  "image_notes": "Black-and-white cetacean with tall dorsal fin, eye patch; breaching through ice hole"
+ },
+ {
+  "id": 66,
+  "key": "Balaenor",
+  "group": "Mammal",
+  "prototype": "Blue whale",
+  "scientific": "Balaenoptera musculus",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Alewhay",
+   "Ba'mus",
+   "Wheli",
+   "Balaeith",
+   "Muzkuluz",
+   "Baculus",
+   "Whanor",
+   "Sulucsum"
+  ],
+  "description": "The largest animals ever known, filtering tiny drifting organisms through baleen plates. Their calls travel across entire oceans; on gas giants imagine them grazing floating plankton clouds.",
+  "image_notes": "Colossal streamlined filter-feeder with throat pleats, mottled blue-grey; swimming through gas giant cloud bands"
+ },
+ {
+  "id": 67,
+  "key": "Physeter",
+  "group": "Mammal",
+  "prototype": "Sperm whale",
+  "scientific": "Physeter macrocephalus",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Retesyhp",
+   "Phy'mac",
+   "Physeoth",
+   "Phyhalus",
+   "Whater",
+   "Yseterphay",
+   "Fy-Mak",
+   "Macroesh"
+  ],
+  "description": "Deep-diving predators with a massive box-shaped head containing a sound-focusing organ. They dive into crushing dark depths to hunt giant cephalopods.",
+  "image_notes": "Huge blocky head, wrinkled skin, narrow lower jaw, scars from tentacles; dark abyss"
+ },
+ {
+  "id": 68,
+  "key": "Monodar",
+  "group": "Mammal",
+  "prototype": "Narwhal",
+  "scientific": "Monodon monoceros",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Arwhalnay",
+   "Nodonom",
+   "Mo'mo",
+   "Nerwhel",
+   "Monound",
+   "Monokeroz",
+   "Moceros",
+   "Nardar"
+  ],
+  "description": "Arctic whales whose males grow a single spiralling sensory tusk up to three metres long. They dive deep beneath pack ice.",
+  "image_notes": "Mottled grey whale with long spiral tusk, no dorsal fin; under ice ceiling with light shafts"
+ },
+ {
+  "id": 69,
+  "key": "Delphix",
+  "group": "Mammal",
+  "prototype": "Bottlenose dolphin",
+  "scientific": "Tursiops truncatus",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Olphinday",
+   "Spoisrut",
+   "Tur'trun",
+   "Dulphon",
+   "Tursiopseth",
+   "Trunkatuz",
+   "Delcatus",
+   "Dolphix"
+  ],
+  "description": "Agile marine mammals with sophisticated echolocation and signature whistles serving as individual names. They sleep with one brain hemisphere at a time.",
+  "image_notes": "Sleek grey dolphin, curved smile, leaping; bright ocean"
+ },
+ {
+  "id": 70,
+  "key": "Odobra",
+  "group": "Mammal",
+  "prototype": "Walrus",
+  "scientific": "Odobenus rosmarus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Alrusway",
+   "Sunebodo",
+   "O'ros",
+   "Welras",
+   "Odoae",
+   "Rozmaruz",
+   "Omarus",
+   "Walra"
+  ],
+  "description": "Large blubbery marine mammals with long tusks used to haul out onto ice. Sensitive whiskers detect shellfish on dark sea floors.",
+  "image_notes": "Wrinkled brown pinniped, long ivory tusks, thick bristly moustache, hauled out on ice floe"
+ },
+ {
+  "id": 71,
+  "key": "Leptonyx",
+  "group": "Mammal",
+  "prototype": "Leopard seal",
+  "scientific": "Hydrurga leptonyx",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Ealsay",
+   "Agrurdyh",
+   "Hyd'lep",
+   "Siel",
+   "Hydrurae",
+   "Leptonyks",
+   "Sealnyx",
+   "Xynotpel"
+  ],
+  "description": "Sleek, solitary predatory seals with a reptilian head and wide gape. They hunt along ice edges and filter krill with interlocking teeth.",
+  "image_notes": "Long spotted seal, huge reptile-like head, wide grin; ice edge"
+ },
+ {
+  "id": 72,
+  "key": "Manatho",
+  "group": "Mammal",
+  "prototype": "West Indian manatee",
+  "scientific": "Trichechus manatus",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Anateemay",
+   "Suhcehcirt",
+   "Tric'ma",
+   "Menetii",
+   "Trichecul",
+   "Manatuz",
+   "Manatus",
+   "Maho"
+  ],
+  "description": "Slow, gentle aquatic herbivores with paddle tails and dense bones for buoyancy control. They graze submerged plants for hours.",
+  "image_notes": "Rotund grey sirenian, paddle tail, whiskered snout; drifting through warm green water or dense lower cloud layers"
+ },
+ {
+  "id": 73,
+  "key": "Aquilor",
+  "group": "Bird",
+  "prototype": "Golden eagle",
+  "scientific": "Aquila chrysaetos",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Eagleway",
+   "Aliuqa",
+   "A'chry",
+   "Iegli",
+   "Aquiak",
+   "Khryzaetoz",
+   "Asaetos",
+   "Eaglor"
+  ],
+  "description": "Large raptors with telescopic vision able to spot prey kilometres away. Powerful talons and soaring flight on thermals let them patrol enormous ranges.",
+  "image_notes": "Broad-winged raptor, golden nape feathers, hooked beak, intense eyes; soaring over cloud canyons"
+ },
+ {
+  "id": 74,
+  "key": "Harpyon",
+  "group": "Bird",
+  "prototype": "Harpy eagle",
+  "scientific": "Harpia harpyja",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Aiprah",
+   "Har'har",
+   "Harpiaora",
+   "Harpyja",
+   "Eagpyon",
+   "Ajyprah",
+   "Arpiahay",
+   "Har-Har"
+  ],
+  "description": "Heavy forest eagles with talons as large as a bear's claws. A facial disc of feathers funnels sound to locate prey in dense canopy.",
+  "image_notes": "Grey crested eagle with double head crest, massive yellow legs and talons; rainforest canopy"
+ },
+ {
+  "id": 75,
+  "key": "Peregrin",
+  "group": "Bird",
+  "prototype": "Peregrine falcon",
+  "scientific": "Falco peregrinus",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Alconfay",
+   "Oclaf",
+   "Fal'pe",
+   "Felcun",
+   "Falcoesh",
+   "Peregrinuz",
+   "Perinus",
+   "Falrin"
+  ],
+  "description": "The fastest diving animals of their homeworld, stooping at over 300 km/h. Nostril baffles regulate air pressure during dives.",
+  "image_notes": "Slate-backed falcon with dark moustache marks, tucked-wing dive; streaked sky"
+ },
+ {
+  "id": 76,
+  "key": "Strixa",
+  "group": "Bird",
+  "prototype": "Snowy owl",
+  "scientific": "Bubo scandiacus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Owysnay",
+   "Obub",
+   "Bu'scan",
+   "Snuwy",
+   "Bubound",
+   "Zkandiakuz",
+   "Stridiacus",
+   "Snoxa"
+  ],
+  "description": "Large white owls hunting in perpetual daylight or night of polar regions. Feathered feet and dense plumage resist extreme cold.",
+  "image_notes": "White owl with black flecks, yellow eyes, feathered talons; snow under aurora"
+ },
+ {
+  "id": 77,
+  "key": "Tytora",
+  "group": "Bird",
+  "prototype": "Barn owl",
+  "scientific": "Tyto alba",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Arnbay",
+   "Otyt",
+   "Ty'al",
+   "Bern",
+   "Tytoeen",
+   "Alba",
+   "Tyalba",
+   "Barnra"
+  ],
+  "description": "Silent nocturnal hunters with a heart-shaped facial disc and asymmetric ears that locate prey in total darkness by sound alone.",
+  "image_notes": "Pale owl with heart-shaped white face, dark eyes, fringed wing feathers; ruins at night"
+ },
+ {
+  "id": 78,
+  "key": "Corvane",
+  "group": "Bird",
+  "prototype": "Common raven",
+  "scientific": "Corvus corax",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Avenray",
+   "Suvroc",
+   "Cor'co",
+   "Revin",
+   "Corvusul",
+   "Koraks",
+   "Corcorax",
+   "Rane"
+  ],
+  "description": "Large, highly intelligent corvids that solve multi-step puzzles, plan ahead and recognise individual faces. Acrobatic fliers with wide vocal range.",
+  "image_notes": "Glossy black bird with iridescent sheen, shaggy throat feathers, heavy beak; cold cliffs"
+ },
+ {
+  "id": 79,
+  "key": "Psittar",
+  "group": "Bird",
+  "prototype": "Hyacinth macaw",
+  "scientific": "Anodorhynchus hyacinthinus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Acawmay",
+   "A'hya",
+   "Mecew",
+   "Anooth",
+   "Psitthinus",
+   "Matar",
+   "A-Hya",
+   "Hyacinoth"
+  ],
+  "description": "Large parrots with a beak strong enough to crack the hardest nuts. Lifelong pair bonds and loud far-carrying calls.",
+  "image_notes": "Cobalt blue parrot, yellow eye-ring and beak base, huge curved beak; palm forest"
+ },
+ {
+  "id": 80,
+  "key": "Kakapu",
+  "group": "Bird",
+  "prototype": "Kakapo",
+  "scientific": "Strigops habroptilus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Akapokay",
+   "Spogirts",
+   "Stri'hab",
+   "Kekepu",
+   "Strigopsund",
+   "Habroptiluz",
+   "Katilus",
+   "Kapu"
+  ],
+  "description": "Flightless, heavy nocturnal parrots with moss-green plumage and a strong sweet scent. They climb trees and boom loudly in breeding season.",
+  "image_notes": "Plump moss-green owl-faced parrot, whiskery face, climbing; mossy dark forest"
+ },
+ {
+  "id": 81,
+  "key": "Cacatoo",
+  "group": "Bird",
+  "prototype": "Sulphur-crested cockatoo",
+  "scientific": "Cacatua galerita",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ockatoocay",
+   "Autacac",
+   "Ca'ga",
+   "Cucketuu",
+   "Cacaari",
+   "Galerita",
+   "Carita",
+   "Coctoo"
+  ],
+  "description": "Raucous, long-lived parrots with an erectile crest used in display. Tough beaks shred wood; tolerant of mineral-rich diets.",
+  "image_notes": "White parrot raising a sulphur-yellow crest, dark beak; yellow haze"
+ },
+ {
+  "id": 82,
+  "key": "Aptenor",
+  "group": "Bird",
+  "prototype": "Emperor penguin",
+  "scientific": "Aptenodytes forsteri",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Enguinpay",
+   "Setydonetpa",
+   "Ap'for",
+   "Pingaon",
+   "Apteari",
+   "Forzteri",
+   "Apsteri",
+   "Pennor"
+  ],
+  "description": "Large flightless divers that breed on open ice in extreme cold. They huddle in rotating masses to share warmth and dive hundreds of metres.",
+  "image_notes": "Upright penguin with golden ear patches, sleek black back; huddle on ice shelf under dim sun"
+ },
+ {
+  "id": 83,
+  "key": "Diomed",
+  "group": "Bird",
+  "prototype": "Wandering albatross",
+  "scientific": "Diomedea exulans",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Aedemoid",
+   "Dio'e",
+   "Elbetruss",
+   "Diomeeth",
+   "Eksulanz",
+   "Dioxulans",
+   "Almed",
+   "Snaluxe"
+  ],
+  "description": "Ocean wanderers with the largest wingspan of any living bird. Dynamic soaring lets them travel thousands of kilometres with almost no flapping.",
+  "image_notes": "Huge white seabird, extremely long narrow wings, gliding over storm swells or cloud waves"
+ },
+ {
+  "id": 84,
+  "key": "Pelecar",
+  "group": "Bird",
+  "prototype": "Great white pelican",
+  "scientific": "Pelecanus onocrotalus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Elicanpay",
+   "Sunacelep",
+   "Pilocen",
+   "Peleora",
+   "Onokrotaluz",
+   "Petalus",
+   "Pecar",
+   "Sulatorcono"
+  ],
+  "description": "Large waterbirds with a stretchy throat pouch used as a fishing net. They fish cooperatively, herding prey into shallows.",
+  "image_notes": "Large white bird with giant expandable bill pouch; shallow lake"
+ },
+ {
+  "id": 85,
+  "key": "Phoenik",
+  "group": "Bird",
+  "prototype": "Greater flamingo",
+  "scientific": "Phoenicopterus roseus",
+  "planetoids": [
+   "toxic",
+   "molten"
+  ],
+  "name_variants": [
+   "Amingoflay",
+   "Phoe'ro",
+   "Flemongu",
+   "Phoeniyr",
+   "Rozeuz",
+   "Phoeroseus",
+   "Flanik",
+   "Suesor"
+  ],
+  "description": "Wading filter-feeders that thrive in caustic alkaline lakes where little else survives. Pigments from their diet turn feathers pink.",
+  "image_notes": "Long-legged pink wader, bent bill upside down filtering; steaming caustic lake with crusted salts"
+ },
+ {
+  "id": 86,
+  "key": "Struthon",
+  "group": "Bird",
+  "prototype": "Ostrich",
+  "scientific": "Struthio camelus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ostrichway",
+   "Oihturts",
+   "Strut'ca",
+   "Ustroch",
+   "Struthioeth",
+   "Kameluz",
+   "Strutmelus",
+   "Oshon"
+  ],
+  "description": "The largest living birds, flightless sprinters with two-toed feet and powerful kicks. Tolerate high temperatures and long periods without water.",
+  "image_notes": "Giant flightless bird, long bare neck, fluffy plumes, two-toed legs running; scorching plain"
+ },
+ {
+  "id": 87,
+  "key": "Casuar",
+  "group": "Bird",
+  "prototype": "Southern cassowary",
+  "scientific": "Casuarius casuarius",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Assowarycay",
+   "Suirausac",
+   "Ca'ca",
+   "Cessuwery",
+   "Casuaund",
+   "Kazuariuz",
+   "Casuarius",
+   "Cassuar"
+  ],
+  "description": "Large flightless forest birds with a helmet-like casque and dagger-like inner claws. Deep booming calls travel through dense vegetation.",
+  "image_notes": "Black-feathered bird with blue neck, red wattles, tall horn casque, dagger claw; jungle"
+ },
+ {
+  "id": 88,
+  "key": "Apteryn",
+  "group": "Bird",
+  "prototype": "North Island brown kiwi",
+  "scientific": "Apteryx mantelli",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Iwikay",
+   "Xyretpa",
+   "Ap'man",
+   "Kowo",
+   "Apteul",
+   "Mantelli",
+   "Aptelli",
+   "Kiryn"
+  ],
+  "description": "Small flightless nocturnal birds with nostrils at the bill tip for smelling prey underground. They lay enormous eggs relative to body size.",
+  "image_notes": "Round fuzzy brown bird, long thin bill, no visible wings; dark forest floor"
+ },
+ {
+  "id": 89,
+  "key": "Pavora",
+  "group": "Bird",
+  "prototype": "Indian peafowl",
+  "scientific": "Pavo cristatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Eafowlpay",
+   "Ovap",
+   "Pa'cris",
+   "Piefuwl",
+   "Pavoul",
+   "Kriztatuz",
+   "Patatus",
+   "Peara"
+  ],
+  "description": "Ground birds whose males display an enormous fan of eye-spotted train feathers. Loud calls warn of predators.",
+  "image_notes": "Iridescent blue bird fanning huge eye-spot train; garden in alien sunlight"
+ },
+ {
+  "id": 90,
+  "key": "Trochil",
+  "group": "Bird",
+  "prototype": "Anna's hummingbird",
+  "scientific": "Calypte anna",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Etpylac",
+   "Ca'an",
+   "Hammongbord",
+   "Calypoth",
+   "Anna",
+   "Trocanna",
+   "Humhil",
+   "Alyptecay"
+  ],
+  "description": "Tiny hovering nectar-feeders with wings beating dozens of times per second. They enter nightly torpor to save energy.",
+  "image_notes": "Tiny iridescent bird hovering at alien flower, blurred wings, needle bill"
+ },
+ {
+  "id": 91,
+  "key": "Bucerov",
+  "group": "Bird",
+  "prototype": "Great hornbill",
+  "scientific": "Buceros bicornis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ornbillhay",
+   "Sorecub",
+   "Bu'bi",
+   "Hurnboll",
+   "Buceix",
+   "Bikorniz",
+   "Bucornis",
+   "Horrov"
+  ],
+  "description": "Large forest birds with an enormous curved bill topped by a hollow casque. Females seal themselves in tree cavities while nesting.",
+  "image_notes": "Black-and-white bird with huge yellow bill and casque; tall forest"
+ },
+ {
+  "id": 92,
+  "key": "Ramphar",
+  "group": "Bird",
+  "prototype": "Toco toucan",
+  "scientific": "Ramphastos toco",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Oucantay",
+   "Sotsahpmar",
+   "Ram'to",
+   "Tuacen",
+   "Ramphasund",
+   "Toko",
+   "Ramtoco",
+   "Touphar"
+  ],
+  "description": "Fruit-eating birds with a huge, lightweight bill that also radiates body heat. Bright colouring and agile hopping through branches.",
+  "image_notes": "Black bird with giant orange bill, white throat, blue eye-ring; canopy"
+ },
+ {
+  "id": 93,
+  "key": "Paradis",
+  "group": "Bird",
+  "prototype": "Raggiana bird-of-paradise",
+  "scientific": "Paradisaea raggiana",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Aradisepay",
+   "Aeasidarap",
+   "Pa'rag",
+   "Peredosi",
+   "Paraesh",
+   "Raggiana",
+   "Pagiana",
+   "Padis"
+  ],
+  "description": "Forest birds whose males perform elaborate dances with cascading plumes. On gas giants their flowing plumes act as drift sails.",
+  "image_notes": "Bird with cascading red-orange plumes, display posture; floating canopy"
+ },
+ {
+  "id": 94,
+  "key": "Menuro",
+  "group": "Bird",
+  "prototype": "Superb lyrebird",
+  "scientific": "Menura novaehollandiae",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Yrebirdlay",
+   "Arunem",
+   "Me'no",
+   "Lyribord",
+   "Menuyr",
+   "Melandiae",
+   "Lyro",
+   "Enuramay"
+  ],
+  "description": "Ground birds that mimic almost any sound they hear with uncanny accuracy. Males fan a lyre-shaped tail in display.",
+  "image_notes": "Brown bird with fanned silvery lyre-shaped tail; ferny gully"
+ },
+ {
+  "id": 95,
+  "key": "Gyparr",
+  "group": "Bird",
+  "prototype": "Bearded vulture",
+  "scientific": "Gypaetus barbatus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ulturevay",
+   "Suteapyg",
+   "Gy'bar",
+   "Valtari",
+   "Gypaeak",
+   "Barbatuz",
+   "Gybatus",
+   "Vulparr"
+  ],
+  "description": "Large mountain vultures that live mainly on bone, dropping bones from height to crack them. They stain feathers with iron-rich mud.",
+  "image_notes": "Vulture with rust-orange stained chest, black beard bristles, red eye ring; volcanic cliffs"
+ },
+ {
+  "id": 96,
+  "key": "Sagittar",
+  "group": "Bird",
+  "prototype": "Secretary bird",
+  "scientific": "Sagittarius serpentarius",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Irdbay",
+   "Suirattigas",
+   "Sa'ser",
+   "Bord",
+   "Sagitoth",
+   "Satarius",
+   "Birdtar",
+   "Za-Zer"
+  ],
+  "description": "Long-legged terrestrial raptors that stomp prey with rapid powerful kicks. Quill-like head crest and long eyelashes.",
+  "image_notes": "Tall raptor on stilt legs, quill crest, orange face, kicking pose; dry grassland"
+ },
+ {
+  "id": 97,
+  "key": "Cygnara",
+  "group": "Bird",
+  "prototype": "Mute swan",
+  "scientific": "Cygnus olor",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Answay",
+   "Sungyc",
+   "Cyg'o",
+   "Swen",
+   "Cygnusesh",
+   "Olor",
+   "Cygolor",
+   "Swanra"
+  ],
+  "description": "Large waterbirds with long curved necks and strong pair bonds. Powerful wings and defensive behaviour at nests.",
+  "image_notes": "White swan with S-curved neck, orange bill with black knob; misty cold lake"
+ },
+ {
+  "id": 98,
+  "key": "Grusal",
+  "group": "Bird",
+  "prototype": "Red-crowned crane",
+  "scientific": "Grus japonensis",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Anecray",
+   "Surg",
+   "Grus'ja",
+   "Creni",
+   "Grusesh",
+   "Japonenziz",
+   "Grunensis",
+   "Crasal"
+  ],
+  "description": "Tall cranes performing synchronized leaping dances. Bare red crown skin and loud bugling calls.",
+  "image_notes": "Tall white crane with black neck, red crown patch, dancing; snowy marsh"
+ },
+ {
+  "id": 99,
+  "key": "Ardeon",
+  "group": "Bird",
+  "prototype": "Shoebill",
+  "scientific": "Balaeniceps rex",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Oebillshay",
+   "Specinealab",
+   "Ba'rex",
+   "Shuiboll",
+   "Balaeae",
+   "Reks",
+   "Arrex",
+   "Shoedeon"
+  ],
+  "description": "Massive swamp birds with a shoe-shaped bill used to ambush large prey. They stand motionless for hours in oxygen-poor marshes.",
+  "image_notes": "Grey bird with enormous clog-shaped bill, staring eyes; murky swamp"
+ },
+ {
+  "id": 100,
+  "key": "Apodi",
+  "group": "Bird",
+  "prototype": "Common swift",
+  "scientific": "Apus apus",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Iftsway",
+   "Supa",
+   "Swoft",
+   "Apusund",
+   "Apuz",
+   "Aapus",
+   "Swiftdi",
+   "Apusway"
+  ],
+  "description": "Aerial birds that may stay airborne for months without landing, eating, drinking and sleeping on the wing. Ideal for endless cloud worlds.",
+  "image_notes": "Sooty crescent-winged bird, tiny feet, mid-flight; endless cloud layers"
+ },
+ {
+  "id": 101,
+  "key": "Fregat",
+  "group": "Bird",
+  "prototype": "Magnificent frigatebird",
+  "scientific": "Fregata magnificens",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Atagerf",
+   "Fre'mag",
+   "Frogetibord",
+   "Fregaeth",
+   "Magnifikenz",
+   "Freficens",
+   "Frigat",
+   "Snecifingam"
+  ],
+  "description": "Seabirds with huge wing-to-weight ratio that ride updrafts for weeks. Males inflate a red throat sac in display.",
+  "image_notes": "Black angular-winged bird with inflated red throat pouch; storm sky"
+ },
+ {
+  "id": 102,
+  "key": "Fratera",
+  "group": "Bird",
+  "prototype": "Atlantic puffin",
+  "scientific": "Fratercula arctica",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Uffinpay",
+   "Alucretarf",
+   "Fra'ar",
+   "Paffon",
+   "Fraterul",
+   "Arktika",
+   "Fractica",
+   "Pufra"
+  ],
+  "description": "Compact diving birds that 'fly' underwater and nest in burrows. Brightly banded bill holds many small fish at once.",
+  "image_notes": "Black-and-white bird with striped colourful bill holding fish; icy coastal cliff"
+ },
+ {
+  "id": 103,
+  "key": "Lagopus",
+  "group": "Bird",
+  "prototype": "Rock ptarmigan",
+  "scientific": "Lagopus muta",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Armiganptay",
+   "Supogal",
+   "La'mu",
+   "Ptermogen",
+   "Lagoith",
+   "Muta",
+   "Lamuta",
+   "Ptarpus"
+  ],
+  "description": "Cold-adapted ground birds that moult between white and mottled plumage. Feathered feet act as snowshoes.",
+  "image_notes": "Round white grouse with feathered feet and red eye comb; snow"
+ },
+ {
+  "id": 104,
+  "key": "Picoid",
+  "group": "Bird",
+  "prototype": "Black woodpecker",
+  "scientific": "Dryocopus martius",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Supocoyrd",
+   "Dryo'mar",
+   "Wuudpickir",
+   "Dryocoari",
+   "Martiuz",
+   "Pimartius",
+   "Woodcoid",
+   "Suitram"
+  ],
+  "description": "Birds that hammer wood with shock-absorbing skulls and a tongue that wraps around the brain. Drumming patterns carry over distance.",
+  "image_notes": "Black bird with red crown, chisel beak, clinging to trunk"
+ },
+ {
+  "id": 105,
+  "key": "Megapod",
+  "group": "Bird",
+  "prototype": "Malleefowl",
+  "scientific": "Leipoa ocellata",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Aopiel",
+   "Lei'o",
+   "Melliifuwl",
+   "Leipoaos",
+   "Okellata",
+   "Melata",
+   "Malpod",
+   "Atalleco"
+  ],
+  "description": "Ground birds that incubate eggs in mounds heated by decomposition or geothermal warmth, testing temperature with their beaks.",
+  "image_notes": "Mottled bird tending a large mound with steam vents; volcanic ground"
+ },
+ {
+  "id": 106,
+  "key": "Pitohu",
+  "group": "Bird",
+  "prototype": "Hooded pitohui",
+  "scientific": "Pitohui dichrous",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Itohuipay",
+   "Iuhotip",
+   "Pi'dic",
+   "Potuhao",
+   "Pitoak",
+   "Dikhrouz",
+   "Pidichrous",
+   "Pihu"
+  ],
+  "description": "Songbirds that store potent neurotoxins in skin and feathers from their diet. Bright orange and black colouring warns predators.",
+  "image_notes": "Orange and black songbird, faint toxic shimmer on feathers; humid forest"
+ },
+ {
+  "id": 107,
+  "key": "Steatorn",
+  "group": "Bird",
+  "prototype": "Oilbird",
+  "scientific": "Steatornis caripensis",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Oilbirdway",
+   "Sinrotaets",
+   "Stea'ca",
+   "Uolbord",
+   "Steatoryr",
+   "Karipenziz",
+   "Steapensis",
+   "Oiltorn"
+  ],
+  "description": "Nocturnal cave-dwelling fruit-eaters that navigate darkness by audible echolocation clicks. Chicks become heavier than adults due to fat stores.",
+  "image_notes": "Reddish-brown bird with hooked bill, spotted wings, in dark cavern"
+ },
+ {
+  "id": 108,
+  "key": "Ptilon",
+  "group": "Bird",
+  "prototype": "Satin bowerbird",
+  "scientific": "Ptilonorhynchus violaceus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Owerbirdbay",
+   "Pti'vio",
+   "Buwirbord",
+   "Ptilound",
+   "Violakeuz",
+   "Ptilaceus",
+   "Bolon",
+   "Suecaloiv"
+  ],
+  "description": "Birds whose males build elaborate decorated structures of collected colourful objects to attract mates.",
+  "image_notes": "Glossy blue-black bird with violet eyes beside a bower decorated with blue objects"
+ },
+ {
+  "id": 109,
+  "key": "Cuculus",
+  "group": "Bird",
+  "prototype": "Common cuckoo",
+  "scientific": "Cuculus canorus",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Uckoocay",
+   "Sulucuc",
+   "Cu'ca",
+   "Cackuu",
+   "Cucuund",
+   "Kanoruz",
+   "Cunorus",
+   "Cuclus"
+  ],
+  "description": "Brood parasites that lay eggs in other species' nests, with eggs mimicking the host's. Long migratory flights.",
+  "image_notes": "Grey hawk-like bird with barred chest; on branch"
+ },
+ {
+  "id": 110,
+  "key": "Archaeo",
+  "group": "Bird",
+  "prototype": "Archaeopteryx",
+  "scientific": "Archaeopteryx lithographica",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ar'lit",
+   "Archaeopesh",
+   "Arhica",
+   "Ar-Lit",
+   "Lithogae",
+   "Arryx",
+   "Archaeopul",
+   "Ar'chaeo"
+  ],
+  "description": "Feathered transitional animals with teeth, wing claws and a long bony tail. Capable of gliding and short flapping flight.",
+  "image_notes": "Feathered raptor-bird with teeth, clawed wings, long feathered tail"
+ },
+ {
+  "id": 111,
+  "key": "Opisthon",
+  "group": "Bird",
+  "prototype": "Hoatzin",
+  "scientific": "Opisthocomus hoazin",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Oatzinhay",
+   "O'hoa",
+   "Huetzon",
+   "Opisiun",
+   "Hoazin",
+   "Ohoazin",
+   "Hoatthon",
+   "Nizaoh"
+  ],
+  "description": "Leaf-eating birds that ferment toxic foliage in a crop, giving them a strong smell. Chicks have wing claws to climb.",
+  "image_notes": "Brown bird with spiky crest, blue face skin, red eyes; swampy forest"
+ },
+ {
+  "id": 112,
+  "key": "Sterna",
+  "group": "Bird",
+  "prototype": "Arctic tern",
+  "scientific": "Sterna paradisaea",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Erntay",
+   "Anrets",
+   "Ster'pa",
+   "Tirn",
+   "Sternaos",
+   "Paradizaea",
+   "Sterdisaea",
+   "Ternna"
+  ],
+  "description": "Small seabirds with the longest migrations known, following perpetual daylight between poles. Agile hovering divers.",
+  "image_notes": "White tern with black cap and red bill, forked tail; polar sky"
+ },
+ {
+  "id": 113,
+  "key": "Phalaco",
+  "group": "Bird",
+  "prototype": "Great cormorant",
+  "scientific": "Phalacrocorax carbo",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ormorantcay",
+   "Pha'car",
+   "Curmurent",
+   "Phalacak",
+   "Karbo",
+   "Phacarbo",
+   "Corco",
+   "Obrac"
+  ],
+  "description": "Diving birds that hunt underwater, then stand with wings spread to dry because their feathers are less waterproof.",
+  "image_notes": "Black bird with hooked bill spreading wings on rock"
+ },
+ {
+  "id": 114,
+  "key": "Dodu",
+  "group": "Bird",
+  "prototype": "Dodo",
+  "scientific": "Raphus cucullatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ododay",
+   "Suhpar",
+   "Rap'cu",
+   "Dudu",
+   "Raphusund",
+   "Kukullatuz",
+   "Dolatus",
+   "Sutallucuc"
+  ],
+  "description": "Large flightless ground birds with a heavy hooked bill and stubby wings. Adapted to predator-free island ecosystems.",
+  "image_notes": "Plump grey flightless bird with big hooked bill, tufted tail"
+ },
+ {
+  "id": 115,
+  "key": "Dinorn",
+  "group": "Bird",
+  "prototype": "Giant moa",
+  "scientific": "Dinornis robustus",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Iantgay",
+   "Sinronid",
+   "Di'ro",
+   "Goent",
+   "Dinorix",
+   "Robuztuz",
+   "Dibustus",
+   "Giantnorn"
+  ],
+  "description": "Huge wingless browsers standing several metres tall. Thick plumage suited to cool climates.",
+  "image_notes": "Giant wingless bird with long neck, hair-like feathers; cold forest"
+ },
+ {
+  "id": 116,
+  "key": "Varanok",
+  "group": "Reptile",
+  "prototype": "Komodo dragon",
+  "scientific": "Varanus komodoensis",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Agondray",
+   "Sunarav",
+   "Va'ko",
+   "Dregun",
+   "Varaari",
+   "Komodoenziz",
+   "Vadoensis",
+   "Dranok"
+  ],
+  "description": "The largest lizards, ambush predators with serrated teeth and venom that prevents blood clotting. Forked tongue tastes the air over long distances.",
+  "image_notes": "Huge monitor lizard, forked yellow tongue, scaly armour-like hide; volcanic island"
+ },
+ {
+  "id": 117,
+  "key": "Crocodar",
+  "group": "Reptile",
+  "prototype": "Saltwater crocodile",
+  "scientific": "Crocodylus porosus",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ocodilecray",
+   "Sulydocorc",
+   "Cro'po",
+   "Crucudoli",
+   "Crocound",
+   "Porozuz",
+   "Crorosus",
+   "Crodar"
+  ],
+  "description": "Huge armoured ambush predators with a bite force among the strongest known. Can stay submerged for long periods in murky water.",
+  "image_notes": "Heavily scaled crocodilian, eyes above water line, broad snout; murky green water"
+ },
+ {
+  "id": 118,
+  "key": "Gavial",
+  "group": "Reptile",
+  "prototype": "Gharial",
+  "scientific": "Gavialis gangeticus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Arialghay",
+   "Silaivag",
+   "Ga'gan",
+   "Gheroel",
+   "Gaviaari",
+   "Gangetikuz",
+   "Gaticus",
+   "Ghavial"
+  ],
+  "description": "Long-snouted crocodilians specialised for catching fish with a narrow toothed jaw. Males grow a bulbous nasal knob.",
+  "image_notes": "Crocodilian with extremely narrow snout, knob on tip; sandy riverbank"
+ },
+ {
+  "id": 119,
+  "key": "Chelonar",
+  "group": "Reptile",
+  "prototype": "Galápagos tortoise",
+  "scientific": "Chelonoidis niger",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ortoisetay",
+   "Sidionolehc",
+   "Che'ni",
+   "Turtuosi",
+   "Cheloiun",
+   "Niger",
+   "Cheniger",
+   "Tornar"
+  ],
+  "description": "Giant, long-lived tortoises that survive a year without food or water. Shell shape varies between dome and saddle forms.",
+  "image_notes": "Giant tortoise, domed shell, wrinkled long neck; volcanic rocks"
+ },
+ {
+  "id": 120,
+  "key": "Dermochel",
+  "group": "Reptile",
+  "prototype": "Leatherback sea turtle",
+  "scientific": "Dermochelys coriacea",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Urtletay",
+   "Sylehcomred",
+   "Der'co",
+   "Tartli",
+   "Dermocith",
+   "Koriakea",
+   "Derriacea",
+   "Turhel"
+  ],
+  "description": "The largest turtles, with a flexible leathery shell. They maintain body heat in cold water and dive extremely deep.",
+  "image_notes": "Huge turtle with ridged leathery shell, long front flippers; cold dark ocean"
+ },
+ {
+  "id": 121,
+  "key": "Macroch",
+  "group": "Reptile",
+  "prototype": "Alligator snapping turtle",
+  "scientific": "Macrochelys temminckii",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Sylehcorcam",
+   "Mac'tem",
+   "Macrocyr",
+   "Temminkkii",
+   "Macminckii",
+   "Turroch",
+   "Iikcnimmet",
+   "Mak-Tem"
+  ],
+  "description": "Heavy ambush turtles that lure prey with a worm-like tongue appendage. Ridged armoured shell.",
+  "image_notes": "Prehistoric-looking turtle with spiked ridged shell, hooked beak, lure tongue; murky swamp"
+ },
+ {
+  "id": 122,
+  "key": "Chamaeon",
+  "group": "Reptile",
+  "prototype": "Panther chameleon",
+  "scientific": "Furcifer pardalis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ameleonchay",
+   "Reficruf",
+   "Fur'par",
+   "Chemiliun",
+   "Furciae",
+   "Pardaliz",
+   "Chadalis",
+   "Siladrap"
+  ],
+  "description": "Arboreal lizards that change skin colour through nanocrystal cells, with independently moving eyes and a ballistic tongue.",
+  "image_notes": "Chameleon with vivid shifting colour bands, turret eyes, curled tail; branch"
+ },
+ {
+  "id": 123,
+  "key": "Iguanar",
+  "group": "Reptile",
+  "prototype": "Marine iguana",
+  "scientific": "Amblyrhynchus cristatus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Iguanaway",
+   "Am'cris",
+   "Ogaene",
+   "Amblyrix",
+   "Itatus",
+   "Inar",
+   "Sutatsirc",
+   "Am-Kriz"
+  ],
+  "description": "Sea-foraging lizards that graze algae and sneeze out excess salt. They bask on black lava rock to recover heat after dives.",
+  "image_notes": "Black spiny iguana with salt-crusted head, basking on lava rock by surf"
+ },
+ {
+  "id": 124,
+  "key": "Molochi",
+  "group": "Reptile",
+  "prototype": "Thorny devil",
+  "scientific": "Moloch horridus",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Hcolom",
+   "Mo'hor",
+   "Molochiun",
+   "Horriduz",
+   "Moridus",
+   "Dehi",
+   "Sudirroh",
+   "Olochmay"
+  ],
+  "description": "Small desert lizards covered in spikes, with skin channels that wick water to the mouth. A false head on the neck confuses predators.",
+  "image_notes": "Small spiky lizard, ochre and tan camouflage; red sand"
+ },
+ {
+  "id": 125,
+  "key": "Draconi",
+  "group": "Reptile",
+  "prototype": "Flying dragon lizard",
+  "scientific": "Draco volans",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Izardlay",
+   "Ocard",
+   "Dra'vo",
+   "Lozerd",
+   "Dracoora",
+   "Volanz",
+   "Dravolans",
+   "Lini"
+  ],
+  "description": "Small lizards with extended ribs supporting gliding wing membranes. They glide between tall structures and flash a throat flag.",
+  "image_notes": "Small lizard with colourful rib-supported wing flaps gliding"
+ },
+ {
+  "id": 126,
+  "key": "Gekkor",
+  "group": "Reptile",
+  "prototype": "Tokay gecko",
+  "scientific": "Gekko gecko",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Eckogay",
+   "Okkeg",
+   "Gek'gec",
+   "Gicku",
+   "Gekkoos",
+   "Gekko",
+   "Gekgecko",
+   "Geckor"
+  ],
+  "description": "Agile lizards with foot pads of microscopic hairs allowing them to cling to any surface. Loud distinctive calls.",
+  "image_notes": "Blue-grey gecko with orange spots, big eyes, clinging to wall"
+ },
+ {
+  "id": 127,
+  "key": "Heloder",
+  "group": "Reptile",
+  "prototype": "Gila monster",
+  "scientific": "Heloderma suspectum",
+  "planetoids": [
+   "molten",
+   "toxic"
+  ],
+  "name_variants": [
+   "Onstermay",
+   "Amredoleh",
+   "He'sus",
+   "Munstir",
+   "Heloesh",
+   "Zuzpektum",
+   "Hepectum",
+   "Monder"
+  ],
+  "description": "Slow venomous lizards with beaded skin. They store fat in the tail and eat rarely, surviving long dry periods.",
+  "image_notes": "Beaded black-and-orange lizard, thick tail; desert night"
+ },
+ {
+  "id": 128,
+  "key": "Phrynos",
+  "group": "Reptile",
+  "prototype": "Texas horned lizard",
+  "scientific": "Phrynosoma cornutum",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Amosonyrhp",
+   "Phry'cor",
+   "Phrynoeth",
+   "Kornutum",
+   "Phrynutum",
+   "Linos",
+   "Mutunroc",
+   "Fry-Kor"
+  ],
+  "description": "Flat spiky lizards that can squirt blood from their eyes to deter predators. Excellent camouflage on hot ground.",
+  "image_notes": "Flat wide lizard with horn crown, pebble camouflage; hot gravel"
+ },
+ {
+  "id": 129,
+  "key": "Chlamyd",
+  "group": "Reptile",
+  "prototype": "Frilled lizard",
+  "scientific": "Chlamydosaurus kingii",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Chla'kin",
+   "Chlamyiun",
+   "Kingii",
+   "Chlakingii",
+   "Limyd",
+   "Iignik",
+   "Khla-Kin",
+   "Kingiioth"
+  ],
+  "description": "Lizards that unfurl a large neck frill and run upright on hind legs when threatened.",
+  "image_notes": "Lizard with huge open neck frill, gaping mouth, bipedal run; dry woodland"
+ },
+ {
+  "id": 130,
+  "key": "Basilix",
+  "group": "Reptile",
+  "prototype": "Common basilisk",
+  "scientific": "Basiliscus basiliscus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Asiliskbay",
+   "Sucsilisab",
+   "Ba'ba",
+   "Besolosk",
+   "Basiari",
+   "Bazilizkuz",
+   "Baliscus",
+   "Balix"
+  ],
+  "description": "Lizards able to sprint across water on hind legs. Males have tall crests on head, back and tail.",
+  "image_notes": "Green crested lizard running on water surface"
+ },
+ {
+  "id": 131,
+  "key": "Sphenod",
+  "group": "Reptile",
+  "prototype": "Tuatara",
+  "scientific": "Sphenodon punctatus",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Uataratay",
+   "Nodonehps",
+   "Sphe'pun",
+   "Taetere",
+   "Sphenoiun",
+   "Punktatuz",
+   "Sphectatus",
+   "Tuanod"
+  ],
+  "description": "Ancient reptiles active at cold temperatures, with a light-sensitive 'third eye' on the head. Extremely slow growth and long lifespan.",
+  "image_notes": "Lizard-like reptile with spiny crest, olive skin, small eye on forehead; cool night"
+ },
+ {
+  "id": 132,
+  "key": "Ophiar",
+  "group": "Reptile",
+  "prototype": "King cobra",
+  "scientific": "Ophiophagus hannah",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Obracay",
+   "Sugahpoihpo",
+   "Op'han",
+   "Cubre",
+   "Ophiopyr",
+   "Hannah",
+   "Ophannah",
+   "Cobhiar"
+  ],
+  "description": "The longest venomous snakes, which hunt other snakes. They rear up and spread a hood when threatened.",
+  "image_notes": "Long olive snake raised with spread hood; jungle"
+ },
+ {
+  "id": 133,
+  "key": "Pythora",
+  "group": "Reptile",
+  "prototype": "Reticulated python",
+  "scientific": "Malayopython reticulatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ythonpay",
+   "Ma're",
+   "Pythun",
+   "Malayoyr",
+   "Retikulatuz",
+   "Pytlatus",
+   "Pytra",
+   "Sutaluciter"
+  ],
+  "description": "Very long constricting snakes with heat-sensing lip pits. Complex net-like pattern camouflages them.",
+  "image_notes": "Huge python with geometric pattern, coiled; dense forest"
+ },
+ {
+  "id": 134,
+  "key": "Crotal",
+  "group": "Reptile",
+  "prototype": "Sidewinder rattlesnake",
+  "scientific": "Crotalus cerastes",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Sulatorc",
+   "Cro'ce",
+   "Rettlisneki",
+   "Crotayr",
+   "Keraztez",
+   "Crorastes",
+   "Rattal",
+   "Setsarec"
+  ],
+  "description": "Desert vipers that move sideways across loose hot sand. Horn-like scales over eyes and a rattle tail warning.",
+  "image_notes": "Sandy viper with horned eyes, S-shaped tracks; hot dunes"
+ },
+ {
+  "id": 135,
+  "key": "Dendras",
+  "group": "Reptile",
+  "prototype": "Black mamba",
+  "scientific": "Dendroaspis polylepis",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ambamay",
+   "Sipsaordned",
+   "Den'po",
+   "Membe",
+   "Dendroasoth",
+   "Polylepiz",
+   "Denlepis",
+   "Mamdras"
+  ],
+  "description": "Extremely fast, highly venomous snakes. The inside of the mouth is inky black, shown as a threat display.",
+  "image_notes": "Slender grey snake with open black mouth; dry savanna"
+ },
+ {
+  "id": 136,
+  "key": "Chrysop",
+  "group": "Reptile",
+  "prototype": "Paradise flying snake",
+  "scientific": "Chrysopelea paradisi",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Akesnay",
+   "Aeleposyrhc",
+   "Chry'pa",
+   "Sneki",
+   "Chrysound",
+   "Paradizi",
+   "Chrydisi",
+   "Snasop"
+  ],
+  "description": "Tree snakes that flatten their bodies and undulate to glide through the air between branches.",
+  "image_notes": "Green-and-black snake gliding with flattened body"
+ },
+ {
+  "id": 137,
+  "key": "Hydrophis",
+  "group": "Reptile",
+  "prototype": "Yellow-bellied sea snake",
+  "scientific": "Hydrophis platurus",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Sihpordyh",
+   "Hyd'pla",
+   "Hydropari",
+   "Platuruz",
+   "Hydturus",
+   "Snahis",
+   "Surutalp",
+   "Ydrophishay"
+  ],
+  "description": "Fully marine venomous snakes with paddle tails. They drift with currents in vast aggregations.",
+  "image_notes": "Black-and-yellow sea snake with paddle tail drifting in open water"
+ },
+ {
+  "id": 138,
+  "key": "Amphisb",
+  "group": "Reptile",
+  "prototype": "Worm lizard",
+  "scientific": "Amphisbaena alba",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Aneabsihpma",
+   "Am'al",
+   "Amphisae",
+   "Amalba",
+   "Liphisb",
+   "Abla",
+   "Albaeth",
+   "Emphosbeine"
+  ],
+  "description": "Burrowing reptiles with ringed scales and tiny or no eyes, able to move backwards as easily as forwards.",
+  "image_notes": "Pinkish ringed worm-like reptile, blunt head; underground"
+ },
+ {
+  "id": 139,
+  "key": "Triceron",
+  "group": "Reptile",
+  "prototype": "Triceratops",
+  "scientific": "Triceratops horridus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Spotarecirt",
+   "Tri'hor",
+   "Trociretups",
+   "Triceani",
+   "Triridus",
+   "Triron",
+   "Tri-Hor",
+   "Horrieth"
+  ],
+  "description": "Large herbivores with three horns and a broad bony frill. They grind tough plants with batteries of teeth.",
+  "image_notes": "Massive quadruped with three horns and wide frill; prehistoric plain"
+ },
+ {
+  "id": 140,
+  "key": "Tyrannor",
+  "group": "Reptile",
+  "prototype": "Tyrannosaurus",
+  "scientific": "Tyrannosaurus rex",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Ty'rex",
+   "Tyranos",
+   "Tyrex",
+   "Tynor",
+   "Ty-Reks",
+   "Rexoth",
+   "Tyrus",
+   "Tyranesh"
+  ],
+  "description": "Giant bipedal predators with enormous bone-crushing jaws and tiny forelimbs. Keen smell and binocular vision.",
+  "image_notes": "Huge bipedal theropod, massive head, tiny arms, feathery patches; volcanic sky"
+ },
+ {
+  "id": 141,
+  "key": "Pteranx",
+  "group": "Reptile",
+  "prototype": "Pteranodon",
+  "scientific": "Pteranodon longiceps",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Nodonaretp",
+   "Pte'lon",
+   "Ptirenudun",
+   "Pteraiun",
+   "Longikepz",
+   "Ptegiceps",
+   "Specignol",
+   "Pte-Lon"
+  ],
+  "description": "Toothless flying reptiles with long head crests and wingspans over six metres, soaring on air currents.",
+  "image_notes": "Pterosaur with long backward crest, membranous wings; cloud sky"
+ },
+ {
+  "id": 142,
+  "key": "Plesior",
+  "group": "Reptile",
+  "prototype": "Plesiosaur",
+  "scientific": "Plesiosaurus dolichodeirus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Ple'do",
+   "Plisousear",
+   "Plesioiun",
+   "Pledeirus",
+   "Ple-Do",
+   "Doliceen",
+   "Plesaur",
+   "Plesioos"
+  ],
+  "description": "Marine reptiles with long necks, broad bodies and four flippers. They fly underwater with flipper strokes.",
+  "image_notes": "Long-necked marine reptile with four flippers; dark ocean under ice"
+ },
+ {
+  "id": 143,
+  "key": "Ankylon",
+  "group": "Reptile",
+  "prototype": "Ankylosaurus",
+  "scientific": "Ankylosaurus magniventris",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "An'mag",
+   "Ankyyr",
+   "Anventris",
+   "Anlon",
+   "An-Mag",
+   "Magniul",
+   "Anrus",
+   "Ankyund"
+  ],
+  "description": "Heavily armoured herbivores with bony plates and a club tail. Nearly impervious to predators.",
+  "image_notes": "Low armoured dinosaur with osteoderm plates and tail club; lava field"
+ },
+ {
+  "id": 144,
+  "key": "Velocir",
+  "group": "Reptile",
+  "prototype": "Velociraptor",
+  "scientific": "Velociraptor mongoliensis",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Ve'mon",
+   "Veloix",
+   "Veliensis",
+   "Vecir",
+   "Ve-Mon",
+   "Mongoesh",
+   "Vetor",
+   "Veloora"
+  ],
+  "description": "Small feathered predators with sickle claws on each foot. Agile and fast with grasping hands.",
+  "image_notes": "Feathered small raptor with sickle toe claw; desert dunes"
+ },
+ {
+  "id": 145,
+  "key": "Brachior",
+  "group": "Reptile",
+  "prototype": "Brachiosaurus",
+  "scientific": "Brachiosaurus altithorax",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Brac'al",
+   "Brachioari",
+   "Altithoraks",
+   "Brachorax",
+   "Xarohtitla",
+   "Brak-Al",
+   "Altitix",
+   "Bracrus"
+  ],
+  "description": "Colossal long-necked herbivores browsing high treetops. Forelimbs longer than hind limbs.",
+  "image_notes": "Gigantic sauropod with upright neck; tall forest"
+ },
+ {
+  "id": 146,
+  "key": "Stegor",
+  "group": "Reptile",
+  "prototype": "Stegosaurus",
+  "scientific": "Stegosaurus stenops",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Suruasogets",
+   "Ste'ste",
+   "Stigusearas",
+   "Stegoak",
+   "Ztenopz",
+   "Stestenops",
+   "Sponets",
+   "Zte-Zte"
+  ],
+  "description": "Herbivores with large plates along the back and spiked tail. Small head and stiff gait.",
+  "image_notes": "Dinosaur with two rows of back plates, tail spikes; ferny plain"
+ },
+ {
+  "id": 147,
+  "key": "Phyllovar",
+  "group": "Amphibian",
+  "prototype": "Golden poison frog",
+  "scientific": "Phyllobates terribilis",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Ogfray",
+   "Setabollyhp",
+   "Phyl'ter",
+   "Frug",
+   "Phylloos",
+   "Terribiliz",
+   "Phylbilis",
+   "Frogvar"
+  ],
+  "description": "Tiny brilliantly coloured frogs whose skin carries potent alkaloid toxins from their diet. Parents carry tadpoles on their backs to water pools.",
+  "image_notes": "Small glossy gold frog, vivid warning colour, wet skin sheen; toxic haze over leaf"
+ },
+ {
+  "id": 148,
+  "key": "Axolar",
+  "group": "Amphibian",
+  "prototype": "Axolotl",
+  "scientific": "Ambystoma mexicanum",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Axolotlway",
+   "Amotsybma",
+   "Am'me",
+   "Exulutl",
+   "Ambysora",
+   "Meksikanum",
+   "Acanum",
+   "Alar"
+  ],
+  "description": "Aquatic salamanders that keep larval traits for life, including feathery external gills. They regenerate entire limbs, organs and parts of the brain.",
+  "image_notes": "Pink axolotl with feathery red gill fronds, smiling face, translucent skin; under ice lake"
+ },
+ {
+  "id": 149,
+  "key": "Salamarr",
+  "group": "Amphibian",
+  "prototype": "Fire salamander",
+  "scientific": "Salamandra salamandra",
+  "planetoids": [
+   "molten",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ardnamalas",
+   "Sa'sa",
+   "Selemendir",
+   "Salaesh",
+   "Zalamandra",
+   "Samandra",
+   "Samarr",
+   "Za-Za"
+  ],
+  "description": "Bold black-and-yellow salamanders that secrete neurotoxins from skin glands. Old myths link them to fire because they crawl from burning logs.",
+  "image_notes": "Black salamander with yellow or orange blotches, crawling over glowing embers"
+ },
+ {
+  "id": 150,
+  "key": "Andrias",
+  "group": "Amphibian",
+  "prototype": "Chinese giant salamander",
+  "scientific": "Andrias davidianus",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Sairdna",
+   "An'da",
+   "Andriasani",
+   "Davidianuz",
+   "Andianus",
+   "Sadrias",
+   "Sunaidivad",
+   "Andriasway"
+  ],
+  "description": "The largest amphibians, flat-bodied river giants that breathe largely through wrinkled skin. They hunt by sudden suction feeding.",
+  "image_notes": "Huge flat brown salamander with wrinkled skin folds, tiny eyes; rocky cold stream"
+ },
+ {
+  "id": 151,
+  "key": "Rhinell",
+  "group": "Amphibian",
+  "prototype": "Cane toad",
+  "scientific": "Rhinella marina",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Oadtay",
+   "Allenihr",
+   "Rhi'ma",
+   "Tued",
+   "Rhineliun",
+   "Marina",
+   "Rhirina",
+   "Toadnell"
+  ],
+  "description": "Hardy, large toads with toxin glands behind the head. They eat almost anything and spread rapidly in new habitats.",
+  "image_notes": "Warty brown toad with large parotoid glands; polluted wetland"
+ },
+ {
+  "id": 152,
+  "key": "Ranavi",
+  "group": "Amphibian",
+  "prototype": "Wood frog",
+  "scientific": "Lithobates sylvaticus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Setabohtil",
+   "Lit'syl",
+   "Lithoora",
+   "Zylvatikuz",
+   "Raticus",
+   "Frogvi",
+   "Sucitavlys",
+   "Lit-Zyl"
+  ],
+  "description": "Frogs that freeze solid through winter, stopping heartbeat and breathing, then thaw and revive. Sugar in their cells prevents damage.",
+  "image_notes": "Brown frog with dark mask, partially frozen in clear ice"
+ },
+ {
+  "id": 153,
+  "key": "Hylarb",
+  "group": "Amphibian",
+  "prototype": "Red-eyed tree frog",
+  "scientific": "Agalychnis callidryas",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Sinhcylaga",
+   "A'cal",
+   "Agayr",
+   "Kallidryaz",
+   "Hylidryas",
+   "Froglarb",
+   "Sayrdillac",
+   "A-Kal"
+  ],
+  "description": "Slender tree frogs with startling red eyes and suction toes. They lay eggs on leaves above water.",
+  "image_notes": "Green frog with red eyes, blue flanks, orange feet on leaf"
+ },
+ {
+  "id": 154,
+  "key": "Ceratoph",
+  "group": "Amphibian",
+  "prototype": "Argentine horned frog",
+  "scientific": "Ceratophrys ornata",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Syrhpotarec",
+   "Ce'or",
+   "Ornata",
+   "Cenata",
+   "Frogtoph",
+   "Atanro",
+   "Ke-Or",
+   "Ornaos"
+  ],
+  "description": "Round ambush frogs with enormous mouths that swallow prey nearly their own size. They burrow and wait.",
+  "image_notes": "Round green frog with huge mouth and horn-like eyelids"
+ },
+ {
+  "id": 155,
+  "key": "Rhacoph",
+  "group": "Amphibian",
+  "prototype": "Wallace's flying frog",
+  "scientific": "Rhacophorus nigropalmatus",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Surohpocahr",
+   "Rha'nig",
+   "Rhacopix",
+   "Rhamatus",
+   "Frogcoph",
+   "Rha-Nig",
+   "Nigroeth",
+   "Rhecuphuras"
+  ],
+  "description": "Frogs with huge webbed feet used as parachutes to glide between trees. On gas giants they glide between floating mats.",
+  "image_notes": "Green frog gliding with spread black-webbed feet"
+ },
+ {
+  "id": 156,
+  "key": "Proteus",
+  "group": "Amphibian",
+  "prototype": "Olm",
+  "scientific": "Proteus anguinus",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Olmway",
+   "Suetorp",
+   "Pro'an",
+   "Proteusos",
+   "Anguinuz",
+   "Proguinus",
+   "Olmteus",
+   "Suniugna"
+  ],
+  "description": "Blind, pale cave salamanders living entirely underwater for a century. They can survive years without food.",
+  "image_notes": "Pale pink eel-like salamander with red gills, no eyes; dark cave water"
+ },
+ {
+  "id": 157,
+  "key": "Caecil",
+  "group": "Amphibian",
+  "prototype": "Ringed caecilian",
+  "scientific": "Siphonops annulatus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Aeciliancay",
+   "Sponohpis",
+   "Sip'an",
+   "Ceicoloen",
+   "Siphoul",
+   "Annulatuz",
+   "Caelatus",
+   "Sutalunna"
+  ],
+  "description": "Legless, burrowing amphibians with sensory tentacles. Young feed on a nutritious skin layer of the mother.",
+  "image_notes": "Blue-grey ringed legless amphibian; soil tunnel"
+ },
+ {
+  "id": 158,
+  "key": "Pipari",
+  "group": "Amphibian",
+  "prototype": "Surinam toad",
+  "scientific": "Pipa pipa",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Apip",
+   "Pi'pi",
+   "Pipayr",
+   "Pipa",
+   "Pipipa",
+   "Toadri",
+   "Ipapay",
+   "Pi-Pi"
+  ],
+  "description": "Flat aquatic toads whose young develop embedded in the mother's back skin. Star-shaped finger sensors find prey in murky water.",
+  "image_notes": "Flat leaf-like toad with honeycomb pits on back; murky water"
+ },
+ {
+  "id": 159,
+  "key": "Pyxicep",
+  "group": "Amphibian",
+  "prototype": "African bullfrog",
+  "scientific": "Pyxicephalus adspersus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ullfrogbay",
+   "Py'ad",
+   "Ballfrug",
+   "Pyxiae",
+   "Adzperzuz",
+   "Pyspersus",
+   "Bulcep",
+   "Susrepsda"
+  ],
+  "description": "Huge, aggressive frogs that survive drought for years inside a mucus cocoon underground. Males guard tadpoles fiercely.",
+  "image_notes": "Huge olive frog with toothlike jaw projections; cracked dry earth"
+ },
+ {
+  "id": 160,
+  "key": "Telmato",
+  "group": "Amphibian",
+  "prototype": "Titicaca water frog",
+  "scientific": "Telmatobius culeus",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Suibotamlet",
+   "Tel'cu",
+   "Telmaiun",
+   "Kuleuz",
+   "Telculeus",
+   "Frogto",
+   "Sueluc",
+   "Tel-Ku"
+  ],
+  "description": "High-altitude aquatic frogs with baggy skin folds that maximise oxygen absorption in cold water.",
+  "image_notes": "Frog with loose baggy skin folds in cold clear lake"
+ },
+ {
+  "id": 161,
+  "key": "Rheobat",
+  "group": "Amphibian",
+  "prototype": "Gastric-brooding frog",
+  "scientific": "Rheobatrachus silus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Rheo'si",
+   "Rheobatiun",
+   "Ziluz",
+   "Rheosilus",
+   "Frogbat",
+   "Sulis",
+   "Rheo-Zi",
+   "Silusiun"
+  ],
+  "description": "Frogs that brood their young in the stomach, switching off digestion, then give birth through the mouth.",
+  "image_notes": "Slimy grey frog with tadpoles in mouth; mountain stream"
+ },
+ {
+  "id": 162,
+  "key": "Carcharo",
+  "group": "Fish",
+  "prototype": "Great white shark",
+  "scientific": "Carcharodon carcharias",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Arkshay",
+   "Nodorahcrac",
+   "Car'car",
+   "Sherk",
+   "Carchaos",
+   "Karkhariaz",
+   "Carcharias",
+   "Sharkro"
+  ],
+  "description": "Large predatory sharks with rows of serrated replaceable teeth and electroreception that senses heartbeats. Partially warm-blooded to hunt in cold water.",
+  "image_notes": "Huge torpedo shark with serrated teeth, countershading; dark blue water"
+ },
+ {
+  "id": 163,
+  "key": "Sphyrn",
+  "group": "Fish",
+  "prototype": "Great hammerhead",
+  "scientific": "Sphyrna mokarran",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Anryhps",
+   "Sphyr'mo",
+   "Hemmirhied",
+   "Sphyrnaiun",
+   "Mokarran",
+   "Hamsphyrn",
+   "Narrakom",
+   "Yrnasphay"
+  ],
+  "description": "Sharks with a wide hammer-shaped head that spreads electroreceptors and eyes for wide sensing.",
+  "image_notes": "Hammerhead shark with wide T-shaped head; open water"
+ },
+ {
+  "id": 164,
+  "key": "Rhincod",
+  "group": "Fish",
+  "prototype": "Whale shark",
+  "scientific": "Rhincodon typus",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Nodocnihr",
+   "Rhin'ty",
+   "Rhincoak",
+   "Typuz",
+   "Rhintypus",
+   "Sharkcod",
+   "Supyt",
+   "Incodonrhay"
+  ],
+  "description": "The largest fish, gentle filter-feeders that strain plankton. A spotted pattern is unique to each individual.",
+  "image_notes": "Huge spotted shark with wide mouth filter-feeding through gas giant haze"
+ },
+ {
+  "id": 165,
+  "key": "Somnios",
+  "group": "Fish",
+  "prototype": "Greenland shark",
+  "scientific": "Somniosus microcephalus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Susoinmos",
+   "Som'mic",
+   "Somnioith",
+   "Somhalus",
+   "Sharknios",
+   "Omniosussay",
+   "Zom-Mik",
+   "Microari"
+  ],
+  "description": "Slow, deep cold-water sharks that may live centuries. Extremely slow metabolism suited to near-freezing water.",
+  "image_notes": "Bulky grey shark with parasite-clouded eyes; deep icy water"
+ },
+ {
+  "id": 166,
+  "key": "Mobular",
+  "group": "Fish",
+  "prototype": "Giant manta ray",
+  "scientific": "Mobula birostris",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Alubom",
+   "Mo'bi",
+   "Mobueth",
+   "Biroztriz",
+   "Morostris",
+   "Giantlar",
+   "Sirtsorib",
+   "Obulamay"
+  ],
+  "description": "Huge filter-feeding rays that 'fly' with wing-like fins. Large brains and long-term memory.",
+  "image_notes": "Massive manta ray gliding with spread fins, cephalic lobes; cloud layers"
+ },
+ {
+  "id": 167,
+  "key": "Electrop",
+  "group": "Fish",
+  "prototype": "Electric eel",
+  "scientific": "Electrophorus electricus",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Electricway",
+   "Ilictroc",
+   "Elecae",
+   "Elektrikuz",
+   "Etricus",
+   "Etrop",
+   "Sucirtcele",
+   "Elecith"
+  ],
+  "description": "Air-breathing knifefish that generate powerful electric discharges for hunting and defence. Low-voltage pulses act as radar.",
+  "image_notes": "Long dark eel with electric arcs; murky river"
+ },
+ {
+  "id": 168,
+  "key": "Hippocam",
+  "group": "Fish",
+  "prototype": "Yellow seahorse",
+  "scientific": "Hippocampus kuda",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Eahorsesay",
+   "Supmacoppih",
+   "Hip'ku",
+   "Siehursi",
+   "Hippoesh",
+   "Kuda",
+   "Hipkuda",
+   "Seacam"
+  ],
+  "description": "Upright fish with prehensile tails and horse-like heads. Males carry and give birth to young.",
+  "image_notes": "Seahorse coiling tail around stalk, armour rings"
+ },
+ {
+  "id": 169,
+  "key": "Phycod",
+  "group": "Fish",
+  "prototype": "Leafy seadragon",
+  "scientific": "Phycodurus eques",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Eadragonsay",
+   "Surudocyhp",
+   "Phy'e",
+   "Siedregun",
+   "Phycound",
+   "Ekwez",
+   "Phyeques",
+   "Seadcod"
+  ],
+  "description": "Fish draped in leaf-like skin lobes that make them look like drifting weed. They hover almost motionless, steering with nearly invisible transparent fins, and males carry eggs on the underside of the tail.",
+  "image_notes": "Ornate seadragon covered in translucent leafy fronds, golden-olive body, tiny tube snout; drifting through amber-lit cloud kelp"
+ },
+ {
+  "id": 170,
+  "key": "Lophius",
+  "group": "Fish",
+  "prototype": "Humpback anglerfish",
+  "scientific": "Melanocetus johnsonii",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Suteconalem",
+   "Me'joh",
+   "Englirfosh",
+   "Melaani",
+   "Johnzonii",
+   "Lopnsonii",
+   "Anhius",
+   "Iinosnhoj"
+  ],
+  "description": "Deep-dwelling fish with a bioluminescent lure on a modified spine. Huge mouth and expandable stomach.",
+  "image_notes": "Black anglerfish with glowing lure and needle teeth; pitch black"
+ },
+ {
+  "id": 171,
+  "key": "Chauliod",
+  "group": "Fish",
+  "prototype": "Sloane's viperfish",
+  "scientific": "Chauliodus sloani",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Iperfishvay",
+   "Sudoiluahc",
+   "Chau'sloa",
+   "Vopirfosh",
+   "Chaulioeth",
+   "Zloani",
+   "Chausloani",
+   "Viliod"
+  ],
+  "description": "Deep-dark predators with fangs so long they cannot close their mouths. A glowing lure on the dorsal spine and light organs along the belly hide their silhouette and attract prey.",
+  "image_notes": "Slender black fish with huge needle fangs outside jaw, row of glowing blue photophores, long lure ray; pitch black water"
+ },
+ {
+  "id": 172,
+  "key": "Eurypha",
+  "group": "Fish",
+  "prototype": "Gulper eel",
+  "scientific": "Eurypharynx pelecanoides",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Ulpergay",
+   "Xnyrahpyrue",
+   "Eu'pe",
+   "Galpir",
+   "Eurypund",
+   "Eunoides",
+   "Gulha",
+   "Eu-Pe"
+  ],
+  "description": "Deep-water eels that are mostly mouth: a loosely hinged jaw opens into a huge pouch able to engulf prey larger than the eel. A glowing tail tip serves as a lure.",
+  "image_notes": "Whip-thin black eel with enormous balloon pouch mouth, tiny eyes, pink glowing tail tip; dark void"
+ },
+ {
+  "id": 173,
+  "key": "Macropin",
+  "group": "Fish",
+  "prototype": "Barreleye",
+  "scientific": "Macropinna microstoma",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Arreleyebay",
+   "Anniporcam",
+   "Mac'mic",
+   "Berriliyi",
+   "Macroak",
+   "Mikroztoma",
+   "Mactoma",
+   "Barpin"
+  ],
+  "description": "Fish with a transparent fluid-filled dome over the head, through which tube-shaped eyes rotate upward to track glowing prey above them. Most of their life is spent hanging still.",
+  "image_notes": "Small dark fish with clear glass-like dome head, glowing green tubular eyes visible inside, fan fins; deep blue gloom"
+ },
+ {
+  "id": 174,
+  "key": "Regalec",
+  "group": "Fish",
+  "prototype": "Giant oarfish",
+  "scientific": "Regalecus glesne",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Oarfishway",
+   "Sucelager",
+   "Re'gles",
+   "Uerfosh",
+   "Regaeen",
+   "Glezne",
+   "Reglesne",
+   "Oarlec"
+  ],
+  "description": "The longest bony fish, ribbon-shaped and silver, reaching many metres. They drift vertically in the water column, undulating a red dorsal fin that runs the whole length of the body.",
+  "image_notes": "Very long silver ribbon fish with continuous red crest fin, swimming vertically; shafts of light in cloud layers"
+ },
+ {
+  "id": 175,
+  "key": "Latimer",
+  "group": "Fish",
+  "prototype": "Coelacanth",
+  "scientific": "Latimeria chalumnae",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Airemital",
+   "La'cha",
+   "Cuilecenth",
+   "Latiund",
+   "Khalumnae",
+   "Lalumnae",
+   "Coemer",
+   "Eanmulahc"
+  ],
+  "description": "Ancient lobe-finned fish whose paired fins move in a walking-like alternating rhythm. They have a hinged skull, a fluid-filled spine and give birth to live young after long gestation.",
+  "image_notes": "Heavy dark-blue fish with white speckles, fleshy limb-like lobed fins, tri-lobed tail; rocky deep ledge"
+ },
+ {
+  "id": 176,
+  "key": "Protopt",
+  "group": "Fish",
+  "prototype": "African lungfish",
+  "scientific": "Protopterus annectens",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ungfishlay",
+   "Suretpotorp",
+   "Langfosh",
+   "Protopix",
+   "Annektenz",
+   "Pronectens",
+   "Luntopt",
+   "Snetcenna"
+  ],
+  "description": "Air-breathing fish with paired lungs that survive droughts by burrowing into mud and sealing themselves in a mucus cocoon, staying dormant for years until water returns.",
+  "image_notes": "Eel-like grey fish with thread-thin whip fins, curled inside cracked dried mud cocoon; scorched riverbed"
+ },
+ {
+  "id": 177,
+  "key": "Tetraod",
+  "group": "Fish",
+  "prototype": "Tiger pufferfish",
+  "scientific": "Takifugu rubripes",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Ugufikat",
+   "Ta'rub",
+   "Paffirfosh",
+   "Takiul",
+   "Rubripez",
+   "Tetripes",
+   "Pufraod",
+   "Sepirbur"
+  ],
+  "description": "Slow swimmers that defend themselves by rapidly inflating into a spiny ball. Their organs carry tetrodotoxin many times deadlier than cyanide, and fused beak-like teeth crush shells.",
+  "image_notes": "Inflated round pufferfish covered in spines, big expressive eyes, beak teeth; yellowish toxic murk"
+ },
+ {
+  "id": 178,
+  "key": "Synanc",
+  "group": "Fish",
+  "prototype": "Reef stonefish",
+  "scientific": "Synanceia verrucosa",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Onefishstay",
+   "Aiecnanys",
+   "Sy'ver",
+   "Stunifosh",
+   "Synaneen",
+   "Verrukoza",
+   "Sycosa",
+   "Stonanc"
+  ],
+  "description": "Ambush predators perfectly camouflaged as algae-crusted rock. Dorsal spines inject one of the most painful venoms known, and they can survive out of water for hours.",
+  "image_notes": "Lumpy warty fish indistinguishable from mossy rock, upturned mouth, raised venom spines; murky reef floor"
+ },
+ {
+  "id": 179,
+  "key": "Pteroi",
+  "group": "Fish",
+  "prototype": "Red lionfish",
+  "scientific": "Pterois volitans",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ionfishlay",
+   "Sioretp",
+   "Pte'vo",
+   "Lounfosh",
+   "Pteroiseth",
+   "Volitanz",
+   "Ptelitans",
+   "Lionroi"
+  ],
+  "description": "Hunters with venomous spines and elaborate fan-like pectoral fins used to herd prey into corners. Highly adaptable, they spread rapidly into new waters with few natural enemies.",
+  "image_notes": "Fish with red-white zebra stripes, long feathery fan fins and venom spines spread like a mane"
+ },
+ {
+  "id": 180,
+  "key": "Exocoe",
+  "group": "Fish",
+  "prototype": "Tropical flying fish",
+  "scientific": "Exocoetus volitans",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ishfay",
+   "Suteocoxe",
+   "Fosh",
+   "Exoix",
+   "Elitans",
+   "Fishcoe",
+   "Snatilov",
+   "Voliith"
+  ],
+  "description": "Fish that launch from the surface at speed and glide on enlarged wing-like pectoral fins for hundreds of metres. On dense-atmosphere worlds they can glide between layers almost indefinitely.",
+  "image_notes": "Silver-blue fish with wide transparent wing fins mid-glide, water or vapour trailing below"
+ },
+ {
+  "id": 181,
+  "key": "Periophth",
+  "group": "Fish",
+  "prototype": "Atlantic mudskipper",
+  "scientific": "Periophthalmus barbarus",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Pe'bar",
+   "Madskoppir",
+   "Periopani",
+   "Barbaruz",
+   "Pebarus",
+   "Mudriophth",
+   "Surabrab",
+   "Pe-Bar"
+  ],
+  "description": "Amphibious fish that spend more time out of water than in it, hopping and climbing with muscular front fins. They breathe through skin and keep water in gill chambers.",
+  "image_notes": "Bug-eyed fish with bulging periscope eyes on top of head, propped on fins on wet mud flats"
+ },
+ {
+  "id": 182,
+  "key": "Chaenoceph",
+  "group": "Fish",
+  "prototype": "Blackfin icefish",
+  "scientific": "Chaenocephalus aceratus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Icefishway",
+   "Chae'a",
+   "Ocifosh",
+   "Chaenoani",
+   "Akeratuz",
+   "Chaeratus",
+   "Iceph",
+   "Sutareca"
+  ],
+  "description": "Fish with no red blood cells or haemoglobin; oxygen dissolves directly in their colourless blood. Antifreeze proteins keep their tissues liquid in water below zero.",
+  "image_notes": "Translucent ghostly white fish with crocodile-like snout, visible pale gills; blue sub-ice water"
+ },
+ {
+  "id": 183,
+  "key": "Molamol",
+  "group": "Fish",
+  "prototype": "Ocean sunfish",
+  "scientific": "Mola mola",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Unfishsay",
+   "Alom",
+   "Sanfosh",
+   "Molaix",
+   "Mola",
+   "Momola",
+   "Sunmol",
+   "Olamay"
+  ],
+  "description": "The heaviest bony fish, a flattened disc with tall top and bottom fins and no true tail. They drift near the surface to bask and warm up after dives to feed on jellies.",
+  "image_notes": "Huge grey disc-shaped fish with tall fins, small mouth, basking sideways in light"
+ },
+ {
+  "id": 184,
+  "key": "Xiphia",
+  "group": "Fish",
+  "prototype": "Swordfish",
+  "scientific": "Xiphias gladius",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ordfishsway",
+   "Saihpix",
+   "Xip'gla",
+   "Swurdfosh",
+   "Xiphiasoth",
+   "Gladiuz",
+   "Xipgladius",
+   "Sworhia"
+  ],
+  "description": "Fast predatory fish with a long flat bill used to slash prey. Special heater tissue warms their eyes and brain, keeping vision sharp in cold depths.",
+  "image_notes": "Sleek dark-backed fish with long flat sword bill, crescent tail, in motion through deep water"
+ },
+ {
+  "id": 185,
+  "key": "Istioph",
+  "group": "Fish",
+  "prototype": "Sailfish",
+  "scientific": "Istiophorus platypterus",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ailfishsay",
+   "Surohpoitsi",
+   "Is'pla",
+   "Seolfosh",
+   "Istiopund",
+   "Platypteruz",
+   "Isterus",
+   "Sailtioph"
+  ],
+  "description": "Among the fastest fish, with a huge sail-like dorsal fin they raise to herd schools of prey and fold away for speed. They flash colour changes while hunting.",
+  "image_notes": "Fish with tall blue spotted sail fin raised, long spear bill, iridescent blue-silver flanks; cloud sea"
+ },
+ {
+  "id": 186,
+  "key": "Pygocen",
+  "group": "Fish",
+  "prototype": "Red-bellied piranha",
+  "scientific": "Pygocentrus nattereri",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Iranhapay",
+   "Surtnecogyp",
+   "Py'nat",
+   "Porenhe",
+   "Pygooth",
+   "Nattereri",
+   "Pyreri",
+   "Picen"
+  ],
+  "description": "Schooling river fish with razor-sharp interlocking triangular teeth. They hunt and scavenge in groups and communicate with barking sounds made by their swim bladder.",
+  "image_notes": "Silver fish with red belly, underslung jaw with triangular teeth, school in murky water"
+ },
+ {
+  "id": 187,
+  "key": "Arapaim",
+  "group": "Fish",
+  "prototype": "Arapaima",
+  "scientific": "Arapaima gigas",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Arapaimaway",
+   "Amiapara",
+   "Erepeome",
+   "Araith",
+   "Gigaz",
+   "Agigas",
+   "Apaim",
+   "Sagig"
+  ],
+  "description": "Giant river fish that must surface to breathe air every few minutes. Their mineral-reinforced scales resist even piranha bites; males guard their young in the head region.",
+  "image_notes": "Huge elongated fish with red-tipped scales on rear, flat head gulping air at surface; murky river"
+ },
+ {
+  "id": 188,
+  "key": "Acipens",
+  "group": "Fish",
+  "prototype": "Beluga sturgeon",
+  "scientific": "Huso huso",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Urgeonstay",
+   "Osuh",
+   "Hu'hu",
+   "Stargiun",
+   "Husoith",
+   "Huzo",
+   "Ahuso",
+   "Sturpens"
+  ],
+  "description": "Huge, slow-growing bottom feeders with rows of bony plates instead of scales and sensitive barbels to find food. They can live over a century.",
+  "image_notes": "Large grey sturgeon with five rows of bony scutes, pointed snout, whisker barbels; cold riverbed"
+ },
+ {
+  "id": 189,
+  "key": "Lampetr",
+  "group": "Fish",
+  "prototype": "Sea lamprey",
+  "scientific": "Petromyzon marinus",
+  "planetoids": [
+   "frozen",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ampreylay",
+   "Nozymortep",
+   "Pet'ma",
+   "Lempriy",
+   "Petroani",
+   "Marinuz",
+   "Lamrinus",
+   "Suniram"
+  ],
+  "description": "Jawless eel-like fish that attach to prey with a round suction disc mouth lined with rasping teeth, feeding on blood and fluids. They lack paired fins and bones.",
+  "image_notes": "Mottled eel with circular sucker mouth ringed by teeth, seven gill pores; cold dark water"
+ },
+ {
+  "id": 190,
+  "key": "Myxin",
+  "group": "Fish",
+  "prototype": "Atlantic hagfish",
+  "scientific": "Myxine glutinosa",
+  "planetoids": [
+   "frozen",
+   "toxic"
+  ],
+  "name_variants": [
+   "Agfishhay",
+   "Enixym",
+   "My'glu",
+   "Hegfosh",
+   "Myxiae",
+   "Glutinoza",
+   "Mynosa",
+   "Hagxin"
+  ],
+  "description": "Jawless, nearly blind scavengers that release litres of slime in seconds when threatened, choking predators. They tie their bodies in knots to clean off slime or tear food.",
+  "image_notes": "Pink-grey eel-like fish with barbels, tied in a knot, surrounded by translucent slime cloud"
+ },
+ {
+  "id": 191,
+  "key": "Bettar",
+  "group": "Fish",
+  "prototype": "Siamese fighting fish",
+  "scientific": "Betta splendens",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Atteb",
+   "Bet'splen",
+   "Bettaae",
+   "Zplendenz",
+   "Fishtar",
+   "Snednelps",
+   "Ettabay",
+   "Bet-Zplen"
+  ],
+  "description": "Small fish that gulp air via a labyrinth organ, letting them live in stagnant, oxygen-poor water. Males build bubble nests and display vivid, flowing fins.",
+  "image_notes": "Small fish with long flowing jewel-coloured fins, bubble nest above; stagnant toxic pool"
+ },
+ {
+  "id": 192,
+  "key": "Cyprinod",
+  "group": "Fish",
+  "prototype": "Devils Hole pupfish",
+  "scientific": "Cyprinodon diabolis",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Upfishpay",
+   "Nodonirpyc",
+   "Cyp'dia",
+   "Papfosh",
+   "Cypriari",
+   "Diaboliz",
+   "Cypbolis",
+   "Pupnod"
+  ],
+  "description": "Tiny fish surviving in hot, low-oxygen spring pools where temperatures would kill most fish. Entire populations may live in a single isolated pool.",
+  "image_notes": "Small iridescent blue fish in steaming hot spring pool lined with mineral crust"
+ },
+ {
+  "id": 193,
+  "key": "Amphipri",
+  "group": "Fish",
+  "prototype": "Clownfish",
+  "scientific": "Amphiprion ocellaris",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ownfishclay",
+   "Noirpihpma",
+   "Cluwnfosh",
+   "Amphipeen",
+   "Okellariz",
+   "Amlaris",
+   "Clowri",
+   "Siralleco"
+  ],
+  "description": "Small fish coated in protective mucus that lets them live among stinging tentacles. All are born male; the dominant one changes sex to female when needed.",
+  "image_notes": "Orange-and-white banded fish nestled in stinging anemone tentacles; colourful reef"
+ },
+ {
+  "id": 194,
+  "key": "Toxotes",
+  "group": "Fish",
+  "prototype": "Banded archerfish",
+  "scientific": "Toxotes jaculatrix",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Setoxot",
+   "To'ja",
+   "Erchirfosh",
+   "Toxoora",
+   "Jakulatriks",
+   "Tolatrix",
+   "Artes",
+   "Xirtalucaj"
+  ],
+  "description": "Fish that knock insects off overhanging plants by spitting precise jets of water, correcting for light refraction. They learn by watching others hit targets.",
+  "image_notes": "Silver fish with black bands spitting a water jet upward at an insect on a leaf"
+ },
+ {
+  "id": 195,
+  "key": "Anableps",
+  "group": "Fish",
+  "prototype": "Four-eyed fish",
+  "scientific": "Anableps anableps",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Spelbana",
+   "Anabani",
+   "Anablepz",
+   "Fishleps",
+   "Anablepsway",
+   "Anabith",
+   "Eneblips",
+   "Afish"
+  ],
+  "description": "Surface-skimming fish whose eyes are split horizontally into two pupils, seeing above and below water simultaneously for spotting food and predators.",
+  "image_notes": "Fish floating at waterline with bulging split eyes half above surface; mangrove"
+ },
+ {
+  "id": 196,
+  "key": "Gnathon",
+  "group": "Fish",
+  "prototype": "Elephantnose fish",
+  "scientific": "Gnathonemus petersii",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Sumenohtang",
+   "Gnat'pe",
+   "Gnathooth",
+   "Peterzii",
+   "Gnattersii",
+   "Fishhon",
+   "Iisretep",
+   "Gnat-Pe"
+  ],
+  "description": "Fish that emit weak electric fields and read distortions with their trunk-like chin, 'seeing' in murky water. They have very large brains relative to body size.",
+  "image_notes": "Dark brown fish with long trunk-like chin appendage, faint electric field rings; murky water"
+ },
+ {
+  "id": 197,
+  "key": "Argyrop",
+  "group": "Fish",
+  "prototype": "Silver hatchetfish",
+  "scientific": "Argyropelecus aculeatus",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Hetchitfosh",
+   "Argyith",
+   "Arleatus",
+   "Hatrop",
+   "Acuak",
+   "Arfish",
+   "Hatchetyr",
+   "Ar'rop"
+  ],
+  "description": "Small deep-water fish with mirror-like sides and downward-pointing light organs that match light from above, making them invisible from below.",
+  "image_notes": "Thin silver hatchet-shaped fish with upturned eyes, glowing belly; deep blue gloom"
+ },
+ {
+  "id": 198,
+  "key": "Pseudoli",
+  "group": "Fish",
+  "prototype": "Mariana snailfish",
+  "scientific": "Pseudoliparis swirei",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Ailfishsnay",
+   "Pseu'swi",
+   "Sneolfosh",
+   "Pseudound",
+   "Zwirei",
+   "Pseuswirei",
+   "Snailli",
+   "Ieriws"
+  ],
+  "description": "Translucent, soft-bodied fish from the deepest trenches. Their bones are partly cartilage and their cells use special molecules to withstand crushing pressure.",
+  "image_notes": "Translucent pink tadpole-like fish with visible organs, gelatinous body; crushing dark depth"
+ },
+ {
+  "id": 199,
+  "key": "Ogcocep",
+  "group": "Fish",
+  "prototype": "Red-lipped batfish",
+  "scientific": "Ogcocephalus darwini",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Atfishbay",
+   "Og'dar",
+   "Betfosh",
+   "Ogcoak",
+   "Darwini",
+   "Ogwini",
+   "Batcep",
+   "Iniwrad"
+  ],
+  "description": "Bottom-dwelling fish that walk on modified fins rather than swim. A small lure on the head attracts prey, and bright red lips are used in display.",
+  "image_notes": "Brown flattened fish with bright red lips, walking on leg-like fins on sandy floor"
+ },
+ {
+  "id": 200,
+  "key": "Remorax",
+  "group": "Fish",
+  "prototype": "Common remora",
+  "scientific": "Remora remora",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Emoraray",
+   "Aromer",
+   "Re're",
+   "Rimure",
+   "Remoani",
+   "Remora",
+   "Rerax",
+   "Re-Re"
+  ],
+  "description": "Fish with a suction disc on the head, used to hitch rides on larger animals and feed on scraps and parasites, saving energy.",
+  "image_notes": "Slender grey fish with ridged suction disc on top of head, attached to a giant creature's hide"
+ },
+ {
+  "id": 201,
+  "key": "Alcolap",
+  "group": "Fish",
+  "prototype": "Lake Magadi tilapia",
+  "scientific": "Alcolapia grahami",
+  "planetoids": [
+   "toxic",
+   "molten"
+  ],
+  "name_variants": [
+   "Ilapiatay",
+   "Aipalocla",
+   "Al'gra",
+   "Tolepoe",
+   "Alcoani",
+   "Grahami",
+   "Alhami",
+   "Tilap"
+  ],
+  "description": "Fish surviving in hot, highly alkaline soda lakes, excreting waste as urea instead of ammonia. They live at temperatures and pH lethal to almost any other fish.",
+  "image_notes": "Small silvery fish in steaming alkaline lake with pink-white crusted shores"
+ },
+ {
+  "id": 202,
+  "key": "Formicor",
+  "group": "Insect",
+  "prototype": "Leafcutter ant",
+  "scientific": "Atta cephalotes",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Atta",
+   "At'cep",
+   "Liefcattir",
+   "Attaul",
+   "Kefalotez",
+   "Forlotes",
+   "Leafcor",
+   "Setolahpec"
+  ],
+  "description": "Colonial insects that cut vegetation to cultivate fungus gardens underground. Workers come in many size castes, from tiny gardeners to large soldiers.",
+  "image_notes": "Ant carrying leaf fragment, multiple size castes; underground fungus garden"
+ },
+ {
+  "id": 203,
+  "key": "Ecitonar",
+  "group": "Insect",
+  "prototype": "Army ant",
+  "scientific": "Eciton burchellii",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Armyway",
+   "Notice",
+   "E'bur",
+   "Ermy",
+   "Ecios",
+   "Burkhellii",
+   "Echellii",
+   "Arnar"
+  ],
+  "description": "Nomadic colonial insects that never build permanent nests. They raid in sweeping columns of hundreds of thousands and link their own bodies into bridges and temporary bivouac nests.",
+  "image_notes": "Ants with long sickle mandibles forming a living bridge over a gap; dense column on hot ground"
+ },
+ {
+  "id": 204,
+  "key": "Apisar",
+  "group": "Insect",
+  "prototype": "Western honeybee",
+  "scientific": "Apis mellifera",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Oneybeehay",
+   "Sipa",
+   "A'mel",
+   "Huniybii",
+   "Apisae",
+   "Mellifera",
+   "Afera",
+   "Hosar"
+  ],
+  "description": "Social insects living in large colonies around a single breeding queen. They communicate food locations with a waggle dance and build hexagonal wax combs to store food.",
+  "image_notes": "Golden-striped hairy bee near hexagonal wax comb; on gas giants depict floating comb hives"
+ },
+ {
+  "id": 205,
+  "key": "Vespar",
+  "group": "Insect",
+  "prototype": "Asian giant hornet",
+  "scientific": "Vespa mandarinia",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ornethay",
+   "Apsev",
+   "Ves'man",
+   "Hurnit",
+   "Vespaesh",
+   "Mandarinia",
+   "Vesrinia",
+   "Horpar"
+  ],
+  "description": "Large predatory wasps with a potent venom and powerful mandibles. They hunt other insects, raiding hives in coordinated attacks.",
+  "image_notes": "Large wasp with orange head, black-and-gold stripes, big mandibles; hazy forest"
+ },
+ {
+  "id": 206,
+  "key": "Termitar",
+  "group": "Insect",
+  "prototype": "Mound-building termite",
+  "scientific": "Macrotermes bellicosus",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ermitetay",
+   "Semretorcam",
+   "Mac'bel",
+   "Tirmoti",
+   "Macroos",
+   "Bellikozuz",
+   "Tercosus",
+   "Tertar"
+  ],
+  "description": "Blind colonial insects that build towering ventilated mounds with stable internal climate, farming fungus inside. A huge egg-laying queen sits at the centre.",
+  "image_notes": "Pale soft-bodied termite next to tall ridged mound with ventilation chimneys; red earth, heat haze"
+ },
+ {
+  "id": 207,
+  "key": "Hymenor",
+  "group": "Insect",
+  "prototype": "Orchid mantis",
+  "scientific": "Hymenopus coronatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Antismay",
+   "Suponemyh",
+   "Hy'co",
+   "Mentos",
+   "Hymeiun",
+   "Koronatuz",
+   "Hynatus",
+   "Mannor"
+  ],
+  "description": "Predatory insects shaped and coloured like flower petals, attracting pollinators which they ambush. Petal-shaped leg lobes and pastel colours.",
+  "image_notes": "Pink-white mantis with petal-shaped legs, resembling a flower, raptorial forelegs"
+ },
+ {
+  "id": 208,
+  "key": "Brachin",
+  "group": "Insect",
+  "prototype": "Bombardier beetle",
+  "scientific": "Brachinus crepitans",
+  "planetoids": [
+   "toxic",
+   "molten"
+  ],
+  "name_variants": [
+   "Eetlebay",
+   "Sunihcarb",
+   "Brac'cre",
+   "Biitli",
+   "Brachiix",
+   "Krepitanz",
+   "Bracpitans",
+   "Beethin"
+  ],
+  "description": "Beetles that mix chemicals in an abdominal chamber to spray boiling, toxic liquid at attackers in rapid pulses, aimed in almost any direction.",
+  "image_notes": "Orange-and-blue beetle spraying a hot vapour jet from abdomen; toxic haze"
+ },
+ {
+  "id": 209,
+  "key": "Scarabos",
+  "group": "Insect",
+  "prototype": "Sacred scarab",
+  "scientific": "Scarabaeus sacer",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Arabscay",
+   "Sueabaracs",
+   "Sca'sa",
+   "Scereb",
+   "Scaraeen",
+   "Zaker",
+   "Scasacer",
+   "Scabos"
+  ],
+  "description": "Dung beetles that roll balls of food and navigate in straight lines using the stars and polarised light. They climb on top of the ball to cool off.",
+  "image_notes": "Black beetle with spiked head shield rolling ball across hot sand under starry sky"
+ },
+ {
+  "id": 210,
+  "key": "Goliath",
+  "group": "Insect",
+  "prototype": "Goliath beetle",
+  "scientific": "Goliathus goliatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Suhtailog",
+   "Goliatix",
+   "Goliatuz",
+   "Goliatus",
+   "Beetliath",
+   "Sutailog",
+   "Oliathusgay",
+   "Go-Go"
+  ],
+  "description": "Among the heaviest insects. Larvae grow for months in rotting wood before pupating; adults feed on sap and fruit. Males carry a forked head horn.",
+  "image_notes": "Large beetle with bold black-and-white patterning, Y-shaped head horn"
+ },
+ {
+  "id": 211,
+  "key": "Dynastor",
+  "group": "Insect",
+  "prototype": "Hercules beetle",
+  "scientific": "Dynastes hercules",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Setsanyd",
+   "Dy'her",
+   "Dynasiun",
+   "Herkulez",
+   "Dycules",
+   "Beettor",
+   "Selucreh",
+   "Ynastesday"
+  ],
+  "description": "Massive horned beetles that can lift many times their own body weight. Males fight with long pincer horns to flip rivals.",
+  "image_notes": "Beetle with very long pincer horns, olive-gold shell with black spots"
+ },
+ {
+  "id": 212,
+  "key": "Lucanor",
+  "group": "Insect",
+  "prototype": "Stag beetle",
+  "scientific": "Lucanus cervus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Sunacul",
+   "Lu'cer",
+   "Lucaos",
+   "Kervuz",
+   "Lucervus",
+   "Beetnor",
+   "Ucanuslay",
+   "Lu-Ker"
+  ],
+  "description": "Beetles whose males have huge antler-like mandibles used in wrestling duels. Larvae spend years in decaying wood.",
+  "image_notes": "Glossy dark brown beetle with large branching antler mandibles"
+ },
+ {
+  "id": 213,
+  "key": "Melanop",
+  "group": "Insect",
+  "prototype": "Fire-chasing jewel beetle",
+  "scientific": "Melanophila acuminata",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Alihponalem",
+   "Melaund",
+   "Akuminata",
+   "Menata",
+   "Beetnop",
+   "Atanimuca",
+   "Acueen",
+   "Milenuphole"
+  ],
+  "description": "Beetles with infrared-sensing pits that detect forest fires from many kilometres away. They breed in freshly burned wood.",
+  "image_notes": "Matte black beetle flying toward flames and glowing ash, infrared pits on body"
+ },
+ {
+  "id": 214,
+  "key": "Onymac",
+  "group": "Insect",
+  "prototype": "Namib fog-basking beetle",
+  "scientific": "Onymacris unguicularis",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Sircamyno",
+   "Onyith",
+   "Olaris",
+   "Beetmac",
+   "Unguiyr",
+   "Unymecros",
+   "Beetleul",
+   "O'mac"
+  ],
+  "description": "Desert beetles that harvest water from fog by standing head-down on dune crests, letting droplets condense on their backs and roll to their mouths.",
+  "image_notes": "Black beetle in headstand on dune crest, water droplets on raised back; misty dawn"
+ },
+ {
+  "id": 215,
+  "key": "Lampyr",
+  "group": "Insect",
+  "prototype": "Common eastern firefly",
+  "scientific": "Photinus pyralis",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ireflyfay",
+   "Sunitohp",
+   "Pho'py",
+   "Forifly",
+   "Photios",
+   "Pyraliz",
+   "Lamralis",
+   "Fipyr"
+  ],
+  "description": "Beetles that produce cold chemical light in species-specific flash patterns used for communication. Some predators mimic others' signals.",
+  "image_notes": "Swarm of glowing beetles at night with yellow-green abdomen lights"
+ },
+ {
+  "id": 216,
+  "key": "Danaus",
+  "group": "Insect",
+  "prototype": "Monarch butterfly",
+  "scientific": "Danaus plexippus",
+  "planetoids": [
+   "gas_giant",
+   "toxic"
+  ],
+  "name_variants": [
+   "Utterflybay",
+   "Suanad",
+   "Da'ple",
+   "Battirfly",
+   "Danausith",
+   "Pleksippuz",
+   "Daxippus",
+   "Butnaus"
+  ],
+  "description": "Migratory butterflies travelling thousands of kilometres across generations. Caterpillars store plant toxins, making adults poisonous to predators.",
+  "image_notes": "Orange-black veined butterflies migrating as a vast cloud"
+ },
+ {
+  "id": 217,
+  "key": "Morphon",
+  "group": "Insect",
+  "prototype": "Blue morpho",
+  "scientific": "Morpho menelaus",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Orphomay",
+   "Ohprom",
+   "Mor'me",
+   "Murphu",
+   "Morphound",
+   "Menelauz",
+   "Mornelaus",
+   "Sualenem"
+  ],
+  "description": "Butterflies with brilliant structural blue wings produced by microscopic scales that reflect light, not pigment. Undersides are brown with eye spots.",
+  "image_notes": "Large iridescent blue butterfly, brown underside eye-spots, rainforest light"
+ },
+ {
+  "id": 218,
+  "key": "Actias",
+  "group": "Insect",
+  "prototype": "Luna moth",
+  "scientific": "Actias luna",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Othmay",
+   "Saitca",
+   "Ac'lu",
+   "Muth",
+   "Actiasund",
+   "Luna",
+   "Acluna",
+   "Mothtias"
+  ],
+  "description": "Pale green moths with long trailing hindwing tails that confuse bat echolocation. Adults have no mouth and live only about a week.",
+  "image_notes": "Pale green moth with long curved tails, feathery antennae; night"
+ },
+ {
+  "id": 219,
+  "key": "Attacus",
+  "group": "Insect",
+  "prototype": "Atlas moth",
+  "scientific": "Attacus atlas",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Sucatta",
+   "At'at",
+   "Attaae",
+   "Atlaz",
+   "Atatlas",
+   "Mothcus",
+   "Salta",
+   "Attacusway"
+  ],
+  "description": "One of the largest moths, with wingtips patterned like snake heads to scare predators. Adults do not eat and live off larval fat.",
+  "image_notes": "Huge reddish-brown moth with snake-head wingtip patterns, translucent windows"
+ },
+ {
+  "id": 220,
+  "key": "Meganeur",
+  "group": "Insect",
+  "prototype": "Meganeura",
+  "scientific": "Meganeura monyi",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Eganeuramay",
+   "Aruenagem",
+   "Me'mo",
+   "Migeniare",
+   "Megayr",
+   "Monyi",
+   "Memonyi",
+   "Meneur"
+  ],
+  "description": "Giant prehistoric dragonflies with wingspans up to 70 cm, possible in oxygen-rich atmospheres. Aerial hunters catching prey mid-flight.",
+  "image_notes": "Huge dragonfly with net-veined wings, large compound eyes; misty swamp sky"
+ },
+ {
+  "id": 221,
+  "key": "Phyllium",
+  "group": "Insect",
+  "prototype": "Giant leaf insect",
+  "scientific": "Phyllium giganteum",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Insectway",
+   "Muillyhp",
+   "Phyl'gi",
+   "Onsict",
+   "Phylliumix",
+   "Giganteum",
+   "Phylganteum",
+   "Inlium"
+  ],
+  "description": "Insects that look like living leaves, complete with veins, bite marks and brown edges. They sway to mimic leaves in wind.",
+  "image_notes": "Flat green leaf-shaped insect with vein patterns and leafy leg lobes"
+ },
+ {
+  "id": 222,
+  "key": "Phobaet",
+  "group": "Insect",
+  "prototype": "Chan's megastick",
+  "scientific": "Phobaeticus chani",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Egastickmay",
+   "Suciteabohp",
+   "Pho'cha",
+   "Migestock",
+   "Phobaeesh",
+   "Khani",
+   "Phochani",
+   "Mebaet"
+  ],
+  "description": "Extremely long stick insects, over half a metre including legs. They stay motionless by day, camouflaged as twigs.",
+  "image_notes": "Very long twig-like insect blending into branches; forest"
+ },
+ {
+  "id": 223,
+  "key": "Schistoc",
+  "group": "Insect",
+  "prototype": "Desert locust",
+  "scientific": "Schistocerca gregaria",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ocustlay",
+   "Schis'gre",
+   "Lucast",
+   "Schistoesh",
+   "Gregaria",
+   "Schisgaria",
+   "Lotoc",
+   "Airagerg"
+  ],
+  "description": "Grasshoppers that switch from solitary to swarming form when crowded, changing colour and behaviour. Swarms can cover huge areas.",
+  "image_notes": "Yellow-black locust swarm darkening the sky over arid land"
+ },
+ {
+  "id": 224,
+  "key": "Magicic",
+  "group": "Insect",
+  "prototype": "Periodical cicada",
+  "scientific": "Magicicada septendecim",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Icadacay",
+   "Adacicigam",
+   "Ma'sep",
+   "Cocede",
+   "Magiix",
+   "Zeptendekim",
+   "Madecim",
+   "Cicic"
+  ],
+  "description": "Insects that live underground as nymphs for many years before emerging all at once in massive synchronised broods.",
+  "image_notes": "Black cicada with red eyes and orange-veined wings; emergence on tree bark"
+ },
+ {
+  "id": 225,
+  "key": "Gryllot",
+  "group": "Insect",
+  "prototype": "European mole cricket",
+  "scientific": "Gryllotalpa gryllotalpa",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Icketcray",
+   "Aplatollyrg",
+   "Gryl'gryl",
+   "Crockit",
+   "Grylloul",
+   "Gryllotalpa",
+   "Gryltalpa",
+   "Criclot"
+  ],
+  "description": "Burrowing crickets with powerful shovel-like forelegs. Males shape their tunnels into amplifying horns to project their call.",
+  "image_notes": "Velvety brown cricket with mole-like digging forelegs; soil tunnel"
+ },
+ {
+  "id": 226,
+  "key": "Deinacr",
+  "group": "Insect",
+  "prototype": "Giant weta",
+  "scientific": "Deinacrida heteracantha",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Etaway",
+   "Adircanied",
+   "Dei'he",
+   "Wite",
+   "Deinacani",
+   "Deicantha",
+   "Wenacr",
+   "Dei-He"
+  ],
+  "description": "Huge flightless crickets, among the heaviest insects. Some related species can freeze solid in winter and thaw in spring.",
+  "image_notes": "Massive spiny-legged cricket on frosted bark"
+ },
+ {
+  "id": 227,
+  "key": "Gromphad",
+  "group": "Insect",
+  "prototype": "Madagascar hissing cockroach",
+  "scientific": "Gromphadorhina portentosa",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ockroachcay",
+   "Grom'por",
+   "Cuckruech",
+   "Gromphaesh",
+   "Portentoza",
+   "Gromtosa",
+   "Cocphad",
+   "Asotnetrop"
+  ],
+  "description": "Large wingless roaches that hiss loudly by forcing air out through breathing pores, using it in courtship and territorial contests. They thrive on rotting matter and tolerate foul, low-quality environments.",
+  "image_notes": "Glossy chestnut wingless roach, horned bumps on male's thorax, segmented armour; rotting log in damp toxic fog"
+ },
+ {
+  "id": 228,
+  "key": "Gerris",
+  "group": "Insect",
+  "prototype": "Common pond skater",
+  "scientific": "Gerris lacustris",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Aterskay",
+   "Sirreg",
+   "Ger'la",
+   "Sketir",
+   "Gerrisund",
+   "Lakuztriz",
+   "Gercustris",
+   "Skaris"
+  ],
+  "description": "Light-bodied insects that skate across water on surface tension, using water-repellent hairs on their legs. They detect struggling prey through ripples and signal each other with vibrations.",
+  "image_notes": "Thin long-legged insect standing on water, dimples under feet, concentric ripples; still pond under pale ice-blue sky"
+ },
+ {
+  "id": 229,
+  "key": "Dytiscus",
+  "group": "Insect",
+  "prototype": "Great diving beetle",
+  "scientific": "Dytiscus marginalis",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Sucsityd",
+   "Dy'mar",
+   "Dytisoth",
+   "Marginaliz",
+   "Dynalis",
+   "Beetcus",
+   "Silanigram",
+   "Ytiscusday"
+  ],
+  "description": "Fierce predatory water beetles that dive with a silvery air bubble trapped under their wing covers. Larvae inject digestive juices through hollow jaws.",
+  "image_notes": "Dark olive beetle with yellow rim, silver air bubble under shell, swimming legs fringed with hairs; underwater weeds"
+ },
+ {
+  "id": 230,
+  "key": "Letho",
+  "group": "Insect",
+  "prototype": "Giant water bug",
+  "scientific": "Lethocerus americanus",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Surecohtel",
+   "Let'a",
+   "Lethoak",
+   "Amerikanuz",
+   "Letcanus",
+   "Giantho",
+   "Sunacirema",
+   "Let-A"
+  ],
+  "description": "Large aquatic ambush bugs that grab prey with raptorial forelegs and inject saliva that liquefies tissue. Males carry eggs glued to their backs until hatching.",
+  "image_notes": "Flat brown bug with thick grasping forelegs, eggs on back, breathing tube at tail; murky green water"
+ },
+ {
+  "id": 231,
+  "key": "Belgica",
+  "group": "Insect",
+  "prototype": "Antarctic midge",
+  "scientific": "Belgica antarctica",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Idgemay",
+   "Acigleb",
+   "Bel'an",
+   "Modgi",
+   "Belgieth",
+   "Antarktika",
+   "Belctica",
+   "Midca"
+  ],
+  "description": "Tiny flightless midges that survive freezing, desiccation and high salinity, taking two years to complete their life cycle. Minimal body size and wings reduce heat loss and wind exposure.",
+  "image_notes": "Tiny dark wingless midge on frozen moss, ice crystals around, magnified macro view"
+ },
+ {
+  "id": 232,
+  "key": "Grylloblat",
+  "group": "Insect",
+  "prototype": "Ice crawler",
+  "scientific": "Grylloblatta campodeiformis",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Awlercray",
+   "Gryl'cam",
+   "Crewlir",
+   "Gryllobos",
+   "Grylformis",
+   "Crawlat",
+   "Gryl-Kam",
+   "Campoae"
+  ],
+  "description": "Wingless insects that live at the edge of glaciers and snowfields, scavenging wind-blown insects. They are so cold-adapted that the warmth of a hand can kill them.",
+  "image_notes": "Pale amber wingless insect with long antennae and tail cerci on blue glacier ice"
+ },
+ {
+  "id": 233,
+  "key": "Polyped",
+  "group": "Insect",
+  "prototype": "Sleeping chironomid",
+  "scientific": "Polypedilum vanderplanki",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Mulidepylop",
+   "Po'van",
+   "Chorunumod",
+   "Polyiun",
+   "Poplanki",
+   "Chiped",
+   "Po-Van",
+   "Vanderund"
+  ],
+  "description": "Larvae that survive complete drying for years by replacing body water with sugar glass, reviving within an hour of rehydration. Ideal for worlds with rare, brief wet periods.",
+  "image_notes": "Dried curled red larva in cracked rock pool; second panel revived in water droplet"
+ },
+ {
+  "id": 234,
+  "key": "Myrmeleon",
+  "group": "Insect",
+  "prototype": "Antlion",
+  "scientific": "Myrmeleon formicarius",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Antlionway",
+   "Noelemrym",
+   "Myr'for",
+   "Entloun",
+   "Myrmeos",
+   "Formikariuz",
+   "Myrcarius",
+   "Anleon"
+  ],
+  "description": "Predatory larvae that dig conical sand pits and wait buried at the bottom, flicking sand at prey to make it slide in. Adults are delicate, slow-flying winged insects.",
+  "image_notes": "Conical sand pit with sickle jaws poking from centre, prey sliding in; hot sand"
+ },
+ {
+  "id": 235,
+  "key": "Dasymut",
+  "group": "Insect",
+  "prototype": "Velvet ant",
+  "scientific": "Dasymutilla occidentalis",
+  "planetoids": [
+   "molten",
+   "toxic"
+  ],
+  "name_variants": [
+   "Elvetvay",
+   "Allitumysad",
+   "Da'oc",
+   "Vilvit",
+   "Dasyeen",
+   "Datalis",
+   "Velmut",
+   "Da-Ok"
+  ],
+  "description": "Wingless female wasps covered in velvety warning-coloured hair. An extremely painful sting and an exoskeleton too hard for many predators to pierce make them nearly untouchable.",
+  "image_notes": "Fuzzy red-and-black ant-like wasp on hot sand, bright velvet hair"
+ },
+ {
+  "id": 236,
+  "key": "Pepsis",
+  "group": "Insect",
+  "prototype": "Tarantula hawk",
+  "scientific": "Pepsis grossa",
+  "planetoids": [
+   "molten",
+   "toxic"
+  ],
+  "name_variants": [
+   "Awkhay",
+   "Sispep",
+   "Pep'gros",
+   "Hewk",
+   "Pepsisak",
+   "Grozza",
+   "Pepgrossa",
+   "Hawksis"
+  ],
+  "description": "Large wasps whose females paralyse giant spiders to feed their larvae. Their sting is among the most painful known; adults feed on nectar.",
+  "image_notes": "Metallic blue-black wasp with bright orange wings dragging a large spider across rocks"
+ },
+ {
+  "id": 237,
+  "key": "Thermob",
+  "group": "Insect",
+  "prototype": "Firebrat",
+  "scientific": "Thermobia domestica",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Irebratfay",
+   "Aibomreht",
+   "Ther'do",
+   "Foribret",
+   "Thermoae",
+   "Domeztika",
+   "Thertica",
+   "Fimob"
+  ],
+  "description": "Primitive wingless insects that thrive at temperatures most insects cannot tolerate, living near heat sources. Silvery scales and long tail filaments.",
+  "image_notes": "Silvery bristly insect with long antennae and three tail filaments on hot glowing stone"
+ },
+ {
+  "id": 238,
+  "key": "Leiurus",
+  "group": "Arachnid",
+  "prototype": "Deathstalker scorpion",
+  "scientific": "Leiurus quinquestriatus",
+  "planetoids": [
+   "molten",
+   "toxic"
+  ],
+  "name_variants": [
+   "Orpionscay",
+   "Suruiel",
+   "Leiu'quin",
+   "Scurpoun",
+   "Leiurusoth",
+   "Leiutriatus",
+   "Scorrus",
+   "Eiuruslay"
+  ],
+  "description": "Slender desert scorpions with some of the most potent venom among scorpions. Thin pincers mean they rely on the sting, and they hunt at night when the ground cools.",
+  "image_notes": "Pale yellow scorpion with raised segmented tail and stinger, thin pincers; desert night"
+ },
+ {
+  "id": 239,
+  "key": "Pandinus",
+  "group": "Arachnid",
+  "prototype": "Emperor scorpion",
+  "scientific": "Pandinus imperator",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Sunidnap",
+   "Pan'im",
+   "Pandieth",
+   "Imperator",
+   "Panrator",
+   "Scornus",
+   "Rotarepmi",
+   "Andinuspay"
+  ],
+  "description": "Large, heavy forest scorpions with massive pincers and mild venom. Their exoskeleton fluoresces vivid blue-green under ultraviolet light, possibly sensing light across the body.",
+  "image_notes": "Glossy black scorpion glowing blue-green under UV light, large knobbly claws"
+ },
+ {
+  "id": 240,
+  "key": "Theraphos",
+  "group": "Arachnid",
+  "prototype": "Goliath birdeater",
+  "scientific": "Theraphosa blondi",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Irdeaterbay",
+   "Asohpareht",
+   "The'blon",
+   "Bordietir",
+   "Therapani",
+   "Blondi",
+   "Theblondi",
+   "Birhos"
+  ],
+  "description": "The largest spiders by mass, with leg spans the size of a dinner plate. They flick barbed irritating hairs at attackers and hiss by rubbing leg bristles together.",
+  "image_notes": "Massive hairy brown tarantula raised in defensive stance, fangs visible; dark rainforest floor"
+ },
+ {
+  "id": 241,
+  "key": "Erigone",
+  "group": "Arachnid",
+  "prototype": "Ballooning spider",
+  "scientific": "Erigone atra",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Iderspay",
+   "Enogire",
+   "Spodir",
+   "Eriani",
+   "Atra",
+   "Eatra",
+   "Spine",
+   "Arta"
+  ],
+  "description": "Small spiders that travel by 'ballooning': releasing silk threads that catch air currents and electric fields, carrying them hundreds of kilometres high. Natural colonists of floating ecosystems.",
+  "image_notes": "Tiny dark spider tip-toed, releasing fan of silk threads, drifting through cloud layers"
+ },
+ {
+  "id": 242,
+  "key": "Maratus",
+  "group": "Arachnid",
+  "prototype": "Peacock spider",
+  "scientific": "Maratus volans",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Sutaram",
+   "Ma'vo",
+   "Maraund",
+   "Mavolans",
+   "Spitus",
+   "Snalov",
+   "Aratusmay",
+   "Ma-Vo"
+  ],
+  "description": "Tiny jumping spiders whose males raise iridescent abdomen flaps and perform intricate dances. Excellent vision with large forward-facing eyes.",
+  "image_notes": "Tiny spider with raised iridescent fan-shaped abdomen display, colourful patterns, big eyes"
+ },
+ {
+  "id": 243,
+  "key": "Argyrone",
+  "group": "Arachnid",
+  "prototype": "Diving bell spider",
+  "scientific": "Argyroneta aquatica",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Atenorygra",
+   "Argyesh",
+   "Akwatika",
+   "Artica",
+   "Acitauqa",
+   "Aquaith",
+   "Ergyrunite",
+   "Arder"
+  ],
+  "description": "Spiders that live entirely underwater in silk-anchored air bubbles acting as diving bells, refilled by trips to the surface. They hunt and moult inside the bubble.",
+  "image_notes": "Spider inside silvery air bubble among underwater weeds, silk anchor threads"
+ },
+ {
+  "id": 244,
+  "key": "Latrodec",
+  "group": "Arachnid",
+  "prototype": "Black widow",
+  "scientific": "Latrodectus mactans",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Idowway",
+   "Sutcedortal",
+   "Lat'mac",
+   "Woduw",
+   "Latround",
+   "Maktanz",
+   "Latmactans",
+   "Widec"
+  ],
+  "description": "Spiders with glossy black bodies and a red hourglass marking, carrying potent neurotoxic venom. Females are much larger than males.",
+  "image_notes": "Glossy black spider with red hourglass marking hanging in tangled web"
+ },
+ {
+  "id": 245,
+  "key": "Atraxi",
+  "group": "Arachnid",
+  "prototype": "Sydney funnel-web spider",
+  "scientific": "Atrax robustus",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Xarta",
+   "At'ro",
+   "Atraxyr",
+   "Atbustus",
+   "Spixi",
+   "Sutsubor",
+   "Atraxway",
+   "At-Ro"
+  ],
+  "description": "Large, aggressive spiders with fast-acting venom that live in silk-lined burrows with tripline webs. Males wander during breeding season.",
+  "image_notes": "Glossy black spider with fangs raised in threat posture; funnel web entrance"
+ },
+ {
+  "id": 246,
+  "key": "Portiar",
+  "group": "Arachnid",
+  "prototype": "Portia jumping spider",
+  "scientific": "Portia fimbriata",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Aitrop",
+   "Por'fim",
+   "Portiaoth",
+   "Fimbriata",
+   "Porbriata",
+   "Spitiar",
+   "Atairbmif",
+   "Ortiapay"
+  ],
+  "description": "Jumping spiders with complex hunting strategies, planning detours to reach prey out of sight and mimicking prey vibrations on webs.",
+  "image_notes": "Fringed brown jumping spider with large forward eyes, stalking on web"
+ },
+ {
+  "id": 247,
+  "key": "Caerost",
+  "group": "Arachnid",
+  "prototype": "Darwin's bark spider",
+  "scientific": "Caerostris darwini",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Sirtsoreac",
+   "Cae'dar",
+   "Caerosos",
+   "Caewini",
+   "Spirost",
+   "Kae-Dar",
+   "Darwiyr",
+   "Ceirustros"
+  ],
+  "description": "Spiders that spin the largest known orb webs, spanning rivers, using silk tougher than steel. Webs are anchored by bridge lines over 20 metres long.",
+  "image_notes": "Huge web spanning a river gap; tiny spider at centre; on gas giants web spans between floating rocks"
+ },
+ {
+  "id": 248,
+  "key": "Galeod",
+  "group": "Arachnid",
+  "prototype": "Camel spider",
+  "scientific": "Galeodes arabs",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Sedoelag",
+   "Galeound",
+   "Arabz",
+   "Gaarabs",
+   "Spileod",
+   "Sbara",
+   "Aleodesgay",
+   "Arabsith"
+  ],
+  "description": "Fast-running desert arachnids with enormous jaws, up to a third of their body length, used to tear prey apart. They hunt at night, outrun most small animals and tolerate extreme heat and dryness.",
+  "image_notes": "Tan hairy arachnid with huge forward-projecting chelicerae and long pedipalps, running across glowing hot sand at dusk"
+ },
+ {
+  "id": 249,
+  "key": "Phrynusi",
+  "group": "Arachnid",
+  "prototype": "Whip spider",
+  "scientific": "Phrynus marginemaculatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Sunyrhp",
+   "Phry'mar",
+   "Phrynusak",
+   "Phrylatus",
+   "Spisi",
+   "Ynusphray",
+   "Fry-Mar",
+   "Margiani"
+  ],
+  "description": "Flattened arachnids that walk sideways and use a pair of extremely long, antenna-like front legs to feel their surroundings in darkness. Spiny raptorial claws snap shut on prey.",
+  "image_notes": "Flat dark arachnid with very long whip-like feeler legs and spiny folded claws, on a cave wall"
+ },
+ {
+  "id": 250,
+  "key": "Leiobun",
+  "group": "Arachnid",
+  "prototype": "Harvestman",
+  "scientific": "Leiobunum rotundum",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Munuboiel",
+   "Leio'ro",
+   "Hervistmen",
+   "Leiobuak",
+   "Rotundum",
+   "Leiotundum",
+   "Harbun",
+   "Mudnutor"
+  ],
+  "description": "Arachnids with a single fused round body on extraordinarily long thin legs, each leg carrying its own sense organs. They can shed legs that keep twitching to distract predators.",
+  "image_notes": "Tiny round body suspended on extremely long thin legs, cluster of many resting together on rock"
+ },
+ {
+  "id": 251,
+  "key": "Scolopen",
+  "group": "Arachnid",
+  "prototype": "Amazonian giant centipede",
+  "scientific": "Scolopendra gigantea",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Entipedecay",
+   "Ardnepolocs",
+   "Sco'gi",
+   "Cintopidi",
+   "Scoloos",
+   "Gigantea",
+   "Scogantea",
+   "Cenpen"
+  ],
+  "description": "Large venomous centipedes that hunt mice, frogs and even bats, using modified front legs as venom-injecting fangs. Fast, aggressive and armoured with overlapping plates.",
+  "image_notes": "Long glossy red-brown segmented centipede with yellow legs and curved forcipule fangs"
+ },
+ {
+  "id": 252,
+  "key": "Illacme",
+  "group": "Arachnid",
+  "prototype": "Illacme millipede",
+  "scientific": "Illacme plenipes",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Illipedemay",
+   "Emcalli",
+   "Il'ple",
+   "Mollopidi",
+   "Illacae",
+   "Plenipez",
+   "Ilnipes",
+   "Milme"
+  ],
+  "description": "Underground millipedes with the most legs of any animal, over 700. Pale and nearly blind, they secrete defensive chemicals and live in deep soil and rock fissures.",
+  "image_notes": "Thread-thin pale cream millipede with hundreds of tiny legs coiled under a stone"
+ },
+ {
+  "id": 253,
+  "key": "Apheloria",
+  "group": "Arachnid",
+  "prototype": "Cyanide millipede",
+  "scientific": "Apheloria virginiensis",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Airolehpa",
+   "Ap'vir",
+   "Apheari",
+   "Apniensis",
+   "Milria",
+   "Ap-Vir",
+   "Virgiith",
+   "Ephiluroe"
+  ],
+  "description": "Millipedes that release hydrogen cyanide and benzaldehyde (an almond scent) when disturbed. Bright warning colours advertise their toxicity.",
+  "image_notes": "Black millipede with bright yellow side spots on leaf litter, faint vapour wisps"
+ },
+ {
+  "id": 254,
+  "key": "Trombid",
+  "group": "Arachnid",
+  "prototype": "Red velvet mite",
+  "scientific": "Trombidium holosericeum",
+  "planetoids": [
+   "molten",
+   "rocky"
+  ],
+  "name_variants": [
+   "Itemay",
+   "Muidibmort",
+   "Trom'ho",
+   "Moti",
+   "Trombiesh",
+   "Tromriceum",
+   "Mibid",
+   "Trom-Ho"
+  ],
+  "description": "Bright red, velvety mites that emerge in large numbers after rain. Larvae parasitise insects and adults eat insect eggs.",
+  "image_notes": "Plush red velvet mite on wet sand after rain, magnified"
+ },
+ {
+  "id": 255,
+  "key": "Chelifer",
+  "group": "Arachnid",
+  "prototype": "Pseudoscorpion",
+  "scientific": "Chelifer cancroides",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Refilehc",
+   "Che'can",
+   "Cheliyr",
+   "Kankroidez",
+   "Checroides",
+   "Pseufer",
+   "Sediorcnac",
+   "Eliferchay"
+  ],
+  "description": "Tiny arachnids with large pincers but no tail. They hitch rides by clinging to larger insects and hunt even smaller creatures.",
+  "image_notes": "Small brown arachnid with oversized pincers clinging to a beetle's leg"
+ },
+ {
+  "id": 256,
+  "key": "Limulus",
+  "group": "Arachnid",
+  "prototype": "Atlantic horseshoe crab",
+  "scientific": "Limulus polyphemus",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Abcray",
+   "Sulumil",
+   "Li'po",
+   "Creb",
+   "Limuoth",
+   "Polyfemuz",
+   "Lihemus",
+   "Crablus"
+  ],
+  "description": "Ancient armoured arthropods with blue copper-based blood that clots on contact with bacteria. They come ashore to spawn in large numbers.",
+  "image_notes": "Horseshoe-shaped olive-brown shell with long spike tail on a beach at dusk"
+ },
+ {
+  "id": 257,
+  "key": "Jaekelo",
+  "group": "Arachnid",
+  "prototype": "Giant sea scorpion",
+  "scientific": "Jaekelopterus rhenaniae",
+  "planetoids": [
+   "rocky",
+   "frozen"
+  ],
+  "name_variants": [
+   "Jae'rhe",
+   "Jaekeith",
+   "Rhenaniae",
+   "Jaenaniae",
+   "Scorlo",
+   "Eainanehr",
+   "Jae-Rhe",
+   "Rhenaani"
+  ],
+  "description": "Extinct giant aquatic arthropods up to 2.5 metres long, apex predators with spiny grasping claws and paddle-like swimming legs.",
+  "image_notes": "Huge segmented eurypterid with spiny claws and paddle legs swimming in cold murky water"
+ },
+ {
+  "id": 258,
+  "key": "Odontod",
+  "group": "Crustacean",
+  "prototype": "Peacock mantis shrimp",
+  "scientific": "Odontodactylus scyllarus",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Impshray",
+   "O'scyl",
+   "Shromp",
+   "Odonae",
+   "Zkyllaruz",
+   "Olarus",
+   "Shrimptod",
+   "Surallycs"
+  ],
+  "description": "Armoured crustaceans whose club-like forelimbs strike with the acceleration of a bullet, creating cavitation flashes. Their eyes have up to 16 colour receptor types and detect polarised light.",
+  "image_notes": "Rainbow-coloured shrimp with stalked trinocular eyes, folded striking clubs, armoured segments; reef glow"
+ },
+ {
+  "id": 259,
+  "key": "Alpheus",
+  "group": "Crustacean",
+  "prototype": "Bigclaw snapping shrimp",
+  "scientific": "Alpheus heterochaelis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Suehpla",
+   "Al'he",
+   "Alpheusani",
+   "Alhaelis",
+   "Shrimppheus",
+   "Alpheusway",
+   "Al-He",
+   "Elphias"
+  ],
+  "description": "Small shrimp with one oversized claw that snaps shut to fire a bubble shockwave loud enough to stun prey. Colonies create constant crackling noise.",
+  "image_notes": "Small translucent shrimp with one giant claw, shockwave bubble in front; seabed"
+ },
+ {
+  "id": 260,
+  "key": "Homarux",
+  "group": "Crustacean",
+  "prototype": "American lobster",
+  "scientific": "Homarus americanus",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Obsterlay",
+   "Suramoh",
+   "Lubstir",
+   "Homaoth",
+   "Hocanus",
+   "Lobrux",
+   "Omarushay",
+   "Ameoth"
+  ],
+  "description": "Long-lived armoured crustaceans that keep growing and moulting through life. Asymmetric claws: one for crushing, one for cutting.",
+  "image_notes": "Dark blue-green lobster with two different claws, long antennae; cold rocky seafloor"
+ },
+ {
+  "id": 261,
+  "key": "Birgus",
+  "group": "Crustacean",
+  "prototype": "Coconut crab",
+  "scientific": "Birgus latro",
+  "planetoids": [
+   "rocky",
+   "molten"
+  ],
+  "name_variants": [
+   "Sugrib",
+   "Bir'lat",
+   "Birgusora",
+   "Latro",
+   "Birlatro",
+   "Crabgus",
+   "Ortal",
+   "Irgusbay"
+  ],
+  "description": "The largest land arthropods, climbing trees and cracking hard shells with immensely strong claws. Adults drown if kept underwater.",
+  "image_notes": "Huge purple-orange land crab climbing trunk, massive claws"
+ },
+ {
+  "id": 262,
+  "key": "Kiwarr",
+  "group": "Crustacean",
+  "prototype": "Yeti crab",
+  "scientific": "Kiwa hirsuta",
+  "planetoids": [
+   "molten",
+   "frozen"
+  ],
+  "name_variants": [
+   "Awik",
+   "Ki'hir",
+   "Kiwaani",
+   "Hirzuta",
+   "Kisuta",
+   "Crabwarr",
+   "Atusrih",
+   "Iwakay"
+  ],
+  "description": "Pale, blind crabs living at hydrothermal vents, farming chemosynthetic bacteria on hairy arms they wave in mineral-rich water.",
+  "image_notes": "White crab with long silky-haired arms near black smoker vent, shimmering heat"
+ },
+ {
+  "id": 263,
+  "key": "Rimicar",
+  "group": "Crustacean",
+  "prototype": "Vent shrimp",
+  "scientific": "Rimicaris exoculata",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Siracimir",
+   "Rimiyr",
+   "Eksokulata",
+   "Rilata",
+   "Shrimpcar",
+   "Atalucoxe",
+   "Imicarisray",
+   "Exoani"
+  ],
+  "description": "Shrimp swarming around superheated vents, sensing faint vent glow through a light-sensitive back organ. Bacteria in their gill chambers feed them.",
+  "image_notes": "Swarm of pale shrimp on chimney vent, dorsal reflective patch, mineral smoke"
+ },
+ {
+  "id": 264,
+  "key": "Macroche",
+  "group": "Crustacean",
+  "prototype": "Japanese spider crab",
+  "scientific": "Macrocheira kaempferi",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ariehcorcam",
+   "Mac'kaem",
+   "Macrocund",
+   "Kaempferi",
+   "Macpferi",
+   "Crabhe",
+   "Irefpmeak",
+   "Mak-Kaem"
+  ],
+  "description": "Crabs with the longest leg span of any arthropod, up to 3.7 metres. Slow scavengers of cold deep shelves; very long-lived.",
+  "image_notes": "Huge orange crab with extremely long spindly legs; dark cold water"
+ },
+ {
+  "id": 265,
+  "key": "Euphaus",
+  "group": "Crustacean",
+  "prototype": "Antarctic krill",
+  "scientific": "Euphausia superba",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Illkray",
+   "Aisuahpue",
+   "Eup'su",
+   "Kroll",
+   "Euphauora",
+   "Zuperba",
+   "Eupperba",
+   "Krillhaus"
+  ],
+  "description": "Small shrimp-like swarmers forming vast biomass clouds that feed giants. They can shrink when starving and glow with light organs.",
+  "image_notes": "Dense swarm of translucent orange krill, tiny glowing photophores"
+ },
+ {
+  "id": 266,
+  "key": "Bathynom",
+  "group": "Crustacean",
+  "prototype": "Giant isopod",
+  "scientific": "Bathynomus giganteus",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Isopodway",
+   "Sumonyhtab",
+   "Bat'gi",
+   "Osupud",
+   "Bathyani",
+   "Giganteuz",
+   "Batganteus",
+   "Inom"
+  ],
+  "description": "Deep-sea scavengers resembling giant pill bugs that can go years without eating, storing fat and slowing their metabolism. They gorge on carcasses that sink to the seafloor.",
+  "image_notes": "Large segmented grey-lilac isopod with big reflective compound eyes and many legs; dark cold seabed"
+ },
+ {
+  "id": 267,
+  "key": "Armadil",
+  "group": "Crustacean",
+  "prototype": "Common pill bug",
+  "scientific": "Armadillidium vulgare",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ommoncay",
+   "Ar'vul",
+   "Cummun",
+   "Armaos",
+   "Vulgare",
+   "Argare",
+   "Comdil",
+   "Eragluv"
+  ],
+  "description": "Land crustaceans that roll into armoured balls and breathe through gill-like structures needing humidity.",
+  "image_notes": "Grey segmented pill bug partly rolled; damp leaf litter"
+ },
+ {
+  "id": 268,
+  "key": "Gecarco",
+  "group": "Crustacean",
+  "prototype": "Christmas Island red crab",
+  "scientific": "Gecarcoidea natalis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Aediocraceg",
+   "Ge'na",
+   "Gecarix",
+   "Nataliz",
+   "Getalis",
+   "Crabco",
+   "Silatan",
+   "Ge-Na"
+  ],
+  "description": "Land crabs that live in forests and undertake mass migrations to the sea to release larvae. Millions move at once, covering the ground in red.",
+  "image_notes": "Bright red crabs swarming over rocks and forest floor in a mass migration"
+ },
+ {
+  "id": 269,
+  "key": "Pagurox",
+  "group": "Crustacean",
+  "prototype": "Common hermit crab",
+  "scientific": "Pagurus bernhardus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Surugap",
+   "Pa'ber",
+   "Pagueen",
+   "Bernharduz",
+   "Panhardus",
+   "Crabrox",
+   "Sudrahnreb",
+   "Aguruspay"
+  ],
+  "description": "Crabs with soft, spiralled abdomens that live in borrowed shells and upgrade as they grow. Groups line up by size to exchange shells in chains.",
+  "image_notes": "Crab peeking from a spiral shell with red claws; tide pool"
+ },
+ {
+  "id": 270,
+  "key": "Lepasi",
+  "group": "Crustacean",
+  "prototype": "Goose barnacle",
+  "scientific": "Lepas anatifera",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Arnaclebay",
+   "Sapel",
+   "Bernecli",
+   "Lepasak",
+   "Anatifera",
+   "Lefera",
+   "Barsi",
+   "Arefitana"
+  ],
+  "description": "Stalked filter-feeders that attach to anything drifting and sweep feathery legs to catch food. Colonies cover floating debris and drifting organisms.",
+  "image_notes": "Cluster of white-shelled goose barnacles on long dark stalks hanging from floating debris, feathery legs extended"
+ },
+ {
+  "id": 271,
+  "key": "Triopsa",
+  "group": "Crustacean",
+  "prototype": "Tadpole shrimp",
+  "scientific": "Triops cancriformis",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Spoirt",
+   "Triops'can",
+   "Triopsani",
+   "Triopformis",
+   "Shrimpsa",
+   "Iopstray",
+   "Triopz-Kan",
+   "Cancriix"
+  ],
+  "description": "Ancient crustaceans unchanged for hundreds of millions of years. Their eggs survive decades of drought and hatch within hours of rain, maturing in days.",
+  "image_notes": "Shield-shaped olive crustacean with three eyes and forked tail in a temporary pool on hot rock"
+ },
+ {
+  "id": 272,
+  "key": "Artemir",
+  "group": "Crustacean",
+  "prototype": "Brine shrimp",
+  "scientific": "Artemia salina",
+  "planetoids": [
+   "toxic",
+   "molten"
+  ],
+  "name_variants": [
+   "Aimetra",
+   "Ar'sa",
+   "Arteoth",
+   "Zalina",
+   "Arlina",
+   "Shrimpmir",
+   "Anilas",
+   "Artemiaway"
+  ],
+  "description": "Tiny crustaceans thriving in hypersaline lakes where few predators survive. Their cysts endure drying, vacuum and radiation for years.",
+  "image_notes": "Translucent red brine shrimp swarm in pink saline water with salt crusts"
+ },
+ {
+  "id": 273,
+  "key": "Phronim",
+  "group": "Crustacean",
+  "prototype": "Phronima",
+  "scientific": "Phronima sedentaria",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Onimaphray",
+   "Aminorhp",
+   "Phro'se",
+   "Phrunome",
+   "Phroniix",
+   "Zedentaria",
+   "Phrotaria",
+   "Airatnedes"
+  ],
+  "description": "Transparent amphipods that hollow out drifting gelatinous animals and live inside them, pushing these barrels through the water like mobile homes.",
+  "image_notes": "Transparent alien-looking amphipod with huge eyes inside a clear gelatinous barrel; deep blue"
+ },
+ {
+  "id": 274,
+  "key": "Wallise",
+  "group": "Crustacean",
+  "prototype": "Trilobite",
+  "scientific": "Walliserops trifurcatus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Ilobitetray",
+   "Sporesillaw",
+   "Wal'tri",
+   "Troluboti",
+   "Walliul",
+   "Trifurkatuz",
+   "Walcatus",
+   "Trise"
+  ],
+  "description": "Ancient segmented arthropods with calcite crystal eyes and elaborate spiky shields, including a trident-shaped head projection.",
+  "image_notes": "Trilobite with trident head spine, crystal eyes and spiny segmented shell on sandy seabed"
+ },
+ {
+  "id": 275,
+  "key": "Anomalo",
+  "group": "Crustacean",
+  "prototype": "Anomalocaris",
+  "scientific": "Anomalocaris canadensis",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Anoora",
+   "Adensis",
+   "Sisnedanac",
+   "Canaora",
+   "Aris",
+   "Anoari"
+  ],
+  "description": "Early apex predators with swimming lobes along their sides and spiny grasping head appendages. A round mouth lined with plates processed prey.",
+  "image_notes": "Segmented swimmer with undulating side flaps, curved spiny head claws and disc mouth; ancient sea"
+ },
+ {
+  "id": 276,
+  "key": "Opabina",
+  "group": "Crustacean",
+  "prototype": "Opabinia",
+  "scientific": "Opabinia regalis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Opabiniaway",
+   "Ainibapo",
+   "Upebonoe",
+   "Opaiun",
+   "Regaliz",
+   "Ogalis",
+   "Silager",
+   "Onia"
+  ],
+  "description": "Small ancient swimmers with five stalked eyes and a long flexible proboscis ending in a claw. Side lobes for swimming.",
+  "image_notes": "Creature with five mushroom-like stalked eyes and long clawed nozzle, segmented body"
+ },
+ {
+  "id": 277,
+  "key": "Hallucig",
+  "group": "Crustacean",
+  "prototype": "Hallucigenia",
+  "scientific": "Hallucigenia sparsa",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Hal'spar",
+   "Halluoth",
+   "Zparza",
+   "Halsparsa",
+   "Halcig",
+   "Asraps",
+   "Hal-Zpar",
+   "Sparsaani"
+  ],
+  "description": "Small worm-like animals with paired spines on the back and soft tentacle legs below. Their head and tail were long confused by scientists.",
+  "image_notes": "Worm-like body with pairs of long back spines and soft clawed legs, small head"
+ },
+ {
+  "id": 278,
+  "key": "Octavar",
+  "group": "Mollusc",
+  "prototype": "Common octopus",
+  "scientific": "Octopus vulgaris",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Octopusway",
+   "Supotco",
+   "Oc'vul",
+   "Uctupas",
+   "Octoix",
+   "Vulgariz",
+   "Ocgaris",
+   "Ocvar"
+  ],
+  "description": "Highly intelligent eight-armed molluscs with neurons distributed through their arms. They change colour and texture instantly and squeeze through any gap larger than their beak.",
+  "image_notes": "Octopus with textured shifting skin, curled arms, intelligent eye; rocky den under ice"
+ },
+ {
+  "id": 279,
+  "key": "Hapaloch",
+  "group": "Mollusc",
+  "prototype": "Blue-ringed octopus",
+  "scientific": "Hapalochlaena lunulata",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Ha'lu",
+   "Hapaund",
+   "Lunulata",
+   "Halata",
+   "Ocloch",
+   "Atalunul",
+   "Ha-Lu",
+   "Lunuoth"
+  ],
+  "description": "Small octopuses with tetrodotoxin venom potent enough to kill large animals. They flash iridescent blue rings as a warning when threatened.",
+  "image_notes": "Small yellow octopus with glowing electric blue rings; toxic shallows"
+ },
+ {
+  "id": 280,
+  "key": "Vampyrot",
+  "group": "Mollusc",
+  "prototype": "Vampire squid",
+  "scientific": "Vampyroteuthis infernalis",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Uidsqay",
+   "Vam'in",
+   "Sqaod",
+   "Vampyesh",
+   "Infernaliz",
+   "Vamnalis",
+   "Squidrot",
+   "Silanrefni"
+  ],
+  "description": "Deep-dwelling cephalopods living in oxygen-poor zones. They feed on drifting organic matter and turn inside-out to show spiny webbing.",
+  "image_notes": "Dark red cephalopod with webbed cloak, glowing eyes"
+ },
+ {
+  "id": 281,
+  "key": "Architeu",
+  "group": "Mollusc",
+  "prototype": "Giant squid",
+  "scientific": "Architeuthis dux",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ar'dux",
+   "Archios",
+   "Duks",
+   "Ardux",
+   "Squidteu",
+   "Ar-Duks",
+   "Duxoth",
+   "Arsquid"
+  ],
+  "description": "Enormous deep-sea squid with the largest eyes of any animal, used to detect large predators in darkness. Two very long feeding tentacles with toothed suckers.",
+  "image_notes": "Huge red squid with dinner-plate eyes, two long feeding tentacles; abyssal blackness"
+ },
+ {
+  "id": 282,
+  "key": "Dosidic",
+  "group": "Mollusc",
+  "prototype": "Humboldt squid",
+  "scientific": "Dosidicus gigas",
+  "planetoids": [
+   "rocky",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Sucidisod",
+   "Do'gi",
+   "Dosiae",
+   "Dogigas",
+   "Squiddic",
+   "Osidicusday",
+   "Do-Gi",
+   "Gigasyr"
+  ],
+  "description": "Aggressive, fast squid that hunt in large groups, flashing colour patterns to communicate. They tolerate low-oxygen layers and move between depths daily.",
+  "image_notes": "Red squid with flashing white-red patterned skin hunting in groups; deep blue"
+ },
+ {
+  "id": 283,
+  "key": "Sepiar",
+  "group": "Mollusc",
+  "prototype": "Common cuttlefish",
+  "scientific": "Sepia officinalis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Aipes",
+   "Se'of",
+   "Cattlifosh",
+   "Sepiayr",
+   "Offikinaliz",
+   "Senalis",
+   "Cutpiar",
+   "Silaniciffo"
+  ],
+  "description": "Cephalopods with W-shaped pupils and skin capable of rippling colour waves for hypnotic displays. An internal shell controls buoyancy.",
+  "image_notes": "Cuttlefish with rippling colour stripes and undulating fin skirt; seagrass"
+ },
+ {
+  "id": 284,
+  "key": "Metasep",
+  "group": "Mollusc",
+  "prototype": "Flamboyant cuttlefish",
+  "scientific": "Metasepia pfefferi",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Aipesatem",
+   "Me'pfef",
+   "Metaesh",
+   "Pfefferi",
+   "Meferi",
+   "Cutsep",
+   "Ireffefp",
+   "Etasepiamay"
+  ],
+  "description": "Small cuttlefish that walk along seabeds on arms and fins, displaying vivid warning colours. Their flesh carries a unique toxin.",
+  "image_notes": "Small cuttlefish with flashing purple, yellow and red patterns walking on sand"
+ },
+ {
+  "id": 285,
+  "key": "Nautilo",
+  "group": "Mollusc",
+  "prototype": "Chambered nautilus",
+  "scientific": "Nautilus pompilius",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Autilusnay",
+   "Sulituan",
+   "Nau'pom",
+   "Neatolas",
+   "Nautieth",
+   "Pompiliuz",
+   "Naupilius",
+   "Naulo"
+  ],
+  "description": "Shelled cephalopods that control buoyancy by regulating gas and fluid in sealed shell chambers. They have pinhole eyes and dozens of tentacles.",
+  "image_notes": "Striped cream-and-brown spiral shell with many tentacles drifting in blue"
+ },
+ {
+  "id": 286,
+  "key": "Argonaut",
+  "group": "Mollusc",
+  "prototype": "Greater argonaut",
+  "scientific": "Argonauta argo",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Argonautway",
+   "Atuanogra",
+   "Ar'ar",
+   "Erguneat",
+   "Argoari",
+   "Argo",
+   "Arargo",
+   "Arnaut"
+  ],
+  "description": "Octopuses whose females secrete delicate shells used as egg cases and air traps for buoyancy. Males are tiny.",
+  "image_notes": "Octopus inside white paper-thin ribbed shell, drifting"
+ },
+ {
+  "id": 287,
+  "key": "Grimpot",
+  "group": "Mollusc",
+  "prototype": "Dumbo octopus",
+  "scientific": "Grimpoteuthis bathynectes",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Grim'bat",
+   "Grimpoeth",
+   "Bathynektez",
+   "Grimnectes",
+   "Ocpot",
+   "Setcenyhtab",
+   "Grim-Bat",
+   "Bathyeth"
+  ],
+  "description": "Deep-sea octopuses with ear-like fins on the mantle used for swimming. They hover above the seafloor and swallow prey whole.",
+  "image_notes": "Pale pink octopus with ear-like fins, webbed arms spread; dark seabed"
+ },
+ {
+  "id": 288,
+  "key": "Conusar",
+  "group": "Mollusc",
+  "prototype": "Geographic cone snail",
+  "scientific": "Conus geographus",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Ailsnay",
+   "Sunoc",
+   "Co'geog",
+   "Sneol",
+   "Conusae",
+   "Geografuz",
+   "Coraphus",
+   "Snailsar"
+  ],
+  "description": "Predatory snails that fire venomous harpoon teeth to paralyse fish. Their venom contains hundreds of different toxins.",
+  "image_notes": "Patterned cone shell with extended proboscis harpoon; toxic reef"
+ },
+ {
+  "id": 289,
+  "key": "Chrysoma",
+  "group": "Mollusc",
+  "prototype": "Scaly-foot snail",
+  "scientific": "Chrysomallon squamiferum",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Chry'squa",
+   "Chrysoae",
+   "Zkwamiferum",
+   "Chryferum",
+   "Snailma",
+   "Murefimauqs",
+   "Khry-Zkwa",
+   "Squamiix"
+  ],
+  "description": "Vent snails with shells and scales armoured with iron sulphide, the only animals known to incorporate iron into their skeleton.",
+  "image_notes": "Snail with metallic black shell and scaly armoured foot on black smoker vent"
+ },
+ {
+  "id": 290,
+  "key": "Glaucar",
+  "group": "Mollusc",
+  "prototype": "Blue dragon sea slug",
+  "scientific": "Glaucus atlanticus",
+  "planetoids": [
+   "gas_giant",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ugslay",
+   "Sucualg",
+   "Glau'at",
+   "Slag",
+   "Glaucusari",
+   "Atlantikuz",
+   "Glauticus",
+   "Slugcar"
+  ],
+  "description": "Small blue floating sea slugs that store stinging cells from venomous prey, becoming more toxic than the prey itself.",
+  "image_notes": "Blue-silver sea slug with feathery finger appendages floating upside down"
+ },
+ {
+  "id": 291,
+  "key": "Elysian",
+  "group": "Mollusc",
+  "prototype": "Eastern emerald elysia",
+  "scientific": "Elysia chlorotica",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Elysiaway",
+   "Aisyle",
+   "E'chlo",
+   "Ilysoe",
+   "Elyul",
+   "Khlorotika",
+   "Etica",
+   "Esian"
+  ],
+  "description": "Sea slugs that steal chloroplasts from algae and use them to photosynthesise for months. They look like green leaves.",
+  "image_notes": "Emerald green leaf-like sea slug with veined body; sunlit water"
+ },
+ {
+  "id": 292,
+  "key": "Tridacn",
+  "group": "Mollusc",
+  "prototype": "Giant clam",
+  "scientific": "Tridacna gigas",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Amclay",
+   "Ancadirt",
+   "Tri'gi",
+   "Clem",
+   "Tridacani",
+   "Trigigas",
+   "Clamdacn",
+   "Idacnatray"
+  ],
+  "description": "The largest clams, with colourful mantles hosting photosynthetic algae. They can live over a century.",
+  "image_notes": "Huge clam with iridescent blue mantle; shallow sunlit reef"
+ },
+ {
+  "id": 293,
+  "key": "Achatin",
+  "group": "Mollusc",
+  "prototype": "Giant African land snail",
+  "scientific": "Lissachatina fulica",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Lis'fu",
+   "Lissacul",
+   "Fulika",
+   "Aclica",
+   "Snailtin",
+   "Aciluf",
+   "Liz-Fu",
+   "Fuliund"
+  ],
+  "description": "Large land snails that seal their shell opening with a dried mucus plug to survive dry or hostile seasons for months. They eat almost any plant matter and reproduce rapidly.",
+  "image_notes": "Large brown-and-cream striped conical shell, glistening grey body with eye stalks, on a broad leaf in humid haze"
+ },
+ {
+  "id": 294,
+  "key": "Ariolim",
+  "group": "Mollusc",
+  "prototype": "Pacific banana slug",
+  "scientific": "Ariolimax columbianus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Xamiloira",
+   "Arioani",
+   "Kolumbianuz",
+   "Abianus",
+   "Sluglim",
+   "Sunaibmuloc",
+   "Columora",
+   "Eroulomex"
+  ],
+  "description": "Large slugs that leave thick protective mucus trails used both for movement and to deter predators. They breathe through a single pore on the side of the mantle.",
+  "image_notes": "Long bright-yellow slug with dark spots, extended eye tentacles, gliding over damp moss"
+ },
+ {
+  "id": 295,
+  "key": "Janthin",
+  "group": "Mollusc",
+  "prototype": "Violet sea snail",
+  "scientific": "Janthina janthina",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Anihtnaj",
+   "Jan'jan",
+   "Janthiesh",
+   "Janthina",
+   "Snailthin",
+   "Anthinajay",
+   "Jan-Jan",
+   "Janthiul"
+  ],
+  "description": "Blind floating snails that build rafts of mucus-trapped bubbles and drift upside down at the surface, feeding on drifting jellies. They release purple ink when disturbed.",
+  "image_notes": "Thin violet spiral shell hanging under a raft of silvery bubbles at the surface of cloud or sea"
+ },
+ {
+  "id": 296,
+  "key": "Clionar",
+  "group": "Mollusc",
+  "prototype": "Sea angel",
+  "scientific": "Clione limacina",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Angelway",
+   "Enoilc",
+   "Clio'li",
+   "Engil",
+   "Clioneani",
+   "Limakina",
+   "Cliocina",
+   "Annar"
+  ],
+  "description": "Shell-less swimming sea slugs that flap wing-like lobes to 'fly' through water. They hunt shelled relatives using hook-armed cone extensions.",
+  "image_notes": "Translucent glass-like winged slug with glowing orange core organs, flapping through icy blue water"
+ },
+ {
+  "id": 297,
+  "key": "Dactylo",
+  "group": "Mollusc",
+  "prototype": "Ammonite",
+  "scientific": "Dactylioceras commune",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ammoniteway",
+   "Dac'com",
+   "Emmunoti",
+   "Dactyak",
+   "Kommune",
+   "Dacmune",
+   "Amlo",
+   "Enummoc"
+  ],
+  "description": "Extinct shelled cephalopods with ribbed spiral shells divided into gas-filled chambers for buoyancy control. Tentacles reached from the shell opening to catch prey.",
+  "image_notes": "Ribbed ochre spiral shell with tentacles extending, drifting in sunlit cloud layers"
+ },
+ {
+  "id": 298,
+  "key": "Cryptoch",
+  "group": "Mollusc",
+  "prototype": "Gumboot chiton",
+  "scientific": "Cryptochiton stelleri",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Itonchay",
+   "Cryp'stel",
+   "Chotun",
+   "Cryptocari",
+   "Ztelleri",
+   "Crypleri",
+   "Chitoch",
+   "Irellets"
+  ],
+  "description": "The largest chitons, with eight armour plates hidden under a thick, leathery red mantle. They scrape algae with an iron-hardened tongue.",
+  "image_notes": "Reddish leathery oval body on cold rock, rasping underside visible"
+ },
+ {
+  "id": 299,
+  "key": "Hexabran",
+  "group": "Mollusc",
+  "prototype": "Spanish dancer",
+  "scientific": "Hexabranchus sanguineus",
+  "planetoids": [
+   "toxic",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ancerday",
+   "He'san",
+   "Dencir",
+   "Hexabesh",
+   "Zanguineuz",
+   "Heguineus",
+   "Danran",
+   "Sueniugnas"
+  ],
+  "description": "Large nudibranchs that swim by undulating a flowing red mantle edge like a dancer's skirt. They carry toxic defences from their diet.",
+  "image_notes": "Bright red sea slug with flowing white-edged mantle dancing through the water"
+ },
+ {
+  "id": 300,
+  "key": "Physalix",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Portuguese man o' war",
+  "scientific": "Physalia physalis",
+  "planetoids": [
+   "gas_giant",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ailasyhp",
+   "Phy'phy",
+   "Purtagaisi",
+   "Physaiun",
+   "Fyzaliz",
+   "Physalis",
+   "Porlix",
+   "Silasyhp"
+  ],
+  "description": "Colonial drifters made of specialised zooids: a gas-filled float sail above and long stinging tentacles trailing below. Each individual is really a cooperative colony that cannot survive apart.",
+  "image_notes": "Translucent violet-blue gas bladder with crest sail, curtain of long blue tentacles trailing down through cloud layers"
+ },
+ {
+  "id": 301,
+  "key": "Chironar",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Australian box jellyfish",
+  "scientific": "Chironex fleckeri",
+  "planetoids": [
+   "toxic"
+  ],
+  "name_variants": [
+   "Ellyfishjay",
+   "Xenorihc",
+   "Chi'flec",
+   "Jillyfosh",
+   "Chiroora",
+   "Flekkeri",
+   "Chikeri",
+   "Jelnar"
+  ],
+  "description": "Cube-shaped jellies with 24 eyes, some with lenses, and lethal venom on long tentacles. Active swimmers rather than passive drifters.",
+  "image_notes": "Transparent cube bell with tentacle bundles at each corner, tiny eye clusters; murky toxic sea"
+ },
+ {
+  "id": 302,
+  "key": "Cyanex",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Lion's mane jellyfish",
+  "scientific": "Cyanea capillata",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Aenayc",
+   "Cya'ca",
+   "Cyaneaith",
+   "Kapillata",
+   "Cyalata",
+   "Jelnex",
+   "Atallipac",
+   "Yaneacay"
+  ],
+  "description": "The largest jellies, with tentacles that may stretch over 30 metres. They thrive in cold water and drift slowly as living curtains.",
+  "image_notes": "Huge red-gold bell with masses of fine hair-like tentacles, cold blue water or drifting clouds"
+ },
+ {
+  "id": 303,
+  "key": "Turritop",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Immortal jellyfish",
+  "scientific": "Turritopsis dohrnii",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Sispotirrut",
+   "Tur'doh",
+   "Turriix",
+   "Dohrnii",
+   "Turdohrnii",
+   "Jeltop",
+   "Iinrhod",
+   "Tur-Doh"
+  ],
+  "description": "Tiny jellies that can revert from adult back to juvenile polyp stage when stressed, potentially repeating their life cycle indefinitely.",
+  "image_notes": "Tiny transparent bell with bright red core, fine tentacles; glowing particles"
+ },
+ {
+  "id": 304,
+  "key": "Aurelix",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Moon jellyfish",
+  "scientific": "Aurelia aurita",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Ailerua",
+   "Au'au",
+   "Aureith",
+   "Aurita",
+   "Jellix",
+   "Atirua",
+   "Aureliaway",
+   "Au-Au"
+  ],
+  "description": "Saucer-shaped drifters with four glowing horseshoe-shaped gonads. Tolerant of low oxygen and broad temperatures, forming huge blooms.",
+  "image_notes": "Translucent saucer with four-leaf pattern, fringe of short tentacles; blooms in soft light"
+ },
+ {
+  "id": 305,
+  "key": "Prayar",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Giant siphonophore",
+  "scientific": "Praya dubia",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ayarp",
+   "Praya'du",
+   "Prayayr",
+   "Dubia",
+   "Prayardubia",
+   "Sipprayar",
+   "Aibud",
+   "Ayapray"
+  ],
+  "description": "Extremely long colonial animals, up to 50 metres, of linked zooids swimming, feeding and reproducing together as a single living chain.",
+  "image_notes": "Long glowing string of linked translucent units, bioluminescent blue, dark vastness"
+ },
+ {
+  "id": 306,
+  "key": "Velellon",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "By-the-wind sailor",
+  "scientific": "Velella velella",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Ailorsay",
+   "Allelev",
+   "Ve've",
+   "Seolur",
+   "Velelesh",
+   "Velella",
+   "Sailon",
+   "Elellavay"
+  ],
+  "description": "Small blue colonial drifters with a stiff triangular sail that catches wind. Fleets cover vast areas.",
+  "image_notes": "Small oval blue disc with clear triangular sail, fleet floating on cloud surface"
+ },
+ {
+  "id": 307,
+  "key": "Atollar",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Atolla jellyfish",
+  "scientific": "Atolla wyvillei",
+  "planetoids": [
+   "frozen",
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Allota",
+   "Atolund",
+   "Wyvillei",
+   "Avillei",
+   "Jellar",
+   "Iellivyw",
+   "Atollaway",
+   "Wyvilora"
+  ],
+  "description": "Deep-red deep-dwelling jellies that produce a spinning ring of blue bioluminescence as a 'burglar alarm' to attract larger predators to their attackers.",
+  "image_notes": "Dark crimson crowned bell with a ring of swirling blue light; pitch black"
+ },
+ {
+  "id": 308,
+  "key": "Actinar",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Beadlet anemone",
+  "scientific": "Actinia equina",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Anemoneway",
+   "Ainitca",
+   "Enimuni",
+   "Actieen",
+   "Ekwina",
+   "Acquina",
+   "Anar",
+   "Aniuqe"
+  ],
+  "description": "Sedentary polyps with rings of stinging tentacles. They fight neighbours using special blue stinging warts and can retract into a jelly-like blob.",
+  "image_notes": "Red anemone with tentacles open, blue beads at base; tide pool"
+ },
+ {
+  "id": 309,
+  "key": "Acropox",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Staghorn coral",
+  "scientific": "Acropora cervicornis",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Oralcay",
+   "Aroporca",
+   "Ac'cer",
+   "Curel",
+   "Acroari",
+   "Kervikorniz",
+   "Accornis",
+   "Copox"
+  ],
+  "description": "Colonial polyps that build branching calcium carbonate structures, hosting photosynthetic algae. Their reefs create huge habitat structures.",
+  "image_notes": "Branching coral forest, tiny polyps glowing; shallow sunlit sea"
+ },
+ {
+  "id": 310,
+  "key": "Mnemiop",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Warty comb jelly",
+  "scientific": "Mnemiopsis leidyi",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Ellyjay",
+   "Sispoimenm",
+   "Mne'lei",
+   "Jilly",
+   "Mnemiopae",
+   "Leidyi",
+   "Mneleidyi",
+   "Jelmiop"
+  ],
+  "description": "Transparent ctenophores that swim with rows of beating cilia that scatter light into moving rainbows.",
+  "image_notes": "Clear lobed jelly with rainbow light rippling down comb rows"
+ },
+ {
+  "id": 311,
+  "key": "Cestumar",
+  "group": "Cnidarian & Ctenophore",
+  "prototype": "Venus' girdle",
+  "scientific": "Cestum veneris",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Irdlegay",
+   "Mutsec",
+   "Ces've",
+   "Gordli",
+   "Cestumith",
+   "Veneriz",
+   "Cesneris",
+   "Girmar"
+  ],
+  "description": "Ribbon-shaped comb jellies up to a metre long, gliding with undulating motion and shimmering iridescent edges.",
+  "image_notes": "Long transparent ribbon with iridescent edges, undulating; cloud void"
+ },
+ {
+  "id": 312,
+  "key": "Riftiar",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Giant tube worm",
+  "scientific": "Riftia pachyptila",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Ormway",
+   "Aitfir",
+   "Rif'pac",
+   "Wurm",
+   "Riftiaund",
+   "Pakhyptila",
+   "Riftila",
+   "Wormtiar"
+  ],
+  "description": "Mouthless, gutless worms with red plumes that harbour symbiotic bacteria, converting vent chemicals to food.",
+  "image_notes": "Tall white tubes with blood-red plumes around a black smoker vent"
+ },
+ {
+  "id": 313,
+  "key": "Alvinel",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Pompeii worm",
+  "scientific": "Alvinella pompejana",
+  "planetoids": [
+   "molten"
+  ],
+  "name_variants": [
+   "Allenivla",
+   "Al'pom",
+   "Alviix",
+   "Pompejana",
+   "Aljana",
+   "Wormnel",
+   "Anajepmop",
+   "Al-Pom"
+  ],
+  "description": "Among the most heat-tolerant animals, living in tubes on vent chimneys with tail ends in very hot water, protected by a fleece of bacteria.",
+  "image_notes": "Pale worm with fleece of bacterial filaments, red gill plumes, on hot chimney"
+ },
+ {
+  "id": 314,
+  "key": "Megascol",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Giant Gippsland earthworm",
+  "scientific": "Megascolides australis",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Me'aus",
+   "Ierthwurm",
+   "Megasiun",
+   "Auztraliz",
+   "Metralis",
+   "Earcol",
+   "Silartsua",
+   "Me-Auz"
+  ],
+  "description": "Earthworms that can exceed a metre in length, living deep in moist clay burrows. They move so slowly that their activity can be heard as gurgling sounds underground.",
+  "image_notes": "Very long blue-grey earthworm with pink head, emerging from wet clay"
+ },
+ {
+  "id": 315,
+  "key": "Hirudar",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Medicinal leech",
+  "scientific": "Hirudo medicinalis",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Eechlay",
+   "Odurih",
+   "Hi'me",
+   "Liich",
+   "Hiruari",
+   "Medikinaliz",
+   "Hinalis",
+   "Leechdar"
+  ],
+  "description": "Blood-feeding annelids with three jaws and anticoagulant saliva, able to go a year between meals. Suckers at both ends allow inchworm-like movement.",
+  "image_notes": "Dark olive leech with orange stripes and toothy sucker; murky pond"
+ },
+ {
+  "id": 316,
+  "key": "Eunicex",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Bobbit worm",
+  "scientific": "Eunice aphroditois",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ecinue",
+   "Eu'ap",
+   "Eunieth",
+   "Afroditoiz",
+   "Euditois",
+   "Wormcex",
+   "Siotidorhpa",
+   "Euniceway"
+  ],
+  "description": "Ambush predators that bury their long bodies in sediment and strike at prey with scissor-like jaws. They can grow several metres long.",
+  "image_notes": "Iridescent long worm with snapping scissor jaws emerging from sand"
+ },
+ {
+  "id": 317,
+  "key": "Euperip",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Velvet worm",
+  "scientific": "Euperipatoides rowelli",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Eu'ro",
+   "Eupeari",
+   "Rowelli",
+   "Euwelli",
+   "Wormrip",
+   "Illewor",
+   "Eu-Ro",
+   "Rowelesh"
+  ],
+  "description": "Soft-bodied many-legged animals that shoot sticky slime nets to trap prey. They are living fossils, related to arthropods.",
+  "image_notes": "Velvety dark segmented worm with stubby legs shooting glue-like slime"
+ },
+ {
+  "id": 318,
+  "key": "Lineusi",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Bootlace worm",
+  "scientific": "Lineus longissimus",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Suenil",
+   "Li'lon",
+   "Lineusani",
+   "Longizzimuz",
+   "Lisimus",
+   "Wormsi",
+   "Sumissignol",
+   "Ineuslay"
+  ],
+  "description": "Ribbon worms that may be among the longest animals, coiling into tangled masses many metres long. They shoot out an eversible sticky proboscis to snare prey and secrete toxic mucus.",
+  "image_notes": "Dark chocolate-brown extremely long thin worm coiled into a glossy tangle on cold dark rock"
+ },
+ {
+  "id": 319,
+  "key": "Schmidt",
+  "group": "Worm & Tube Dweller",
+  "prototype": "Planarian flatworm",
+  "scientific": "Schmidtea mediterranea",
+  "planetoids": [
+   "rocky",
+   "toxic"
+  ],
+  "name_variants": [
+   "Atwormflay",
+   "Aetdimhcs",
+   "Schmid'me",
+   "Fletwurm",
+   "Flatschmidt",
+   "Idteaschmay",
+   "Zkhmid-Me",
+   "Mediix"
+  ],
+  "description": "Flatworms that can regenerate a complete body, brain included, from a small fragment. Two light-sensing eyespots give them a cross-eyed look; they glide on cilia over mucus.",
+  "image_notes": "Flat brown arrow-headed worm with two cross-eyed eyespots, gliding on wet stone; fragments regrowing nearby"
+ },
+ {
+  "id": 320,
+  "key": "Acanthar",
+  "group": "Echinoderm",
+  "prototype": "Crown-of-thorns starfish",
+  "scientific": "Acanthaster planci",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Arfishstay",
+   "Retsahtnaca",
+   "A'plan",
+   "Sterfosh",
+   "Acanyr",
+   "Planki",
+   "Aplanci",
+   "Starthar"
+  ],
+  "description": "Large many-armed starfish covered in venomous spines. They feed by pushing their stomach out over prey, and population booms can strip entire reefs.",
+  "image_notes": "Spiny purple-red starfish with 15+ thorn-covered arms draped over pale coral; toxic haze"
+ },
+ {
+  "id": 321,
+  "key": "Pycnopo",
+  "group": "Echinoderm",
+  "prototype": "Sunflower sea star",
+  "scientific": "Pycnopodia helianthoides",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Arstay",
+   "Aidoponcyp",
+   "Pyc'he",
+   "Ster",
+   "Pycnoith",
+   "Pycthoides",
+   "Starpo",
+   "Pyk-He"
+  ],
+  "description": "Large, fast-moving sea stars with up to 24 arms and thousands of tube feet, hunting shellfish and urchins. They can shed and regrow arms.",
+  "image_notes": "Big soft orange-purple sea star with many arms sprawled across cold rocky seabed"
+ },
+ {
+  "id": 322,
+  "key": "Strongyl",
+  "group": "Echinoderm",
+  "prototype": "Purple sea urchin",
+  "scientific": "Strongylocentrotus purpuratus",
+  "planetoids": [
+   "frozen",
+   "rocky"
+  ],
+  "name_variants": [
+   "Urchinway",
+   "Stron'pur",
+   "Archon",
+   "Strongyesh",
+   "Purpuratuz",
+   "Stronratus",
+   "Urgyl",
+   "Sutaruprup"
+  ],
+  "description": "Spiny grazers with a five-part chewing jaw apparatus, able to scrape and burrow into solid rock. They move on hundreds of tube feet between spines.",
+  "image_notes": "Purple spiny ball with transparent tube feet extended, on kelp-covered cold seabed"
+ },
+ {
+  "id": 323,
+  "key": "Scotopl",
+  "group": "Echinoderm",
+  "prototype": "Sea pig",
+  "scientific": "Scotoplanes globosa",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Easay",
+   "Senalpotocs",
+   "Sco'glo",
+   "Scotopora",
+   "Globoza",
+   "Scobosa",
+   "Seatopl",
+   "Asobolg"
+  ],
+  "description": "Deep-sea sea cucumbers that walk across soft mud on enlarged tube feet, feeding on organic matter in sediment. They gather in large herds.",
+  "image_notes": "Pink translucent sea cucumber with leg-like tube feet and tentacle 'horns', herd on dark ooze"
+ },
+ {
+  "id": 324,
+  "key": "Gorgonoc",
+  "group": "Echinoderm",
+  "prototype": "Basket star",
+  "scientific": "Gorgonocephalus eucnemis",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Gor'euc",
+   "Gorgoora",
+   "Euknemiz",
+   "Gornemis",
+   "Starnoc",
+   "Simencue",
+   "Gor-Euk",
+   "Eucneith"
+  ],
+  "description": "Brittle stars with arms that branch over and over into a fractal net, unfurled at night to catch drifting food. By day they curl into a tight ball.",
+  "image_notes": "Fractal branching tan arms spread in a current like a living net; deep cold water"
+ },
+ {
+  "id": 325,
+  "key": "Antedon",
+  "group": "Echinoderm",
+  "prototype": "Feather star",
+  "scientific": "Antedon bifida",
+  "planetoids": [
+   "gas_giant",
+   "rocky"
+  ],
+  "name_variants": [
+   "Nodetna",
+   "An'bi",
+   "Anteul",
+   "Bifida",
+   "Anfida",
+   "Stardon",
+   "Adifib",
+   "Antedonway"
+  ],
+  "description": "Free-swimming crinoids with ten feathery arms that wave to swim and filter particles. Small claw-like appendages let them perch on surfaces.",
+  "image_notes": "Red-orange feathery arms swimming and perched on rock, delicate pinnules"
+ },
+ {
+  "id": 326,
+  "key": "Ramazzo",
+  "group": "Other",
+  "prototype": "Tardigrade",
+  "scientific": "Ramazzottius varieornatus",
+  "planetoids": [
+   "molten",
+   "frozen",
+   "toxic"
+  ],
+  "name_variants": [
+   "Ra'va",
+   "Terdogredi",
+   "Ramazul",
+   "Ranatus",
+   "Tarzo",
+   "Ra-Va",
+   "Varieorae",
+   "Rade"
+  ],
+  "description": "Microscopic eight-legged animals that survive extreme cold, heat, radiation, vacuum and drying by entering a glass-like dormant state. Protective proteins shield their DNA.",
+  "image_notes": "Plump barrel-shaped eight-legged micro-animal with clawed stubby feet, electron-microscope style render"
+ },
+ {
+  "id": 327,
+  "key": "Euplect",
+  "group": "Other",
+  "prototype": "Venus' flower basket",
+  "scientific": "Euplectella aspergillum",
+  "planetoids": [
+   "frozen"
+  ],
+  "name_variants": [
+   "Asketbay",
+   "Alletcelpue",
+   "Eup'as",
+   "Beskit",
+   "Euplecul",
+   "Azpergillum",
+   "Eupgillum",
+   "Baslect"
+  ],
+  "description": "Deep-water sponges with skeletons of fused silica forming an intricate glass lattice. They filter water and house pairs of small shrimp trapped inside for life.",
+  "image_notes": "Glassy white tube sponge with lattice walls, glowing faintly; deep icy water"
+ },
+ {
+  "id": 328,
+  "key": "Adineta",
+  "group": "Other",
+  "prototype": "Bdelloid rotifer",
+  "scientific": "Adineta vaga",
+  "planetoids": [
+   "molten",
+   "frozen"
+  ],
+  "name_variants": [
+   "Otiferray",
+   "Atenida",
+   "Rutofir",
+   "Adiix",
+   "Vaga",
+   "Avaga",
+   "Rota",
+   "Agav"
+  ],
+  "description": "Microscopic animals that survive complete drying and radiation, reviving with water. They reproduce without mates and absorb foreign genes.",
+  "image_notes": "Microscopic translucent rotifer with spinning wheel cilia, micrograph style"
+ },
+ {
+  "id": 329,
+  "key": "Pyrosom",
+  "group": "Other",
+  "prototype": "Pyrosome",
+  "scientific": "Pyrosoma atlanticum",
+  "planetoids": [
+   "gas_giant",
+   "frozen"
+  ],
+  "name_variants": [
+   "Yrosomepay",
+   "Amosoryp",
+   "Py'at",
+   "Pyrusumi",
+   "Pyroix",
+   "Atlantikum",
+   "Pyticum",
+   "Pysom"
+  ],
+  "description": "Colonial tunicates made of thousands of individuals forming a hollow glowing tube that can grow to many metres. They pump water through the colony to move.",
+  "image_notes": "Glowing pink-blue tube colony drifting through dark water or clouds"
+ },
+ {
+  "id": 330,
+  "key": "Salpar",
+  "group": "Other",
+  "prototype": "Salp",
+  "scientific": "Salpa maxima",
+  "planetoids": [
+   "gas_giant"
+  ],
+  "name_variants": [
+   "Alpsay",
+   "Aplas",
+   "Sal'ma",
+   "Selp",
+   "Salpaix",
+   "Maksima",
+   "Salxima",
+   "Salppar"
+  ],
+  "description": "Barrel-shaped transparent tunicates that pump water to swim and filter food, alternating between solitary forms and long linked chains.",
+  "image_notes": "Transparent barrel chain spiralling through blue water or cloud"
+ },
+ {
+  "id": 331,
+  "key": "Physarum",
+  "group": "Other",
+  "prototype": "Many-headed slime mould",
+  "scientific": "Physarum polycephalum",
+  "planetoids": [
+   "toxic",
+   "rocky"
+  ],
+  "name_variants": [
+   "Ouldmay",
+   "Murasyhp",
+   "Phy'po",
+   "Muald",
+   "Physayr",
+   "Polykefalum",
+   "Phyhalum",
+   "Mouldrum"
+  ],
+  "description": "Giant single-celled organisms that spread as branching networks, finding efficient paths between food sources and solving mazes without a brain.",
+  "image_notes": "Bright yellow branching vein network spreading across dark surfaces"
+ }
+]

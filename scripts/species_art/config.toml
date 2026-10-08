@@ -1,0 +1,63 @@
+# Species portrait pipeline config. Single source of truth for model, quality,
+# size, concurrency and budget. Gate decisions get locked in [locked].
+
+model = "gpt-image-2"
+size = "1024x1024"
+quality = "medium"
+output_format = "png"
+moderation = "auto"
+concurrency = 3          # parallel synchronous requests
+ipm_limit = 18           # images/minute ceiling (Build tier default is 20)
+max_attempts = 3         # paid attempts per species per background mode
+request_timeout_s = 300
+budget_usd_total = 25.0  # hard cap across every stage
+
+# Per-stage caps; the guard halts at min(stage cap, total remaining).
+[stage_caps]
+pilot = 5.0
+transparency = 3.0
+bulk1 = 6.0
+rest = 18.0
+reroll = 6.0
+
+# Locked at review gates. style: key of prompts.STYLES. method: cutout method
+# A | B | C1 | C2 | D (per-species overrides live in species/visual_overrides.json).
+[locked]
+style = "A"
+method = "B"
+
+# Alternative model rendered on a pilot subset for the Gate 1 comparison.
+[pilot]
+alt_model = "gpt-image-2.5-flare"
+
+# USD, developers.openai.com/api/docs/pricing + image-generation guide, checked 2026-10-08.
+[pricing]
+text_input_per_m = 5.0
+image_input_per_m = 8.0
+image_output_per_m = 30.0
+batch_discount = 0.5
+
+[pricing.per_image]   # output-only estimate, keyed "<quality>@<size>"
+"low@1024x1024" = 0.006
+"medium@1024x1024" = 0.053
+"high@1024x1024" = 0.211
+"low@1024x1536" = 0.005
+"medium@1024x1536" = 0.041
+"high@1024x1536" = 0.165
+"low@1536x1024" = 0.005
+"medium@1536x1024" = 0.041
+"high@1536x1024" = 0.165
+
+[cutout]
+matting_model = "isnet-general-use"  # rembg session. "birefnet-general" is sharper on fur but needs >6 GB free RAM at 1024 on CPU (OOM-killed here)
+lum_gain = 1.6                      # C2: alpha = max(mask, max(R,G,B) * gain)
+lum_floor = 0.04                    # C2: ignore near-black noise below this
+key_color = [0, 177, 64]            # D: chroma green (#00B140)
+
+[canvas]
+size = 1024
+fit_box = 880
+bottom_pad = 56
+max_upscale = 1.25
+thumb = 256
+thumb_quality = 85

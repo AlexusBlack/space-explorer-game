@@ -1,0 +1,180 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Species art review</title>
+<style>
+  :root { --ink:#1d1d1f; --muted:#6b6b70; --line:#dcdce0; --card:#fff; --ground:#f4f4f6;
+          --ok:#1f7a3d; --warn:#a15c00; --bad:#b3261e; --accent:#3a5bd9; }
+  * { box-sizing: border-box; }
+  body { margin:0; font:14px/1.45 system-ui, sans-serif; color:var(--ink); background:var(--ground); }
+  header { position:sticky; top:0; z-index:5; background:#fff; border-bottom:1px solid var(--line);
+           padding:10px 16px; display:flex; flex-wrap:wrap; gap:10px; align-items:center; }
+  header h1 { font-size:15px; margin:0 12px 0 0; }
+  header label { color:var(--muted); font-size:12px; display:flex; gap:4px; align-items:center; }
+  select, input[type=text] { font:inherit; padding:3px 6px; border:1px solid var(--line); border-radius:6px; }
+  #summary { margin-left:auto; color:var(--muted); font-size:12px; }
+  main { padding:16px; display:grid; gap:16px; }
+  .card { background:var(--card); border:1px solid var(--line); border-radius:10px; padding:12px 14px; }
+  .card h2 { margin:0; font-size:15px; display:flex; gap:8px; align-items:baseline; flex-wrap:wrap; }
+  .card h2 .meta { font-weight:400; color:var(--muted); font-size:12px; }
+  .tag { font-size:11px; padding:1px 6px; border-radius:999px; background:#eef0f6; color:#3b3f55; }
+  .tag.flag { background:#fde8e6; color:var(--bad); }
+  .tag.cur { background:#fff2dc; color:var(--warn); }
+  .row { display:flex; gap:12px; overflow-x:auto; padding:10px 0 4px; }
+  .item { flex:0 0 auto; width:300px; border:1px solid var(--line); border-radius:8px; padding:8px; }
+  .item.picked { outline:2px solid var(--accent); }
+  .item .label { font-size:12px; color:var(--muted); margin-bottom:6px; display:flex; flex-wrap:wrap; gap:4px; }
+  .swatches { display:grid; grid-template-columns:1fr 1fr; gap:4px; }
+  .sw { aspect-ratio:1; border-radius:4px; overflow:hidden; display:flex; }
+  .sw img { width:100%; height:100%; object-fit:contain; cursor:zoom-in; }
+  .sw.light { background:#f2f2f2; } .sw.dark { background:#151515; } .sw.color { background:#d03ab0; }
+  .sw.checker { background: repeating-conic-gradient(#c8c8c8 0 25%, #fff 0 50%) 0 0/16px 16px; }
+  .single .sw { grid-column: span 2; }
+  .controls { display:flex; gap:4px; margin-top:6px; flex-wrap:wrap; align-items:center; }
+  .controls button { font:inherit; font-size:12px; border:1px solid var(--line); background:#fff;
+                     border-radius:6px; padding:2px 8px; cursor:pointer; }
+  .controls button.on[data-v=approve] { background:var(--ok); color:#fff; border-color:var(--ok); }
+  .controls button.on[data-v=reroll] { background:var(--warn); color:#fff; border-color:var(--warn); }
+  .controls button.on[data-v=reject] { background:var(--bad); color:#fff; border-color:var(--bad); }
+  .controls label { font-size:12px; margin-left:auto; }
+  .notes { width:100%; margin-top:4px; }
+  details { margin-top:4px; font-size:12px; color:var(--muted); }
+  details pre { white-space:pre-wrap; margin:4px 0 0; color:var(--ink); font:12px/1.4 ui-monospace, monospace; }
+  .prompt-item { width:520px; }
+  #zoom { position:fixed; inset:0; background:rgba(0,0,0,.8); display:flex; align-items:center;
+          justify-content:center; z-index:10; cursor:zoom-out; }
+  #zoom img { max-width:92vw; max-height:92vh; }
+  .empty { color:var(--muted); padding:40px; text-align:center; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Species art review</h1>
+  <label>View <select id="view">
+    <option value="stage:pilot">Pilot (stage 1)</option>
+    <option value="stage:transparency">Transparency (stage 2)</option>
+    <option value="set:bulk1">Bulk 1</option>
+    <option value="set:rest">Rest</option>
+    <option value="all:">All species</option>
+    <option value="prompts:all">Dry-run prompts</option>
+  </select></label>
+  <label>Group <select id="group"><option value="">all</option></select></label>
+  <label>Show <select id="show">
+    <option value="">everything</option><option value="raw">raw only</option>
+    <option value="cut">cutouts only</option>
+  </select></label>
+  <label><input type="checkbox" id="flagged"> flagged/curated only</label>
+  <label>Search <input type="text" id="q" size="12"></label>
+  <span id="summary"></span>
+</header>
+<main id="cards"></main>
+<div id="zoom" hidden><img alt=""></div>
+<script>
+const $ = s => document.querySelector(s);
+let cards = [], review = {items:{}, picks:{}};
+
+function params() {
+  const [kind, val] = $("#view").value.split(":");
+  if (kind === "prompts") return `view=prompts&stage=${val}`;
+  if (kind === "stage") return `stage=${val}`;
+  if (kind === "set") return `set=${val}`;
+  return "";
+}
+async function load() {
+  const [c, r] = await Promise.all([fetch("/api/cards?" + params()).then(r => r.json()),
+                                    fetch("/api/review").then(r => r.json())]);
+  cards = Array.isArray(c) ? c : []; review = r;
+  const groups = [...new Set(cards.map(c => c.group))].sort();
+  const gsel = $("#group"), cur = gsel.value;
+  gsel.innerHTML = '<option value="">all</option>' + groups.map(g => `<option>${g}</option>`).join("");
+  gsel.value = groups.includes(cur) ? cur : "";
+  render();
+}
+async function post(path, body) {
+  await fetch(path, {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify(body)});
+}
+function esc(s) { return String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function itemHTML(card, it) {
+  if (it.method === "prompt") {
+    return `<div class="item prompt-item"><div class="label">
+      <span class="tag">style ${it.style}</span><span class="tag">bg ${it.bg}</span>
+      <span class="tag">${esc(it.model)}</span><span class="tag">${it.quality}</span>
+      <span class="tag">~$${it.est.toFixed(3)}</span></div>
+      <pre style="white-space:pre-wrap;margin:0;font:12px/1.4 ui-monospace,monospace">${esc(it.prompt)}</pre></div>`;
+  }
+  const rv = review.items[it.id] || {}, picked = review.picks[card.id] === it.id;
+  const flags = (it.flags || []).map(f => `<span class="tag flag">${esc(f)}</span>`).join("");
+  const single = it.method === "raw";
+  const sw = single ? `<div class="sw light"><img src="${it.src}" alt="" loading="lazy"></div>`
+    : ["light","dark","color","checker"].map(b => `<div class="sw ${b}"><img src="${it.src}" alt="" loading="lazy"></div>`).join("");
+  const stats = it.stats ? `<span class="tag">cov ${it.stats.coverage} · semi ${it.stats.semi}</span>` : "";
+  return `<div class="item ${picked ? "picked" : ""}" data-item="${it.id}">
+    <div class="label"><span class="tag">${it.method === "raw" ? "raw" : "cut " + it.method}</span>
+      <span class="tag">style ${it.style}</span><span class="tag">bg ${it.bg}</span>
+      <span class="tag">${esc(it.model)}</span><span class="tag">${it.quality}</span>
+      <span class="tag">a${it.attempt}</span><span class="tag">$${it.cost}</span>${stats}${flags}</div>
+    <div class="swatches ${single ? "single" : ""}">${sw}</div>
+    <div class="controls">
+      ${["approve","reroll","reject"].map(v => `<button data-v="${v}" class="${rv.verdict === v ? "on" : ""}">${v}</button>`).join("")}
+      <label><input type="radio" name="pick-${card.id}" ${picked ? "checked" : ""}> pick</label>
+    </div>
+    <input type="text" class="notes" placeholder="notes (fed into reroll prompt)" value="${esc(rv.notes)}">
+    <details><summary>prompt</summary><pre>${esc(it.prompt)}</pre></details>
+  </div>`;
+}
+
+function render() {
+  const g = $("#group").value, flaggedOnly = $("#flagged").checked, q = $("#q").value.toLowerCase(), show = $("#show").value;
+  let nItems = 0;
+  const html = cards.filter(c => (!g || c.group === g) && (!q || (c.key + " " + c.prototype + " " + c.id).toLowerCase().includes(q)))
+    .map(c => {
+      let items = c.items.filter(it => !show || it.method === "prompt" || (show === "raw") === (it.method === "raw"));
+      if (flaggedOnly && !c.curated) items = items.filter(it => (it.flags || []).length);
+      if (flaggedOnly && !items.length && !c.curated) return "";
+      nItems += items.length;
+      const notes = c.image_notes ? `<details><summary>original image_notes</summary><pre>${esc(c.image_notes)}</pre></details>` : "";
+      return `<section class="card" data-sid="${c.id}"><h2>#${c.id} ${esc(c.key)}
+        <span class="meta">${esc(c.prototype)} · ${esc(c.group)} · ${c.planetoids.join(", ")} · ${c.body_plan} · ${c.status}</span>
+        ${c.curated ? '<span class="tag cur">curated</span>' : ""}</h2>${notes}
+        <div class="row">${items.map(it => itemHTML(c, it)).join("") || '<span class="empty">no images yet</span>'}</div></section>`;
+    }).join("");
+  $("#cards").innerHTML = html || '<div class="empty">Nothing to show for this view yet.</div>';
+  $("#summary").textContent = `${cards.length} species · ${nItems} items`;
+}
+
+$("#cards").addEventListener("click", async e => {
+  const itemEl = e.target.closest(".item[data-item]"); if (!itemEl) return;
+  const sid = +itemEl.closest(".card").dataset.sid, item = itemEl.dataset.item;
+  if (e.target.tagName === "IMG") { $("#zoom img").src = e.target.src; $("#zoom").hidden = false; return; }
+  const btn = e.target.closest("button[data-v]");
+  if (btn) {
+    const cur = review.items[item] || {};
+    const verdict = cur.verdict === btn.dataset.v ? "" : btn.dataset.v;
+    review.items[item] = {...cur, species_id: sid, verdict};
+    await post("/api/verdict", {item, species_id: sid, verdict, notes: cur.notes || ""});
+    render();
+  }
+  if (e.target.type === "radio") {
+    review.picks[sid] = item; await post("/api/pick", {species_id: sid, item}); render();
+  }
+});
+$("#cards").addEventListener("change", async e => {
+  if (!e.target.classList.contains("notes")) return;
+  const itemEl = e.target.closest(".item"), item = itemEl.dataset.item, sid = +itemEl.closest(".card").dataset.sid;
+  const cur = review.items[item] || {};
+  review.items[item] = {...cur, species_id: sid, notes: e.target.value};
+  await post("/api/verdict", {item, species_id: sid, verdict: cur.verdict || "", notes: e.target.value});
+});
+$("#zoom").addEventListener("click", () => { $("#zoom").hidden = true; });
+["#group", "#flagged", "#show"].forEach(s => $(s).addEventListener("change", render));
+$("#q").addEventListener("input", render);
+$("#view").addEventListener("change", load);
+const initial = new URLSearchParams(location.search).get("view");
+if (initial) $("#view").value = initial;
+load();
+</script>
+</body>
+</html>

@@ -399,6 +399,32 @@ credit panel and are original work by the project owner, not derived from
 the GPL v2 tileset — no attribution entry needed for them in
 `images/CREDITS.md`.
 
+## Species portraits (`species/images/`)
+
+One RGBA portrait per species (331), generated with OpenAI `gpt-image-2` for
+this project and cut out locally by `scripts/species_art/` (see its README for
+the staged, review-gated workflow). Provenance per image (model, prompt, prompt
+hash, method, attempts, cost) is recorded in `species/species_images.json`.
+Under OpenAI's terms of use, output belongs to the user (check the current
+terms before a commercial release); these images carry no third-party tileset
+licence, unlike the GPL v2 FreeCiv-derived sprites above.
+
+Conventions:
+- **Style:** one fixed style block (painterly-realistic, three-quarter view
+  facing left, soft key light from upper left, cool rim light, no ground or
+  shadow) and a neutral pose chosen by body plan. Settings and props are always
+  left out, so a portrait composites over any planet backdrop or interior.
+- **Canvas:** 1024×1024 lossless WebP. The subject is trimmed and fit into an
+  880×880 box (upscale capped at 1.25×). Grounded body plans (legged, bird,
+  serpentine, sessile) sit bottom-centre with their lowest pixel 56 px above the
+  bottom edge (pivot `[512, 968]`); floaters and swimmers are centred (pivot
+  `[512, 512]`). Size is normalised, not to real-world scale.
+- **Thumbnails:** 256×256 WebP, quality 85.
+- **Glow layers:** species cut with method C2 have `blend: "screen"` in the
+  manifest and can be drawn additively.
+- Raw generations and intermediate cutouts live in the gitignored
+  `species/work/` and are kept so any portrait can be re-cut for free.
+
 ## Future Art Pipeline
 
 For MVP0–MVP4, continue reusing/cropping the existing FreeCiv/Amplio tileset

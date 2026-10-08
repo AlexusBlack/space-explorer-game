@@ -1,2 +1,7 @@
 __pycache__/
 *.pyc
+
+# Species art pipeline (scripts/species_art) — secrets, venv, local work files
+.env
+species/work/
+scripts/species_art/.venv/

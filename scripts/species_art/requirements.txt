@@ -1,0 +1,7 @@
+# Dev tooling only — the game itself has no runtime dependencies.
+openai>=1.60
+python-dotenv>=1.0
+numpy>=1.26
+pillow>=10.2
+rembg[cpu]>=2.0.60
+pymatting>=1.1.12
