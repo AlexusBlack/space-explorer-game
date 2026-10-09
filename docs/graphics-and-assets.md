@@ -401,7 +401,7 @@ the GPL v2 tileset — no attribution entry needed for them in
 
 ## Species portraits (`species/images/`)
 
-One RGBA portrait per species (331), generated with OpenAI `gpt-image-2` for
+One RGBA portrait per species (334), generated with OpenAI `gpt-image-2` for
 this project and cut out locally by `scripts/species_art/` (see its README for
 the staged, review-gated workflow). Provenance per image (model, prompt, prompt
 hash, method, attempts, cost) is recorded in `species/species_images.json`.
@@ -432,23 +432,29 @@ planetary information and communication ("video call") screens instead:
 - **Subject:** a member of a sentient, tool-using civilisation derived from the
   catalogue animal, not the animal itself: dexterous manipulators suited to the
   body plan, clothing (legged, bird) or a harness fitted to its own anatomy
-  (others), subtle technology.
+  (others), subtle technology. Humans (332) are the exception: plain humans in
+  the same style, outfit and framing.
 - **Framing:** head and upper body, centred, eye contact with the camera. The
   sides must stay clear (the portrait sits on the left of a wider room scene
   showing culture/politics and a window onto the planet), and the bottom edge
   should cut through the body: the room shows no floor, so a body that ends
   inside the frame looks like it levitates. Floaters are the exception.
 - **Background:** native transparency from `gpt-image-2.5-flare`
-  (`gpt-image-2` doesn't support it). No local cutout, trimming or WebP export
-  yet; output stays in `species/work/one/`.
+  (`gpt-image-2` doesn't support it). No local cutout or trimming.
+- **Exported finals (committed):** `species/images/<id03>-<Key>.png` (1024²
+  RGBA PNG, about 1.5 MB each, 513 MB total) and `species/images-opt/<id03>-<Key>.webp`
+  (512² WebP, quality 85, full-quality alpha, about 57 KB each, 19 MB total).
+  The game should load the WebPs; the PNGs are the full-size masters. Names
+  derive from `species.json`: zero-padded id, a dash, then `key`.
 - **Known quirks:** floaters need `--strict-anatomy` on flare to avoid a
   humanoid torso; a catalogue pose can force a side crop (`--no-pose`); some
   bodies end above the bottom edge (`--crop-bottom`, or the automatic bottom
   snap when it's just a straight cut a few px short); "glowing"/"translucent"
   descriptions can leave a soft white haze in the alpha.
-- **Status:** all 331 species have an accepted test portrait in
-  `species/work/one/` (gitignored, machine-local); the newest numbered file
-  per species is current.
+- **Status:** all 334 species have an accepted portrait: the original 331
+  plus humans, dogs and cats (332 Humani, 333 Canifam, 334 Felicat). Working
+  files stay in `species/work/one/` (gitignored, machine-local); the newest
+  numbered file per species is the one exported.
 
 ## Future Art Pipeline
 

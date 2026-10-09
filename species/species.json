@@ -7457,5 +7457,71 @@
   ],
   "description": "Giant single-celled organisms that spread as branching networks, finding efficient paths between food sources and solving mazes without a brain.",
   "image_notes": "Bright yellow branching vein network spreading across dark surfaces"
+ },
+ {
+  "id": 332,
+  "key": "Humani",
+  "group": "Mammal",
+  "prototype": "Human",
+  "scientific": "Homo sapiens",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Namuh",
+   "Sapiens",
+   "Hom'sa",
+   "Hoomin",
+   "Terran",
+   "Homosapi",
+   "Earthani",
+   "Umanis"
+  ],
+  "description": "Upright, highly adaptable generalists with dexterous hands and an unmatched capacity for language and cooperation. A long childhood lets each generation inherit and extend an enormous body of learned culture and technology.",
+  "image_notes": "Ordinary adult human, natural skin, hair and eyes, attentive face; warm interior light"
+ },
+ {
+  "id": 333,
+  "key": "Canifam",
+  "group": "Mammal",
+  "prototype": "Domestic dog",
+  "scientific": "Canis familiaris",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Godmaf",
+   "Canisfa",
+   "Can'fa",
+   "Dogga",
+   "Canifar",
+   "Familiaz",
+   "Houndfam",
+   "Anisfay"
+  ],
+  "description": "Social, loyal canids with a superb sense of smell and a deep instinct for reading the gestures and moods of others. Living in close-knit packs, they excel at cooperation, tracking and guarding.",
+  "image_notes": "Medium-sized domestic canid, short tan-and-white coat, soft folded ears, friendly dark eyes, expressive brows; homestead dusk light"
+ },
+ {
+  "id": 334,
+  "key": "Felicat",
+  "group": "Mammal",
+  "prototype": "Domestic cat",
+  "scientific": "Felis catus",
+  "planetoids": [
+   "rocky"
+  ],
+  "name_variants": [
+   "Tacfel",
+   "Feliscu",
+   "Fel'ca",
+   "Mowra",
+   "Felicay",
+   "Catusyr",
+   "Tabbicat",
+   "Elisfay"
+  ],
+  "description": "Agile, independent felids with acute night vision, sensitive whiskers and lightning reflexes. Curious and self-reliant, they keep their own counsel but form strong bonds on their own terms.",
+  "image_notes": "Domestic tabby cat, striped grey-brown fur, upright pointed ears, long white whiskers, green eyes; lamplit window light"
  }
 ]

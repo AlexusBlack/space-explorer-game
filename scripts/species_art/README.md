@@ -1,7 +1,7 @@
 # Species portrait pipeline
 
 Offline dev tooling that produces one consistent RGBA cutout portrait per species
-in `species/species.json` (331 species) with OpenAI `gpt-image-2`, then a local
+in `species/species.json` (334 species) with OpenAI `gpt-image-2`, then a local
 background-removal pass, a common bounding convention and a human review gate
 before every paid stage. Nothing here ships with the game; the game only reads
 `species/species_images.json` and the WebPs it points at.
@@ -51,7 +51,9 @@ tool-using species derived from the catalogue animal, wearing clothing (legged,
 bird) or a harness fitted to its own body (others), framed like a video call
 (head and upper body, eye contact) with clear space on the left and right so
 the portrait can sit on the left of a wider room scene. Only the bottom edge
-may cut through the body.
+may cut through the body. Humans have their own `human` body plan, which swaps
+the "evolved from a creature like the …" opening for "an ordinary human being"
+and asks for human hands.
 
 | Flag | Effect |
 |---|---|
@@ -117,6 +119,14 @@ wide-legged arthropods were given `--crop-bottom --no-pose` plus the same
 "tucked in, clear space on both sides" note up front, which fixed both on the
 first try with no side cuts. For wide or many-legged bodies, use that
 combination straight away rather than `--crop-bottom` alone.
+Humans, dogs and cats were then added to the catalogue as 332-334 and came
+out clean on the first try with default settings.
+
+Export: the newest numbered file per species is copied to
+`species/images/<id03>-<Key>.png` and converted to a 512² WebP (Pillow,
+Lanczos, quality 85, `alpha_quality=100`, `method=6`) in
+`species/images-opt/<id03>-<Key>.webp`. `method=6` is slow (about 4 s per
+image) but gives the smallest files.
 
 ## Stages
 
@@ -175,7 +185,9 @@ polled and collected, never re-sent; items that fail inside a batch go back to
 ```
 species/visual_overrides.json   committed: hand-curated visual text / body plan / method per species
 species/species_images.json     committed: game-facing manifest (see docs/technical-architecture.md)
-species/images/cutout|thumb/    committed: 1024² lossless WebP, 256² WebP thumbnails
+species/images/cutout|thumb/    committed: 1024² lossless WebP, 256² WebP thumbnails (staged pipeline)
+species/images/<id03>-<Key>.png committed: one.py finals, 1024² RGBA PNG masters
+species/images-opt/             committed: the same at 512², WebP: what the game should load
 species/work/                   gitignored: state, review verdicts, spend log, prompts, raws, variants, batches
 ```
 

@@ -149,8 +149,8 @@ def test_prompts(cat, cfg):
     assert "Correction: fewer legs" in prompts.build(sp, "A", "B", note="fewer legs")
     assert prompts.build(sp, "A", "B", note="x") != a
     allp = [selection.spec(s, cfg, "A", "B")["prompt"] for s in cat.values()]
-    assert len(allp) == 331 and len(set(allp)) == 331, "prompts must be unique per species"
-    print("ok  prompts: deterministic, unique x331, transparency prompt has no backdrop words")
+    assert len(allp) == len(cat) and len(set(allp)) == len(cat), "prompts must be unique per species"
+    print(f"ok  prompts: deterministic, unique x{len(cat)}, transparency prompt has no backdrop words")
 
 
 def test_sync_idempotent(cat, cfg, work):

@@ -2649,6 +2649,30 @@
    "pose": "spread as a flat fan-shaped network",
    "curated": true,
    "method": null
+  },
+  "332": {
+   "visual": "Ordinary adult human, natural skin, hair and eyes, attentive face",
+   "traits": "",
+   "body_plan": "human",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "333": {
+   "visual": "Medium-sized domestic canid, short tan-and-white coat, soft folded ears, friendly dark eyes, expressive brows",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
+  },
+  "334": {
+   "visual": "Domestic tabby cat, striped grey-brown fur, upright pointed ears, long white whiskers, green eyes",
+   "traits": "",
+   "body_plan": "legged",
+   "pose": null,
+   "curated": false,
+   "method": null
   }
  }
 }

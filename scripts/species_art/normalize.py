@@ -9,7 +9,7 @@ then place on a size x size transparent canvas:
 import numpy as np
 from PIL import Image
 
-GROUNDED = {"legged", "bird", "serpentine", "sessile"}
+GROUNDED = {"legged", "bird", "serpentine", "sessile", "human"}
 
 
 def _resize(img, size):

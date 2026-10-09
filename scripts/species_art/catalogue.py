@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from .config import SPECIES_DIR
 
 OVERRIDES_PATH = SPECIES_DIR / "visual_overrides.json"
-BODY_PLANS = ("legged", "bird", "swimmer", "floater", "serpentine", "sessile")
+BODY_PLANS = ("legged", "bird", "swimmer", "floater", "serpentine", "sessile", "human")
 
 
 @dataclass(frozen=True)

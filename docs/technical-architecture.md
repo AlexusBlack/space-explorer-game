@@ -515,6 +515,17 @@ and `snap_bottom` (move a near-bottom straight cut down to the edge); both
 keep the untouched API output as `-raw.png`, and `alpha_summary` reports
 side and bottom contact so framing problems show without opening the image.
 
+`one.py` portraits are exported by copying, not through `finalize`/the
+manifest: the newest numbered file per species goes to
+`species/images/<id03>-<Key>.png` (1024² RGBA) and a 512² WebP (quality 85,
+lossless-quality alpha) to `species/images-opt/<id03>-<Key>.webp`. The name is
+`Species.slug`, so runtime code derives it from `species.json` alone
+(`` `${String(s.id).padStart(3, "0")}-${s.key}` ``) with no manifest lookup.
+Humans (332) use their own `human` body plan: `build_portrait()` swaps the
+"evolved from a creature like the …" opening for "an ordinary human being"
+and asks for human hands; other code treats `human` like `legged` (clothed,
+grounded).
+
 ## Species Portrait Manifest (`species/species_images.json`)
 
 Written by `scripts/species_art` (`finalize` / `manifest`), not yet read by any

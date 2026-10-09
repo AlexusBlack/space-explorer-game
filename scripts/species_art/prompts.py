@@ -38,6 +38,7 @@ POSES = {
     "floater": "drifting upright, tentacles hanging straight down",
     "serpentine": "resting in a loose S-coil",
     "sessile": "upright on its own base",
+    "human": "standing upright in a neutral stance",
 }
 
 # Generation background modes (cutout methods map onto these via config.METHOD_BG).
@@ -90,6 +91,7 @@ SAPIENCE = {
                    "prehensile tail tip"),
     "sessile": ("A cluster of fine manipulator tendrils; a clear sensory focus turned "
                 "towards the viewer"),
+    "human": "Ordinary human hands, and one hand is visible",
 }
 
 FRAMING = {
@@ -101,7 +103,7 @@ FRAMING = {
 
 # Clothing only for body plans with a torso; others got human-style shirts on a
 # human-shaped torso, so they get gear fitted to their own anatomy instead.
-CLOTHED_PLANS = ("legged", "bird")
+CLOTHED_PLANS = ("legged", "bird", "human")
 CULTURE_CLOTHED = ("Wears simple functional clothing, harness or jewellery suited to its "
                    "body and home world; subtle hints of technology.")
 CULTURE_HARNESS = ("Wears a harness, straps or jewellery fitted to its own body shape, no "
@@ -145,11 +147,17 @@ PORTRAIT_NEGATIVE = "No text, no watermark, no border, no logo, no other charact
 
 def build_portrait(sp, framing="bust", note=None, strict_anatomy=False, transparent=False,
                    no_pose=False, crop_bottom=False):
+    if sp.body_plan == "human":
+        # Plain humans: "evolved from a creature like the Human" makes no sense.
+        opening = ("Portrait of an ordinary human being, a member of a spacefaring "
+                   f"civilisation: {sp.visual.rstrip('.')}.")
+    else:
+        opening = ("Portrait of a member of an intelligent, sentient alien species that has a "
+                   f"technological civilisation. Its people evolved from a creature like the "
+                   f"{sp.prototype} ({sp.scientific}) but are clearly a thinking person, not an "
+                   f"animal: {sp.visual.rstrip('.')}.")
     parts = [
-        ("Portrait of a member of an intelligent, sentient alien species that has a "
-         f"technological civilisation. Its people evolved from a creature like the "
-         f"{sp.prototype} ({sp.scientific}) but are clearly a thinking person, not an "
-         f"animal: {sp.visual.rstrip('.')}."),
+        opening,
         SAPIENCE[sp.body_plan] + ".",
         CULTURE_CLOTHED if sp.body_plan in CLOTHED_PLANS else CULTURE_HARNESS,
     ]
