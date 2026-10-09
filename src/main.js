@@ -19,6 +19,8 @@ import {
   checkAnomalyLanding,
   triggerAnomaly,
   applyDestroyedAnomalies,
+  clearNotifications,
+  pruneNotifications,
 } from "./state.js";
 import { availableUpgrades } from "./upgrades.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
@@ -58,6 +60,8 @@ const worldCardType = document.getElementById("world-card-type");
 const worldCardImage = document.getElementById("world-card-image");
 const worldCardSpecies = document.getElementById("world-card-species");
 const worldCardDescription = document.getElementById("world-card-description");
+const notificationList = document.getElementById("notifications");
+const noticeCaption = document.getElementById("notice-caption");
 
 function readSeedFromUrl() {
   const params = new URLSearchParams(location.search);
@@ -183,6 +187,7 @@ function updateHud() {
   // players apart, i.e. whose turn it currently is.
   playerBadge.style.background = active.color;
   playerBadge.textContent = `P${playerNum}`;
+  renderNotifications();
 }
 
 function showWinBanner() {
@@ -199,6 +204,7 @@ function hideWinBanner() {
 function afterStateChange({ suppressUpgradePicker = false } = {}) {
   gameState.won = checkWinCondition(mapData, gameState.players);
   if (gameState.won) showWinBanner();
+  for (const player of gameState.players) pruneNotifications(mapData, player);
   saveGame(currentSeed, gameState);
   updateHud();
   requestRedraw();
@@ -224,11 +230,9 @@ function dismissAnomalyOverlay() {
   if (!showNextCombatOverlay()) maybeShowUpgradePicker();
 }
 
-// Queued combat result messages (MVP4): more than one can arrive from a
-// single end-of-round pirate tick (several ships may each fight someone),
-// so — unlike the anomaly overlay, which only ever has one message at a
-// time — these are shown one at a time via this queue rather than all at
-// once.
+// Queued combat result messages (MVP4) for the active player's own attacks.
+// End-of-round pirate attacks used to queue here too; they now go to the
+// attacked player's notification area instead (see endTurn).
 let pendingCombatEvents = [];
 
 function showNextCombatOverlay() {
@@ -301,6 +305,84 @@ function tagAt(screenPos) {
   return null;
 }
 
+function speciesImagePath(kind) {
+  return `species/images-opt/${String(kind.id).padStart(3, "0")}-${kind.key}.webp`;
+}
+
+// Right-edge notification area: the active player's own list, rebuilt from
+// player.notifications whenever state changes. Tap centers on the object and
+// shows its message for a few seconds; a horizontal swipe removes it.
+const NOTICE_CAPTION_MS = 7000;
+const NOTICE_SWIPE_DISTANCE = 40;
+const NOTICE_TAP_THRESHOLD = 10; // same as input.js's TAP_MOVE_THRESHOLD
+let noticeCaptionTimer = null;
+
+function renderNotifications() {
+  const active = gameState.players[gameState.activePlayerIndex];
+  notificationList.replaceChildren(...active.notifications.map((n) => noticeElement(active, n)));
+}
+
+function noticeElement(player, notification) {
+  const el = document.createElement("div");
+  el.className = `notice notice-${notification.kind}`;
+  el.title = notification.message;
+  const kind = notification.kind === "species" ? speciesById.get(notification.speciesId) : null;
+  if (notification.kind === "anomaly") {
+    el.textContent = "?";
+  } else {
+    const img = document.createElement("img");
+    img.alt = "";
+    img.src = kind ? speciesImagePath(kind) : "images/icons/pirate-ship.png";
+    el.appendChild(img);
+  }
+
+  let downX = null;
+  let dx = 0;
+  el.addEventListener("pointerdown", (e) => {
+    el.setPointerCapture(e.pointerId);
+    el.classList.remove("snap");
+    downX = e.clientX;
+    dx = 0;
+  });
+  el.addEventListener("pointermove", (e) => {
+    if (downX === null) return;
+    dx = e.clientX - downX;
+    el.style.transform = `translateX(${dx}px)`;
+    el.style.opacity = String(Math.max(0.3, 1 - Math.abs(dx) / 120));
+  });
+  const release = (e) => {
+    if (downX === null) return;
+    downX = null;
+    el.classList.add("snap");
+    if (Math.abs(dx) >= NOTICE_SWIPE_DISTANCE) {
+      const i = player.notifications.indexOf(notification);
+      if (i >= 0) player.notifications.splice(i, 1);
+      saveGame(currentSeed, gameState);
+      renderNotifications();
+      return;
+    }
+    el.style.transform = "";
+    el.style.opacity = "";
+    if (e.type === "pointerup" && Math.abs(dx) < NOTICE_TAP_THRESHOLD) openNotification(notification);
+  };
+  el.addEventListener("pointerup", release);
+  el.addEventListener("pointercancel", release);
+  return el;
+}
+
+function openNotification(notification) {
+  centerCameraOn(notification.q, notification.r);
+  noticeCaption.textContent = notification.message;
+  noticeCaption.hidden = false;
+  clearTimeout(noticeCaptionTimer);
+  noticeCaptionTimer = setTimeout(hideNoticeCaption, NOTICE_CAPTION_MS);
+}
+
+function hideNoticeCaption() {
+  clearTimeout(noticeCaptionTimer);
+  noticeCaption.hidden = true;
+}
+
 // Info card for an inhabited world, opened by tapping its name tag. Display
 // only: nothing in the game reads species.
 function showWorldCard(tile) {
@@ -311,7 +393,7 @@ function showWorldCard(tile) {
   worldCardDescription.textContent = kind ? kind.description : "";
   worldCardImage.hidden = !kind;
   if (kind) {
-    worldCardImage.src = `species/images-opt/${String(kind.id).padStart(3, "0")}-${kind.key}.webp`;
+    worldCardImage.src = speciesImagePath(kind);
     worldCardImage.alt = tile.species.name;
   }
   worldCard.classList.add("visible");
@@ -404,6 +486,10 @@ function handleTap(screenPos) {
 }
 
 function endTurn() {
+  // Cleared before the pirate tick below, so an attack on the player who
+  // just ended their turn still reaches them at their next turn.
+  clearNotifications(gameState.players[gameState.activePlayerIndex]);
+  hideNoticeCaption();
   saveGame(currentSeed, gameState);
   gameState.activePlayerIndex = (gameState.activePlayerIndex + 1) % gameState.players.length;
   // "Turn N" counts full rounds, not individual End Turn presses — only
@@ -416,11 +502,12 @@ function endTurn() {
     gameState.turnNumber = (gameState.turnNumber ?? 1) + 1;
     // Pirates act once per full round (both players' turns complete), not
     // per-player-turn or per-move — see docs/game-design.md's Pirates
-    // section. Any resulting combat messages queue behind whatever's
-    // already pending and surface once the pass-and-play interstitial
-    // below is dismissed (see dismissInterstitial's tail).
+    // section. Each fight goes to the attacked player's own notification
+    // area (not a blocking overlay), so they see it on their next turn.
     const events = tickPirates(mapData, gameState);
-    for (const event of events) pendingCombatEvents.push(event.message);
+    for (const { playerIndex, q, r, message } of events) {
+      gameState.players[playerIndex].notifications.push({ kind: "pirate", q, r, message });
+    }
     tickPassiveHealing(gameState);
   }
   const nextActive = gameState.players[gameState.activePlayerIndex];
@@ -467,6 +554,7 @@ if (saved && (!urlSeed || urlSeed === saved.seed)) {
   // directly) — replay any anomalies a prior session already destroyed so
   // they don't reappear.
   applyDestroyedAnomalies(mapData, gameState);
+  for (const player of gameState.players) pruneNotifications(mapData, player);
   updateHud();
   if (checkWinCondition(mapData, gameState.players)) {
     gameState.won = true;

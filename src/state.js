@@ -135,8 +135,45 @@ export function revealTile(player, tile, { awardXp = true } = {}) {
   const key = axialKey(tile.q, tile.r);
   if (player.discovered.has(key)) return false;
   player.discovered.add(key);
-  if (awardXp) player.xp += xpForTile(tile) + xpBonusForPlayer(player);
+  if (awardXp) {
+    player.xp += xpForTile(tile) + xpBonusForPlayer(player);
+    // awardXp doubles as "this is a real discovery": the spawn and respawn
+    // reveals pass false, so Earth and Luna are never announced.
+    const notification = discoveryNotification(tile);
+    if (notification) player.notifications.push(notification);
+  }
   return true;
+}
+
+// The notification-area entry a newly discovered tile earns, or null.
+function discoveryNotification(tile) {
+  const { q, r } = tile;
+  if (tile.type === "anomaly") {
+    return { kind: "anomaly", q, r, message: "Anomaly detected — land on it to see what it does." };
+  }
+  if (tile.inhabited && tile.species) {
+    return {
+      kind: "species",
+      speciesId: tile.species.id,
+      q,
+      r,
+      message: `${tile.ownName}: inhabited by the ${tile.species.name}.`,
+    };
+  }
+  return null;
+}
+
+// Ending a turn wipes the ending player's notification area.
+export function clearNotifications(player) {
+  player.notifications.length = 0;
+}
+
+// Drops anomaly notifications whose anomaly has since been used up (by
+// either player — anomaly destruction is shared).
+export function pruneNotifications(mapData, player) {
+  player.notifications = player.notifications.filter(
+    (n) => n.kind !== "anomaly" || mapData.tiles.get(axialKey(n.q, n.r))?.type === "anomaly"
+  );
 }
 
 // Reveals every tile within `radius` (default: the player's derived,
@@ -173,6 +210,10 @@ function createPlayer(color) {
     // still persisted (see serializeState) so a reload mid-round doesn't
     // let a just-fought ship sneak in an undeserved heal.
     inCombatThisRound: false,
+    // Right-edge notification area entries ({kind, q, r, message,
+    // speciesId?}), oldest first. Persisted; cleared when this player ends
+    // their turn.
+    notifications: [],
   };
 }
 
@@ -374,6 +415,7 @@ export function serializeState(seed, gameState) {
       discovered: [...player.discovered],
       currentHealth: player.currentHealth,
       inCombatThisRound: player.inCombatThisRound,
+      notifications: player.notifications,
     })),
   };
 }
@@ -406,6 +448,8 @@ export function deserializeState(raw) {
       // Old saves predating the combat-rebalance update have no mid-round
       // combat state to resume — default to "didn't fight."
       inCombatThisRound: p.inCombatThisRound ?? false,
+      // Old saves predating the notification area start with none.
+      notifications: p.notifications ?? [],
     })),
   };
 }

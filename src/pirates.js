@@ -192,7 +192,8 @@ function findNearestPlayer(players, from) {
 // defeated; otherwise it stays at its prior position, having spent the
 // REST of this round's movement attacking rather than advancing (mirrors
 // Civ5: a melee attack consumes the unit's action for the turn). Returns
-// a {message} event for the overlay queue, or null if the ship used its
+// a {playerIndex, q, r, message} event for the attacked player's
+// notification area, or null if the ship used its
 // whole speed budget without ever encountering a player.
 function stepPirateShip(mapData, gameState, ship, rng) {
   for (let step = 0; step < PIRATE_SHIP_SPEED; step++) {
@@ -243,20 +244,25 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   ship.health = attacker.health;
   playerHere.currentHealth = defender.health;
 
-  const playerNum = gameState.players.indexOf(playerHere) + 1;
+  const playerIndex = gameState.players.indexOf(playerHere);
+  const playerNum = playerIndex + 1;
+  // Routed to the attacked player's notification area, pointing at the fight.
+  const where = { playerIndex, q: next.q, r: next.r };
   if (result.defenderDefeated) {
     applyShipLoss(mapData, gameState, playerHere);
     ship.q = next.q; // vacated — advance in
     ship.r = next.r;
     return {
+      ...where,
       message: `A pirate raider destroyed Player ${playerNum}'s ship! Respawned at Earth, -${SHIP_LOSS_XP_PENALTY} XP.`,
     };
   }
   if (result.attackerDefeated) {
     removeShip(gameState, ship.id); // stays put — irrelevant, it's gone
-    return { message: `Player ${playerNum}'s ship fought off and destroyed a pirate raider!` };
+    return { ...where, message: `Player ${playerNum}'s ship fought off and destroyed a pirate raider!` };
   }
   return {
+    ...where,
     message: `A pirate raider clashed with Player ${playerNum}'s ship — raider ${ship.health}/${ship.maxHealth} HP, Player ${playerNum} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP.`,
   };
 }

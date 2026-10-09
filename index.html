@@ -127,6 +127,34 @@
   #world-card-image[hidden] { display: none; }
   #world-card-species { font-size: 1.15em; font-weight: 600; color: #fff; }
   #world-card-description { margin-top: 6px; font-size: 0.9em; opacity: 0.85; text-align: left; }
+  /* Per-player notification area on the right edge. Below the full-screen
+     overlays (z-index 10), so the pass-and-play interstitial hides it. */
+  #notifications {
+    position: fixed; top: 56px; right: 10px; bottom: 90px;
+    display: flex; flex-direction: column; gap: 10px; align-items: flex-end;
+    overflow-y: auto; overflow-x: hidden; padding: 2px 2px 2px 40px;
+    z-index: 5; pointer-events: none;
+  }
+  .notice {
+    flex: none; width: 48px; height: 48px; border-radius: 50%; overflow: hidden;
+    display: flex; align-items: center; justify-content: center;
+    border: 2px solid rgba(255,255,255,0.85); box-shadow: 0 1px 4px rgba(0,0,0,0.4);
+    background: #0d1426; color: #fff; font: 700 24px/1 system-ui, sans-serif;
+    cursor: pointer; pointer-events: auto; touch-action: pan-y; user-select: none;
+  }
+  .notice img { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+  .notice-pirate { background: #5a1414; }
+  .notice-pirate img { width: 80%; height: 80%; object-fit: contain; }
+  .notice-anomaly { background: #4b2a7a; }
+  .notice.snap { transition: transform 0.15s, opacity 0.15s; }
+
+  #notice-caption {
+    position: fixed; top: 56px; left: 50%; transform: translateX(-50%);
+    max-width: min(420px, calc(100% - 140px)); padding: 10px 14px; border-radius: 8px;
+    background: rgba(13,20,38,0.88); border: 1px solid #1b2f6b; color: #cfe0ff;
+    font: 14px/1.4 system-ui, sans-serif; text-align: center;
+    z-index: 5; pointer-events: none;
+  }
 </style>
 </head>
 <body>
@@ -146,6 +174,8 @@
   <button id="end-turn">End Turn</button>
 </div>
 <div id="player-badge"></div>
+<div id="notifications"></div>
+<div id="notice-caption" hidden></div>
 <div id="win-banner">All star systems discovered!</div>
 <div id="interstitial">
   <div id="interstitial-message"></div>

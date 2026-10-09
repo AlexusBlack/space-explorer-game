@@ -271,7 +271,8 @@ gameState (src/state.js, persisted — see "Persistence" below)
 ├── nextPirateEntityId — shared id counter for both arrays above
 └── players: [PlayerState, PlayerState]
       └── PlayerState: { color, q, r, xp, unlockedUpgrades: Set<upgradeId>,
-            discovered: Set<"q,r">, currentHealth, inCombatThisRound }
+            discovered: Set<"q,r">, currentHealth, inCombatThisRound,
+            notifications: [{ kind, q, r, message, speciesId? }] }
 ```
 Only `xp` and `unlockedUpgrades` are persisted leveling state — `level`,
 `visionRadius`, moves-per-turn, and the per-tile XP bonus are all derived
@@ -377,7 +378,13 @@ battered one rarely does. A step that rolls "don't chase" either flees
 player, via `stepAwayFrom` — the mirror of `stepToward`) if `healthRatio`
 is below `PIRATE_FLEE_HEALTH_RATIO` (0.5), or falls back to a plain random
 materialized-neighbor step otherwise (same as when no player is in
-detection range at all). Encountering a player mid-step ends that ship's
+detection range at all). Each fight returns an event `{ playerIndex, q, r,
+message }` (`q, r` is the fight hex, the attacked player's position).
+`endTurn` pushes it to that player's `notifications` as a `pirate` entry
+rather than a blocking overlay, so it's seen by the attacked player on
+their own next turn. `endTurn` clears the ending player's list *before*
+running the tick, so an attack on the player who just ended their turn
+isn't wiped. Encountering a player mid-step ends that ship's
 movement for the round early, via the stop-short rule below, same as the
 player's own attacks consume their whole action. `findPirateAt(gameState,
 q, r)` is a plain
@@ -571,6 +578,33 @@ by `<img>` only when the card opens), the species name and its
 description. Any tap on the card or backdrop closes it, and `handleTap`
 ignores taps while it is open, like the other overlays.
 
+**Notification area.** Each player's `notifications` array (oldest first)
+feeds `#notifications`, a DOM column on the right edge rebuilt by
+`renderNotifications` (called from `updateHud`, so every state change, turn
+switch and load is covered). Entries come from three places:
+- `revealTile` pushes a `species` or `anomaly` entry when it newly reveals an
+  inhabited world with a species or an anomaly tile, but only when
+  `awardXp` is true. `awardXp` already separates real discoveries from the
+  silent spawn and respawn reveals, so Earth and Luna are never announced,
+  and no second flag is needed.
+- `endTurn` routes `tickPirates` events into `pirate` entries (see "Pirates
+  & Combat").
+- `pruneNotifications` drops `anomaly` entries whose tile is no longer an
+  anomaly. Anomaly destruction is shared, so this runs for both players in
+  `afterStateChange` and at load.
+
+`clearNotifications` empties the ending player's list in `endTurn`.
+
+Each circle handles its own pointer events, so they never reach the canvas
+pan/tap handler:
+- a release after moving under 10 px is a tap: `centerCameraOn` plus
+  `#notice-caption` for 7 s, with one shared timer that a new tap restarts;
+- a horizontal drag of 40 px or more removes the entry and saves.
+
+The column's z-index is below the full-screen overlays, so the opaque
+interstitial hides it during handoff. Only the player's own attack on a
+pirate still uses the `#combat-overlay` queue.
+
 ## Persistence
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`;
@@ -582,7 +616,7 @@ ignores taps while it is open, like the other overlays.
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
   and both players' `{ color, q, r, xp, unlockedUpgrades, discovered,
-  currentHealth, inCombatThisRound }` (`discovered`, `unlockedUpgrades`, and
+  currentHealth, inCombatThisRound, notifications }` (`discovered`, `unlockedUpgrades`, and
   `destroyedAnomalies` all serialized as plain arrays, restored back to
   real `Set`s on load). `visionRadius`/`maxHealth`/`attack` are **not**
   persisted — they're fully derived from `xp`/`unlockedUpgrades` (see
@@ -601,7 +635,8 @@ ignores taps while it is open, like the other overlays.
   `unlockedUpgrades` defaults to an empty set, `destroyedAnomalies`
   defaults to an empty set, `pirateBases`/`pirateShips` default to `[]`,
   `nextPirateEntityId` defaults to `1`, `currentHealth` defaults to
-  `HEALTH_BASE`, and `inCombatThisRound` defaults to `false`, when
+  `HEALTH_BASE`, `inCombatThisRound` defaults to `false`, and
+  `notifications` defaults to `[]` (so this needed no `SAVE_VERSION` bump), when
   deserializing a save from before those fields
   existed, rather than surfacing as `undefined`/throwing.
 - Persisted after every state-changing action — a move or an End Turn, not

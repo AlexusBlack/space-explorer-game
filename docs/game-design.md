@@ -26,6 +26,19 @@ game — losing a ship is a setback, not a game-over.
   may end early), then explicitly ends their turn, handing the device to the
   other player via a pass-and-play interstitial (see
   [`ui-ux-spec.md`](ui-ux-spec.md)).
+- Each player has their own **notification area**: a column of round icons
+  down the right edge, showing only the active player's list.
+  - **Pirate ship icon:** pirates attacked your ship during the end-of-round
+    pirate turn. The report goes only to the attacked player, and they see
+    it at the start of their next turn.
+  - **Species portrait:** you discovered an inhabited world.
+  - **"?":** you discovered an anomaly (it came into view). The notification
+    disappears once the anomaly is used up by either player.
+
+  Tapping an icon centers the map on that object and shows its explanation
+  for about 7 seconds. Swiping an icon sideways removes it, and ending your
+  turn clears your whole list. Earth and Luna, which are visible from the
+  start, are never announced.
 
 ## Map & Coordinate System
 

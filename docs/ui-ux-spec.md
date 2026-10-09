@@ -16,6 +16,11 @@ sitting together. No mouse, no hover affordances assumed anywhere.
   requirement (not just cosmetic): both players share one physical screen,
   and one player's fog-of-war/discoveries must not be visible to the other
   during handoff.
+- **Notification area** — a column of round icons on the right edge for the
+  active player's own events: pirate attacks, inhabited worlds and anomalies
+  they discovered. Tap one to center on it and show its text for about 7 s;
+  swipe one sideways to remove it. Ending a turn clears the list. It sits
+  under the interstitial, so it's hidden during handoff.
 - **Tile/object detail** — a lightweight on-tap popover (canvas-drawn or a
   simple absolutely-positioned DOM overlay), not a full modal, so inspecting
   a planet/wonder/anomaly doesn't interrupt the exploration flow.

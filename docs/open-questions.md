@@ -579,3 +579,23 @@ from here.
   mattering a few levels in, so the "salvaged data cache" anomaly effect
   (`ANOMALY_BULK_XP` in `src/state.js`) now gives 250 XP, keeping it
   relevant longer. The other three effects are unchanged.
+
+- **Per-player notification area replaces the turn-start pirate attack
+  overlays.** User request: pirate attacks from the end-of-round tick used
+  to queue as blocking overlays shown after the interstitial, so Player 1
+  saw every attack (including Player 2's) and Player 2 saw none. Each player
+  now has their own column of round icons on the right edge:
+  - pirate ship: you were attacked;
+  - species portrait: you found an inhabited world;
+  - "?": you found an anomaly.
+
+  Tapping an icon centers on the object and shows its text for about 7 s,
+  swiping removes it, and ending your turn clears your list. Decisions at
+  plan time:
+  - **The player's own attacks keep their immediate overlay.** Only the
+    round-tick pirate attacks move to notifications.
+  - **"Discovered" anomaly means first revealed in your fog.** The
+    landing-result overlay stays, and a notification for an anomaly that
+    either player has used up is removed automatically.
+  - **Notifications are saved per player.** Old saves load with an empty
+    list, so there's no `SAVE_VERSION` bump.
