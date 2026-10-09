@@ -599,3 +599,14 @@ from here.
     either player has used up is removed automatically.
   - **Notifications are saved per player.** Old saves load with an empty
     list, so there's no `SAVE_VERSION` bump.
+
+- **Species descriptions describe living species.** User request: the world
+  card showed Earth-history wording for some species, for example Jaekelo
+  (shown as "Jaekeith"), described as "Extinct giant aquatic arthropods". A
+  species living on a world the player just found can't be extinct, so the
+  `description` field (display-only; the portrait prompts don't use it) is
+  written in-universe: species are alive now, with no extinct, fossil,
+  ancient, prehistoric or "scientists" framing. Eleven entries were reworded
+  in `species/species.json` and its `species.csv` mirror: Sphenod, Latimer,
+  Meganeur, Limulus, Jaekelo, Triopsa, Wallise, Opabina, Hallucig, Dactylo
+  and Euperip.
