@@ -14,7 +14,9 @@ import { UPGRADES, availableUpgrades } from "./upgrades.js";
 
 export const PLAYER_COLORS = ["#4fd1ff", "#ff9f4f"];
 export const SAVE_KEY = "explorer-game:save:v1";
-const SAVE_VERSION = 1;
+// Bumped to 2 when star clusters changed every seed's map layout: a v1 save's
+// fog, ship positions and pirates point at hexes that no longer match.
+const SAVE_VERSION = 2;
 
 // --- XP table -------------------------------------------------------------
 // Flat XP for a tile with no notable feature: plain band tiles (deep

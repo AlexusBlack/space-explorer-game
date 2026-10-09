@@ -498,3 +498,35 @@ from here.
   scale only up to their native pixel size (zoom 1) and stay that size
   when zoomed in further. Pirate ships, bases and the owner dot are
   unchanged.
+- **Stars form clusters with empty voids between them.** User request:
+  systems were spread fairly evenly over the map, which was boring; clusters
+  with big empty areas in between should steer players to explore their local
+  cluster first, with noise used to make the shapes look natural. Decisions
+  taken at plan time:
+  - **Bigger map, same systems.** The radius grows from 90 to 150 (about
+    68k hexes, up from 25k; first 125, then raised to 150 to keep about
+    110 systems once the gap below was tripled). `SYSTEM_COUNT` stays 120,
+    and about 112 are placed.
+  - **8–12 medium clusters.** Each cluster gets a radius of about 22–30
+    hexes and usually holds 1–19 systems (median 10). The home cluster is
+    always centred on Sol and holds at least 9.
+  - **A few lone systems.** About 10% (`LONE_SYSTEM_SHARE`) are dropped only
+    where the cluster density is near zero (`LONE_MAX_DENSITY`), so they sit
+    out in the voids.
+  - **Discard old saves.** Every seed's layout changes, so `SAVE_VERSION` goes
+    from 1 to 2 and `loadGame` ignores v1 saves.
+
+  The implementation is a hybrid, not pure thresholded noise, because noise
+  alone can't guarantee a cluster count or a home cluster:
+  - cluster centres are dart-thrown at least `CLUSTER_GAP` (30) hexes apart,
+    edge to edge (first 10, then tripled at the user's request for wider
+    voids);
+  - each cluster's density falloff is measured on a position warped by
+    seeded fbm gradient noise (`src/noise.js`; `CLUSTER_WARP` 9 hexes,
+    `CLUSTER_WARP_SCALE` 30), which turns circles into irregular blobs;
+  - a cluster that won't fit shrinks and retries, which keeps the count from
+    dropping further.
+
+  Deep space rises from about 21% to 70% of the map. The per-hex anomaly
+  chance is unchanged, so anomalies rise from about 120 to 260 per map, with
+  the extra ones out in the voids. Generation takes about 90 ms per map.

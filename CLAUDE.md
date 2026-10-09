@@ -187,6 +187,7 @@ orient.)
 src/
 ├── hexgrid.js      axial coords, screen<->tile transforms, move-path interpolation
 ├── mapgen.js       seeded map generator (deterministic from `seed` alone)
+├── noise.js        seeded 2D gradient noise + fbm (star cluster edge warp)
 ├── planet-classes.js  planet/moon class -> sprite catalog
 ├── star-classes.js    star colour -> sprite catalog with spawn weights
 ├── upgrades.js     leveling upgrade catalog (tracks, tiers, cross-track prereqs)

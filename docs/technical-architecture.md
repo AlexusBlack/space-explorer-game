@@ -57,13 +57,40 @@ side of this; the key algorithmic ideas:
   as players explore). The seed is stored with persisted game state so a
   session can be reproduced/resumed exactly, and makes the generator
   testable: same seed in → same map out.
+- **Cluster field** (`buildClusterField`, own stream `${seed}:clusters`):
+  systems gather into 8–12 star clusters separated by empty voids, instead
+  of being spread evenly. It's a hybrid of fixed centres plus noise, rather
+  than thresholded noise alone, because noise by itself can't guarantee a
+  cluster count or that Sol sits in a cluster.
+  - The cluster count is uniform 8–12. Radii share `CLUSTER_TOTAL_AREA`
+    between them, are jittered, and are sorted largest first.
+  - The largest cluster is centred on the origin, so the home system always
+    starts inside one.
+  - The other centres are dart-thrown at least `CLUSTER_GAP` hexes apart,
+    edge to edge. A cluster that can't fit shrinks its radius and retries,
+    down to half the base radius.
+  - `density(q, r)` warps the position by `CLUSTER_WARP` hexes of fbm noise
+    (`src/noise.js`: seeded 2D gradient noise, streams
+    `${seed}:cluster-warp-x`/`-y`). It then returns the strongest cluster
+    falloff: 1 out to `CLUSTER_PLATEAU` of the radius, falling linearly to 0
+    at the edge. The warp is what gives clusters irregular, natural edges.
 - **Placement**: pre-roll every system's target radius, sort largest-first,
-  then dart-throw random candidate centers (up to a fixed attempt budget per
-  system) rejecting any candidate closer than `radius + otherRadius + MIN_GAP`
-  (native hex distance) to an already-placed system; shrink the radius and
-  retry if no candidate is found, down to an absolute minimum, skipping the
-  system entirely if even that fails. Largest-first avoids the coverage
-  ceiling a naive random-sequential approach hits.
+  then dart-throw candidate centers (up to a fixed attempt budget per
+  system), rejecting any candidate closer than `radius + otherRadius + MIN_GAP`
+  (native hex distance) to an already-placed system. If no candidate is
+  found, shrink the radius and retry, down to an absolute minimum, and skip
+  the system entirely if even that fails. Largest-first avoids the coverage
+  ceiling a naive random-sequential approach hits. Candidates come from
+  `pickSystemCandidate`, and there are two kinds:
+  - most systems pick a random cluster, take a point within
+    `CLUSTER_SPREAD` × its radius, and accept it with probability equal to
+    the density there;
+  - about `LONE_SYSTEM_SHARE` (10%) are lone systems: uniform darts accepted
+    only where density ≤ `LONE_MAX_DENSITY`, so they land in the voids.
+
+  With `MAP_RADIUS` 150 and `SYSTEM_COUNT` 120, about 112 systems are placed
+  and about 70% of hexes are deep space. Changing any of these constants
+  changes every seed's layout, so bump `SAVE_VERSION` when you do.
 - **One system is always fixed at the origin** as the shared Earth/home
   system, placed before any dart-throwing; all other systems avoid it like
   any other placed system.
@@ -187,8 +214,9 @@ space between systems, is).
   stored, deep space is implicit" principle. That principle still has merit
   at much larger scale (see below) but was explicitly traded away for
   simplicity and lower per-frame cost at the current prototype size.
-- **Scale**: prototyping at ~100-150 systems (mapRadius ~90, ~24,700 tiles
-  fully materialized in ~85ms — fine at this size). The concept doc's
+- **Scale**: prototyping at ~100-150 systems (mapRadius 150, ~68,000 tiles
+  fully materialized in ~95ms — fine at this size; the radius grew from 90
+  when star clusters were added, to leave room for voids). The concept doc's
   "1,000+ star systems" is a later scale-up, not the current target — see
   `mvp-roadmap.md`'s parking lot. At that scale, two things need revisiting
   together, not just the placement algorithm: (1) the O(n²) placement scan
@@ -508,8 +536,11 @@ ever clips them, regardless of q/r iteration order.
 
 ## Persistence
 
-- Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`),
-  holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
+- Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`;
+  the key name is fixed, the payload's `version` field is what changes:
+  `SAVE_VERSION` 2 since star clusters changed every seed's layout, and
+  `loadGame` returns null on a mismatch so an old save is ignored and the
+  next save overwrites it), holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
   and both players' `{ color, q, r, xp, unlockedUpgrades, discovered,
@@ -609,6 +640,7 @@ src/
 ├── hexgrid.js         axial coordinate math, screen<->tile transforms,
 │                      hexLine (move-path interpolation for tap-to-move)
 ├── mapgen.js          seeded map generator (places systems, bands every tile)
+├── noise.js           seeded 2D gradient noise + fbm (cluster edge warp)
 ├── planet-classes.js  planet/moon class -> sprite catalog (shared by
 │                      mapgen.js and assets.js)
 ├── star-classes.js    star colour -> sprite catalog with spawn weights

@@ -30,12 +30,29 @@
 // inhabited planets/moons an `ownName` as well.
 
 import { createRng } from "./rng.js";
-import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors } from "./hexgrid.js";
+import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors, HEX_SIZE } from "./hexgrid.js";
 import { PLANET_CLASSES, MOON_CLASS_NAMES } from "./planet-classes.js";
 import { pickStarSprite } from "./star-classes.js";
+import { createNoise2D, fbm } from "./noise.js";
 
-const MAP_RADIUS = 90;
+const MAP_RADIUS = 150;
 const SYSTEM_COUNT = 120;
+
+// Star clusters (see buildClusterField): systems gather in CLUSTER_COUNT
+// noise-shaped blobs with empty voids between them, plus a share of lone
+// systems out in the voids. Distances are in hexes.
+const CLUSTER_COUNT = [8, 12];
+// Total hex area all clusters share, split between them (so more clusters
+// means smaller ones), each radius then jittered by CLUSTER_RADIUS_JITTER.
+const CLUSTER_TOTAL_AREA = 20000;
+const CLUSTER_RADIUS_JITTER = [0.85, 1.15];
+const CLUSTER_GAP = 30; // min hexes between two cluster edges
+const CLUSTER_PLATEAU = 0.55; // full density out to this fraction of the radius
+const CLUSTER_WARP = 9; // max hexes the noise pushes a cluster's edge in or out
+const CLUSTER_WARP_SCALE = 30; // noise feature size, in hexes
+const CLUSTER_SPREAD = 1.25; // candidates are drawn within this many radii
+const LONE_SYSTEM_SHARE = 0.1;
+const LONE_MAX_DENSITY = 0.02;
 
 const SYS_RADIUS_MAX = 7;
 const SYS_RADIUS_MIN = Math.round(SYS_RADIUS_MAX * 0.7);
@@ -93,7 +110,76 @@ function pickStarCount(rng) {
   return 3;
 }
 
-function placeSystems(rng) {
+// Distance unit for the cluster field: one hex step (axialToPixel neighbours
+// are sqrt(3) * HEX_SIZE apart), so cluster sizes read in hexes.
+const HEX_STEP = Math.sqrt(3) * HEX_SIZE;
+
+// Picks cluster centres and radii from their own stream (the home cluster is
+// always centred on Sol at the origin) and returns them with a density(q, r)
+// in [0, 1]: 1 deep inside a cluster, 0 in the voids. Distances are measured
+// from a noise-warped position, so cluster edges come out as irregular blobs
+// with arms and bays rather than circles.
+function buildClusterField(seed) {
+  const rng = createRng(`${seed}:clusters`);
+  const warpX = createNoise2D(`${seed}:cluster-warp-x`);
+  const warpY = createNoise2D(`${seed}:cluster-warp-y`);
+
+  const count = CLUSTER_COUNT[0] + Math.floor(rng() * (CLUSTER_COUNT[1] - CLUSTER_COUNT[0] + 1));
+  const baseRadius = Math.sqrt(CLUSTER_TOTAL_AREA / count / 3);
+  const radii = Array.from({ length: count }, () => Math.round(baseRadius * rollInRange(rng, CLUSTER_RADIUS_JITTER)));
+  radii.sort((a, b) => b - a);
+
+  const clusters = [{ q: 0, r: 0, radius: radii[0] }];
+  // Same shrink-and-retry as placeSystems, so the cluster count holds.
+  for (let radius of radii.slice(1)) {
+    let placed = false;
+    while (!placed && radius >= baseRadius / 2) {
+      for (let attempt = 0; attempt < MAX_DART_ATTEMPTS && !placed; attempt++) {
+        const c = randomHexInRadius(rng, MAP_RADIUS - Math.round(radius * 0.5));
+        if (clusters.every((o) => hexDistance(c, o) >= radius + o.radius + CLUSTER_GAP)) {
+          clusters.push({ ...c, radius });
+          placed = true;
+        }
+      }
+      radius -= 1;
+    }
+  }
+  for (const c of clusters) c.center = axialToPixel(c.q, c.r);
+
+  function density(q, r) {
+    const p = axialToPixel(q, r);
+    const x = p.x / HEX_STEP;
+    const y = p.y / HEX_STEP;
+    const wx = x + CLUSTER_WARP * fbm(warpX, x / CLUSTER_WARP_SCALE, y / CLUSTER_WARP_SCALE);
+    const wy = y + CLUSTER_WARP * fbm(warpY, x / CLUSTER_WARP_SCALE, y / CLUSTER_WARP_SCALE);
+    let best = 0;
+    for (const c of clusters) {
+      const d = Math.hypot(wx - c.center.x / HEX_STEP, wy - c.center.y / HEX_STEP) / c.radius;
+      const f = d <= CLUSTER_PLATEAU ? 1 : Math.max(0, (1 - d) / (1 - CLUSTER_PLATEAU));
+      if (f > best) best = f;
+    }
+    return best;
+  }
+
+  return { clusters, density };
+}
+
+// Candidate centre for a system of `radius`: a lone system darts anywhere and
+// keeps only void spots; a cluster system darts near a random cluster and is
+// kept with probability equal to the density there. Null = rejected.
+function pickSystemCandidate(rng, field, radius, lone) {
+  if (lone) {
+    const c = randomHexInRadius(rng, MAP_RADIUS - radius);
+    return field.density(c.q, c.r) <= LONE_MAX_DENSITY ? c : null;
+  }
+  const cluster = field.clusters[Math.floor(rng() * field.clusters.length)];
+  const offset = randomHexInRadius(rng, Math.round(cluster.radius * CLUSTER_SPREAD));
+  const c = { q: cluster.q + offset.q, r: cluster.r + offset.r };
+  if (hexDistance(c, { q: 0, r: 0 }) > MAP_RADIUS - radius) return null;
+  return rng() < field.density(c.q, c.r) ? c : null;
+}
+
+function placeSystems(rng, field) {
   const home = {
     id: 0,
     q: 0,
@@ -112,6 +198,7 @@ function placeSystems(rng) {
       radius,
       starCount: pickStarCount(rng),
       phases: [rng() * Math.PI * 2, rng() * Math.PI * 2, rng() * Math.PI * 2],
+      lone: rng() < LONE_SYSTEM_SHARE,
     });
   }
   requests.sort((a, b) => b.radius - a.radius);
@@ -122,7 +209,8 @@ function placeSystems(rng) {
     let placedThisSystem = false;
     while (radius >= SYS_ABS_MIN && !placedThisSystem) {
       for (let attempt = 0; attempt < MAX_DART_ATTEMPTS; attempt++) {
-        const candidate = randomHexInRadius(rng, MAP_RADIUS - radius);
+        const candidate = pickSystemCandidate(rng, field, radius, request.lone);
+        if (!candidate) continue;
         const clear = placed.every(
           (other) => hexDistance(candidate, other) >= radius + other.radius + MIN_GAP
         );
@@ -135,6 +223,7 @@ function placeSystems(rng) {
             isHome: false,
             starCount: request.starCount,
             phases: request.phases,
+            lone: request.lone,
           });
           placedThisSystem = true;
           break;
@@ -601,7 +690,8 @@ function nameMap(tiles, systems, names, seed) {
 
 export function generateMap({ seed, names = [] } = {}) {
   const rng = createRng(seed);
-  const { systems, skipped } = placeSystems(rng);
+  const field = buildClusterField(seed);
+  const { systems, skipped } = placeSystems(rng, field);
 
   // Star colours use a separate stream derived from the same seed: drawing
   // them from `rng` would shift every later draw and change every seed's
@@ -648,6 +738,7 @@ export function generateMap({ seed, names = [] } = {}) {
     mapRadius: MAP_RADIUS,
     systems,
     systemsSkipped: skipped,
+    clusters: field.clusters,
     totalHexCount,
     tiles,
     earth,

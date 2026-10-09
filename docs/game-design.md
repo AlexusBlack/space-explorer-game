@@ -38,6 +38,12 @@ game — losing a ship is a setback, not a game-over.
   eventual number of separate, multi-tile systems, not the map's total tile
   count). Prototyping at ~100-150 systems first; see `mvp-roadmap.md` for the
   1,000+ scale-up.
+- Systems gather into **8–12 star clusters** with irregular, natural-looking
+  edges, separated by wide empty voids. The home system (Sol) always sits
+  in a cluster, so players explore their local cluster first and then
+  choose which void to cross. A few lone systems (about 10%) sit out in the
+  voids as waypoints. The extra deep space also holds proportionally more
+  anomalies.
 - Each system is a small cluster of tiles (a star, optionally a few planets/
   asteroid-belt tiles, surrounded by a thin "interstellar" halo) rather than
   a single hex — see `graphics-and-assets.md`/`technical-architecture.md` for
