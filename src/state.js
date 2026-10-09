@@ -227,7 +227,7 @@ export function createNewGame(mapData) {
 // planets/wonders), this does NOT fire on mere reveal/vision — only when a
 // player's move actually lands on the tile (confirmed design choice; see
 // docs/game-design.md's Anomalies section).
-export const ANOMALY_BULK_XP = 50; // first-pass, tunable
+export const ANOMALY_BULK_XP = 250; // raised from 50 so it stays meaningful at higher levels
 export const ANOMALY_REVEAL_RADIUS = 5; // first-pass, tunable — bigger than
                                          // any MVP2 vision radius
 

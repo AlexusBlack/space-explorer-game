@@ -574,3 +574,8 @@ from here.
 
   Species use their own random stream, so maps and saves are unchanged. A
   tag tap opens the card instead of moving and spends no moves.
+
+- **Anomaly bulk XP raised from 50 to 250.** User request: 50 XP stopped
+  mattering a few levels in, so the "salvaged data cache" anomaly effect
+  (`ANOMALY_BULK_XP` in `src/state.js`) now gives 250 XP, keeping it
+  relevant longer. The other three effects are unchanged.
