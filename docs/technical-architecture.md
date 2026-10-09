@@ -81,6 +81,15 @@ side of this; the key algorithmic ideas:
   hexes past each system's outer ring) is carved too, mainly so neighboring
   systems' halos can touch and read as a loose "corridor" where systems are
   packed close together.
+- **Star colours use their own random stream**: every star tile carries a
+  `sprite` (`star-red`, `star`, `star-orange`, `star-white`, `star-blue`),
+  picked by weight from `src/star-classes.js` (also read by `assets.js`).
+  The roll comes from a separate `` createRng(`${seed}:stars`) `` stream, not
+  the main `rng`: star tiles made no draw before colours existed, so drawing
+  from `rng` would shift every later draw, changing every seed's layout and
+  breaking existing saves (whose map is regenerated from seed). Sol is fixed
+  to the yellow `star` but still makes its draw, so every system consumes
+  the same number of star-stream values.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -560,6 +569,8 @@ src/
 ├── mapgen.js          seeded map generator (places systems, bands every tile)
 ├── planet-classes.js  planet/moon class -> sprite catalog (shared by
 │                      mapgen.js and assets.js)
+├── star-classes.js    star colour -> sprite catalog with spawn weights
+│                      (shared by mapgen.js and assets.js)
 ├── upgrades.js        leveling upgrade catalog (tracks, tiers,
 │                      cross-track prerequisites) consumed by state.js
 │                      and main.js

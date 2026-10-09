@@ -26,6 +26,7 @@
 import { createRng } from "./rng.js";
 import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors } from "./hexgrid.js";
 import { PLANET_CLASSES, MOON_CLASS_NAMES } from "./planet-classes.js";
+import { pickStarSprite } from "./star-classes.js";
 
 const MAP_RADIUS = 90;
 const SYSTEM_COUNT = 120;
@@ -155,8 +156,9 @@ function pickSecondaryStarOffsets(rng, count) {
 // for every ring/halo hex (so every tile in a system has background art from
 // the moment it's generated), writing star tiles directly, and collecting
 // inner/medium/outer ring coordinates (each tagged with its band) for later
-// body placement.
-function carveSystem(tiles, system, rng) {
+// body placement. Star colours come from their own `starRng` stream (see
+// generateMap), not `rng`.
+function carveSystem(tiles, system, rng, starRng) {
   const zoneCoords = { inner: [], medium: [], outer: [] };
   const boundingRadius = system.radius + NEAR_SPACE_BAND;
 
@@ -202,6 +204,9 @@ function carveSystem(tiles, system, rng) {
     q: system.q,
     r: system.r,
     type: "star",
+    // Sol is always the original yellow; the roll still happens so every
+    // system draws the same number of starRng values.
+    sprite: system.isHome ? (starRng(), "star") : pickStarSprite(starRng),
     band: "inner",
     sol: system.isHome,
     regionId: system.id,
@@ -214,6 +219,7 @@ function carveSystem(tiles, system, rng) {
       q,
       r,
       type: "star",
+      sprite: pickStarSprite(starRng),
       band: "inner",
       regionId: system.id,
     });
@@ -437,9 +443,14 @@ export function generateMap({ seed } = {}) {
   const rng = createRng(seed);
   const { systems, skipped } = placeSystems(rng);
 
+  // Star colours use a separate stream derived from the same seed: drawing
+  // them from `rng` would shift every later draw and change every seed's
+  // layout (and break existing saves, whose map is regenerated from seed).
+  const starRng = createRng(`${seed}:stars`);
+
   const tiles = new Map();
   for (const system of systems) {
-    const zoneCoords = carveSystem(tiles, system, rng);
+    const zoneCoords = carveSystem(tiles, system, rng, starRng);
     populateSystem(tiles, system, zoneCoords, rng);
   }
 

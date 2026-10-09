@@ -122,7 +122,15 @@ content bounding box):
 - `icons/star.png` — row 9, column 2 ("Fish" label) — a bright glowing
   yellow/white orb. Used for every star tile (primary and secondary/binary/
   trinary) at the same size — no reason for a binary/trinary system's
-  secondary stars to be smaller than its primary.
+  secondary stars to be smaller than its primary. It is the yellow star;
+  `icons/star-red.png`, `star-orange.png`, `star-white.png` and
+  `star-blue.png` are recoloured from the same cell by `extract-icons.py`'s
+  `recolor_star`. The glow is saturated yellow fading out through alpha and
+  the core near-white, so the blue channel alone says how close a pixel is
+  to the core; it is mapped onto each colour's glow-to-core stops
+  (`STAR_PALETTES`), keeping the alpha. All five are the same size: red
+  dwarfs aren't drawn smaller nor blue stars larger, so a star always reads
+  as the same kind of object. Spawn weights live in `src/star-classes.js`.
 - `icons/planet-uninhabited.png` — row 7, column 2 ("Peat" label) — a small
   reddish/maroon barren rocky planet. Despite the filename (kept for
   historical/git-diff reasons), it's just one of 2 sprites in the **molten**

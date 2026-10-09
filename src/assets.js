@@ -1,6 +1,7 @@
 // Loads the per-band hex background art and feature icon sprites once at startup.
 
 import { PLANET_CLASSES } from "./planet-classes.js";
+import { STAR_COLORS } from "./star-classes.js";
 
 const BAND_IMAGE_PATHS = {
   inner: "images/starfield-inner-hex.png",
@@ -13,7 +14,6 @@ const BAND_IMAGE_PATHS = {
 // Cropped from images/terrain1.png / images/hills.png / images/units.png —
 // see docs/graphics-and-assets.md for exact source cells.
 const ICON_IMAGE_PATHS = {
-  star: "images/icons/star.png",
   "wonder-blackhole": "images/icons/wonder-blackhole.png",
   // Synthesized, not cropped from a sheet (see
   // scripts/generate-anomaly-icon.py) — same treatment as `select` below.
@@ -33,6 +33,9 @@ for (const sprites of Object.values(PLANET_CLASSES)) {
   for (const sprite of sprites) {
     ICON_IMAGE_PATHS[sprite] = `images/icons/${sprite}.png`;
   }
+}
+for (const { sprite } of STAR_COLORS) {
+  ICON_IMAGE_PATHS[sprite] = `images/icons/${sprite}.png`;
 }
 for (let i = 1; i <= 16; i++) {
   ICON_IMAGE_PATHS[`asteroid-belt-${i}`] = `images/icons/asteroid-belt-${i}.png`;

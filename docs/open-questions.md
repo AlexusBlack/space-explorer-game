@@ -434,3 +434,16 @@ from here.
   class, so map layouts are unchanged for every seed (checked on 200 seeds);
   only which colour a gas giant gets changes, including in existing saves,
   since the map is regenerated from the seed on load.
+
+- **Stars get five colours with realistic-but-skewed odds.** Direct user
+  request: every star used the one yellow sprite; they wanted red, white and
+  blue too, with yellow and red dominating because that's what players
+  expect, and otherwise closer to the real distribution. Real counts are
+  roughly red (M) 76%, orange (K) 12%, yellow (G) 8%, white (F/A) 4%, blue
+  (O/B) 0.1%. Chosen with the user: include orange, weights red 40 / yellow
+  30 / orange 15 / white 10 / blue 5 (~157 stars per map, so ~8 blue), Sol
+  always yellow, companions rolled independently, every colour drawn at the
+  same size, and `star.png` kept as the yellow star so nothing is renamed.
+  The colours come from a separate seeded stream so map layouts stay
+  identical for every seed (checked on 200 seeds) and existing saves keep
+  working; they just show coloured stars.

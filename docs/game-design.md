@@ -63,6 +63,13 @@ still just "a system," not a bonus feature layered on top of one. The home
 system's star is **Sol** (always single-star); **Earth** is a separate
 planet tile within that system, not the star itself.
 
+Stars come in five colours, rolled independently for every star (companions
+included): red 40%, yellow 30%, orange 15%, white 10%, blue 5%. Real
+populations are about three-quarters red dwarfs and almost no blue stars;
+the odds keep that order but boost yellow to second, since a Sun-like star
+is what players expect to see, and keep blue rare without making it vanish.
+Sol is always yellow. Colour is visual only today (no gameplay effect).
+
 ## Movement & Exploration
 
 - Each ship has a fixed number of moves per turn (increases with leveling).

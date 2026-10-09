@@ -173,7 +173,7 @@ export function render(
         case "band":
           break;
         case "star":
-          pendingIcons.push([iconImages && iconImages.star, p]);
+          pendingIcons.push([iconImages && iconImages[tile.sprite], p]);
           if (tile.sol && camera.zoom > 0.5) {
             pendingLabels.push(["Sol", p]);
           }

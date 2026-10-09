@@ -188,6 +188,7 @@ src/
 ├── hexgrid.js      axial coords, screen<->tile transforms, move-path interpolation
 ├── mapgen.js       seeded map generator (deterministic from `seed` alone)
 ├── planet-classes.js  planet/moon class -> sprite catalog
+├── star-classes.js    star colour -> sprite catalog with spawn weights
 ├── upgrades.js     leveling upgrade catalog (tracks, tiers, cross-track prereqs)
 ├── combat.js       pure melee math (Civ5-adapted), no other project imports
 ├── pirates.js      pirate base/ship spawn, production, roam AI, combat orchestration

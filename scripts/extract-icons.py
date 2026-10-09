@@ -9,7 +9,8 @@ optionally boost+recolor a low-opacity source (not currently needed by
 anything in MANIFEST, but terrain2.png's cloud blends once required it —
 kept as a per-entry option so a future low-opacity source is a one-line
 manifest addition, not new code), optionally recolour a ringed planet's
-body (the gas giant colour variants, all from one cell), then save.
+body or a star (the gas giant and star colour variants, each set from one
+cell), then save.
 
 Usage: python3 scripts/extract-icons.py [name ...]
   No arguments: regenerate everything in MANIFEST.
@@ -177,12 +178,47 @@ def recolor_body(img, stops, sat_lo=0.30, sat_hi=0.50):
     return out
 
 
+# Star colour variants, all recoloured from the yellow `star` cell: glow ->
+# core colour stops (see recolor_star).
+STAR_PALETTES = {
+    "red": [(200, 30, 10), (235, 70, 25), (255, 125, 70), (255, 190, 150)],
+    "orange": [(230, 110, 0), (255, 150, 30), (255, 200, 120), (255, 235, 200)],
+    "white": [(220, 225, 235), (235, 238, 245), (248, 248, 252), (255, 255, 255)],
+    "blue": [(40, 90, 255), (90, 150, 255), (170, 205, 255), (235, 245, 255)],
+}
+
+
+def recolor_star(img, stops, core_blue=200):
+    """Recolours the star sprite: its glow is saturated yellow (blue channel
+    near 0) fading out through alpha, and its core is near-white (blue up to
+    ~190), so the blue channel alone says how close a pixel is to the core.
+    Maps it onto the stops (glow first, core last), keeping the alpha."""
+    img = img.convert("RGBA")
+    src = img.load()
+    out = img.copy()
+    dst = out.load()
+    n = len(stops) - 1
+    for y in range(img.height):
+        for x in range(img.width):
+            r, g, b, a = src[x, y]
+            if not a:
+                continue
+            t = min(1, b / core_blue) * n
+            i = min(int(t), n - 1)
+            f = t - i
+            dst[x, y] = (*(round(stops[i][c] + (stops[i + 1][c] - stops[i][c]) * f)
+                           for c in range(3)), a)
+    return out
+
+
 # (output filename stem, source filename, row, col) — row/col are 0-indexed
 # into that source's auto-detected grid. Add `inset`/`pad`/`boost`/`tint`/
-# `recolor` to an entry only if its defaults aren't right for that cell.
+# `recolor`/`star_color` to an entry only if its defaults aren't right for that cell.
 MANIFEST = [
     # -- terrain1.png: star, the 2 currently-wired planets, black hole --
     ("star", "terrain1.png", 9, 2),
+    # -- star colour variants of the same cell (see STAR_PALETTES) --
+    *[(f"star-{c}", "terrain1.png", 9, 2, {"star_color": c}) for c in STAR_PALETTES],
     ("planet-inhabited", "terrain1.png", 2, 2),  # "Pheasant"
     ("planet-uninhabited", "terrain1.png", 7, 2),  # "Peat"
     ("wonder-blackhole", "terrain1.png", 0, 4),  # "Oil"
@@ -240,6 +276,8 @@ def main():
             result = boost_and_tint(result, opts["boost"], opts["tint"])
         if "recolor" in opts:
             result = recolor_body(result, GAS_GIANT_PALETTES[opts["recolor"]])
+        if "star_color" in opts:
+            result = recolor_star(result, STAR_PALETTES[opts["star_color"]])
 
         out_path = ICONS_DIR / f"{name}.png"
         result.save(out_path)
