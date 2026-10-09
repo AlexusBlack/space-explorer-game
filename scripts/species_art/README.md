@@ -111,6 +111,12 @@ bodies (sprawled arms, a centipede's segments, a batfish's fins) then touched
 the sides: a waist-up crop enlarges the subject. Adding `--no-pose` and a
 `--note` keeping the arms or body tucked in with clear space on both sides
 fixed all three. Glow haze up to about 13% was accepted again.
+The last 31 completed the catalogue (all 331 species). Three bodies ended
+above the bottom edge; a walrus took plain `--crop-bottom`, and two
+wide-legged arthropods were given `--crop-bottom --no-pose` plus the same
+"tucked in, clear space on both sides" note up front, which fixed both on the
+first try with no side cuts. For wide or many-legged bodies, use that
+combination straight away rather than `--crop-bottom` alone.
 
 ## Stages
 
