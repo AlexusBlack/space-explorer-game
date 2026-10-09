@@ -487,7 +487,9 @@ hex). Labels hang just under their drawn icon, not the hex: the anchor is
 the icon's drawn centre (a moon's includes its offset) plus half its scaled
 height (`labelAnchor`; the sprites fill their full height, so the image's
 bottom is the body's bottom), with the hex half-height as a fallback while
-the image loads. Labels: the primary star's
+the image loads. Label text grows with zoom only up to a cap
+(`LABEL_MAX_PX` 14, `TAG_MAX_PX` 16) and then stays put, so close zoom
+keeps labels readable rather than oversized. Labels: the primary star's
 `name` shows at zoom > `LABEL_ZOOM` (0.5) even undiscovered, an inhabited
 body's `ownName` at the same zoom as a tag (`drawTag`: bold, slightly larger
 white text in a dark blue `roundRect`), and plain designations of other

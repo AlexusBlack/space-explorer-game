@@ -11,6 +11,9 @@ const BACKGROUND = "#05070d";
 // of bodies and companion stars only when zoomed in further.
 const LABEL_ZOOM = 0.5;
 const DESIGNATION_ZOOM = 1;
+// Font size caps (px), so labels stop growing once zoomed in past ~1.2.
+const LABEL_MAX_PX = 14;
+const TAG_MAX_PX = 16;
 
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
 // silhouette centered with a 6px alignment-guide margin on each side. The
@@ -88,24 +91,26 @@ function drawHealthBar(ctx, cx, cy, zoom, frac) {
 }
 
 // Labels hang just under `anchor`, the bottom centre of their drawn icon
-// (see labelAnchor), so they follow a body's size and moon offset.
+// (see labelAnchor), so they follow a body's size and moon offset. Text
+// grows with zoom up to LABEL_MAX_PX, then stays at that readable size.
 function drawLabel(ctx, text, anchor, zoom) {
-  const size = Math.max(10, 12 * zoom);
+  const size = Math.min(LABEL_MAX_PX, Math.max(10, 12 * zoom));
   ctx.fillStyle = "rgba(255,255,255,0.85)";
   ctx.font = `${size}px sans-serif`;
   ctx.textAlign = "center";
-  ctx.fillText(text, anchor.x, anchor.y + 2 * zoom + size * 0.82);
+  // Baseline = small gap (0.17) + text ascent (0.82), both relative to size.
+  ctx.fillText(text, anchor.x, anchor.y + size * 0.99);
 }
 
 // Inhabited worlds' own names: bold, slightly larger white text in a dark
 // blue rounded box, its top just under `anchor` like a plain label.
 function drawTag(ctx, text, anchor, zoom) {
-  const size = Math.max(11, 14 * zoom);
+  const size = Math.min(TAG_MAX_PX, Math.max(11, 14 * zoom));
   ctx.font = `bold ${size}px sans-serif`;
   ctx.textAlign = "center";
   const padX = size * 0.45;
   const padY = size * 0.25;
-  const top = anchor.y + 2 * zoom;
+  const top = anchor.y + size * 0.14;
   const w = ctx.measureText(text).width + 2 * padX;
   const h = size + 2 * padY;
   ctx.fillStyle = "rgba(27,47,107,0.9)";

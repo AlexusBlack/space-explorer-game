@@ -485,3 +485,9 @@ from here.
   moon's offset, plus half the scaled sprite height), for stars, planets
   and moons alike. Close neighbours can still overlap at high zoom; accepted
   as is.
+
+- **Label text stops growing past a readable size.** User report: labels
+  kept scaling up with zoom (up to 36 px at the maximum zoom of 3). Text now
+  grows with zoom only up to 14 px for plain labels and 16 px for name tags
+  (reached around zoom 1.2), then stays at that size; the small gap under
+  the body scales with the text instead of with zoom.
