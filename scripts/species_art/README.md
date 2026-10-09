@@ -96,6 +96,13 @@ touch the sides. Known but accepted: the swimmer prompt's "small device"
 tends to come out as a smartphone, and clothed species mostly share one
 olive tunic-and-strap outfit. Flare's real per-image price is unconfirmed
 (the tool costs it at the `gpt-image-2` rate, about $0.014); check billing.
+A third batch of 100 (200 species in total) matched: 7 bodies ended above
+the bottom edge (2 of them floaters) and 3 touched the sides. Three were
+regenerated with `--crop-bottom` (a coil, feet, and a cut too narrow for the
+bottom snap) and three with `--no-pose` (one plus a `--note` folding manta
+wings like a cloak). The rest, including a scorpion and a seahorse whose
+tails end above the edge and some glow haze, were accepted as is.
+Smartphone-like devices are fine: they fit the setting.
 
 ## Stages
 
