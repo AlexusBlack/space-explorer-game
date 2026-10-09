@@ -501,6 +501,20 @@ Offline dev tooling is exempt as long as nothing it needs ships: the species
 portrait pipeline (`scripts/species_art/`) is Python in a gitignored venv,
 like `scripts/extract-icons.py`, and the game only consumes its static outputs.
 
+`scripts/species_art/one.py` is a deliberately minimal companion to the staged
+pipeline: one paid call per run, no `state.json`, no job hashing, no review
+gate beyond `--yes` (it prints the prompt and estimate without it). It reuses
+`catalogue`, `config`, `costing` (estimate + `log_spend`), `openai_images`
+(client, `scrub()` for key-safe errors) and, for `--cut`, `cutout.cut`. Its
+prompt is `prompts.build_portrait()`, kept separate from the pipeline's
+`build()` so changing one never changes the other's prompt hashes. Optional
+fixes (`strict_anatomy`, `no_pose`, `crop_bottom`, `note`) default off, so the default prompt
+for a species only changes when the shared constants do. The only local
+post-processing on transparent output is `snap_alpha` (alpha 250-254 to 255)
+and `snap_bottom` (move a near-bottom straight cut down to the edge); both
+keep the untouched API output as `-raw.png`, and `alpha_summary` reports
+side and bottom contact so framing problems show without opening the image.
+
 ## Species Portrait Manifest (`species/species_images.json`)
 
 Written by `scripts/species_art` (`finalize` / `manifest`), not yet read by any

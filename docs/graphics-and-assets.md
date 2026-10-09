@@ -425,6 +425,31 @@ Conventions:
 - Raw generations and intermediate cutouts live in the gitignored
   `species/work/` and are kept so any portrait can be re-cut for free.
 
+**Current direction (single-image tool, `scripts/species_art/one.py`).** The
+conventions above describe the staged pipeline's original full-figure
+cutouts. Portrait exploration has since moved to `one.py`, which targets the
+planetary information and communication ("video call") screens instead:
+- **Subject:** a member of a sentient, tool-using civilisation derived from the
+  catalogue animal, not the animal itself: dexterous manipulators suited to the
+  body plan, clothing (legged, bird) or a harness fitted to its own anatomy
+  (others), subtle technology.
+- **Framing:** head and upper body, centred, eye contact with the camera. The
+  sides must stay clear (the portrait sits on the left of a wider room scene
+  showing culture/politics and a window onto the planet), and the bottom edge
+  should cut through the body: the room shows no floor, so a body that ends
+  inside the frame looks like it levitates. Floaters are the exception.
+- **Background:** native transparency from `gpt-image-2.5-flare`
+  (`gpt-image-2` doesn't support it). No local cutout, trimming or WebP export
+  yet; output stays in `species/work/one/`.
+- **Known quirks:** floaters need `--strict-anatomy` on flare to avoid a
+  humanoid torso; a catalogue pose can force a side crop (`--no-pose`); some
+  bodies end above the bottom edge (`--crop-bottom`, or the automatic bottom
+  snap when it's just a straight cut a few px short); "glowing"/"translucent"
+  descriptions can leave a soft white haze in the alpha.
+- **Status:** 100 of 331 species have an accepted test portrait in
+  `species/work/one/` (gitignored, machine-local); the newest numbered file
+  per species is current.
+
 ## Future Art Pipeline
 
 For MVP0–MVP4, continue reusing/cropping the existing FreeCiv/Amplio tileset

@@ -124,6 +124,13 @@ SIDE_MARGIN = ("The whole width of its body, including shoulders, limbs and tent
                "inside the frame with clear empty space on the left and right; only the "
                "bottom edge of the image may cut through the body.")
 
+# --crop-bottom: the room scene shows no floor, so a body that ends inside the frame (feet,
+# flippers, wing tips below a cut torso) looks like it levitates. Force a waist-up crop.
+CROP_BOTTOM = ("Cropped at the waist like a video call: the bottom edge of the image cuts "
+               "straight through its torso, and any wings, tail or lower limbs, so its body "
+               "continues out of the bottom of the frame; no feet, lower body or wing tips are "
+               "visible and nothing ends above the bottom edge.")
+
 PORTRAIT_STYLE = ("Painterly-realistic digital art, cinematic soft key light from the upper "
                   "left, subtle cool rim light; plain softly lit neutral dark-grey studio "
                   "backdrop.")
@@ -137,7 +144,7 @@ PORTRAIT_NEGATIVE = "No text, no watermark, no border, no logo, no other charact
 
 
 def build_portrait(sp, framing="bust", note=None, strict_anatomy=False, transparent=False,
-                   no_pose=False):
+                   no_pose=False, crop_bottom=False):
     parts = [
         ("Portrait of a member of an intelligent, sentient alien species that has a "
          f"technological civilisation. Its people evolved from a creature like the "
@@ -156,6 +163,8 @@ def build_portrait(sp, framing="bust", note=None, strict_anatomy=False, transpar
         parts.append(FRAMING[framing])
     if framing == "bust":
         parts.append(SIDE_MARGIN)
+    if crop_bottom:
+        parts.append(CROP_BOTTOM)
     if strict_anatomy and sp.body_plan == "floater":
         parts.append(STRICT_FLOATER)
     if note:

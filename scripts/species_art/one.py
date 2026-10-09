@@ -31,6 +31,10 @@ def alpha_summary(rgba):
     sides = {"left": (a[:, :2] > 127).mean(), "right": (a[:, -2:] > 127).mean()}
     cut_sides = [k for k, v in sides.items() if v > 0.01]  # subject touches a side edge
     line += f"  sides {'CUT ' + '+'.join(cut_sides) if cut_sides else 'clear'}"
+    # The room scene has no floor: a bust should run off the bottom edge (good ones: 40-96%
+    # of the bottom rows are body). Near 0% = feet, flippers or a torso cut above the edge.
+    bottom = (a[-2:] > 127).any(0).mean()
+    line += f"  bottom {bottom:.0%}" + ("  ** BOTTOM NOT CUT **" if bottom < 0.2 else "")
     return line
 
 
@@ -67,6 +71,27 @@ def snap_alpha(png):
     Image.fromarray(arr, "RGBA").save(png)
 
 
+def snap_bottom(png, max_gap=64):
+    """The model often ends a waist crop 4-47 px above the bottom edge, leaving a strip the room
+    scene would show as floating. If the body ends in a wide straight cut within max_gap px of
+    the bottom (seen up to 47 px), move the picture down so the cut touches it (the original stays in -raw.png).
+    Feet, flippers and tapering tails are left alone: they don't end in a wide straight edge."""
+    import numpy as np
+    from PIL import Image
+    arr = np.array(Image.open(png).convert("RGBA"))
+    cov = (arr[..., 3] > 127).mean(1)
+    rows = np.nonzero(cov)[0]
+    if not len(rows):
+        return
+    y = rows[-1]
+    gap = len(cov) - 1 - y
+    if not 0 < gap <= max_gap or y < 12 or cov[y - 12] < 0.3 or cov[:gap].any():
+        return
+    arr = np.concatenate([np.zeros_like(arr[:gap]), arr[:-gap]])
+    Image.fromarray(arr, "RGBA").save(png)
+    print(f"snap-bottom: moved down {gap} px so the waist cut touches the bottom edge")
+
+
 def check(png):
     from PIL import Image
     rgba = Image.open(png)
@@ -101,10 +126,14 @@ def main():
                     help="swimmers/floaters: no 'head and upper body', no humanoid torso")
     ap.add_argument("--no-pose", action="store_true",
                     help="drop the catalogue pose (use when it pushes limbs off the sides)")
+    ap.add_argument("--crop-bottom", action="store_true",
+                    help="force a waist-up crop (use when the body ends above the bottom edge)")
     ap.add_argument("--transparent", action="store_true",
                     help="native transparent background (no backdrop words in the prompt)")
     ap.add_argument("--cut", type=Path, default=None, metavar="FILE",
                     help="free: cut an existing opaque result locally (matting model), no API call")
+    ap.add_argument("--snap-bottom", type=Path, default=None, metavar="FILE",
+                    help="free: apply the bottom snap to an existing transparent result, no API call")
     ap.add_argument("--yes", action="store_true", help="actually call the API (paid)")
     args = ap.parse_args()
 
@@ -112,11 +141,15 @@ def main():
     if args.cut:
         cut(args.cut.resolve(), cfg)
         return
+    if args.snap_bottom:
+        snap_bottom(args.snap_bottom.resolve())
+        check(args.snap_bottom.resolve())
+        return
 
     sp = catalogue.load()[args.id]
     model, size = args.model or cfg["model"], "1024x1024"
     prompt = prompts.build_portrait(sp, args.framing, args.note, args.strict_anatomy,
-                                    args.transparent, args.no_pose)
+                                    args.transparent, args.no_pose, args.crop_bottom)
     est = costing.estimate(cfg, args.quality, size, prompt)
     print(f"{sp.slug}  {model}  {args.quality}  {size}  est ${est:.3f}\n\n{prompt}\n")
     if not args.yes:
@@ -143,7 +176,7 @@ def main():
     png.with_suffix(".txt").write_text(
         f"model: {model}\nquality: {args.quality}\nframing: {args.framing}\n"
         f"strict_anatomy: {args.strict_anatomy}\ntransparent: {args.transparent}\n"
-        f"no_pose: {args.no_pose}\n"
+        f"no_pose: {args.no_pose}\ncrop_bottom: {args.crop_bottom}\n"
         f"cost_usd: {usd}\nusage: {json.dumps(usage)}\n\n{prompt}\n")
     costing.log_spend({"species_id": sp.id, "id": png.stem, "stage": "one", "usage": usage},
                       usd if usd is not None else est, "usage" if usd is not None else "estimate")
@@ -151,6 +184,7 @@ def main():
           flush=True)
     if args.transparent:
         snap_alpha(png)
+        snap_bottom(png)
         check(png)
 
 

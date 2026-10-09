@@ -206,7 +206,10 @@ lives only in the gitignored `.env` and is never printed or committed; **every
 paid step stops at a human review gate**, so never run a paid command (`--yes`)
 without explicit approval for that stage. `species/work/` (raws, run state,
 review verdicts, spend log) is gitignored and machine-local. Verify changes
-with `python -m scripts.species_art selftest` (offline, mock API).
+with `python -m scripts.species_art selftest` (offline, mock API). For single-image
+prompt tests use `python -m scripts.species_art.one` (see the README's "Quick
+single portraits"); current settings are `--model gpt-image-2.5-flare
+--transparent`, plus `--strict-anatomy` for floaters.
 
 `mapData` (from `mapgen.js`) is **never persisted** — always cheaply and
 deterministically regenerated from `seed`. `gameState` (from `state.js`)
