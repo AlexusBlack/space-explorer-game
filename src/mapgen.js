@@ -18,7 +18,8 @@
 // (star / planet / moon / wonder-blackhole / asteroid-belt) layered on top
 // of its own band. Planet/moon tiles carry a `planetClass` (molten / toxic /
 // rocky / gas-giant / ice, from planet-classes.js) and `sprite`, plus an
-// `inhabited` boolean that is fully independent of class/sprite. Moons are
+// `inhabited` boolean that is fully independent of class/sprite, and a
+// visual-only `scale` (moons also an `offset` within their hex). Moons are
 // real, separately-discoverable tiles claiming one of their parent planet's
 // own unclaimed same-zone neighbor hexes (see placeMoons below), not a
 // decorative overlay on the parent's own tile.
@@ -45,6 +46,13 @@ const RING_FRACS = { inner: 0.35, medium: 0.65, outer: 1.0 };
 // marked inhabited (drives only a text label today — see render.js). A
 // single easily-tunable knob, deliberately not varied by class/zone.
 const INHABITED_CHANCE = 0.05;
+// Visual variety only (render.js): each planet is drawn at a random fraction
+// of its sprite's size, each moon at a random fraction of its 50% moon size,
+// shifted within its hex by up to MOON_OFFSET_MAX of the hex half-width and
+// half-height. Rolled from the separate `bodyRng` stream (see generateMap).
+const PLANET_SCALE = [0.75, 1];
+const MOON_SCALE = [0.8, 1.2];
+const MOON_OFFSET_MAX = 0.5;
 // Anomaly placement: a per-system chance (same mechanism as the
 // wonder-blackhole roll below) plus a very sparse scatter directly in deep
 // space, so flying through otherwise-empty space has a real payoff too.
@@ -266,6 +274,20 @@ function pickClassAndSprite(rng, classNames) {
   return entries[Math.floor(rng() * entries.length)];
 }
 
+function rollInRange(rng, [lo, hi]) {
+  return lo + rng() * (hi - lo);
+}
+
+function rollMoonLook(bodyRng) {
+  return {
+    scale: rollInRange(bodyRng, MOON_SCALE),
+    offset: {
+      x: rollInRange(bodyRng, [-MOON_OFFSET_MAX, MOON_OFFSET_MAX]),
+      y: rollInRange(bodyRng, [-MOON_OFFSET_MAX, MOON_OFFSET_MAX]),
+    },
+  };
+}
+
 function rollInhabited(rng) {
   return rng() < INHABITED_CHANCE;
 }
@@ -295,7 +317,7 @@ function claimNeighborsFromPool(rng, pool, center, maxCount) {
 // Rolls a 0..maxMoons moon count (always draws rng(), even if the result is
 // 0) and claims that many of the parent's unclaimed same-zone neighbor
 // hexes, writing a "moon" tile for each.
-function placeMoons(tiles, system, pool, rng, parentCoord, maxMoons, moonClassPool) {
+function placeMoons(tiles, system, pool, rng, bodyRng, parentCoord, maxMoons, moonClassPool) {
   const moonCount = Math.floor(rng() * (maxMoons + 1));
   const moonCoords = claimNeighborsFromPool(rng, pool, parentCoord, moonCount);
   for (const coord of moonCoords) {
@@ -305,6 +327,7 @@ function placeMoons(tiles, system, pool, rng, parentCoord, maxMoons, moonClassPo
       type: "moon",
       planetClass,
       sprite,
+      ...rollMoonLook(bodyRng),
       inhabited: rollInhabited(rng),
       parent: { q: parentCoord.q, r: parentCoord.r },
       regionId: system.id,
@@ -318,7 +341,7 @@ function placeMoons(tiles, system, pool, rng, parentCoord, maxMoons, moonClassPo
 // copy-pasted blocks). `rollBody(rng)` returns
 // {planetClass, sprite, maxMoons, moonClassPool} for a successfully claimed
 // body.
-function placeBodiesInZone(tiles, system, pool, chosen, rng, { min, span, rollBody }) {
+function placeBodiesInZone(tiles, system, pool, chosen, rng, bodyRng, { min, span, rollBody }) {
   const minSep = 2;
   const count = min + Math.floor(rng() * span);
   for (let i = 0; i < count; i++) {
@@ -333,17 +356,20 @@ function placeBodiesInZone(tiles, system, pool, chosen, rng, { min, span, rollBo
           type: "planet",
           planetClass,
           sprite,
+          scale: rollInRange(bodyRng, PLANET_SCALE),
           inhabited: rollInhabited(rng),
           regionId: system.id,
         });
-        if (maxMoons > 0) placeMoons(tiles, system, pool, rng, coord, maxMoons, moonClassPool);
+        if (maxMoons > 0) {
+          placeMoons(tiles, system, pool, rng, bodyRng, coord, maxMoons, moonClassPool);
+        }
         break;
       }
     }
   }
 }
 
-function populateSystem(tiles, system, zoneCoords, rng) {
+function populateSystem(tiles, system, zoneCoords, rng, bodyRng) {
   const chosen = [];
 
   const innerPool = [...zoneCoords.inner];
@@ -360,15 +386,17 @@ function populateSystem(tiles, system, zoneCoords, rng) {
         type: "planet",
         planetClass: "rocky",
         sprite: "planet-inhabited",
+        // Earth always looks the same; the roll still happens, as for Sol's colour.
+        scale: (bodyRng(), 1),
         inhabited: true,
         home: true,
         regionId: system.id,
       });
-      placeMoons(tiles, system, pool, rng, earthCoord, 2, ["rocky", "molten"]);
+      placeMoons(tiles, system, pool, rng, bodyRng, earthCoord, 2, ["rocky", "molten"]);
     }
   }
 
-  placeBodiesInZone(tiles, system, innerPool, chosen, rng, {
+  placeBodiesInZone(tiles, system, innerPool, chosen, rng, bodyRng, {
     min: 0,
     span: 4, // 0-3 bodies
     rollBody: (rng) => ({
@@ -378,7 +406,7 @@ function populateSystem(tiles, system, zoneCoords, rng) {
     }),
   });
 
-  placeBodiesInZone(tiles, system, mediumPool, chosen, rng, {
+  placeBodiesInZone(tiles, system, mediumPool, chosen, rng, bodyRng, {
     min: 0,
     span: 4, // 0-3 bodies
     rollBody: (rng) => ({
@@ -388,7 +416,7 @@ function populateSystem(tiles, system, zoneCoords, rng) {
     }),
   });
 
-  placeBodiesInZone(tiles, system, outerPool, chosen, rng, {
+  placeBodiesInZone(tiles, system, outerPool, chosen, rng, bodyRng, {
     min: 1,
     span: 3, // 1-3 bodies
     rollBody: (rng) => {
@@ -447,11 +475,13 @@ export function generateMap({ seed } = {}) {
   // them from `rng` would shift every later draw and change every seed's
   // layout (and break existing saves, whose map is regenerated from seed).
   const starRng = createRng(`${seed}:stars`);
+  // Same reason for planet/moon sizes and moon offsets.
+  const bodyRng = createRng(`${seed}:bodies`);
 
   const tiles = new Map();
   for (const system of systems) {
     const zoneCoords = carveSystem(tiles, system, rng, starRng);
-    populateSystem(tiles, system, zoneCoords, rng);
+    populateSystem(tiles, system, zoneCoords, rng, bodyRng);
   }
 
   // Deep-space sweep: materialize every remaining hex in the map radius as a

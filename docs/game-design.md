@@ -300,6 +300,12 @@ neighboring hexes, and rendered at half the normal icon size. Earth is the
 home system's designated Rocky, inhabited planet, and can itself roll 0-2
 moons like any other rocky planet.
 
+**Sizes vary, so no two bodies look stamped out** (visual only, no gameplay
+effect): each planet is drawn at 75-100% of its sprite's size, each moon at
+80-120% of the normal moon size, and each moon sits off-centre in its hex
+by up to half the hex's half-width and half-height, so it never leaves its
+own hex. Earth is always drawn at full size.
+
 **Inhabited is a boolean independent of class** — any planet or moon can be
 inhabited regardless of which of the 5 classes (and which specific sprite)
 it is. For now this only drives an "Inhabited" text label and (per the XP

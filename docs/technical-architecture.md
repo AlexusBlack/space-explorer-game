@@ -90,6 +90,14 @@ side of this; the key algorithmic ideas:
   breaking existing saves (whose map is regenerated from seed). Sol is fixed
   to the yellow `star` but still makes its draw, so every system consumes
   the same number of star-stream values.
+- **Planet/moon sizes and moon offsets use their own random stream too**
+  (`` createRng(`${seed}:bodies`) ``, threaded through `populateSystem`,
+  `placeBodiesInZone` and `placeMoons`), for the same reason as star
+  colours: drawing them from `rng` would change every seed's layout.
+  Planets get `scale` (`PLANET_SCALE`, 0.75-1); moons get `scale`
+  (`MOON_SCALE`, 0.8-1.2) and `offset: {x, y}` (each within
+  ±`MOON_OFFSET_MAX` = 0.5). Earth is fixed at `scale: 1` but still makes
+  its draw. Visual only; see Rendering Loop.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -453,10 +461,13 @@ interleaved pass**: all band backgrounds first, then all feature icons
 extend past their own tile's hex footprint — icons are drawn at native
 pixel size (see "Band Materialization" note on `HEX_SIZE`/icon sizing
 above) and tiles are small, so e.g. the ~86px-wide black-hole sprite is
-wider than the ~64px tile itself. Moons are the one deliberate exception to
-native-size icons — drawn at 50% of that scale, since they're meant to read
-as smaller bodies orbiting their parent planet, not a second equally-sized
-feature. Drawing a tile's background, icon, and
+wider than the ~64px tile itself. Planets and moons are the deliberate
+exception to native-size icons: each planet is drawn at its tile's `scale`
+(0.75-1) and each moon at 50% times its `scale` (0.8-1.2), since moons are
+meant to read as smaller bodies orbiting their parent planet, not a second
+equally-sized feature. A moon is also shifted by its `offset` (fractions of
+the zoomed hex half-width/half-height, up to ±0.5, so it stays inside its
+hex); its label stays at the hex centre. Drawing a tile's background, icon, and
 label together before moving to the next tile meant a later-processed
 neighboring tile's opaque background would silently paint over the
 spillover part of an earlier tile's icon or label. Queuing icons/labels

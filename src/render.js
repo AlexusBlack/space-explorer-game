@@ -26,8 +26,9 @@ export function worldToScreen(camera, canvasW, canvasH, x, y) {
 // zoom, never stretched to fit the tile) — sharp at any zoom level, and
 // consistent with every other icon regardless of tile/role (e.g. secondary
 // stars in binary/trinary systems are the same size as a primary star).
-// Moons are the one deliberate exception: the icon pass below passes an
-// extra 0.5 scale multiplier for them, pre-multiplied into `zoom` here.
+// Planets and moons are the deliberate exception: the icon pass below passes
+// each one's own mapgen `scale` (times 0.5 for moons), pre-multiplied into
+// `zoom` here.
 function drawIcon(ctx, img, cx, cy, zoom) {
   if (!img) return;
   const w = img.width * zoom;
@@ -188,7 +189,7 @@ export function render(
           pendingIcons.push([iconImages && iconImages["anomaly"], p]);
           break;
         case "planet":
-          pendingIcons.push([iconImages && iconImages[tile.sprite], p, 1]);
+          pendingIcons.push([iconImages && iconImages[tile.sprite], p, tile.scale]);
           if (tile.home && camera.zoom > 0.5) {
             pendingLabels.push(["Earth", p]);
           } else if (tile.inhabited && camera.zoom > 0.5) {
@@ -196,7 +197,12 @@ export function render(
           }
           break;
         case "moon":
-          pendingIcons.push([iconImages && iconImages[tile.sprite], p, 0.5]);
+          // Shifted within its own hex by a fraction of the half-width/height.
+          pendingIcons.push([
+            iconImages && iconImages[tile.sprite],
+            { x: p.x + tile.offset.x * hw, y: p.y + tile.offset.y * hh },
+            0.5 * tile.scale,
+          ]);
           if (tile.inhabited && camera.zoom > 0.5) {
             pendingLabels.push(["Inhabited", p]);
           }

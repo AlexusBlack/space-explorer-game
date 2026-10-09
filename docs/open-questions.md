@@ -447,3 +447,14 @@ from here.
   The colours come from a separate seeded stream so map layouts stay
   identical for every seed (checked on 200 seeds) and existing saves keep
   working; they just show coloured stars.
+
+- **Planets and moons get random sizes, moons a random position in their
+  hex.** Direct user request, to make systems look less uniform: planets
+  75-100% of their sprite's size, moons 80-120% of the normal (50%) moon
+  size, and moons shifted by up to ±50% horizontally and vertically.
+  Chosen with the user: the shift is measured against half the hex (up to
+  ±16 px across, ±14 px down at zoom 1), so even the largest moon only
+  reaches its own hex edge and never spills into a neighbour; Earth stays
+  at full size, the way Sol stays yellow (its moons still vary). Rolled
+  from a separate seeded stream like star colours, so layouts are unchanged
+  for every seed (checked on 200 seeds) and existing saves keep working.
