@@ -14,6 +14,8 @@ const DESIGNATION_ZOOM = 1;
 // Font size caps (px), so labels stop growing once zoomed in past ~1.2.
 const LABEL_MAX_PX = 14;
 const TAG_MAX_PX = 16;
+// Player ships and their selection oval scale with zoom only up to native size.
+const SHIP_MAX_ZOOM = 1;
 
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
 // silhouette centered with a 6px alignment-guide margin on each side. The
@@ -304,13 +306,16 @@ export function render(
   if (ships) {
     const shipImg = iconImages && iconImages.ship;
     const selectImg = iconImages && iconImages.select;
+    // Ship and selection oval never draw above their native pixel size:
+    // they stay sharp and don't swell to planet size when zoomed in.
+    const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
     for (const ship of ships) {
       const world = axialToPixel(ship.q, ship.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
       if (ship.active) {
-        drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, camera.zoom);
+        drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, shipZoom);
       }
-      drawIcon(ctx, shipImg, p.x, p.y, camera.zoom);
+      drawIcon(ctx, shipImg, p.x, p.y, shipZoom);
       drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, ship.color);
     }
   }

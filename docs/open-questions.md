@@ -491,3 +491,10 @@ from here.
   grows with zoom only up to 14 px for plain labels and 16 px for name tags
   (reached around zoom 1.2), then stays at that size; the small gap under
   the body scales with the text instead of with zoom.
+
+- **Player ships stop growing at native size.** User request, following
+  the label size cap: the ship sprite and its selection oval scaled with
+  zoom without limit, getting blurry and as big as a planet. They now
+  scale only up to their native pixel size (zoom 1) and stay that size
+  when zoomed in further. Pirate ships, bases and the owner dot are
+  unchanged.

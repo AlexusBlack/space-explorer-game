@@ -435,6 +435,11 @@ are told apart three ways, each answering a different question:
 None of these recolor or swap the ship icon itself — the sprite stays
 identical for both players throughout.
 
+The ship sprite and selection oval scale with zoom only up to their native
+pixel size (`SHIP_MAX_ZOOM` = 1 in `render.js`): zoomed in further they
+stay put, so they stay sharp and don't grow to planet size. The owner dot
+still follows the hex.
+
 **Win condition check**: with deep space now the vast majority of the map,
 "every tile revealed" is no longer the right completion condition (see
 `game-design.md`'s Session End) — it's **every system's star tile
