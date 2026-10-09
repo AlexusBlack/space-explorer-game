@@ -548,3 +548,9 @@ from here.
   - **Discard old saves again.** Luna's fixed placement changes the home
     system's draws from the main stream, which shifts every later system, so
     `SAVE_VERSION` goes from 2 to 3.
+
+- **Pirate ships get the same native-size cap.** User request, following
+  the player ship cap above: pirate ships now also scale with zoom only up
+  to native size (`SHIP_MAX_ZOOM`). Their health bar uses the same capped
+  zoom so it doesn't drift away from the sprite. Pirate bases are still
+  unchanged.

@@ -476,7 +476,8 @@ identical for both players throughout.
 The ship sprite and selection oval scale with zoom only up to their native
 pixel size (`SHIP_MAX_ZOOM` = 1 in `render.js`): zoomed in further they
 stay put, so they stay sharp and don't grow to planet size. The owner dot
-still follows the hex.
+still follows the hex. Pirate ships use the same cap, and so does their
+health bar so it stays just above the sprite; pirate bases still scale freely.
 
 **Win condition check**: with deep space now the vast majority of the map,
 "every tile revealed" is no longer the right completion condition (see

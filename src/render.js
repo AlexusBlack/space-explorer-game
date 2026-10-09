@@ -14,7 +14,8 @@ const DESIGNATION_ZOOM = 1;
 // Font size caps (px), so labels stop growing once zoomed in past ~1.2.
 const LABEL_MAX_PX = 14;
 const TAG_MAX_PX = 16;
-// Player ships and their selection oval scale with zoom only up to native size.
+// Ships (player and pirate) and the player selection oval scale with zoom
+// only up to native size.
 const SHIP_MAX_ZOOM = 1;
 
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
@@ -288,13 +289,16 @@ export function render(
   }
   if (pirateShips) {
     const shipImg = iconImages && iconImages["pirate-ship"];
+    // Same native-size cap as player ships; the health bar follows the
+    // sprite so it stays just above it.
+    const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
     for (const ship of pirateShips) {
       const key = axialKey(ship.q, ship.r);
       if (discovered && !discovered.has(key)) continue;
       const world = axialToPixel(ship.q, ship.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
-      drawIcon(ctx, shipImg, p.x, p.y, camera.zoom);
-      drawHealthBar(ctx, p.x, p.y, camera.zoom, ship.health / ship.maxHealth);
+      drawIcon(ctx, shipImg, p.x, p.y, shipZoom);
+      drawHealthBar(ctx, p.x, p.y, shipZoom, ship.health / ship.maxHealth);
     }
   }
 
