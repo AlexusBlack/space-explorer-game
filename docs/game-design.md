@@ -70,6 +70,30 @@ the odds keep that order but boost yellow to second, since a Sun-like star
 is what players expect to see, and keep blue rare without making it vanish.
 Sol is always yellow. Colour is visual only today (no gameplay effect).
 
+## Names
+
+Every system has a unique name. The home system is always **Sol**; any other
+system has a 40% chance of a catalogue designation (two capital letters, a
+dash and a 1-4 digit number with no leading zero, e.g. `GD-17`, `KX-4821`)
+and otherwise gets a name from `data/star_planet_names.json` (its star and
+any-use names). Other bodies are named after their system:
+- **Companion stars** in a binary/trinary system: system name plus a
+  capital letter, clockwise from north around the main star (`GD-17 B`).
+- **Planets**: system name plus a Roman numeral, numbered outward by
+  distance from the main star (`Sol IV`, `GD-17 III`); planets at the same
+  distance are numbered clockwise from north.
+- **Moons**: their planet's name plus a lower-case letter, clockwise from
+  north around the planet (`Sol V-c`, `GD-17 III-a`).
+- **Inhabited planets and moons** also get their own name from the list
+  (planet or moon names plus any-use ones), unique across the map. Earth's
+  own name is always **Earth**.
+
+Labels: a system's name shows under its main star from the start (stars are
+always visible). An inhabited world shows its own name as a tag, bold white
+text in a dark blue rounded box, once discovered. Plain designations of
+other planets, moons and companion stars only show when zoomed in close
+(zoom 1 or more), to keep the map readable.
+
 ## Movement & Exploration
 
 - Each ship has a fixed number of moves per turn (increases with leveling).
@@ -308,7 +332,8 @@ own hex. Earth is always drawn at full size.
 
 **Inhabited is a boolean independent of class** — any planet or moon can be
 inhabited regardless of which of the 5 classes (and which specific sprite)
-it is. For now this only drives an "Inhabited" text label and (per the XP
+it is. For now this only drives its own name and name tag (see "Names")
+and (per the XP
 table below) a higher reward; a future pass may give it other effects
 (e.g. a "other nations" hook per the original Civ5-inspired concept),
 but it never changes which sprite is drawn.

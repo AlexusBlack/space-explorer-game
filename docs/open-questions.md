@@ -458,3 +458,30 @@ from here.
   at full size, the way Sol stays yellow (its moons still vary). Rolled
   from a separate seeded stream like star colours, so layouts are unchanged
   for every seed (checked on 200 seeds) and existing saves keep working.
+
+- **Systems, planets and moons get names; inhabited worlds get name tags.**
+  Direct user request: unique system names, 40% catalogue designations
+  (`GD-17`: two capitals, dash, 1-4 digits, no leading zero) and the rest
+  from the user's `data/star_planet_names.json`; planets numbered with Roman
+  numerals by distance from the star (`Sol IV`), moons lettered (`Sol V-c`);
+  inhabited planets get their own names, shown as bold white text in a dark
+  blue rounded box. Chosen with the user: plain designations only show when
+  zoomed in (zoom >= 1) to avoid clutter; system names show on every star
+  from the start, since stars are always visible; inhabited moons get own
+  names too; companion stars get capital-letter suffixes (`GD-17 B`), shown
+  only when zoomed in. Implementation choices: the digit count is rolled
+  first so short and long numbers are equally common; planets at equal
+  distance and moons around a planet are ordered clockwise from north;
+  every system and own name is unique per map ("Sol" and "Earth"
+  reserved). Names use a separate seeded stream in a final pass, so layouts
+  are unchanged for every seed (checked on 200 seeds) and existing saves
+  just gain names.
+
+- **Labels sit directly under their body, not under the hex.** User report:
+  every label was drawn at a fixed spot below the hex, which looked
+  misplaced once planets varied in size and moons were smaller and shifted
+  within their hex (a moon's name could sit well below or beside it). Each
+  label now hangs a small gap under its drawn icon (centre, including a
+  moon's offset, plus half the scaled sprite height), for stars, planets
+  and moons alike. Close neighbours can still overlap at high zoom; accepted
+  as is.

@@ -1,0 +1,8658 @@
+[
+ {
+  "id": 1,
+  "name": "Berehynia",
+  "ascii": "Berehynia",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 2,
+  "name": "Meleph",
+  "ascii": "Meleph",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 3,
+  "name": "Mekbuda",
+  "ascii": "Mekbuda",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 4,
+  "name": "Intercrus",
+  "ascii": "Intercrus",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 5,
+  "name": "Alnitak",
+  "ascii": "Alnitak",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 6,
+  "name": "Monch",
+  "ascii": "Monch",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 7,
+  "name": "Altair",
+  "ascii": "Altair",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 8,
+  "name": "Taika",
+  "ascii": "Taika",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 9,
+  "name": "Edasich",
+  "ascii": "Edasich",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 10,
+  "name": "Alpherg",
+  "ascii": "Alpherg",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 11,
+  "name": "Diwo",
+  "ascii": "Diwo",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 12,
+  "name": "Aldebaran",
+  "ascii": "Aldebaran",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 13,
+  "name": "Hunahpu",
+  "ascii": "Hunahpu",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 14,
+  "name": "Montuno",
+  "ascii": "Montuno",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 15,
+  "name": "Rukbat",
+  "ascii": "Rukbat",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 16,
+  "name": "Taygeta",
+  "ascii": "Taygeta",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 17,
+  "name": "Mahasim",
+  "ascii": "Mahasim",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 18,
+  "name": "Pipirima",
+  "ascii": "Pipirima",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 19,
+  "name": "Menkalinan",
+  "ascii": "Menkalinan",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 20,
+  "name": "Miaplacidus",
+  "ascii": "Miaplacidus",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 21,
+  "name": "Wezen",
+  "ascii": "Wezen",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 22,
+  "name": "Ogma",
+  "ascii": "Ogma",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 23,
+  "name": "Menkib",
+  "ascii": "Menkib",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 24,
+  "name": "Xamidimura",
+  "ascii": "Xamidimura",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 25,
+  "name": "Sirius",
+  "ascii": "Sirius",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 26,
+  "name": "Tianyi",
+  "ascii": "Tianyi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 27,
+  "name": "Phoenicia",
+  "ascii": "Phoenicia",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 28,
+  "name": "Ankaa",
+  "ascii": "Ankaa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 29,
+  "name": "Acrab",
+  "ascii": "Acrab",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 30,
+  "name": "Dabih",
+  "ascii": "Dabih",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 31,
+  "name": "Aljanah",
+  "ascii": "Aljanah",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 32,
+  "name": "Almach",
+  "ascii": "Almach",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 33,
+  "name": "Nembus",
+  "ascii": "Nembus",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 34,
+  "name": "Zaniah",
+  "ascii": "Zaniah",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 35,
+  "name": "Hadar",
+  "ascii": "Hadar",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 36,
+  "name": "Castor",
+  "ascii": "Castor",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 37,
+  "name": "Rana",
+  "ascii": "Rana",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 38,
+  "name": "Tejat",
+  "ascii": "Tejat",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 39,
+  "name": "Libertas",
+  "ascii": "Libertas",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 40,
+  "name": "Natasha",
+  "ascii": "Natasha",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 41,
+  "name": "Mintaka",
+  "ascii": "Mintaka",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 42,
+  "name": "Bharani",
+  "ascii": "Bharani",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 43,
+  "name": "Kaveh",
+  "ascii": "Kaveh",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 44,
+  "name": "Fawaris",
+  "ascii": "Fawaris",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 45,
+  "name": "Amansinaya",
+  "ascii": "Amansinaya",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 46,
+  "name": "Alnasl",
+  "ascii": "Alnasl",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 47,
+  "name": "Homam",
+  "ascii": "Homam",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 48,
+  "name": "Biham",
+  "ascii": "Biham",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 49,
+  "name": "Nosaxa",
+  "ascii": "Nosaxa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 50,
+  "name": "Dalim",
+  "ascii": "Dalim",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 51,
+  "name": "Gomeisa",
+  "ascii": "Gomeisa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 52,
+  "name": "Aspidiske",
+  "ascii": "Aspidiske",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 53,
+  "name": "Achird",
+  "ascii": "Achird",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 54,
+  "name": "Anadolu",
+  "ascii": "Anadolu",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 55,
+  "name": "Tarf",
+  "ascii": "Tarf",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 56,
+  "name": "Dofida",
+  "ascii": "Dofida",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 57,
+  "name": "Phact",
+  "ascii": "Phact",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 58,
+  "name": "Axolotl",
+  "ascii": "Axolotl",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 59,
+  "name": "Azmidi",
+  "ascii": "Azmidi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 60,
+  "name": "Rasalgethi",
+  "ascii": "Rasalgethi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 61,
+  "name": "Felis",
+  "ascii": "Felis",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 62,
+  "name": "Cursa",
+  "ascii": "Cursa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 63,
+  "name": "Athebyne",
+  "ascii": "Athebyne",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 64,
+  "name": "Alshain",
+  "ascii": "Alshain",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 65,
+  "name": "Muliphein",
+  "ascii": "Muliphein",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 66,
+  "name": "Pherkad",
+  "ascii": "Pherkad",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 67,
+  "name": "Sheliak",
+  "ascii": "Sheliak",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 68,
+  "name": "Beid",
+  "ascii": "Beid",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 69,
+  "name": "Veritate",
+  "ascii": "Veritate",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 70,
+  "name": "Heze",
+  "ascii": "Heze",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 71,
+  "name": "Alhena",
+  "ascii": "Alhena",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 72,
+  "name": "Aldulfin",
+  "ascii": "Aldulfin",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 73,
+  "name": "Fulu",
+  "ascii": "Fulu",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 74,
+  "name": "Chara",
+  "ascii": "Chara",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 75,
+  "name": "Xuange",
+  "ascii": "Xuange",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 76,
+  "name": "Funi",
+  "ascii": "Funi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 77,
+  "name": "Inquill",
+  "ascii": "Inquill",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 78,
+  "name": "Alkaid",
+  "ascii": "Alkaid",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 79,
+  "name": "Moldoveanu",
+  "ascii": "Moldoveanu",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 80,
+  "name": "Misam",
+  "ascii": "Misam",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 81,
+  "name": "Maasym",
+  "ascii": "Maasym",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 82,
+  "name": "Mirzam",
+  "ascii": "Mirzam",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 83,
+  "name": "Elgafar",
+  "ascii": "Elgafar",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 84,
+  "name": "Nahn",
+  "ascii": "Nahn",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 85,
+  "name": "Xihe",
+  "ascii": "Xihe",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 86,
+  "name": "Giausar",
+  "ascii": "Giausar",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 87,
+  "name": "Citadelle",
+  "ascii": "Citadelle",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 88,
+  "name": "Mouhoun",
+  "ascii": "Mouhoun",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 89,
+  "name": "Adhil",
+  "ascii": "Adhil",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 90,
+  "name": "Arcturus",
+  "ascii": "Arcturus",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 91,
+  "name": "Theemin",
+  "ascii": "Theemin",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 92,
+  "name": "Angetenar",
+  "ascii": "Angetenar",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 93,
+  "name": "Taiyangshou",
+  "ascii": "Taiyangshou",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 94,
+  "name": "Khambalia",
+  "ascii": "Khambalia",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 95,
+  "name": "Bosona",
+  "ascii": "Bosona",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 96,
+  "name": "Fuyue",
+  "ascii": "Fuyue",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 97,
+  "name": "Errai",
+  "ascii": "Errai",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 98,
+  "name": "Horna",
+  "ascii": "Horna",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 99,
+  "name": "Nihal",
+  "ascii": "Nihal",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 100,
+  "name": "Morava",
+  "ascii": "Morava",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 101,
+  "name": "Alasia",
+  "ascii": "Alasia",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 102,
+  "name": "Belenos",
+  "ascii": "Belenos",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 103,
+  "name": "Ebla",
+  "ascii": "Ebla",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 104,
+  "name": "Meridiana",
+  "ascii": "Meridiana",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 105,
+  "name": "Segin",
+  "ascii": "Segin",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 106,
+  "name": "Copernicus",
+  "ascii": "Copernicus",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 107,
+  "name": "Sargas",
+  "ascii": "Sargas",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 108,
+  "name": "Algedi",
+  "ascii": "Algedi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 109,
+  "name": "Macondo",
+  "ascii": "Macondo",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 110,
+  "name": "Zosma",
+  "ascii": "Zosma",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 111,
+  "name": "Kang",
+  "ascii": "Kang",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 112,
+  "name": "Alsciaukat",
+  "ascii": "Alsciaukat",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 113,
+  "name": "Gudja",
+  "ascii": "Gudja",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 114,
+  "name": "Torcular",
+  "ascii": "Torcular",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 115,
+  "name": "Tianguan",
+  "ascii": "Tianguan",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 116,
+  "name": "Arcalis",
+  "ascii": "Arcalis",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 117,
+  "name": "Saiph",
+  "ascii": "Saiph",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 118,
+  "name": "Bibha",
+  "ascii": "Bibha",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 119,
+  "name": "Ruchbah",
+  "ascii": "Ruchbah",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 120,
+  "name": "Izar",
+  "ascii": "Izar",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 121,
+  "name": "Arneb",
+  "ascii": "Arneb",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 122,
+  "name": "Rasalhague",
+  "ascii": "Rasalhague",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 123,
+  "name": "Musica",
+  "ascii": "Musica",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 124,
+  "name": "Zibal",
+  "ascii": "Zibal",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 125,
+  "name": "Sagarmatha",
+  "ascii": "Sagarmatha",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 126,
+  "name": "Atlas",
+  "ascii": "Atlas",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 127,
+  "name": "Meissa",
+  "ascii": "Meissa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 128,
+  "name": "Alterf",
+  "ascii": "Alterf",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 129,
+  "name": "Sham",
+  "ascii": "Sham",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 130,
+  "name": "Megrez",
+  "ascii": "Megrez",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 131,
+  "name": "Tegmine",
+  "ascii": "Tegmine",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 132,
+  "name": "Formosa",
+  "ascii": "Formosa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 133,
+  "name": "Dingolay",
+  "ascii": "Dingolay",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 134,
+  "name": "Mimosa",
+  "ascii": "Mimosa",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 135,
+  "name": "Mizar",
+  "ascii": "Mizar",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 136,
+  "name": "Algieba",
+  "ascii": "Algieba",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 137,
+  "name": "Albaldah",
+  "ascii": "Albaldah",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 138,
+  "name": "Markab",
+  "ascii": "Markab",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 139,
+  "name": "Alrescha",
+  "ascii": "Alrescha",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 140,
+  "name": "Hassaleh",
+  "ascii": "Hassaleh",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 141,
+  "name": "Nashira",
+  "ascii": "Nashira",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 142,
+  "name": "Stribor",
+  "ascii": "Stribor",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 143,
+  "name": "Muspelheim",
+  "ascii": "Muspelheim",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 144,
+  "name": "Alkarab",
+  "ascii": "Alkarab",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 145,
+  "name": "Algorab",
+  "ascii": "Algorab",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 146,
+  "name": "Porrima",
+  "ascii": "Porrima",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 147,
+  "name": "Sadalbari",
+  "ascii": "Sadalbari",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 148,
+  "name": "Alsafi",
+  "ascii": "Alsafi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 149,
+  "name": "Merak",
+  "ascii": "Merak",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 150,
+  "name": "Aniara",
+  "ascii": "Aniara",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 151,
+  "name": "Mothallah",
+  "ascii": "Mothallah",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 152,
+  "name": "Deneb",
+  "ascii": "Deneb",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 153,
+  "name": "Altais",
+  "ascii": "Altais",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 154,
+  "name": "Botein",
+  "ascii": "Botein",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 155,
+  "name": "Anser",
+  "ascii": "Anser",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 156,
+  "name": "Seginus",
+  "ascii": "Seginus",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 157,
+  "name": "Taiyi",
+  "ascii": "Taiyi",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 158,
+  "name": "Fomalhaut",
+  "ascii": "Fomalhaut",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 159,
+  "name": "Mahsati",
+  "ascii": "Mahsati",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 160,
+  "name": "Sharjah",
+  "ascii": "Sharjah",
+  "category": "real",
+  "source": "IAU-approved star name",
+  "use": "star"
+ },
+ {
+  "id": 161,
+  "name": "Harriot",
+  "ascii": "Harriot",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 162,
+  "name": "Ugarit",
+  "ascii": "Ugarit",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 163,
+  "name": "Tadmor",
+  "ascii": "Tadmor",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 164,
+  "name": "Madriu",
+  "ascii": "Madriu",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 165,
+  "name": "Melquíades",
+  "ascii": "Melquiades",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 166,
+  "name": "Brahe",
+  "ascii": "Brahe",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 167,
+  "name": "Xólotl",
+  "ascii": "Xolotl",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 168,
+  "name": "Madalitso",
+  "ascii": "Madalitso",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 169,
+  "name": "Riosar",
+  "ascii": "Riosar",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 170,
+  "name": "Catalineta",
+  "ascii": "Catalineta",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 171,
+  "name": "Khomsa",
+  "ascii": "Khomsa",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 172,
+  "name": "Ibirapitá",
+  "ascii": "Ibirapita",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 173,
+  "name": "Cuancoá",
+  "ascii": "Cuancoa",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 174,
+  "name": "Aegir",
+  "ascii": "Aegir",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 175,
+  "name": "Pipitea",
+  "ascii": "Pipitea",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 176,
+  "name": "Tahay",
+  "ascii": "Tahay",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 177,
+  "name": "Pirx",
+  "ascii": "Pirx",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 178,
+  "name": "Santamasa",
+  "ascii": "Santamasa",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 179,
+  "name": "Guarani",
+  "ascii": "Guarani",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 180,
+  "name": "Eyeke",
+  "ascii": "Eyeke",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 181,
+  "name": "Guataubá",
+  "ascii": "Guatauba",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 182,
+  "name": "Arber",
+  "ascii": "Arber",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 183,
+  "name": "Umbäässa",
+  "ascii": "Umbaassa",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 184,
+  "name": "Janssen",
+  "ascii": "Janssen",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 185,
+  "name": "Hypatia",
+  "ascii": "Hypatia",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 186,
+  "name": "Drukyul",
+  "ascii": "Drukyul",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 187,
+  "name": "Cayahuanca",
+  "ascii": "Cayahuanca",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 188,
+  "name": "Makombé",
+  "ascii": "Makombe",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 189,
+  "name": "Amateru",
+  "ascii": "Amateru",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 190,
+  "name": "Arkas",
+  "ascii": "Arkas",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 191,
+  "name": "Surt",
+  "ascii": "Surt",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 192,
+  "name": "Beirut",
+  "ascii": "Beirut",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 193,
+  "name": "Onasilos",
+  "ascii": "Onasilos",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 194,
+  "name": "Meztli",
+  "ascii": "Meztli",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 195,
+  "name": "Equiano",
+  "ascii": "Equiano",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 196,
+  "name": "Regoč",
+  "ascii": "Regoc",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 197,
+  "name": "Negoiu",
+  "ascii": "Negoiu",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 198,
+  "name": "Dagon",
+  "ascii": "Dagon",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 199,
+  "name": "Samagiya",
+  "ascii": "Samagiya",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 200,
+  "name": "Yanyan",
+  "ascii": "Yanyan",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 201,
+  "name": "Bagan",
+  "ascii": "Bagan",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 202,
+  "name": "Veles",
+  "ascii": "Veles",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 203,
+  "name": "Cuptor",
+  "ascii": "Cuptor",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 204,
+  "name": "Leklsullun",
+  "ascii": "Leklsullun",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 205,
+  "name": "Babylonia",
+  "ascii": "Babylonia",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 206,
+  "name": "Viculus",
+  "ascii": "Viculus",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 207,
+  "name": "Tylos",
+  "ascii": "Tylos",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 208,
+  "name": "Isli",
+  "ascii": "Isli",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 209,
+  "name": "Fold",
+  "ascii": "Fold",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 210,
+  "name": "Saffar",
+  "ascii": "Saffar",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 211,
+  "name": "Orbitar",
+  "ascii": "Orbitar",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 212,
+  "name": "Hairu",
+  "ascii": "Hairu",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 213,
+  "name": "Mulchatna",
+  "ascii": "Mulchatna",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 214,
+  "name": "Tanzanite",
+  "ascii": "Tanzanite",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 215,
+  "name": "Dimidium",
+  "ascii": "Dimidium",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 216,
+  "name": "Barajeel",
+  "ascii": "Barajeel",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 217,
+  "name": "Poltergeist",
+  "ascii": "Poltergeist",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 218,
+  "name": "Ixbalanqué",
+  "ascii": "Ixbalanque",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 219,
+  "name": "Iolaus",
+  "ascii": "Iolaus",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 220,
+  "name": "Galileo",
+  "ascii": "Galileo",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 221,
+  "name": "Zembretta",
+  "ascii": "Zembretta",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 222,
+  "name": "Najsakopajk",
+  "ascii": "Najsakopajk",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 223,
+  "name": "Noifasui",
+  "ascii": "Noifasui",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 224,
+  "name": "Sancho",
+  "ascii": "Sancho",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 225,
+  "name": "Iztok",
+  "ascii": "Iztok",
+  "category": "real",
+  "source": "IAU-approved exoplanet name",
+  "use": "planet"
+ },
+ {
+  "id": 226,
+  "name": "Leda",
+  "ascii": "Leda",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 227,
+  "name": "Iapetus",
+  "ascii": "Iapetus",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 228,
+  "name": "Perdita",
+  "ascii": "Perdita",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 229,
+  "name": "Prospero",
+  "ascii": "Prospero",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 230,
+  "name": "Rhea",
+  "ascii": "Rhea",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 231,
+  "name": "Mundilfari",
+  "ascii": "Mundilfari",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 232,
+  "name": "Pandora",
+  "ascii": "Pandora",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 233,
+  "name": "Epimetheus",
+  "ascii": "Epimetheus",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 234,
+  "name": "Sinope",
+  "ascii": "Sinope",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 235,
+  "name": "Enceladus",
+  "ascii": "Enceladus",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 236,
+  "name": "Rosalind",
+  "ascii": "Rosalind",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 237,
+  "name": "Themisto",
+  "ascii": "Themisto",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 238,
+  "name": "Sycorax",
+  "ascii": "Sycorax",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 239,
+  "name": "Juliet",
+  "ascii": "Juliet",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 240,
+  "name": "Belinda",
+  "ascii": "Belinda",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 241,
+  "name": "Cupid",
+  "ascii": "Cupid",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 242,
+  "name": "Cressida",
+  "ascii": "Cressida",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 243,
+  "name": "Psamathe",
+  "ascii": "Psamathe",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 244,
+  "name": "Callisto",
+  "ascii": "Callisto",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 245,
+  "name": "Prometheus",
+  "ascii": "Prometheus",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 246,
+  "name": "Metis",
+  "ascii": "Metis",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 247,
+  "name": "Dimorphos",
+  "ascii": "Dimorphos",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 248,
+  "name": "Galatea",
+  "ascii": "Galatea",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 249,
+  "name": "Anthe",
+  "ascii": "Anthe",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 250,
+  "name": "Methone",
+  "ascii": "Methone",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 251,
+  "name": "Mab",
+  "ascii": "Mab",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 252,
+  "name": "Telesto",
+  "ascii": "Telesto",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 253,
+  "name": "Europa",
+  "ascii": "Europa",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 254,
+  "name": "Umbriel",
+  "ascii": "Umbriel",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 255,
+  "name": "Calypso",
+  "ascii": "Calypso",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 256,
+  "name": "Hyperion",
+  "ascii": "Hyperion",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 257,
+  "name": "Dysnomia",
+  "ascii": "Dysnomia",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 258,
+  "name": "Mimas",
+  "ascii": "Mimas",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 259,
+  "name": "Sao",
+  "ascii": "Sao",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 260,
+  "name": "Phoebe",
+  "ascii": "Phoebe",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 261,
+  "name": "Miranda",
+  "ascii": "Miranda",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 262,
+  "name": "Hiiaka",
+  "ascii": "Hiiaka",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 263,
+  "name": "Hydra",
+  "ascii": "Hydra",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 264,
+  "name": "Dione",
+  "ascii": "Dione",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 265,
+  "name": "Weywot",
+  "ascii": "Weywot",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 266,
+  "name": "Helene",
+  "ascii": "Helene",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 267,
+  "name": "Titan",
+  "ascii": "Titan",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 268,
+  "name": "Portia",
+  "ascii": "Portia",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 269,
+  "name": "Cordelia",
+  "ascii": "Cordelia",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 270,
+  "name": "Desdemona",
+  "ascii": "Desdemona",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 271,
+  "name": "Siarnaq",
+  "ascii": "Siarnaq",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 272,
+  "name": "Setebos",
+  "ascii": "Setebos",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 273,
+  "name": "Vanth",
+  "ascii": "Vanth",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 274,
+  "name": "Adrastea",
+  "ascii": "Adrastea",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 275,
+  "name": "Kerberos",
+  "ascii": "Kerberos",
+  "category": "real",
+  "source": "Solar System moon",
+  "use": "moon"
+ },
+ {
+  "id": 276,
+  "name": "Salacia",
+  "ascii": "Salacia",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 277,
+  "name": "Ixion",
+  "ascii": "Ixion",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 278,
+  "name": "Cybele",
+  "ascii": "Cybele",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 279,
+  "name": "Nessus",
+  "ascii": "Nessus",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 280,
+  "name": "Eros",
+  "ascii": "Eros",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 281,
+  "name": "Arrokoth",
+  "ascii": "Arrokoth",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 282,
+  "name": "Kleopatra",
+  "ascii": "Kleopatra",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 283,
+  "name": "Steins",
+  "ascii": "Steins",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 284,
+  "name": "Sylvia",
+  "ascii": "Sylvia",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 285,
+  "name": "Polymele",
+  "ascii": "Polymele",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 286,
+  "name": "Bamberga",
+  "ascii": "Bamberga",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 287,
+  "name": "Haumea",
+  "ascii": "Haumea",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 288,
+  "name": "Ida",
+  "ascii": "Ida",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 289,
+  "name": "Gaspra",
+  "ascii": "Gaspra",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 290,
+  "name": "Apophis",
+  "ascii": "Apophis",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 291,
+  "name": "Varuna",
+  "ascii": "Varuna",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 292,
+  "name": "Patroclus",
+  "ascii": "Patroclus",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 293,
+  "name": "Chiron",
+  "ascii": "Chiron",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 294,
+  "name": "Thisbe",
+  "ascii": "Thisbe",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 295,
+  "name": "Euphrosyne",
+  "ascii": "Euphrosyne",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 296,
+  "name": "Lutetia",
+  "ascii": "Lutetia",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 297,
+  "name": "Makemake",
+  "ascii": "Makemake",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 298,
+  "name": "Juno",
+  "ascii": "Juno",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 299,
+  "name": "Ryugu",
+  "ascii": "Ryugu",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 300,
+  "name": "Herculina",
+  "ascii": "Herculina",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 301,
+  "name": "Ceres",
+  "ascii": "Ceres",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 302,
+  "name": "Psyche",
+  "ascii": "Psyche",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 303,
+  "name": "Annefrank",
+  "ascii": "Annefrank",
+  "category": "real",
+  "source": "Solar System dwarf planet / asteroid",
+  "use": "planet"
+ },
+ {
+  "id": 304,
+  "name": "Scutum",
+  "ascii": "Scutum",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 305,
+  "name": "Reticulum",
+  "ascii": "Reticulum",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 306,
+  "name": "Bootes",
+  "ascii": "Bootes",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 307,
+  "name": "Aquarius",
+  "ascii": "Aquarius",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 308,
+  "name": "Dorado",
+  "ascii": "Dorado",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 309,
+  "name": "Octans",
+  "ascii": "Octans",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 310,
+  "name": "Auriga",
+  "ascii": "Auriga",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 311,
+  "name": "Sagitta",
+  "ascii": "Sagitta",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 312,
+  "name": "Libra",
+  "ascii": "Libra",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 313,
+  "name": "Circinus",
+  "ascii": "Circinus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 314,
+  "name": "Fornax",
+  "ascii": "Fornax",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 315,
+  "name": "Volans",
+  "ascii": "Volans",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 316,
+  "name": "Cetus",
+  "ascii": "Cetus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 317,
+  "name": "Pyxis",
+  "ascii": "Pyxis",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 318,
+  "name": "Grus",
+  "ascii": "Grus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 319,
+  "name": "Aries",
+  "ascii": "Aries",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 320,
+  "name": "Triangulum",
+  "ascii": "Triangulum",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 321,
+  "name": "Virgo",
+  "ascii": "Virgo",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 322,
+  "name": "Crux",
+  "ascii": "Crux",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 323,
+  "name": "Mensa",
+  "ascii": "Mensa",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 324,
+  "name": "Lupus",
+  "ascii": "Lupus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 325,
+  "name": "Corona",
+  "ascii": "Corona",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 326,
+  "name": "Carina",
+  "ascii": "Carina",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 327,
+  "name": "Pictor",
+  "ascii": "Pictor",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 328,
+  "name": "Caelum",
+  "ascii": "Caelum",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 329,
+  "name": "Serpens",
+  "ascii": "Serpens",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 330,
+  "name": "Perseus",
+  "ascii": "Perseus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 331,
+  "name": "Delphinus",
+  "ascii": "Delphinus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 332,
+  "name": "Horologium",
+  "ascii": "Horologium",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 333,
+  "name": "Lepus",
+  "ascii": "Lepus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 334,
+  "name": "Cepheus",
+  "ascii": "Cepheus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 335,
+  "name": "Capricornus",
+  "ascii": "Capricornus",
+  "category": "real",
+  "source": "Constellation",
+  "use": "star"
+ },
+ {
+  "id": 336,
+  "name": "Dhanishta",
+  "ascii": "Dhanishta",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 337,
+  "name": "Pushya",
+  "ascii": "Pushya",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 338,
+  "name": "Kaiyang",
+  "ascii": "Kaiyang",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 339,
+  "name": "Anuradha",
+  "ascii": "Anuradha",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 340,
+  "name": "Yaoguang",
+  "ascii": "Yaoguang",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 341,
+  "name": "Swati",
+  "ascii": "Swati",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 342,
+  "name": "Subaru",
+  "ascii": "Subaru",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 343,
+  "name": "Ashvini",
+  "ascii": "Ashvini",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 344,
+  "name": "Wenchang",
+  "ascii": "Wenchang",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 345,
+  "name": "Yuheng",
+  "ascii": "Yuheng",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 346,
+  "name": "Hasta",
+  "ascii": "Hasta",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 347,
+  "name": "Niulang",
+  "ascii": "Niulang",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 348,
+  "name": "Krittika",
+  "ascii": "Krittika",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 349,
+  "name": "Magha",
+  "ascii": "Magha",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 350,
+  "name": "Zhinu",
+  "ascii": "Zhinu",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 351,
+  "name": "Puanga",
+  "ascii": "Puanga",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 352,
+  "name": "Tianlang",
+  "ascii": "Tianlang",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 353,
+  "name": "Punarvasu",
+  "ascii": "Punarvasu",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 354,
+  "name": "Tianquan",
+  "ascii": "Tianquan",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 355,
+  "name": "Shravana",
+  "ascii": "Shravana",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 356,
+  "name": "Makalii",
+  "ascii": "Makalii",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 357,
+  "name": "Chitra",
+  "ascii": "Chitra",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 358,
+  "name": "Beidou",
+  "ascii": "Beidou",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 359,
+  "name": "Jyeshtha",
+  "ascii": "Jyeshtha",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 360,
+  "name": "Vishakha",
+  "ascii": "Vishakha",
+  "category": "real",
+  "source": "Traditional / cultural star name",
+  "use": "star"
+ },
+ {
+  "id": 361,
+  "name": "Gaia",
+  "ascii": "Gaia",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 362,
+  "name": "Ares",
+  "ascii": "Ares",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 363,
+  "name": "Achilles",
+  "ascii": "Achilles",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 364,
+  "name": "Thanatos",
+  "ascii": "Thanatos",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 365,
+  "name": "Elysium",
+  "ascii": "Elysium",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 366,
+  "name": "Ithaca",
+  "ascii": "Ithaca",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 367,
+  "name": "Hesperia",
+  "ascii": "Hesperia",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 368,
+  "name": "Selene",
+  "ascii": "Selene",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 369,
+  "name": "Steropes",
+  "ascii": "Steropes",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 370,
+  "name": "Kallisto",
+  "ascii": "Kallisto",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 371,
+  "name": "Telemachus",
+  "ascii": "Telemachus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 372,
+  "name": "Themis",
+  "ascii": "Themis",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 373,
+  "name": "Jason",
+  "ascii": "Jason",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 374,
+  "name": "Aphrodite",
+  "ascii": "Aphrodite",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 375,
+  "name": "Ladon",
+  "ascii": "Ladon",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 376,
+  "name": "Olympus",
+  "ascii": "Olympus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 377,
+  "name": "Arcadia",
+  "ascii": "Arcadia",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 378,
+  "name": "Geryon",
+  "ascii": "Geryon",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 379,
+  "name": "Nemesis",
+  "ascii": "Nemesis",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 380,
+  "name": "Eurydice",
+  "ascii": "Eurydice",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 381,
+  "name": "Coeus",
+  "ascii": "Coeus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 382,
+  "name": "Circe",
+  "ascii": "Circe",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 383,
+  "name": "Boreas",
+  "ascii": "Boreas",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 384,
+  "name": "Hades",
+  "ascii": "Hades",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 385,
+  "name": "Phorcys",
+  "ascii": "Phorcys",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 386,
+  "name": "Orpheus",
+  "ascii": "Orpheus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 387,
+  "name": "Galene",
+  "ascii": "Galene",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 388,
+  "name": "Euryale",
+  "ascii": "Euryale",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 389,
+  "name": "Cronus",
+  "ascii": "Cronus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 390,
+  "name": "Hector",
+  "ascii": "Hector",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 391,
+  "name": "Cocytus",
+  "ascii": "Cocytus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 392,
+  "name": "Narcissus",
+  "ascii": "Narcissus",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 393,
+  "name": "Eurybia",
+  "ascii": "Eurybia",
+  "category": "inspired",
+  "source": "Greek myth",
+  "use": "any"
+ },
+ {
+  "id": 394,
+  "name": "Pax",
+  "ascii": "Pax",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 395,
+  "name": "Portunus",
+  "ascii": "Portunus",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 396,
+  "name": "Aurora",
+  "ascii": "Aurora",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 397,
+  "name": "Fontus",
+  "ascii": "Fontus",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 398,
+  "name": "Aequitas",
+  "ascii": "Aequitas",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 399,
+  "name": "Faunus",
+  "ascii": "Faunus",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 400,
+  "name": "Clementia",
+  "ascii": "Clementia",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 401,
+  "name": "Feronia",
+  "ascii": "Feronia",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 402,
+  "name": "Pomona",
+  "ascii": "Pomona",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 403,
+  "name": "Egeria",
+  "ascii": "Egeria",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 404,
+  "name": "Volturnus",
+  "ascii": "Volturnus",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 405,
+  "name": "Flora",
+  "ascii": "Flora",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 406,
+  "name": "Salus",
+  "ascii": "Salus",
+  "category": "inspired",
+  "source": "Roman myth",
+  "use": "any"
+ },
+ {
+  "id": 407,
+  "name": "Bifrost",
+  "ascii": "Bifrost",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 408,
+  "name": "Vidar",
+  "ascii": "Vidar",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 409,
+  "name": "Folkvang",
+  "ascii": "Folkvang",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 410,
+  "name": "Freyr",
+  "ascii": "Freyr",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 411,
+  "name": "Urd",
+  "ascii": "Urd",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 412,
+  "name": "Glitnir",
+  "ascii": "Glitnir",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 413,
+  "name": "Buri",
+  "ascii": "Buri",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 414,
+  "name": "Mimir",
+  "ascii": "Mimir",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 415,
+  "name": "Vigrid",
+  "ascii": "Vigrid",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 416,
+  "name": "Munin",
+  "ascii": "Munin",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 417,
+  "name": "Sif",
+  "ascii": "Sif",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 418,
+  "name": "Yggdrasil",
+  "ascii": "Yggdrasil",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 419,
+  "name": "Verdandi",
+  "ascii": "Verdandi",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 420,
+  "name": "Skadi",
+  "ascii": "Skadi",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 421,
+  "name": "Mani",
+  "ascii": "Mani",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 422,
+  "name": "Audhumla",
+  "ascii": "Audhumla",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 423,
+  "name": "Midgard",
+  "ascii": "Midgard",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 424,
+  "name": "Nidhogg",
+  "ascii": "Nidhogg",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 425,
+  "name": "Dagr",
+  "ascii": "Dagr",
+  "category": "inspired",
+  "source": "Norse myth",
+  "use": "any"
+ },
+ {
+  "id": 426,
+  "name": "Anuket",
+  "ascii": "Anuket",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 427,
+  "name": "Amaunet",
+  "ascii": "Amaunet",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 428,
+  "name": "Renenutet",
+  "ascii": "Renenutet",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 429,
+  "name": "Atum",
+  "ascii": "Atum",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 430,
+  "name": "Montu",
+  "ascii": "Montu",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 431,
+  "name": "Mafdet",
+  "ascii": "Mafdet",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 432,
+  "name": "Wadjet",
+  "ascii": "Wadjet",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 433,
+  "name": "Khepri",
+  "ascii": "Khepri",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 434,
+  "name": "Neith",
+  "ascii": "Neith",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 435,
+  "name": "Aaru",
+  "ascii": "Aaru",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 436,
+  "name": "Ptah",
+  "ascii": "Ptah",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 437,
+  "name": "Maat",
+  "ascii": "Maat",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 438,
+  "name": "Sekhmet",
+  "ascii": "Sekhmet",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 439,
+  "name": "Seshat",
+  "ascii": "Seshat",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 440,
+  "name": "Taweret",
+  "ascii": "Taweret",
+  "category": "inspired",
+  "source": "Egyptian myth",
+  "use": "any"
+ },
+ {
+  "id": 441,
+  "name": "Nanna",
+  "ascii": "Nanna",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 442,
+  "name": "Dumuzi",
+  "ascii": "Dumuzi",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 443,
+  "name": "Etana",
+  "ascii": "Etana",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 444,
+  "name": "Adapa",
+  "ascii": "Adapa",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 445,
+  "name": "Ishtar",
+  "ascii": "Ishtar",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 446,
+  "name": "Utu",
+  "ascii": "Utu",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 447,
+  "name": "Kishar",
+  "ascii": "Kishar",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 448,
+  "name": "Enkidu",
+  "ascii": "Enkidu",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 449,
+  "name": "Dilmun",
+  "ascii": "Dilmun",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 450,
+  "name": "Anshar",
+  "ascii": "Anshar",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 451,
+  "name": "Enlil",
+  "ascii": "Enlil",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 452,
+  "name": "Adad",
+  "ascii": "Adad",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 453,
+  "name": "Irkalla",
+  "ascii": "Irkalla",
+  "category": "inspired",
+  "source": "Mesopotamian myth",
+  "use": "any"
+ },
+ {
+  "id": 454,
+  "name": "Kailasa",
+  "ascii": "Kailasa",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 455,
+  "name": "Vasuki",
+  "ascii": "Vasuki",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 456,
+  "name": "Brihaspati",
+  "ascii": "Brihaspati",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 457,
+  "name": "Shani",
+  "ascii": "Shani",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 458,
+  "name": "Kamadhenu",
+  "ascii": "Kamadhenu",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 459,
+  "name": "Patala",
+  "ascii": "Patala",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 460,
+  "name": "Chandra",
+  "ascii": "Chandra",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 461,
+  "name": "Vritra",
+  "ascii": "Vritra",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 462,
+  "name": "Kali",
+  "ascii": "Kali",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 463,
+  "name": "Lanka",
+  "ascii": "Lanka",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 464,
+  "name": "Savitr",
+  "ascii": "Savitr",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 465,
+  "name": "Meru",
+  "ascii": "Meru",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 466,
+  "name": "Kama",
+  "ascii": "Kama",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 467,
+  "name": "Durga",
+  "ascii": "Durga",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 468,
+  "name": "Bhrigu",
+  "ascii": "Bhrigu",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 469,
+  "name": "Atri",
+  "ascii": "Atri",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 470,
+  "name": "Indra",
+  "ascii": "Indra",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 471,
+  "name": "Ratri",
+  "ascii": "Ratri",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 472,
+  "name": "Rohini",
+  "ascii": "Rohini",
+  "category": "inspired",
+  "source": "Hindu myth",
+  "use": "any"
+ },
+ {
+  "id": 473,
+  "name": "Pwyll",
+  "ascii": "Pwyll",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 474,
+  "name": "Arawn",
+  "ascii": "Arawn",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 475,
+  "name": "Arianrhod",
+  "ascii": "Arianrhod",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 476,
+  "name": "Epona",
+  "ascii": "Epona",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 477,
+  "name": "Brigid",
+  "ascii": "Brigid",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 478,
+  "name": "Fionnuala",
+  "ascii": "Fionnuala",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 479,
+  "name": "Blodeuwedd",
+  "ascii": "Blodeuwedd",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 480,
+  "name": "Annwn",
+  "ascii": "Annwn",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 481,
+  "name": "Tuatha",
+  "ascii": "Tuatha",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 482,
+  "name": "Dylan",
+  "ascii": "Dylan",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 483,
+  "name": "Hy-Brasil",
+  "ascii": "Hy-Brasil",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 484,
+  "name": "Cu Chulainn",
+  "ascii": "Cu Chulainn",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 485,
+  "name": "Taranis",
+  "ascii": "Taranis",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 486,
+  "name": "Balor",
+  "ascii": "Balor",
+  "category": "inspired",
+  "source": "Celtic myth",
+  "use": "any"
+ },
+ {
+  "id": 487,
+  "name": "Iriy",
+  "ascii": "Iriy",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 488,
+  "name": "Dazhbog",
+  "ascii": "Dazhbog",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 489,
+  "name": "Zemyna",
+  "ascii": "Zemyna",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 490,
+  "name": "Buyan",
+  "ascii": "Buyan",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 491,
+  "name": "Chernobog",
+  "ascii": "Chernobog",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 492,
+  "name": "Ausrine",
+  "ascii": "Ausrine",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 493,
+  "name": "Dievas",
+  "ascii": "Dievas",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 494,
+  "name": "Pohjola",
+  "ascii": "Pohjola",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 495,
+  "name": "Kostroma",
+  "ascii": "Kostroma",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 496,
+  "name": "Gabija",
+  "ascii": "Gabija",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 497,
+  "name": "Vaivora",
+  "ascii": "Vaivora",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 498,
+  "name": "Devana",
+  "ascii": "Devana",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 499,
+  "name": "Radegast",
+  "ascii": "Radegast",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 500,
+  "name": "Jarilo",
+  "ascii": "Jarilo",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 501,
+  "name": "Mokosh",
+  "ascii": "Mokosh",
+  "category": "inspired",
+  "source": "Slavic & Baltic myth",
+  "use": "any"
+ },
+ {
+  "id": 502,
+  "name": "Haumia",
+  "ascii": "Haumia",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 503,
+  "name": "Rehua",
+  "ascii": "Rehua",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 504,
+  "name": "Kahiki",
+  "ascii": "Kahiki",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 505,
+  "name": "Hinemoana",
+  "ascii": "Hinemoana",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 506,
+  "name": "Whiro",
+  "ascii": "Whiro",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 507,
+  "name": "Hinenuitepo",
+  "ascii": "Hinenuitepo",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 508,
+  "name": "Moso",
+  "ascii": "Moso",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 509,
+  "name": "Lono",
+  "ascii": "Lono",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 510,
+  "name": "Wakea",
+  "ascii": "Wakea",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 511,
+  "name": "Maui",
+  "ascii": "Maui",
+  "category": "inspired",
+  "source": "Polynesian & Pacific myth",
+  "use": "any"
+ },
+ {
+  "id": 512,
+  "name": "Itzamna",
+  "ascii": "Itzamna",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 513,
+  "name": "Tiwanaku",
+  "ascii": "Tiwanaku",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 514,
+  "name": "Ixmucane",
+  "ascii": "Ixmucane",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 515,
+  "name": "Tepeu",
+  "ascii": "Tepeu",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 516,
+  "name": "Xbalanque",
+  "ascii": "Xbalanque",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 517,
+  "name": "Centeotl",
+  "ascii": "Centeotl",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 518,
+  "name": "Pachamama",
+  "ascii": "Pachamama",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 519,
+  "name": "Mixcoatl",
+  "ascii": "Mixcoatl",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 520,
+  "name": "Camazotz",
+  "ascii": "Camazotz",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 521,
+  "name": "Hurakan",
+  "ascii": "Hurakan",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 522,
+  "name": "Xipe",
+  "ascii": "Xipe",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 523,
+  "name": "Ehecatl",
+  "ascii": "Ehecatl",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 524,
+  "name": "Tollan",
+  "ascii": "Tollan",
+  "category": "inspired",
+  "source": "Mesoamerican & Andean myth",
+  "use": "any"
+ },
+ {
+  "id": 525,
+  "name": "Ryujin",
+  "ascii": "Ryujin",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 526,
+  "name": "Gonggong",
+  "ascii": "Gonggong",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 527,
+  "name": "Yinglong",
+  "ascii": "Yinglong",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 528,
+  "name": "Konohana",
+  "ascii": "Konohana",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 529,
+  "name": "Watatsumi",
+  "ascii": "Watatsumi",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 530,
+  "name": "Hwanung",
+  "ascii": "Hwanung",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 531,
+  "name": "Shennong",
+  "ascii": "Shennong",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 532,
+  "name": "Zhuque",
+  "ascii": "Zhuque",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 533,
+  "name": "Qinglong",
+  "ascii": "Qinglong",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 534,
+  "name": "Xuanwu",
+  "ascii": "Xuanwu",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 535,
+  "name": "Chang'e",
+  "ascii": "Chang'e",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 536,
+  "name": "Zhurong",
+  "ascii": "Zhurong",
+  "category": "inspired",
+  "source": "East Asian myth",
+  "use": "any"
+ },
+ {
+  "id": 537,
+  "name": "Orunmila",
+  "ascii": "Orunmila",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 538,
+  "name": "Leza",
+  "ascii": "Leza",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 539,
+  "name": "Lebe",
+  "ascii": "Lebe",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 540,
+  "name": "Ngai",
+  "ascii": "Ngai",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 541,
+  "name": "Mukasa",
+  "ascii": "Mukasa",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 542,
+  "name": "Nommo",
+  "ascii": "Nommo",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 543,
+  "name": "Nzambi",
+  "ascii": "Nzambi",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 544,
+  "name": "Ikenga",
+  "ascii": "Ikenga",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 545,
+  "name": "Yemoja",
+  "ascii": "Yemoja",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 546,
+  "name": "Nana Buluku",
+  "ascii": "Nana Buluku",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 547,
+  "name": "Ogun",
+  "ascii": "Ogun",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 548,
+  "name": "Oya",
+  "ascii": "Oya",
+  "category": "inspired",
+  "source": "African myth",
+  "use": "any"
+ },
+ {
+  "id": 549,
+  "name": "Saxemberg",
+  "ascii": "Saxemberg",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 550,
+  "name": "Vinland",
+  "ascii": "Vinland",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 551,
+  "name": "Iram",
+  "ascii": "Iram",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 552,
+  "name": "Sannikov",
+  "ascii": "Sannikov",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 553,
+  "name": "Antillia",
+  "ascii": "Antillia",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 554,
+  "name": "Drogeo",
+  "ascii": "Drogeo",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 555,
+  "name": "Rungholt",
+  "ascii": "Rungholt",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 556,
+  "name": "Zipangu",
+  "ascii": "Zipangu",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 557,
+  "name": "Mayda",
+  "ascii": "Mayda",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 558,
+  "name": "Shambhala",
+  "ascii": "Shambhala",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 559,
+  "name": "Lilliput",
+  "ascii": "Lilliput",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 560,
+  "name": "Sheba",
+  "ascii": "Sheba",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 561,
+  "name": "Tarshish",
+  "ascii": "Tarshish",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 562,
+  "name": "Vineta",
+  "ascii": "Vineta",
+  "category": "inspired",
+  "source": "Legendary place",
+  "use": "planet"
+ },
+ {
+  "id": 563,
+  "name": "Casfin",
+  "ascii": "Casfin",
+  "category": "inspired",
+  "source": "Blend of Castor + Aldulfin",
+  "use": "any"
+ },
+ {
+  "id": 564,
+  "name": "Psycheth",
+  "ascii": "Psycheth",
+  "category": "inspired",
+  "source": "Derived from Psyche",
+  "use": "any"
+ },
+ {
+  "id": 565,
+  "name": "Sitra",
+  "ascii": "Sitra",
+  "category": "inspired",
+  "source": "Blend of Situla + Chara",
+  "use": "any"
+ },
+ {
+  "id": 566,
+  "name": "Revlus",
+  "ascii": "Revlus",
+  "category": "inspired",
+  "source": "Blend of Revati + Patroclus",
+  "use": "any"
+ },
+ {
+  "id": 567,
+  "name": "Beemimur",
+  "ascii": "Beemimur",
+  "category": "inspired",
+  "source": "Derived from Beemim",
+  "use": "any"
+ },
+ {
+  "id": 568,
+  "name": "Haikma",
+  "ascii": "Haikma",
+  "category": "inspired",
+  "source": "Blend of Haik + Norma",
+  "use": "any"
+ },
+ {
+  "id": 569,
+  "name": "Elfork",
+  "ascii": "Elfork",
+  "category": "inspired",
+  "source": "Vowel-shifted Alfirk",
+  "use": "any"
+ },
+ {
+  "id": 570,
+  "name": "Dimorphosia",
+  "ascii": "Dimorphosia",
+  "category": "inspired",
+  "source": "Derived from Dimorphos",
+  "use": "any"
+ },
+ {
+  "id": 571,
+  "name": "Ainlia",
+  "ascii": "Ainlia",
+  "category": "inspired",
+  "source": "Blend of Ainalrami + Cordelia",
+  "use": "any"
+ },
+ {
+  "id": 572,
+  "name": "Tianta",
+  "ascii": "Tianta",
+  "category": "inspired",
+  "source": "Blend of Tianshu + Mebsuta",
+  "use": "any"
+ },
+ {
+  "id": 573,
+  "name": "Samhis",
+  "ascii": "Samhis",
+  "category": "inspired",
+  "source": "Derived from Samh",
+  "use": "any"
+ },
+ {
+  "id": 574,
+  "name": "Alze",
+  "ascii": "Alze",
+  "category": "inspired",
+  "source": "Blend of Aladfar + Heze",
+  "use": "any"
+ },
+ {
+  "id": 575,
+  "name": "Tuirtok",
+  "ascii": "Tuirtok",
+  "category": "inspired",
+  "source": "Blend of Tuiren + Iztok",
+  "use": "any"
+ },
+ {
+  "id": 576,
+  "name": "Mercia",
+  "ascii": "Mercia",
+  "category": "inspired",
+  "source": "Blend of Meridiana + Salacia",
+  "use": "any"
+ },
+ {
+  "id": 577,
+  "name": "Hiiseth",
+  "ascii": "Hiiseth",
+  "category": "inspired",
+  "source": "Derived from Hiisi",
+  "use": "any"
+ },
+ {
+  "id": 578,
+  "name": "Elboriu",
+  "ascii": "Elboriu",
+  "category": "inspired",
+  "source": "Vowel-shifted Albireo",
+  "use": "any"
+ },
+ {
+  "id": 579,
+  "name": "Polymelara",
+  "ascii": "Polymelara",
+  "category": "inspired",
+  "source": "Derived from Polymele",
+  "use": "any"
+ },
+ {
+  "id": 580,
+  "name": "Tabra",
+  "ascii": "Tabra",
+  "category": "inspired",
+  "source": "Blend of Tabit + Chara",
+  "use": "any"
+ },
+ {
+  "id": 581,
+  "name": "Minva",
+  "ascii": "Minva",
+  "category": "inspired",
+  "source": "Blend of Minelauva + Morava",
+  "use": "any"
+ },
+ {
+  "id": 582,
+  "name": "Cirtiuh",
+  "ascii": "Cirtiuh",
+  "category": "inspired",
+  "source": "Blend of Circinus + Tonatiuh",
+  "use": "any"
+ },
+ {
+  "id": 583,
+  "name": "Noiftus",
+  "ascii": "Noiftus",
+  "category": "inspired",
+  "source": "Blend of Noifasui + Iapetus",
+  "use": "any"
+ },
+ {
+  "id": 584,
+  "name": "Alra",
+  "ascii": "Alra",
+  "category": "inspired",
+  "source": "Blend of Aldulfin + Elara",
+  "use": "any"
+ },
+ {
+  "id": 585,
+  "name": "Beidsat",
+  "ascii": "Beidsat",
+  "category": "inspired",
+  "source": "Blend of Beidou + Wasat",
+  "use": "any"
+ },
+ {
+  "id": 586,
+  "name": "Orcusur",
+  "ascii": "Orcusur",
+  "category": "inspired",
+  "source": "Derived from Orcus",
+  "use": "any"
+ },
+ {
+  "id": 587,
+  "name": "Subrur",
+  "ascii": "Subrur",
+  "category": "inspired",
+  "source": "Derived from Subra",
+  "use": "any"
+ },
+ {
+  "id": 588,
+  "name": "Annin",
+  "ascii": "Annin",
+  "category": "inspired",
+  "source": "Blend of Annefrank + Eltanin",
+  "use": "any"
+ },
+ {
+  "id": 589,
+  "name": "Adhaferis",
+  "ascii": "Adhaferis",
+  "category": "inspired",
+  "source": "Derived from Adhafera",
+  "use": "any"
+ },
+ {
+  "id": 590,
+  "name": "Pirxos",
+  "ascii": "Pirxos",
+  "category": "inspired",
+  "source": "Derived from Pirx",
+  "use": "any"
+ },
+ {
+  "id": 591,
+  "name": "Etok",
+  "ascii": "Etok",
+  "category": "inspired",
+  "source": "Vowel-shifted Atik",
+  "use": "any"
+ },
+ {
+  "id": 592,
+  "name": "Elbourox",
+  "ascii": "Elbourox",
+  "category": "inspired",
+  "source": "Vowel-shifted Albiorix",
+  "use": "any"
+ },
+ {
+  "id": 593,
+  "name": "Mimosane",
+  "ascii": "Mimosane",
+  "category": "inspired",
+  "source": "Derived from Mimosa",
+  "use": "any"
+ },
+ {
+  "id": 594,
+  "name": "Megrah",
+  "ascii": "Megrah",
+  "category": "inspired",
+  "source": "Blend of Megrez + Alkaphrah",
+  "use": "any"
+ },
+ {
+  "id": 595,
+  "name": "Praecipar",
+  "ascii": "Praecipar",
+  "category": "inspired",
+  "source": "Derived from Praecipua",
+  "use": "any"
+ },
+ {
+  "id": 596,
+  "name": "Charha",
+  "ascii": "Charha",
+  "category": "inspired",
+  "source": "Blend of Charon + Magha",
+  "use": "any"
+ },
+ {
+  "id": 597,
+  "name": "Themhus",
+  "ascii": "Themhus",
+  "category": "inspired",
+  "source": "Blend of Themisto + Ophiuchus",
+  "use": "any"
+ },
+ {
+  "id": 598,
+  "name": "Didymoson",
+  "ascii": "Didymoson",
+  "category": "inspired",
+  "source": "Derived from Didymos",
+  "use": "any"
+ },
+ {
+  "id": 599,
+  "name": "Subhir",
+  "ascii": "Subhir",
+  "category": "inspired",
+  "source": "Blend of Subaru + Minchir",
+  "use": "any"
+ },
+ {
+  "id": 600,
+  "name": "Allas",
+  "ascii": "Allas",
+  "category": "inspired",
+  "source": "Blend of Alsephina + Atlas",
+  "use": "any"
+ },
+ {
+  "id": 601,
+  "name": "Negmea",
+  "ascii": "Negmea",
+  "category": "inspired",
+  "source": "Blend of Negoiu + Haumea",
+  "use": "any"
+ },
+ {
+  "id": 602,
+  "name": "Mulipheinos",
+  "ascii": "Mulipheinos",
+  "category": "inspired",
+  "source": "Derived from Muliphein",
+  "use": "any"
+ },
+ {
+  "id": 603,
+  "name": "Gienahix",
+  "ascii": "Gienahix",
+  "category": "inspired",
+  "source": "Derived from Gienah",
+  "use": "any"
+ },
+ {
+  "id": 604,
+  "name": "Dowu",
+  "ascii": "Dowu",
+  "category": "inspired",
+  "source": "Vowel-shifted Diwo",
+  "use": "any"
+ },
+ {
+  "id": 605,
+  "name": "Echord",
+  "ascii": "Echord",
+  "category": "inspired",
+  "source": "Vowel-shifted Achird",
+  "use": "any"
+ },
+ {
+  "id": 606,
+  "name": "Weset",
+  "ascii": "Weset",
+  "category": "inspired",
+  "source": "Vowel-shifted Wasat",
+  "use": "any"
+ },
+ {
+  "id": 607,
+  "name": "Fornaxael",
+  "ascii": "Fornaxael",
+  "category": "inspired",
+  "source": "Derived from Fornax",
+  "use": "any"
+ },
+ {
+  "id": 608,
+  "name": "Sycrus",
+  "ascii": "Sycrus",
+  "category": "inspired",
+  "source": "Blend of Sycorax + Grus",
+  "use": "any"
+ },
+ {
+  "id": 609,
+  "name": "Umrai",
+  "ascii": "Umrai",
+  "category": "inspired",
+  "source": "Blend of Umbriel + Errai",
+  "use": "any"
+ },
+ {
+  "id": 610,
+  "name": "Asyth",
+  "ascii": "Asyth",
+  "category": "inspired",
+  "source": "Derived from Asye",
+  "use": "any"
+ },
+ {
+  "id": 611,
+  "name": "Smerna",
+  "ascii": "Smerna",
+  "category": "inspired",
+  "source": "Blend of Smertrios + Herculina",
+  "use": "any"
+ },
+ {
+  "id": 612,
+  "name": "Cursion",
+  "ascii": "Cursion",
+  "category": "inspired",
+  "source": "Derived from Cursa",
+  "use": "any"
+ },
+ {
+  "id": 613,
+  "name": "Ukkang",
+  "ascii": "Ukkang",
+  "category": "inspired",
+  "source": "Blend of Uklun + Kang",
+  "use": "any"
+ },
+ {
+  "id": 614,
+  "name": "Leucka",
+  "ascii": "Leucka",
+  "category": "inspired",
+  "source": "Blend of Leucus + Hiiaka",
+  "use": "any"
+ },
+ {
+  "id": 615,
+  "name": "Curnah",
+  "ascii": "Curnah",
+  "category": "inspired",
+  "source": "Blend of Cursa + Aljanah",
+  "use": "any"
+ },
+ {
+  "id": 616,
+  "name": "Heder",
+  "ascii": "Heder",
+  "category": "inspired",
+  "source": "Vowel-shifted Hadar",
+  "use": "any"
+ },
+ {
+  "id": 617,
+  "name": "Irenane",
+  "ascii": "Irenane",
+  "category": "inspired",
+  "source": "Derived from Irena",
+  "use": "any"
+ },
+ {
+  "id": 618,
+  "name": "Bootesyth",
+  "ascii": "Bootesyth",
+  "category": "inspired",
+  "source": "Derived from Bootes",
+  "use": "any"
+ },
+ {
+  "id": 619,
+  "name": "Surtis",
+  "ascii": "Surtis",
+  "category": "inspired",
+  "source": "Derived from Surt",
+  "use": "any"
+ },
+ {
+  "id": 620,
+  "name": "Arris",
+  "ascii": "Arris",
+  "category": "inspired",
+  "source": "Blend of Arrokoth + Fawaris",
+  "use": "any"
+ },
+ {
+  "id": 621,
+  "name": "Librion",
+  "ascii": "Librion",
+  "category": "inspired",
+  "source": "Derived from Libra",
+  "use": "any"
+ },
+ {
+  "id": 622,
+  "name": "Enthi",
+  "ascii": "Enthi",
+  "category": "inspired",
+  "source": "Vowel-shifted Anthe",
+  "use": "any"
+ },
+ {
+  "id": 623,
+  "name": "Pavon",
+  "ascii": "Pavon",
+  "category": "inspired",
+  "source": "Derived from Pavo",
+  "use": "any"
+ },
+ {
+  "id": 624,
+  "name": "Koitca",
+  "ascii": "Koitca",
+  "category": "inspired",
+  "source": "Blend of Koit + Spica",
+  "use": "any"
+ },
+ {
+  "id": 625,
+  "name": "Belenosine",
+  "ascii": "Belenosine",
+  "category": "inspired",
+  "source": "Derived from Belenos",
+  "use": "any"
+ },
+ {
+  "id": 626,
+  "name": "Hiisar",
+  "ascii": "Hiisar",
+  "category": "inspired",
+  "source": "Derived from Hiisi",
+  "use": "any"
+ },
+ {
+  "id": 627,
+  "name": "Peramliu",
+  "ascii": "Peramliu",
+  "category": "inspired",
+  "source": "Vowel-shifted Parumleo",
+  "use": "any"
+ },
+ {
+  "id": 628,
+  "name": "Anlas",
+  "ascii": "Anlas",
+  "category": "inspired",
+  "source": "Blend of Andromeda + Atlas",
+  "use": "any"
+ },
+ {
+  "id": 629,
+  "name": "Zaurakia",
+  "ascii": "Zaurakia",
+  "category": "inspired",
+  "source": "Derived from Zaurak",
+  "use": "any"
+ },
+ {
+  "id": 630,
+  "name": "Morca",
+  "ascii": "Morca",
+  "category": "inspired",
+  "source": "Blend of Moriah + Musca",
+  "use": "any"
+ },
+ {
+  "id": 631,
+  "name": "Prosperix",
+  "ascii": "Prosperix",
+  "category": "inspired",
+  "source": "Derived from Prospero",
+  "use": "any"
+ },
+ {
+  "id": 632,
+  "name": "Mirriel",
+  "ascii": "Mirriel",
+  "category": "inspired",
+  "source": "Blend of Mirach + Ariel",
+  "use": "any"
+ },
+ {
+  "id": 633,
+  "name": "Islane",
+  "ascii": "Islane",
+  "category": "inspired",
+  "source": "Derived from Isli",
+  "use": "any"
+ },
+ {
+  "id": 634,
+  "name": "Columbos",
+  "ascii": "Columbos",
+  "category": "inspired",
+  "source": "Derived from Columba",
+  "use": "any"
+ },
+ {
+  "id": 635,
+  "name": "Ruklay",
+  "ascii": "Ruklay",
+  "category": "inspired",
+  "source": "Blend of Rukbat + Dingolay",
+  "use": "any"
+ },
+ {
+  "id": 636,
+  "name": "Atreo",
+  "ascii": "Atreo",
+  "category": "inspired",
+  "source": "Blend of Atakoraka + Albireo",
+  "use": "any"
+ },
+ {
+  "id": 637,
+  "name": "Negor",
+  "ascii": "Negor",
+  "category": "inspired",
+  "source": "Derived from Negoiu",
+  "use": "any"
+ },
+ {
+  "id": 638,
+  "name": "Capellur",
+  "ascii": "Capellur",
+  "category": "inspired",
+  "source": "Derived from Capella",
+  "use": "any"
+ },
+ {
+  "id": 639,
+  "name": "Ymirur",
+  "ascii": "Ymirur",
+  "category": "inspired",
+  "source": "Derived from Ymir",
+  "use": "any"
+ },
+ {
+  "id": 640,
+  "name": "Apophisia",
+  "ascii": "Apophisia",
+  "category": "inspired",
+  "source": "Derived from Apophis",
+  "use": "any"
+ },
+ {
+  "id": 641,
+  "name": "Absolutnar",
+  "ascii": "Absolutnar",
+  "category": "inspired",
+  "source": "Derived from Absolutno",
+  "use": "any"
+ },
+ {
+  "id": 642,
+  "name": "Ilmarara",
+  "ascii": "Ilmarara",
+  "category": "inspired",
+  "source": "Derived from Ilmare",
+  "use": "any"
+ },
+ {
+  "id": 643,
+  "name": "Gakyidos",
+  "ascii": "Gakyidos",
+  "category": "inspired",
+  "source": "Derived from Gakyid",
+  "use": "any"
+ },
+ {
+  "id": 644,
+  "name": "Atikara",
+  "ascii": "Atikara",
+  "category": "inspired",
+  "source": "Derived from Atik",
+  "use": "any"
+ },
+ {
+  "id": 645,
+  "name": "Mpinrus",
+  "ascii": "Mpinrus",
+  "category": "inspired",
+  "source": "Blend of Mpingo + Intercrus",
+  "use": "any"
+ },
+ {
+  "id": 646,
+  "name": "Iyiki",
+  "ascii": "Iyiki",
+  "category": "inspired",
+  "source": "Vowel-shifted Eyeke",
+  "use": "any"
+ },
+ {
+  "id": 647,
+  "name": "Marsicine",
+  "ascii": "Marsicine",
+  "category": "inspired",
+  "source": "Derived from Marsic",
+  "use": "any"
+ },
+ {
+  "id": 648,
+  "name": "Baggo",
+  "ascii": "Baggo",
+  "category": "inspired",
+  "source": "Blend of Bagan + Mago",
+  "use": "any"
+ },
+ {
+  "id": 649,
+  "name": "Sheliakor",
+  "ascii": "Sheliakor",
+  "category": "inspired",
+  "source": "Derived from Sheliak",
+  "use": "any"
+ },
+ {
+  "id": 650,
+  "name": "Telestia",
+  "ascii": "Telestia",
+  "category": "inspired",
+  "source": "Derived from Telesto",
+  "use": "any"
+ },
+ {
+  "id": 651,
+  "name": "Alefos",
+  "ascii": "Alefos",
+  "category": "inspired",
+  "source": "Derived from Alef",
+  "use": "any"
+ },
+ {
+  "id": 652,
+  "name": "Hizi",
+  "ascii": "Hizi",
+  "category": "inspired",
+  "source": "Vowel-shifted Heze",
+  "use": "any"
+ },
+ {
+  "id": 653,
+  "name": "Sharjahis",
+  "ascii": "Sharjahis",
+  "category": "inspired",
+  "source": "Derived from Sharjah",
+  "use": "any"
+ },
+ {
+  "id": 654,
+  "name": "Sylvoe",
+  "ascii": "Sylvoe",
+  "category": "inspired",
+  "source": "Vowel-shifted Sylvia",
+  "use": "any"
+ },
+ {
+  "id": 655,
+  "name": "Belnar",
+  "ascii": "Belnar",
+  "category": "inspired",
+  "source": "Blend of Belenos + Achernar",
+  "use": "any"
+ },
+ {
+  "id": 656,
+  "name": "Alterfeth",
+  "ascii": "Alterfeth",
+  "category": "inspired",
+  "source": "Derived from Alterf",
+  "use": "any"
+ },
+ {
+  "id": 657,
+  "name": "Lyslans",
+  "ascii": "Lyslans",
+  "category": "inspired",
+  "source": "Blend of Lysithea + Volans",
+  "use": "any"
+ },
+ {
+  "id": 658,
+  "name": "Cocibolceth",
+  "ascii": "Cocibolceth",
+  "category": "inspired",
+  "source": "Derived from Cocibolca",
+  "use": "any"
+ },
+ {
+  "id": 659,
+  "name": "Emelthie",
+  "ascii": "Emelthie",
+  "category": "inspired",
+  "source": "Vowel-shifted Amalthea",
+  "use": "any"
+ },
+ {
+  "id": 660,
+  "name": "Artik",
+  "ascii": "Artik",
+  "category": "inspired",
+  "source": "Blend of Arcturus + Atik",
+  "use": "any"
+ },
+ {
+  "id": 661,
+  "name": "Cersuud",
+  "ascii": "Cersuud",
+  "category": "inspired",
+  "source": "Blend of Ceres + Sadalsuud",
+  "use": "any"
+ },
+ {
+  "id": 662,
+  "name": "Rosalindane",
+  "ascii": "Rosalindane",
+  "category": "inspired",
+  "source": "Derived from Rosalind",
+  "use": "any"
+ },
+ {
+  "id": 663,
+  "name": "Achernarur",
+  "ascii": "Achernarur",
+  "category": "inspired",
+  "source": "Derived from Achernar",
+  "use": "any"
+ },
+ {
+  "id": 664,
+  "name": "Tarfon",
+  "ascii": "Tarfon",
+  "category": "inspired",
+  "source": "Derived from Tarf",
+  "use": "any"
+ },
+ {
+  "id": 665,
+  "name": "Shireten",
+  "ascii": "Shireten",
+  "category": "inspired",
+  "source": "Vowel-shifted Sheratan",
+  "use": "any"
+ },
+ {
+  "id": 666,
+  "name": "Lysithix",
+  "ascii": "Lysithix",
+  "category": "inspired",
+  "source": "Derived from Lysithea",
+  "use": "any"
+ },
+ {
+  "id": 667,
+  "name": "Adnayel",
+  "ascii": "Adnayel",
+  "category": "inspired",
+  "source": "Blend of Adhara + Boinayel",
+  "use": "any"
+ },
+ {
+  "id": 668,
+  "name": "Malophion",
+  "ascii": "Malophion",
+  "category": "inspired",
+  "source": "Vowel-shifted Muliphein",
+  "use": "any"
+ },
+ {
+  "id": 669,
+  "name": "Lysithael",
+  "ascii": "Lysithael",
+  "category": "inspired",
+  "source": "Derived from Lysithea",
+  "use": "any"
+ },
+ {
+  "id": 670,
+  "name": "Hamlang",
+  "ascii": "Hamlang",
+  "category": "inspired",
+  "source": "Blend of Hamal + Tianlang",
+  "use": "any"
+ },
+ {
+  "id": 671,
+  "name": "Xolotlanara",
+  "ascii": "Xolotlanara",
+  "category": "inspired",
+  "source": "Derived from Xolotlan",
+  "use": "any"
+ },
+ {
+  "id": 672,
+  "name": "Lutetos",
+  "ascii": "Lutetos",
+  "category": "inspired",
+  "source": "Derived from Lutetia",
+  "use": "any"
+ },
+ {
+  "id": 673,
+  "name": "Tupkar",
+  "ascii": "Tupkar",
+  "category": "inspired",
+  "source": "Blend of Tupa + Nekkar",
+  "use": "any"
+ },
+ {
+  "id": 674,
+  "name": "Atakorakion",
+  "ascii": "Atakorakion",
+  "category": "inspired",
+  "source": "Derived from Atakoraka",
+  "use": "any"
+ },
+ {
+  "id": 675,
+  "name": "Inlar",
+  "ascii": "Inlar",
+  "category": "inspired",
+  "source": "Blend of Indus + Torcular",
+  "use": "any"
+ },
+ {
+  "id": 676,
+  "name": "Sissix",
+  "ascii": "Sissix",
+  "category": "inspired",
+  "source": "Derived from Sissi",
+  "use": "any"
+ },
+ {
+  "id": 677,
+  "name": "Hektorion",
+  "ascii": "Hektorion",
+  "category": "inspired",
+  "source": "Derived from Hektor",
+  "use": "any"
+ },
+ {
+  "id": 678,
+  "name": "Polsa",
+  "ascii": "Polsa",
+  "category": "inspired",
+  "source": "Blend of Polymele + Cursa",
+  "use": "any"
+ },
+ {
+  "id": 679,
+  "name": "Vytmea",
+  "ascii": "Vytmea",
+  "category": "inspired",
+  "source": "Blend of Vytis + Haumea",
+  "use": "any"
+ },
+ {
+  "id": 680,
+  "name": "Scurpoas",
+  "ascii": "Scurpoas",
+  "category": "inspired",
+  "source": "Vowel-shifted Scorpius",
+  "use": "any"
+ },
+ {
+  "id": 681,
+  "name": "Rukbatane",
+  "ascii": "Rukbatane",
+  "category": "inspired",
+  "source": "Derived from Rukbat",
+  "use": "any"
+ },
+ {
+  "id": 682,
+  "name": "Thalhah",
+  "ascii": "Thalhah",
+  "category": "inspired",
+  "source": "Blend of Thalassa + Kurhah",
+  "use": "any"
+ },
+ {
+  "id": 683,
+  "name": "Bharte",
+  "ascii": "Bharte",
+  "category": "inspired",
+  "source": "Blend of Bharani + Veritate",
+  "use": "any"
+ },
+ {
+  "id": 684,
+  "name": "Bootfar",
+  "ascii": "Bootfar",
+  "category": "inspired",
+  "source": "Blend of Bootes + Elgafar",
+  "use": "any"
+ },
+ {
+  "id": 685,
+  "name": "Serpenseth",
+  "ascii": "Serpenseth",
+  "category": "inspired",
+  "source": "Derived from Serpens",
+  "use": "any"
+ },
+ {
+  "id": 686,
+  "name": "Punwag",
+  "ascii": "Punwag",
+  "category": "inspired",
+  "source": "Blend of Punarvasu + Larawag",
+  "use": "any"
+ },
+ {
+  "id": 687,
+  "name": "Ixionane",
+  "ascii": "Ixionane",
+  "category": "inspired",
+  "source": "Derived from Ixion",
+  "use": "any"
+ },
+ {
+  "id": 688,
+  "name": "Awasisara",
+  "ascii": "Awasisara",
+  "category": "inspired",
+  "source": "Derived from Awasis",
+  "use": "any"
+ },
+ {
+  "id": 689,
+  "name": "Theswag",
+  "ascii": "Theswag",
+  "category": "inspired",
+  "source": "Blend of Thestias + Larawag",
+  "use": "any"
+ },
+ {
+  "id": 690,
+  "name": "Perna",
+  "ascii": "Perna",
+  "category": "inspired",
+  "source": "Blend of Perwana + Bosona",
+  "use": "any"
+ },
+ {
+  "id": 691,
+  "name": "Sirna",
+  "ascii": "Sirna",
+  "category": "inspired",
+  "source": "Blend of Sirius + Tucana",
+  "use": "any"
+ },
+ {
+  "id": 692,
+  "name": "Alle",
+  "ascii": "Alle",
+  "category": "inspired",
+  "source": "Blend of Alsephina + Cybele",
+  "use": "any"
+ },
+ {
+  "id": 693,
+  "name": "Bahaghari",
+  "ascii": "Bahaghari",
+  "category": "invented",
+  "source": "Tagalog word for 'rainbow'",
+  "use": "any"
+ },
+ {
+  "id": 694,
+  "name": "Eoreum",
+  "ascii": "Eoreum",
+  "category": "invented",
+  "source": "Korean word for 'ice'",
+  "use": "any"
+ },
+ {
+  "id": 695,
+  "name": "Mgla",
+  "ascii": "Mgla",
+  "category": "invented",
+  "source": "Russian word for 'haze'",
+  "use": "any"
+ },
+ {
+  "id": 696,
+  "name": "Komorebi",
+  "ascii": "Komorebi",
+  "category": "invented",
+  "source": "Japanese word for 'sunlight through leaves'",
+  "use": "any"
+ },
+ {
+  "id": 697,
+  "name": "Tuli",
+  "ascii": "Tuli",
+  "category": "invented",
+  "source": "Finnish word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 698,
+  "name": "Nox",
+  "ascii": "Nox",
+  "category": "invented",
+  "source": "Latin word for 'night'",
+  "use": "any"
+ },
+ {
+  "id": 699,
+  "name": "Kochav",
+  "ascii": "Kochav",
+  "category": "invented",
+  "source": "Hebrew word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 700,
+  "name": "Vesi",
+  "ascii": "Vesi",
+  "category": "invented",
+  "source": "Estonian word for 'water'",
+  "use": "any"
+ },
+ {
+  "id": 701,
+  "name": "Harri",
+  "ascii": "Harri",
+  "category": "invented",
+  "source": "Basque word for 'stone'",
+  "use": "any"
+ },
+ {
+  "id": 702,
+  "name": "Vidyut",
+  "ascii": "Vidyut",
+  "category": "invented",
+  "source": "Sanskrit word for 'lightning'",
+  "use": "any"
+ },
+ {
+  "id": 703,
+  "name": "Inkanyezi",
+  "ascii": "Inkanyezi",
+  "category": "invented",
+  "source": "Zulu word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 704,
+  "name": "Salkhi",
+  "ascii": "Salkhi",
+  "category": "invented",
+  "source": "Mongolian word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 705,
+  "name": "Hyouga",
+  "ascii": "Hyouga",
+  "category": "invented",
+  "source": "Japanese word for 'glacier'",
+  "use": "any"
+ },
+ {
+  "id": 706,
+  "name": "Eldr",
+  "ascii": "Eldr",
+  "category": "invented",
+  "source": "Old Norse word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 707,
+  "name": "Gureum",
+  "ascii": "Gureum",
+  "category": "invented",
+  "source": "Korean word for 'cloud'",
+  "use": "any"
+ },
+ {
+  "id": 708,
+  "name": "Umoya",
+  "ascii": "Umoya",
+  "category": "invented",
+  "source": "Zulu word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 709,
+  "name": "Firtina",
+  "ascii": "Firtina",
+  "category": "invented",
+  "source": "Turkish word for 'storm'",
+  "use": "any"
+ },
+ {
+  "id": 710,
+  "name": "Grian",
+  "ascii": "Grian",
+  "category": "invented",
+  "source": "Irish word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 711,
+  "name": "Popoca",
+  "ascii": "Popoca",
+  "category": "invented",
+  "source": "Nahuatl word for 'smoking'",
+  "use": "any"
+ },
+ {
+  "id": 712,
+  "name": "Hold",
+  "ascii": "Hold",
+  "category": "invented",
+  "source": "Hungarian word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 713,
+  "name": "Favilla",
+  "ascii": "Favilla",
+  "category": "invented",
+  "source": "Latin word for 'glowing ash'",
+  "use": "any"
+ },
+ {
+  "id": 714,
+  "name": "Tumaini",
+  "ascii": "Tumaini",
+  "category": "invented",
+  "source": "Swahili word for 'hope'",
+  "use": "any"
+ },
+ {
+  "id": 715,
+  "name": "Kairos",
+  "ascii": "Kairos",
+  "category": "invented",
+  "source": "Greek word for 'right moment'",
+  "use": "any"
+ },
+ {
+  "id": 716,
+  "name": "Barq",
+  "ascii": "Barq",
+  "category": "invented",
+  "source": "Arabic word for 'lightning'",
+  "use": "any"
+ },
+ {
+  "id": 717,
+  "name": "Estrela",
+  "ascii": "Estrela",
+  "category": "invented",
+  "source": "Portuguese word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 718,
+  "name": "Brisa",
+  "ascii": "Brisa",
+  "category": "invented",
+  "source": "Portuguese word for 'breeze'",
+  "use": "any"
+ },
+ {
+  "id": 719,
+  "name": "Sahra",
+  "ascii": "Sahra",
+  "category": "invented",
+  "source": "Arabic word for 'desert'",
+  "use": "any"
+ },
+ {
+  "id": 720,
+  "name": "Jiekna",
+  "ascii": "Jiekna",
+  "category": "invented",
+  "source": "Sami word for 'ice'",
+  "use": "any"
+ },
+ {
+  "id": 721,
+  "name": "Damavand",
+  "ascii": "Damavand",
+  "category": "invented",
+  "source": "Persian word for 'mountain'",
+  "use": "any"
+ },
+ {
+  "id": 722,
+  "name": "Puia",
+  "ascii": "Puia",
+  "category": "invented",
+  "source": "Maori word for 'volcano'",
+  "use": "any"
+ },
+ {
+  "id": 723,
+  "name": "Kivi",
+  "ascii": "Kivi",
+  "category": "invented",
+  "source": "Finnish word for 'stone'",
+  "use": "any"
+ },
+ {
+  "id": 724,
+  "name": "Omichle",
+  "ascii": "Omichle",
+  "category": "invented",
+  "source": "Greek word for 'mist'",
+  "use": "any"
+ },
+ {
+  "id": 725,
+  "name": "Hydor",
+  "ascii": "Hydor",
+  "category": "invented",
+  "source": "Greek word for 'water'",
+  "use": "any"
+ },
+ {
+  "id": 726,
+  "name": "Himmel",
+  "ascii": "Himmel",
+  "category": "invented",
+  "source": "German word for 'sky'",
+  "use": "any"
+ },
+ {
+  "id": 727,
+  "name": "Szel",
+  "ascii": "Szel",
+  "category": "invented",
+  "source": "Hungarian word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 728,
+  "name": "Ngaru",
+  "ascii": "Ngaru",
+  "category": "invented",
+  "source": "Maori word for 'wave'",
+  "use": "any"
+ },
+ {
+  "id": 729,
+  "name": "Kavir",
+  "ascii": "Kavir",
+  "category": "invented",
+  "source": "Persian word for 'salt desert'",
+  "use": "any"
+ },
+ {
+  "id": 730,
+  "name": "Shachar",
+  "ascii": "Shachar",
+  "category": "invented",
+  "source": "Hebrew word for 'dawn'",
+  "use": "any"
+ },
+ {
+  "id": 731,
+  "name": "Gyeoul",
+  "ascii": "Gyeoul",
+  "category": "invented",
+  "source": "Korean word for 'winter'",
+  "use": "any"
+ },
+ {
+  "id": 732,
+  "name": "Ilanga",
+  "ascii": "Ilanga",
+  "category": "invented",
+  "source": "Zulu word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 733,
+  "name": "Saxum",
+  "ascii": "Saxum",
+  "category": "invented",
+  "source": "Latin word for 'rock'",
+  "use": "any"
+ },
+ {
+  "id": 734,
+  "name": "Amani",
+  "ascii": "Amani",
+  "category": "invented",
+  "source": "Swahili word for 'peace'",
+  "use": "any"
+ },
+ {
+  "id": 735,
+  "name": "Mellt",
+  "ascii": "Mellt",
+  "category": "invented",
+  "source": "Welsh word for 'lightning'",
+  "use": "any"
+ },
+ {
+  "id": 736,
+  "name": "Caligo",
+  "ascii": "Caligo",
+  "category": "invented",
+  "source": "Latin word for 'fog'",
+  "use": "any"
+ },
+ {
+  "id": 737,
+  "name": "Teotl",
+  "ascii": "Teotl",
+  "category": "invented",
+  "source": "Nahuatl word for 'sacred force'",
+  "use": "any"
+ },
+ {
+  "id": 738,
+  "name": "Akasha",
+  "ascii": "Akasha",
+  "category": "invented",
+  "source": "Sanskrit word for 'aether'",
+  "use": "any"
+ },
+ {
+  "id": 739,
+  "name": "Gobi",
+  "ascii": "Gobi",
+  "category": "invented",
+  "source": "Mongolian word for 'desert'",
+  "use": "any"
+ },
+ {
+  "id": 740,
+  "name": "Dorcha",
+  "ascii": "Dorcha",
+  "category": "invented",
+  "source": "Irish word for 'dark'",
+  "use": "any"
+ },
+ {
+  "id": 741,
+  "name": "Viento",
+  "ascii": "Viento",
+  "category": "invented",
+  "source": "Spanish word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 742,
+  "name": "Hikari",
+  "ascii": "Hikari",
+  "category": "invented",
+  "source": "Japanese word for 'light'",
+  "use": "any"
+ },
+ {
+  "id": 743,
+  "name": "Hesperos",
+  "ascii": "Hesperos",
+  "category": "invented",
+  "source": "Greek word for 'evening star'",
+  "use": "any"
+ },
+ {
+  "id": 744,
+  "name": "Hraun",
+  "ascii": "Hraun",
+  "category": "invented",
+  "source": "Icelandic word for 'lava'",
+  "use": "any"
+ },
+ {
+  "id": 745,
+  "name": "Baram",
+  "ascii": "Baram",
+  "category": "invented",
+  "source": "Korean word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 746,
+  "name": "Jokull",
+  "ascii": "Jokull",
+  "category": "invented",
+  "source": "Icelandic word for 'glacier'",
+  "use": "any"
+ },
+ {
+  "id": 747,
+  "name": "Qaumaniq",
+  "ascii": "Qaumaniq",
+  "category": "invented",
+  "source": "Inuktitut word for 'light'",
+  "use": "any"
+ },
+ {
+  "id": 748,
+  "name": "Mizu",
+  "ascii": "Mizu",
+  "category": "invented",
+  "source": "Japanese word for 'water'",
+  "use": "any"
+ },
+ {
+  "id": 749,
+  "name": "Kabut",
+  "ascii": "Kabut",
+  "category": "invented",
+  "source": "Indonesian word for 'fog'",
+  "use": "any"
+ },
+ {
+  "id": 750,
+  "name": "Metztli",
+  "ascii": "Metztli",
+  "category": "invented",
+  "source": "Nahuatl word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 751,
+  "name": "Sheleg",
+  "ascii": "Sheleg",
+  "category": "invented",
+  "source": "Hebrew word for 'snow'",
+  "use": "any"
+ },
+ {
+  "id": 752,
+  "name": "Lointain",
+  "ascii": "Lointain",
+  "category": "invented",
+  "source": "French word for 'distant'",
+  "use": "any"
+ },
+ {
+  "id": 753,
+  "name": "Vechnost",
+  "ascii": "Vechnost",
+  "category": "invented",
+  "source": "Russian word for 'eternity'",
+  "use": "any"
+ },
+ {
+  "id": 754,
+  "name": "Samudra",
+  "ascii": "Samudra",
+  "category": "invented",
+  "source": "Sanskrit word for 'ocean'",
+  "use": "any"
+ },
+ {
+  "id": 755,
+  "name": "Ouranos",
+  "ascii": "Ouranos",
+  "category": "invented",
+  "source": "Greek word for 'heaven'",
+  "use": "any"
+ },
+ {
+  "id": 756,
+  "name": "Ohu",
+  "ascii": "Ohu",
+  "category": "invented",
+  "source": "Hawaiian word for 'mist'",
+  "use": "any"
+ },
+ {
+  "id": 757,
+  "name": "Shanti",
+  "ascii": "Shanti",
+  "category": "invented",
+  "source": "Sanskrit word for 'peace'",
+  "use": "any"
+ },
+ {
+  "id": 758,
+  "name": "Hoshi",
+  "ascii": "Hoshi",
+  "category": "invented",
+  "source": "Japanese word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 759,
+  "name": "Funke",
+  "ascii": "Funke",
+  "category": "invented",
+  "source": "German word for 'spark'",
+  "use": "any"
+ },
+ {
+  "id": 760,
+  "name": "Sneg",
+  "ascii": "Sneg",
+  "category": "invented",
+  "source": "Russian word for 'snow'",
+  "use": "any"
+ },
+ {
+  "id": 761,
+  "name": "Crepuscule",
+  "ascii": "Crepuscule",
+  "category": "invented",
+  "source": "French word for 'twilight'",
+  "use": "any"
+ },
+ {
+  "id": 762,
+  "name": "Luar",
+  "ascii": "Luar",
+  "category": "invented",
+  "source": "Portuguese word for 'moonlight'",
+  "use": "any"
+ },
+ {
+  "id": 763,
+  "name": "Astron",
+  "ascii": "Astron",
+  "category": "invented",
+  "source": "Greek word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 764,
+  "name": "Kanaka",
+  "ascii": "Kanaka",
+  "category": "invented",
+  "source": "Sanskrit word for 'gold'",
+  "use": "any"
+ },
+ {
+  "id": 765,
+  "name": "Yaku",
+  "ascii": "Yaku",
+  "category": "invented",
+  "source": "Quechua word for 'water'",
+  "use": "any"
+ },
+ {
+  "id": 766,
+  "name": "Farraige",
+  "ascii": "Farraige",
+  "category": "invented",
+  "source": "Irish word for 'sea'",
+  "use": "any"
+ },
+ {
+  "id": 767,
+  "name": "Koit",
+  "ascii": "Koit",
+  "category": "invented",
+  "source": "Estonian word for 'dawn'",
+  "use": "any"
+ },
+ {
+  "id": 768,
+  "name": "Tuul",
+  "ascii": "Tuul",
+  "category": "invented",
+  "source": "Estonian word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 769,
+  "name": "Mbali",
+  "ascii": "Mbali",
+  "category": "invented",
+  "source": "Swahili word for 'far away'",
+  "use": "any"
+ },
+ {
+  "id": 770,
+  "name": "Hiems",
+  "ascii": "Hiems",
+  "category": "invented",
+  "source": "Latin word for 'winter'",
+  "use": "any"
+ },
+ {
+  "id": 771,
+  "name": "Hopea",
+  "ascii": "Hopea",
+  "category": "invented",
+  "source": "Finnish word for 'silver'",
+  "use": "any"
+ },
+ {
+  "id": 772,
+  "name": "Buwan",
+  "ascii": "Buwan",
+  "category": "invented",
+  "source": "Tagalog word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 773,
+  "name": "Kagero",
+  "ascii": "Kagero",
+  "category": "invented",
+  "source": "Japanese word for 'heat shimmer'",
+  "use": "any"
+ },
+ {
+  "id": 774,
+  "name": "Izotz",
+  "ascii": "Izotz",
+  "category": "invented",
+  "source": "Basque word for 'ice'",
+  "use": "any"
+ },
+ {
+  "id": 775,
+  "name": "Amrita",
+  "ascii": "Amrita",
+  "category": "invented",
+  "source": "Sanskrit word for 'immortality'",
+  "use": "any"
+ },
+ {
+  "id": 776,
+  "name": "Pakarina",
+  "ascii": "Pakarina",
+  "category": "invented",
+  "source": "Quechua word for 'dawn'",
+  "use": "any"
+ },
+ {
+  "id": 777,
+  "name": "Ticho",
+  "ascii": "Ticho",
+  "category": "invented",
+  "source": "Czech word for 'silence'",
+  "use": "any"
+ },
+ {
+  "id": 778,
+  "name": "Novus",
+  "ascii": "Novus",
+  "category": "invented",
+  "source": "Latin word for 'new'",
+  "use": "any"
+ },
+ {
+  "id": 779,
+  "name": "Najm",
+  "ascii": "Najm",
+  "category": "invented",
+  "source": "Arabic word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 780,
+  "name": "Xochitl",
+  "ascii": "Xochitl",
+  "category": "invented",
+  "source": "Nahuatl word for 'flower'",
+  "use": "any"
+ },
+ {
+  "id": 781,
+  "name": "Volkan",
+  "ascii": "Volkan",
+  "category": "invented",
+  "source": "Turkish word for 'volcano'",
+  "use": "any"
+ },
+ {
+  "id": 782,
+  "name": "Seren",
+  "ascii": "Seren",
+  "category": "invented",
+  "source": "Welsh word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 783,
+  "name": "Lua",
+  "ascii": "Lua",
+  "category": "invented",
+  "source": "Hawaiian word for 'crater'",
+  "use": "any"
+ },
+ {
+  "id": 784,
+  "name": "Lleuad",
+  "ascii": "Lleuad",
+  "category": "invented",
+  "source": "Welsh word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 785,
+  "name": "Cwmwl",
+  "ascii": "Cwmwl",
+  "category": "invented",
+  "source": "Welsh word for 'cloud'",
+  "use": "any"
+ },
+ {
+  "id": 786,
+  "name": "Wiatr",
+  "ascii": "Wiatr",
+  "category": "invented",
+  "source": "Polish word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 787,
+  "name": "Atl",
+  "ascii": "Atl",
+  "category": "invented",
+  "source": "Nahuatl word for 'water'",
+  "use": "any"
+ },
+ {
+  "id": 788,
+  "name": "Haul",
+  "ascii": "Haul",
+  "category": "invented",
+  "source": "Welsh word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 789,
+  "name": "Goiz",
+  "ascii": "Goiz",
+  "category": "invented",
+  "source": "Basque word for 'morning'",
+  "use": "any"
+ },
+ {
+  "id": 790,
+  "name": "Radi",
+  "ascii": "Radi",
+  "category": "invented",
+  "source": "Swahili word for 'thunder'",
+  "use": "any"
+ },
+ {
+  "id": 791,
+  "name": "Kutup",
+  "ascii": "Kutup",
+  "category": "invented",
+  "source": "Turkish word for 'pole'",
+  "use": "any"
+ },
+ {
+  "id": 792,
+  "name": "Duean",
+  "ascii": "Duean",
+  "category": "invented",
+  "source": "Thai word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 793,
+  "name": "Guovssahas",
+  "ascii": "Guovssahas",
+  "category": "invented",
+  "source": "Sami word for 'aurora'",
+  "use": "any"
+ },
+ {
+  "id": 794,
+  "name": "Naran",
+  "ascii": "Naran",
+  "category": "invented",
+  "source": "Mongolian word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 795,
+  "name": "Realta",
+  "ascii": "Realta",
+  "category": "invented",
+  "source": "Irish word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 796,
+  "name": "Beaivi",
+  "ascii": "Beaivi",
+  "category": "invented",
+  "source": "Sami word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 797,
+  "name": "Yildirim",
+  "ascii": "Yildirim",
+  "category": "invented",
+  "source": "Turkish word for 'lightning'",
+  "use": "any"
+ },
+ {
+  "id": 798,
+  "name": "Kisiwa",
+  "ascii": "Kisiwa",
+  "category": "invented",
+  "source": "Swahili word for 'island'",
+  "use": "any"
+ },
+ {
+  "id": 799,
+  "name": "Ufuk",
+  "ascii": "Ufuk",
+  "category": "invented",
+  "source": "Turkish word for 'horizon'",
+  "use": "any"
+ },
+ {
+  "id": 800,
+  "name": "Sonne",
+  "ascii": "Sonne",
+  "category": "invented",
+  "source": "German word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 801,
+  "name": "Gantiadi",
+  "ascii": "Gantiadi",
+  "category": "invented",
+  "source": "Georgian word for 'dawn'",
+  "use": "any"
+ },
+ {
+  "id": 802,
+  "name": "Odon",
+  "ascii": "Odon",
+  "category": "invented",
+  "source": "Mongolian word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 803,
+  "name": "Niwl",
+  "ascii": "Niwl",
+  "category": "invented",
+  "source": "Welsh word for 'mist'",
+  "use": "any"
+ },
+ {
+  "id": 804,
+  "name": "Saran",
+  "ascii": "Saran",
+  "category": "invented",
+  "source": "Mongolian word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 805,
+  "name": "Umlilo",
+  "ascii": "Umlilo",
+  "category": "invented",
+  "source": "Zulu word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 806,
+  "name": "Mze",
+  "ascii": "Mze",
+  "category": "invented",
+  "source": "Georgian word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 807,
+  "name": "Isafold",
+  "ascii": "Isafold",
+  "category": "invented",
+  "source": "Icelandic word for 'ice land'",
+  "use": "any"
+ },
+ {
+  "id": 808,
+  "name": "Moto",
+  "ascii": "Moto",
+  "category": "invented",
+  "source": "Swahili word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 809,
+  "name": "Saudade",
+  "ascii": "Saudade",
+  "category": "invented",
+  "source": "Portuguese word for 'longing'",
+  "use": "any"
+ },
+ {
+  "id": 810,
+  "name": "Atash",
+  "ascii": "Atash",
+  "category": "invented",
+  "source": "Persian word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 811,
+  "name": "Kaamos",
+  "ascii": "Kaamos",
+  "category": "invented",
+  "source": "Finnish word for 'polar night'",
+  "use": "any"
+ },
+ {
+  "id": 812,
+  "name": "Nina",
+  "ascii": "Nina",
+  "category": "invented",
+  "source": "Quechua word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 813,
+  "name": "Purga",
+  "ascii": "Purga",
+  "category": "invented",
+  "source": "Russian word for 'snowstorm'",
+  "use": "any"
+ },
+ {
+  "id": 814,
+  "name": "Hamarik",
+  "ascii": "Hamarik",
+  "category": "invented",
+  "source": "Estonian word for 'dusk'",
+  "use": "any"
+ },
+ {
+  "id": 815,
+  "name": "Bituin",
+  "ascii": "Bituin",
+  "category": "invented",
+  "source": "Tagalog word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 816,
+  "name": "Bada",
+  "ascii": "Bada",
+  "category": "invented",
+  "source": "Korean word for 'sea'",
+  "use": "any"
+ },
+ {
+  "id": 817,
+  "name": "Chaska",
+  "ascii": "Chaska",
+  "category": "invented",
+  "source": "Quechua word for 'morning star'",
+  "use": "any"
+ },
+ {
+  "id": 818,
+  "name": "Sol",
+  "ascii": "Sol",
+  "category": "invented",
+  "source": "Old Norse word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 819,
+  "name": "Tuman",
+  "ascii": "Tuman",
+  "category": "invented",
+  "source": "Russian word for 'fog'",
+  "use": "any"
+ },
+ {
+  "id": 820,
+  "name": "Braise",
+  "ascii": "Braise",
+  "category": "invented",
+  "source": "French word for 'ember'",
+  "use": "any"
+ },
+ {
+  "id": 821,
+  "name": "Tintreach",
+  "ascii": "Tintreach",
+  "category": "invented",
+  "source": "Irish word for 'lightning'",
+  "use": "any"
+ },
+ {
+  "id": 822,
+  "name": "Ilargi",
+  "ascii": "Ilargi",
+  "category": "invented",
+  "source": "Basque word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 823,
+  "name": "Lerr",
+  "ascii": "Lerr",
+  "category": "invented",
+  "source": "Armenian word for 'mountain'",
+  "use": "any"
+ },
+ {
+  "id": 824,
+  "name": "Whetu",
+  "ascii": "Whetu",
+  "category": "invented",
+  "source": "Maori word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 825,
+  "name": "Vindr",
+  "ascii": "Vindr",
+  "category": "invented",
+  "source": "Old Norse word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 826,
+  "name": "Hrim",
+  "ascii": "Hrim",
+  "category": "invented",
+  "source": "Icelandic word for 'rime'",
+  "use": "any"
+ },
+ {
+  "id": 827,
+  "name": "Halla",
+  "ascii": "Halla",
+  "category": "invented",
+  "source": "Finnish word for 'frost'",
+  "use": "any"
+ },
+ {
+  "id": 828,
+  "name": "Tuawhiti",
+  "ascii": "Tuawhiti",
+  "category": "invented",
+  "source": "Maori word for 'distant'",
+  "use": "any"
+ },
+ {
+  "id": 829,
+  "name": "Bulan",
+  "ascii": "Bulan",
+  "category": "invented",
+  "source": "Indonesian word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 830,
+  "name": "Nordurljos",
+  "ascii": "Nordurljos",
+  "category": "invented",
+  "source": "Icelandic word for 'northern lights'",
+  "use": "any"
+ },
+ {
+  "id": 831,
+  "name": "Tsas",
+  "ascii": "Tsas",
+  "category": "invented",
+  "source": "Mongolian word for 'snow'",
+  "use": "any"
+ },
+ {
+  "id": 832,
+  "name": "Matahari",
+  "ascii": "Matahari",
+  "category": "invented",
+  "source": "Indonesian word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 833,
+  "name": "Siqiniq",
+  "ascii": "Siqiniq",
+  "category": "invented",
+  "source": "Inuktitut word for 'sun'",
+  "use": "any"
+ },
+ {
+  "id": 834,
+  "name": "Jeg",
+  "ascii": "Jeg",
+  "category": "invented",
+  "source": "Hungarian word for 'ice'",
+  "use": "any"
+ },
+ {
+  "id": 835,
+  "name": "Lani",
+  "ascii": "Lani",
+  "category": "invented",
+  "source": "Hawaiian word for 'sky'",
+  "use": "any"
+ },
+ {
+  "id": 836,
+  "name": "Gealach",
+  "ascii": "Gealach",
+  "category": "invented",
+  "source": "Irish word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 837,
+  "name": "Asche",
+  "ascii": "Asche",
+  "category": "invented",
+  "source": "German word for 'ash'",
+  "use": "any"
+ },
+ {
+  "id": 838,
+  "name": "Taht",
+  "ascii": "Taht",
+  "category": "invented",
+  "source": "Estonian word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 839,
+  "name": "Lejania",
+  "ascii": "Lejania",
+  "category": "invented",
+  "source": "Spanish word for 'distance'",
+  "use": "any"
+ },
+ {
+  "id": 840,
+  "name": "Vetur",
+  "ascii": "Vetur",
+  "category": "invented",
+  "source": "Icelandic word for 'winter'",
+  "use": "any"
+ },
+ {
+  "id": 841,
+  "name": "Desierto",
+  "ascii": "Desierto",
+  "category": "invented",
+  "source": "Spanish word for 'desert'",
+  "use": "any"
+ },
+ {
+  "id": 842,
+  "name": "Qamar",
+  "ascii": "Qamar",
+  "category": "invented",
+  "source": "Arabic word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 843,
+  "name": "Dzyun",
+  "ascii": "Dzyun",
+  "category": "invented",
+  "source": "Armenian word for 'snow'",
+  "use": "any"
+ },
+ {
+  "id": 844,
+  "name": "Sitara",
+  "ascii": "Sitara",
+  "category": "invented",
+  "source": "Hindi word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 845,
+  "name": "Tepetl",
+  "ascii": "Tepetl",
+  "category": "invented",
+  "source": "Nahuatl word for 'mountain'",
+  "use": "any"
+ },
+ {
+  "id": 846,
+  "name": "Vikerkaar",
+  "ascii": "Vikerkaar",
+  "category": "invented",
+  "source": "Estonian word for 'rainbow'",
+  "use": "any"
+ },
+ {
+  "id": 847,
+  "name": "Hangin",
+  "ascii": "Hangin",
+  "category": "invented",
+  "source": "Tagalog word for 'wind'",
+  "use": "any"
+ },
+ {
+  "id": 848,
+  "name": "Hvezda",
+  "ascii": "Hvezda",
+  "category": "invented",
+  "source": "Czech word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 849,
+  "name": "Ghaim",
+  "ascii": "Ghaim",
+  "category": "invented",
+  "source": "Arabic word for 'cloud'",
+  "use": "any"
+ },
+ {
+  "id": 850,
+  "name": "Astgh",
+  "ascii": "Astgh",
+  "category": "invented",
+  "source": "Armenian word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 851,
+  "name": "Etoile",
+  "ascii": "Etoile",
+  "category": "invented",
+  "source": "French word for 'star'",
+  "use": "any"
+ },
+ {
+  "id": 852,
+  "name": "Brume",
+  "ascii": "Brume",
+  "category": "invented",
+  "source": "French word for 'mist'",
+  "use": "any"
+ },
+ {
+  "id": 853,
+  "name": "Apoy",
+  "ascii": "Apoy",
+  "category": "invented",
+  "source": "Tagalog word for 'fire'",
+  "use": "any"
+ },
+ {
+  "id": 854,
+  "name": "Tormenta",
+  "ascii": "Tormenta",
+  "category": "invented",
+  "source": "Spanish word for 'storm'",
+  "use": "any"
+ },
+ {
+  "id": 855,
+  "name": "Siku",
+  "ascii": "Siku",
+  "category": "invented",
+  "source": "Inuktitut word for 'sea ice'",
+  "use": "any"
+ },
+ {
+  "id": 856,
+  "name": "Nieve",
+  "ascii": "Nieve",
+  "category": "invented",
+  "source": "Spanish word for 'snow'",
+  "use": "any"
+ },
+ {
+  "id": 857,
+  "name": "Kuu",
+  "ascii": "Kuu",
+  "category": "invented",
+  "source": "Finnish word for 'moon'",
+  "use": "any"
+ },
+ {
+  "id": 858,
+  "name": "Oormay",
+  "ascii": "Oormay",
+  "category": "invented",
+  "source": "Pig latin of 'moor'",
+  "use": "any"
+ },
+ {
+  "id": 859,
+  "name": "Ilencesay",
+  "ascii": "Ilencesay",
+  "category": "invented",
+  "source": "Pig latin of 'silence'",
+  "use": "any"
+ },
+ {
+  "id": 860,
+  "name": "Igilvay",
+  "ascii": "Igilvay",
+  "category": "invented",
+  "source": "Pig latin of 'vigil'",
+  "use": "any"
+ },
+ {
+  "id": 861,
+  "name": "Ulphursay",
+  "ascii": "Ulphursay",
+  "category": "invented",
+  "source": "Pig latin of 'sulphur'",
+  "use": "any"
+ },
+ {
+  "id": 862,
+  "name": "Acierglay",
+  "ascii": "Acierglay",
+  "category": "invented",
+  "source": "Pig latin of 'glacier'",
+  "use": "any"
+ },
+ {
+  "id": 863,
+  "name": "Oasisway",
+  "ascii": "Oasisway",
+  "category": "invented",
+  "source": "Pig latin of 'oasis'",
+  "use": "any"
+ },
+ {
+  "id": 864,
+  "name": "Esselvay",
+  "ascii": "Esselvay",
+  "category": "invented",
+  "source": "Pig latin of 'vessel'",
+  "use": "any"
+ },
+ {
+  "id": 865,
+  "name": "Amblebray",
+  "ascii": "Amblebray",
+  "category": "invented",
+  "source": "Pig latin of 'bramble'",
+  "use": "any"
+ },
+ {
+  "id": 866,
+  "name": "Uniperjay",
+  "ascii": "Uniperjay",
+  "category": "invented",
+  "source": "Pig latin of 'juniper'",
+  "use": "any"
+ },
+ {
+  "id": 867,
+  "name": "Onderway",
+  "ascii": "Onderway",
+  "category": "invented",
+  "source": "Pig latin of 'wonder'",
+  "use": "any"
+ },
+ {
+  "id": 868,
+  "name": "Anchorway",
+  "ascii": "Anchorway",
+  "category": "invented",
+  "source": "Pig latin of 'anchor'",
+  "use": "any"
+ },
+ {
+  "id": 869,
+  "name": "Itadelcay",
+  "ascii": "Itadelcay",
+  "category": "invented",
+  "source": "Pig latin of 'citadel'",
+  "use": "any"
+ },
+ {
+  "id": 870,
+  "name": "Ablefay",
+  "ascii": "Ablefay",
+  "category": "invented",
+  "source": "Pig latin of 'fable'",
+  "use": "any"
+ },
+ {
+  "id": 871,
+  "name": "Ivoryway",
+  "ascii": "Ivoryway",
+  "category": "invented",
+  "source": "Pig latin of 'ivory'",
+  "use": "any"
+ },
+ {
+  "id": 872,
+  "name": "Apourvay",
+  "ascii": "Apourvay",
+  "category": "invented",
+  "source": "Pig latin of 'vapour'",
+  "use": "any"
+ },
+ {
+  "id": 873,
+  "name": "Anderway",
+  "ascii": "Anderway",
+  "category": "invented",
+  "source": "Pig latin of 'wander'",
+  "use": "any"
+ },
+ {
+  "id": 874,
+  "name": "Oracleway",
+  "ascii": "Oracleway",
+  "category": "invented",
+  "source": "Pig latin of 'oracle'",
+  "use": "any"
+ },
+ {
+  "id": 875,
+  "name": "Opalway",
+  "ascii": "Opalway",
+  "category": "invented",
+  "source": "Pig latin of 'opal'",
+  "use": "any"
+ },
+ {
+  "id": 876,
+  "name": "Eaconbay",
+  "ascii": "Eaconbay",
+  "category": "invented",
+  "source": "Pig latin of 'beacon'",
+  "use": "any"
+ },
+ {
+  "id": 877,
+  "name": "Olacesay",
+  "ascii": "Olacesay",
+  "category": "invented",
+  "source": "Pig latin of 'solace'",
+  "use": "any"
+ },
+ {
+  "id": 878,
+  "name": "Eystonekay",
+  "ascii": "Eystonekay",
+  "category": "invented",
+  "source": "Pig latin of 'keystone'",
+  "use": "any"
+ },
+ {
+  "id": 879,
+  "name": "Avenhay",
+  "ascii": "Avenhay",
+  "category": "invented",
+  "source": "Pig latin of 'haven'",
+  "use": "any"
+ },
+ {
+  "id": 880,
+  "name": "Emberway",
+  "ascii": "Emberway",
+  "category": "invented",
+  "source": "Pig latin of 'ember'",
+  "use": "any"
+ },
+ {
+  "id": 881,
+  "name": "Oppercay",
+  "ascii": "Oppercay",
+  "category": "invented",
+  "source": "Pig latin of 'copper'",
+  "use": "any"
+ },
+ {
+  "id": 882,
+  "name": "Ascadecay",
+  "ascii": "Ascadecay",
+  "category": "invented",
+  "source": "Pig latin of 'cascade'",
+  "use": "any"
+ },
+ {
+  "id": 883,
+  "name": "Immerglay",
+  "ascii": "Immerglay",
+  "category": "invented",
+  "source": "Pig latin of 'glimmer'",
+  "use": "any"
+ },
+ {
+  "id": 884,
+  "name": "Ampartray",
+  "ascii": "Ampartray",
+  "category": "invented",
+  "source": "Pig latin of 'rampart'",
+  "use": "any"
+ },
+ {
+  "id": 885,
+  "name": "Alohay",
+  "ascii": "Alohay",
+  "category": "invented",
+  "source": "Pig latin of 'halo'",
+  "use": "any"
+ },
+ {
+  "id": 886,
+  "name": "Iftray",
+  "ascii": "Iftray",
+  "category": "invented",
+  "source": "Pig latin of 'rift'",
+  "use": "any"
+ },
+ {
+  "id": 887,
+  "name": "Ometcay",
+  "ascii": "Ometcay",
+  "category": "invented",
+  "source": "Pig latin of 'comet'",
+  "use": "any"
+ },
+ {
+  "id": 888,
+  "name": "Asperjay",
+  "ascii": "Asperjay",
+  "category": "invented",
+  "source": "Pig latin of 'jasper'",
+  "use": "any"
+ },
+ {
+  "id": 889,
+  "name": "Arnetgay",
+  "ascii": "Arnetgay",
+  "category": "invented",
+  "source": "Pig latin of 'garnet'",
+  "use": "any"
+ },
+ {
+  "id": 890,
+  "name": "Andlecay",
+  "ascii": "Andlecay",
+  "category": "invented",
+  "source": "Pig latin of 'candle'",
+  "use": "any"
+ },
+ {
+  "id": 891,
+  "name": "Urnacefay",
+  "ascii": "Urnacefay",
+  "category": "invented",
+  "source": "Pig latin of 'furnace'",
+  "use": "any"
+ },
+ {
+  "id": 892,
+  "name": "Anternlay",
+  "ascii": "Anternlay",
+  "category": "invented",
+  "source": "Pig latin of 'lantern'",
+  "use": "any"
+ },
+ {
+  "id": 893,
+  "name": "Irespay",
+  "ascii": "Irespay",
+  "category": "invented",
+  "source": "Pig latin of 'spire'",
+  "use": "any"
+ },
+ {
+  "id": 894,
+  "name": "Orizonhay",
+  "ascii": "Orizonhay",
+  "category": "invented",
+  "source": "Pig latin of 'horizon'",
+  "use": "any"
+ },
+ {
+  "id": 895,
+  "name": "Ardenway",
+  "ascii": "Ardenway",
+  "category": "invented",
+  "source": "Pig latin of 'warden'",
+  "use": "any"
+ },
+ {
+  "id": 896,
+  "name": "Istlethay",
+  "ascii": "Istlethay",
+  "category": "invented",
+  "source": "Pig latin of 'thistle'",
+  "use": "any"
+ },
+ {
+  "id": 897,
+  "name": "Ateslay",
+  "ascii": "Ateslay",
+  "category": "invented",
+  "source": "Pig latin of 'slate'",
+  "use": "any"
+ },
+ {
+  "id": 898,
+  "name": "Uneday",
+  "ascii": "Uneday",
+  "category": "invented",
+  "source": "Pig latin of 'dune'",
+  "use": "any"
+ },
+ {
+  "id": 899,
+  "name": "Ullabylay",
+  "ascii": "Ullabylay",
+  "category": "invented",
+  "source": "Pig latin of 'lullaby'",
+  "use": "any"
+ },
+ {
+  "id": 900,
+  "name": "Owanray",
+  "ascii": "Owanray",
+  "category": "invented",
+  "source": "Pig latin of 'rowan'",
+  "use": "any"
+ },
+ {
+  "id": 901,
+  "name": "Undratay",
+  "ascii": "Undratay",
+  "category": "invented",
+  "source": "Pig latin of 'tundra'",
+  "use": "any"
+ },
+ {
+  "id": 902,
+  "name": "Odestarlay",
+  "ascii": "Odestarlay",
+  "category": "invented",
+  "source": "Pig latin of 'lodestar'",
+  "use": "any"
+ },
+ {
+  "id": 903,
+  "name": "Room",
+  "ascii": "Room",
+  "category": "invented",
+  "source": "'moor' reversed",
+  "use": "any"
+ },
+ {
+  "id": 904,
+  "name": "Ecnelis",
+  "ascii": "Ecnelis",
+  "category": "invented",
+  "source": "'silence' reversed",
+  "use": "any"
+ },
+ {
+  "id": 905,
+  "name": "Ligiv",
+  "ascii": "Ligiv",
+  "category": "invented",
+  "source": "'vigil' reversed",
+  "use": "any"
+ },
+ {
+  "id": 906,
+  "name": "Reicalg",
+  "ascii": "Reicalg",
+  "category": "invented",
+  "source": "'glacier' reversed",
+  "use": "any"
+ },
+ {
+  "id": 907,
+  "name": "Sisao",
+  "ascii": "Sisao",
+  "category": "invented",
+  "source": "'oasis' reversed",
+  "use": "any"
+ },
+ {
+  "id": 908,
+  "name": "Xoniuqe",
+  "ascii": "Xoniuqe",
+  "category": "invented",
+  "source": "'equinox' reversed",
+  "use": "any"
+ },
+ {
+  "id": 909,
+  "name": "Worram",
+  "ascii": "Worram",
+  "category": "invented",
+  "source": "'marrow' reversed",
+  "use": "any"
+ },
+ {
+  "id": 910,
+  "name": "Tlasab",
+  "ascii": "Tlasab",
+  "category": "invented",
+  "source": "'basalt' reversed",
+  "use": "any"
+ },
+ {
+  "id": 911,
+  "name": "Lessev",
+  "ascii": "Lessev",
+  "category": "invented",
+  "source": "'vessel' reversed",
+  "use": "any"
+ },
+ {
+  "id": 912,
+  "name": "Repinuj",
+  "ascii": "Repinuj",
+  "category": "invented",
+  "source": "'juniper' reversed",
+  "use": "any"
+ },
+ {
+  "id": 913,
+  "name": "Tfird",
+  "ascii": "Tfird",
+  "category": "invented",
+  "source": "'drift' reversed",
+  "use": "any"
+ },
+ {
+  "id": 914,
+  "name": "Rednow",
+  "ascii": "Rednow",
+  "category": "invented",
+  "source": "'wonder' reversed",
+  "use": "any"
+ },
+ {
+  "id": 915,
+  "name": "Ledatic",
+  "ascii": "Ledatic",
+  "category": "invented",
+  "source": "'citadel' reversed",
+  "use": "any"
+ },
+ {
+  "id": 916,
+  "name": "Elbaf",
+  "ascii": "Elbaf",
+  "category": "invented",
+  "source": "'fable' reversed",
+  "use": "any"
+ },
+ {
+  "id": 917,
+  "name": "Wodaem",
+  "ascii": "Wodaem",
+  "category": "invented",
+  "source": "'meadow' reversed",
+  "use": "any"
+ },
+ {
+  "id": 918,
+  "name": "Yrovi",
+  "ascii": "Yrovi",
+  "category": "invented",
+  "source": "'ivory' reversed",
+  "use": "any"
+ },
+ {
+  "id": 919,
+  "name": "Tlaboc",
+  "ascii": "Tlaboc",
+  "category": "invented",
+  "source": "'cobalt' reversed",
+  "use": "any"
+ },
+ {
+  "id": 920,
+  "name": "Ruopav",
+  "ascii": "Ruopav",
+  "category": "invented",
+  "source": "'vapour' reversed",
+  "use": "any"
+ },
+ {
+  "id": 921,
+  "name": "Rednaw",
+  "ascii": "Rednaw",
+  "category": "invented",
+  "source": "'wander' reversed",
+  "use": "any"
+ },
+ {
+  "id": 922,
+  "name": "Nevar",
+  "ascii": "Nevar",
+  "category": "invented",
+  "source": "'raven' reversed",
+  "use": "any"
+ },
+ {
+  "id": 923,
+  "name": "Nephan",
+  "ascii": "Nephan",
+  "category": "invented",
+  "source": "Latin/Greek root 'cloud' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 924,
+  "name": "Magmuna",
+  "ascii": "Magmuna",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 925,
+  "name": "Asteris",
+  "ascii": "Asteris",
+  "category": "invented",
+  "source": "Latin/Greek root 'star' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 926,
+  "name": "Pyrara",
+  "ascii": "Pyrara",
+  "category": "invented",
+  "source": "Latin/Greek root 'fire' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 927,
+  "name": "Vesperine",
+  "ascii": "Vesperine",
+  "category": "invented",
+  "source": "Latin/Greek root 'evening' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 928,
+  "name": "Cyanora",
+  "ascii": "Cyanora",
+  "category": "invented",
+  "source": "Latin/Greek root 'blue' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 929,
+  "name": "Silvora",
+  "ascii": "Silvora",
+  "category": "invented",
+  "source": "Latin/Greek root 'forest' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 930,
+  "name": "Aridova",
+  "ascii": "Aridova",
+  "category": "invented",
+  "source": "Latin/Greek root 'dry' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 931,
+  "name": "Orientar",
+  "ascii": "Orientar",
+  "category": "invented",
+  "source": "Latin/Greek root 'east' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 932,
+  "name": "Aridyr",
+  "ascii": "Aridyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'dry' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 933,
+  "name": "Zephyros",
+  "ascii": "Zephyros",
+  "category": "invented",
+  "source": "Latin/Greek root 'west wind' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 934,
+  "name": "Occidex",
+  "ascii": "Occidex",
+  "category": "invented",
+  "source": "Latin/Greek root 'west' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 935,
+  "name": "Zephyruna",
+  "ascii": "Zephyruna",
+  "category": "invented",
+  "source": "Latin/Greek root 'west wind' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 936,
+  "name": "Noctine",
+  "ascii": "Noctine",
+  "category": "invented",
+  "source": "Latin/Greek root 'night' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 937,
+  "name": "Cyanan",
+  "ascii": "Cyanan",
+  "category": "invented",
+  "source": "Latin/Greek root 'blue' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 938,
+  "name": "Ferros",
+  "ascii": "Ferros",
+  "category": "invented",
+  "source": "Latin/Greek root 'iron' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 939,
+  "name": "Ignyr",
+  "ascii": "Ignyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'fire' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 940,
+  "name": "Cinisax",
+  "ascii": "Cinisax",
+  "category": "invented",
+  "source": "Latin/Greek root 'ash' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 941,
+  "name": "Cryuna",
+  "ascii": "Cryuna",
+  "category": "invented",
+  "source": "Latin/Greek root 'cold' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 942,
+  "name": "Austruna",
+  "ascii": "Austruna",
+  "category": "invented",
+  "source": "Latin/Greek root 'south' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 943,
+  "name": "Umbrora",
+  "ascii": "Umbrora",
+  "category": "invented",
+  "source": "Latin/Greek root 'shadow' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 944,
+  "name": "Thalar",
+  "ascii": "Thalar",
+  "category": "invented",
+  "source": "Latin/Greek root 'sea' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 945,
+  "name": "Occidan",
+  "ascii": "Occidan",
+  "category": "invented",
+  "source": "Latin/Greek root 'west' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 946,
+  "name": "Ciniseth",
+  "ascii": "Ciniseth",
+  "category": "invented",
+  "source": "Latin/Greek root 'ash' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 947,
+  "name": "Cyanar",
+  "ascii": "Cyanar",
+  "category": "invented",
+  "source": "Latin/Greek root 'blue' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 948,
+  "name": "Gelia",
+  "ascii": "Gelia",
+  "category": "invented",
+  "source": "Latin/Greek root 'frost' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 949,
+  "name": "Thalan",
+  "ascii": "Thalan",
+  "category": "invented",
+  "source": "Latin/Greek root 'sea' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 950,
+  "name": "Borealax",
+  "ascii": "Borealax",
+  "category": "invented",
+  "source": "Latin/Greek root 'north' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 951,
+  "name": "Magmae",
+  "ascii": "Magmae",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 952,
+  "name": "Magmax",
+  "ascii": "Magmax",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 953,
+  "name": "Occidis",
+  "ascii": "Occidis",
+  "category": "invented",
+  "source": "Latin/Greek root 'west' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 954,
+  "name": "Lithara",
+  "ascii": "Lithara",
+  "category": "invented",
+  "source": "Latin/Greek root 'stone' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 955,
+  "name": "Austrium",
+  "ascii": "Austrium",
+  "category": "invented",
+  "source": "Latin/Greek root 'south' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 956,
+  "name": "Solae",
+  "ascii": "Solae",
+  "category": "invented",
+  "source": "Latin/Greek root 'sun' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 957,
+  "name": "Aridia",
+  "ascii": "Aridia",
+  "category": "invented",
+  "source": "Latin/Greek root 'dry' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 958,
+  "name": "Thalyr",
+  "ascii": "Thalyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'sea' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 959,
+  "name": "Magmex",
+  "ascii": "Magmex",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 960,
+  "name": "Fulgova",
+  "ascii": "Fulgova",
+  "category": "invented",
+  "source": "Latin/Greek root 'lightning' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 961,
+  "name": "Fulgos",
+  "ascii": "Fulgos",
+  "category": "invented",
+  "source": "Latin/Greek root 'lightning' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 962,
+  "name": "Glacova",
+  "ascii": "Glacova",
+  "category": "invented",
+  "source": "Latin/Greek root 'ice' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 963,
+  "name": "Lunis",
+  "ascii": "Lunis",
+  "category": "invented",
+  "source": "Latin/Greek root 'moon' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 964,
+  "name": "Noctyr",
+  "ascii": "Noctyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'night' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 965,
+  "name": "Leukyr",
+  "ascii": "Leukyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'white' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 966,
+  "name": "Xenyr",
+  "ascii": "Xenyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'foreign' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 967,
+  "name": "Noctos",
+  "ascii": "Noctos",
+  "category": "invented",
+  "source": "Latin/Greek root 'night' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 968,
+  "name": "Ariduna",
+  "ascii": "Ariduna",
+  "category": "invented",
+  "source": "Latin/Greek root 'dry' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 969,
+  "name": "Magmos",
+  "ascii": "Magmos",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 970,
+  "name": "Caligeth",
+  "ascii": "Caligeth",
+  "category": "invented",
+  "source": "Latin/Greek root 'fog' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 971,
+  "name": "Magmine",
+  "ascii": "Magmine",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 972,
+  "name": "Lithora",
+  "ascii": "Lithora",
+  "category": "invented",
+  "source": "Latin/Greek root 'stone' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 973,
+  "name": "Auruna",
+  "ascii": "Auruna",
+  "category": "invented",
+  "source": "Latin/Greek root 'gold' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 974,
+  "name": "Cinisuna",
+  "ascii": "Cinisuna",
+  "category": "invented",
+  "source": "Latin/Greek root 'ash' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 975,
+  "name": "Gelyr",
+  "ascii": "Gelyr",
+  "category": "invented",
+  "source": "Latin/Greek root 'frost' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 976,
+  "name": "Orientuna",
+  "ascii": "Orientuna",
+  "category": "invented",
+  "source": "Latin/Greek root 'east' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 977,
+  "name": "Thalae",
+  "ascii": "Thalae",
+  "category": "invented",
+  "source": "Latin/Greek root 'sea' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 978,
+  "name": "Vesperan",
+  "ascii": "Vesperan",
+  "category": "invented",
+  "source": "Latin/Greek root 'evening' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 979,
+  "name": "Lunia",
+  "ascii": "Lunia",
+  "category": "invented",
+  "source": "Latin/Greek root 'moon' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 980,
+  "name": "Aurara",
+  "ascii": "Aurara",
+  "category": "invented",
+  "source": "Latin/Greek root 'gold' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 981,
+  "name": "Ferrova",
+  "ascii": "Ferrova",
+  "category": "invented",
+  "source": "Latin/Greek root 'iron' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 982,
+  "name": "Magmora",
+  "ascii": "Magmora",
+  "category": "invented",
+  "source": "Latin/Greek root 'molten rock' + suffix",
+  "use": "any"
+ },
+ {
+  "id": 983,
+  "name": "Krunor",
+  "ascii": "Krunor",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 984,
+  "name": "Bikki",
+  "ascii": "Bikki",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 985,
+  "name": "Clesique",
+  "ascii": "Clesique",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 986,
+  "name": "Kumkokut",
+  "ascii": "Kumkokut",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 987,
+  "name": "Druror",
+  "ascii": "Druror",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 988,
+  "name": "Vagoth",
+  "ascii": "Vagoth",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 989,
+  "name": "Sainisa",
+  "ascii": "Sainisa",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 990,
+  "name": "Khaurar",
+  "ascii": "Khaurar",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 991,
+  "name": "She'sensh",
+  "ascii": "She'sensh",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 992,
+  "name": "Zirin",
+  "ascii": "Zirin",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 993,
+  "name": "Elaunene",
+  "ascii": "Elaunene",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 994,
+  "name": "Dronvoor",
+  "ascii": "Dronvoor",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 995,
+  "name": "Braxor",
+  "ascii": "Braxor",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 996,
+  "name": "Stalyne",
+  "ascii": "Stalyne",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 997,
+  "name": "Naanki",
+  "ascii": "Naanki",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 998,
+  "name": "Hee'rash",
+  "ascii": "Hee'rash",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 999,
+  "name": "Kyxun",
+  "ascii": "Kyxun",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1000,
+  "name": "Leix",
+  "ascii": "Leix",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1001,
+  "name": "Vonux",
+  "ascii": "Vonux",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1002,
+  "name": "Thonara",
+  "ascii": "Thonara",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1003,
+  "name": "Krurun",
+  "ascii": "Krurun",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1004,
+  "name": "Grynak",
+  "ascii": "Grynak",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1005,
+  "name": "Ionelle",
+  "ascii": "Ionelle",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1006,
+  "name": "Pheniel",
+  "ascii": "Pheniel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1007,
+  "name": "Rayilene",
+  "ascii": "Rayilene",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1008,
+  "name": "Daugux",
+  "ascii": "Daugux",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1009,
+  "name": "Elisraon",
+  "ascii": "Elisraon",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1010,
+  "name": "Haanab",
+  "ascii": "Haanab",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1011,
+  "name": "Clisine",
+  "ascii": "Clisine",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1012,
+  "name": "Gathag",
+  "ascii": "Gathag",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1013,
+  "name": "Tinum",
+  "ascii": "Tinum",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1014,
+  "name": "Quysine",
+  "ascii": "Quysine",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1015,
+  "name": "Anab",
+  "ascii": "Anab",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1016,
+  "name": "Sha'sin",
+  "ascii": "Sha'sin",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1017,
+  "name": "Hikum",
+  "ascii": "Hikum",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1018,
+  "name": "Trisys",
+  "ascii": "Trisys",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1019,
+  "name": "Witur",
+  "ascii": "Witur",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1020,
+  "name": "Axyne",
+  "ascii": "Axyne",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1021,
+  "name": "Vioys",
+  "ascii": "Vioys",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1022,
+  "name": "Rolsasel",
+  "ascii": "Rolsasel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1023,
+  "name": "Ninab",
+  "ascii": "Ninab",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1024,
+  "name": "Bru'gag",
+  "ascii": "Bru'gag",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1025,
+  "name": "Itah",
+  "ascii": "Itah",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1026,
+  "name": "Praselle",
+  "ascii": "Praselle",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1027,
+  "name": "Leline",
+  "ascii": "Leline",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1028,
+  "name": "Viana",
+  "ascii": "Viana",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1029,
+  "name": "Gozoth",
+  "ascii": "Gozoth",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1030,
+  "name": "Vaxine",
+  "ascii": "Vaxine",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1031,
+  "name": "Visnioxys",
+  "ascii": "Visnioxys",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1032,
+  "name": "Krakar",
+  "ascii": "Krakar",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1033,
+  "name": "Thauzak",
+  "ascii": "Thauzak",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1034,
+  "name": "Chiseresh",
+  "ascii": "Chiseresh",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1035,
+  "name": "Lanyne",
+  "ascii": "Lanyne",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1036,
+  "name": "Grau'gar",
+  "ascii": "Grau'gar",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1037,
+  "name": "Zurai",
+  "ascii": "Zurai",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1038,
+  "name": "Oveinara",
+  "ascii": "Oveinara",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1039,
+  "name": "Vykor",
+  "ascii": "Vykor",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1040,
+  "name": "Womokum",
+  "ascii": "Womokum",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1041,
+  "name": "Stylaris",
+  "ascii": "Stylaris",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1042,
+  "name": "Xushisa",
+  "ascii": "Xushisa",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1043,
+  "name": "Thuthok",
+  "ascii": "Thuthok",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1044,
+  "name": "Stexyne",
+  "ascii": "Stexyne",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1045,
+  "name": "Kuthok",
+  "ascii": "Kuthok",
+  "category": "invented",
+  "source": "Generated: hard, guttural sounds",
+  "use": "any"
+ },
+ {
+  "id": 1046,
+  "name": "Binbaanur",
+  "ascii": "Binbaanur",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1047,
+  "name": "Zisin",
+  "ascii": "Zisin",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1048,
+  "name": "Elaenene",
+  "ascii": "Elaenene",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1049,
+  "name": "Zinash",
+  "ascii": "Zinash",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1050,
+  "name": "Sushura",
+  "ascii": "Sushura",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1051,
+  "name": "Aatur",
+  "ascii": "Aatur",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1052,
+  "name": "Sinensh",
+  "ascii": "Sinensh",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1053,
+  "name": "Zaesh",
+  "ascii": "Zaesh",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1054,
+  "name": "Bumhanur",
+  "ascii": "Bumhanur",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1055,
+  "name": "Vylix",
+  "ascii": "Vylix",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1056,
+  "name": "Zaisash",
+  "ascii": "Zaisash",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1057,
+  "name": "Linclexys",
+  "ascii": "Linclexys",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1058,
+  "name": "Triolys",
+  "ascii": "Triolys",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1059,
+  "name": "Hushesh",
+  "ascii": "Hushesh",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1060,
+  "name": "Buutatu",
+  "ascii": "Buutatu",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1061,
+  "name": "Zaishisa",
+  "ascii": "Zaishisa",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1062,
+  "name": "Sialene",
+  "ascii": "Sialene",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1063,
+  "name": "Elasel",
+  "ascii": "Elasel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1064,
+  "name": "Ennianel",
+  "ascii": "Ennianel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1065,
+  "name": "Zhainash",
+  "ascii": "Zhainash",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1066,
+  "name": "Thaunel",
+  "ascii": "Thaunel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1067,
+  "name": "Thenel",
+  "ascii": "Thenel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1068,
+  "name": "Qiash",
+  "ascii": "Qiash",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1069,
+  "name": "Niarara",
+  "ascii": "Niarara",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1070,
+  "name": "Powuumah",
+  "ascii": "Powuumah",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1071,
+  "name": "Iosyne",
+  "ascii": "Iosyne",
+  "category": "invented",
+  "source": "Generated: bright, glassy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1072,
+  "name": "Amki",
+  "ascii": "Amki",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1073,
+  "name": "Zhushisa",
+  "ascii": "Zhushisa",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1074,
+  "name": "Shu'rin",
+  "ascii": "Shu'rin",
+  "category": "invented",
+  "source": "Generated: hissing, whispered sounds",
+  "use": "any"
+ },
+ {
+  "id": 1075,
+  "name": "Aanur",
+  "ascii": "Aanur",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1076,
+  "name": "Boki",
+  "ascii": "Boki",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1077,
+  "name": "Nonum",
+  "ascii": "Nonum",
+  "category": "invented",
+  "source": "Generated: old, earthy sounds",
+  "use": "any"
+ },
+ {
+  "id": 1078,
+  "name": "Thiene",
+  "ascii": "Thiene",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1079,
+  "name": "Thoalel",
+  "ascii": "Thoalel",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1080,
+  "name": "Vilia",
+  "ascii": "Vilia",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1081,
+  "name": "Eliara",
+  "ascii": "Eliara",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ },
+ {
+  "id": 1082,
+  "name": "Ranlaeron",
+  "ascii": "Ranlaeron",
+  "category": "invented",
+  "source": "Generated: soft, liquid sounds",
+  "use": "any"
+ }
+]

@@ -23,6 +23,9 @@ import {
 import { availableUpgrades } from "./upgrades.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 
+// Star/planet name list for mapgen's naming pass (data, not code: no build step).
+const names = await fetch("data/star_planet_names.json").then((r) => r.json());
+
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const seedLabel = document.getElementById("seed-label");
@@ -74,7 +77,7 @@ let needsRedraw = true;
 // rather than persisted.
 function loadMap(seed) {
   currentSeed = seed;
-  mapData = generateMap({ seed });
+  mapData = generateMap({ seed, names });
   camera.x = 0;
   camera.y = 0;
   camera.zoom = DEFAULT_ZOOM;

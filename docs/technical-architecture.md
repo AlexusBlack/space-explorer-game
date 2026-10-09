@@ -98,6 +98,22 @@ side of this; the key algorithmic ideas:
   (`MOON_SCALE`, 0.8-1.2) and `offset: {x, y}` (each within
   ±`MOON_OFFSET_MAX` = 0.5). Earth is fixed at `scale: 1` but still makes
   its draw. Visual only; see Rendering Loop.
+- **Names come from a final pass with its own stream**
+  (`nameMap`, `` createRng(`${seed}:names`) ``), run after every tile
+  exists, so naming never moves a layout draw. `generateMap({ seed, names })`
+  takes the parsed `data/star_planet_names.json` (`main.js` fetches it once
+  at startup with top-level `await`; it's data, so no build step); with no
+  list every system gets a designation. It sets `system.name` (also on the
+  primary star tile), `name` on companion stars (`GD-17 B`, clockwise from
+  north around the primary), planets (Roman numeral by hex distance from
+  the primary, ties clockwise from north) and moons (`-a`, `-b`... clockwise
+  around `parent`), and `ownName` on inhabited planets/moons (Earth's is
+  "Earth"). One `used` set (seeded with "Sol" and "Earth") keeps every
+  system and own name unique per map; a pick removes a random entry from
+  its pool (`use` star+any, planet+any or moon+any) and falls back to a
+  designation if the pool runs dry. `DESIGNATION_CHANCE` = 0.4. Names are
+  regenerated, not saved: editing the JSON renames bodies in existing saves
+  but never moves them.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -467,7 +483,15 @@ exception to native-size icons: each planet is drawn at its tile's `scale`
 meant to read as smaller bodies orbiting their parent planet, not a second
 equally-sized feature. A moon is also shifted by its `offset` (fractions of
 the zoomed hex half-width/half-height, up to ±0.5, so it stays inside its
-hex); its label stays at the hex centre. Drawing a tile's background, icon, and
+hex). Labels hang just under their drawn icon, not the hex: the anchor is
+the icon's drawn centre (a moon's includes its offset) plus half its scaled
+height (`labelAnchor`; the sprites fill their full height, so the image's
+bottom is the body's bottom), with the hex half-height as a fallback while
+the image loads. Labels: the primary star's
+`name` shows at zoom > `LABEL_ZOOM` (0.5) even undiscovered, an inhabited
+body's `ownName` at the same zoom as a tag (`drawTag`: bold, slightly larger
+white text in a dark blue `roundRect`), and plain designations of other
+bodies and companion stars only at zoom >= `DESIGNATION_ZOOM` (1). Drawing a tile's background, icon, and
 label together before moving to the next tile meant a later-processed
 neighboring tile's opaque background would silently paint over the
 spillover part of an earlier tile's icon or label. Queuing icons/labels

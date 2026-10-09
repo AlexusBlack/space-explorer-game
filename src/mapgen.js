@@ -23,6 +23,11 @@
 // real, separately-discoverable tiles claiming one of their parent planet's
 // own unclaimed same-zone neighbor hexes (see placeMoons below), not a
 // decorative overlay on the parent's own tile.
+//
+// Names (nameMap below, from its own `names` stream): each system gets a
+// `name`, also stored on its primary star tile; companion stars, planets and
+// moons get a designation `name` ("GD-17 B", "GD-17 III", "GD-17 III-a"), and
+// inhabited planets/moons an `ownName` as well.
 
 import { createRng } from "./rng.js";
 import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors } from "./hexgrid.js";
@@ -61,6 +66,10 @@ const MOON_OFFSET_MAX = 0.5;
 // original, then a 4x bump, both too sparse to reliably encounter early.
 const ANOMALY_SYSTEM_CHANCE = 0.96;
 const ANOMALY_DEEPSPACE_CHANCE = 0.0032;
+// Share of non-home systems named with a catalogue designation ("GD-17")
+// instead of a name from data/star_planet_names.json.
+const DESIGNATION_CHANCE = 0.4;
+const RESERVED_NAMES = ["Sol", "Earth"];
 const WOBBLE_HARMONICS = [
   { freq: 2, weight: 1 },
   { freq: 3, weight: 0.5 },
@@ -467,7 +476,130 @@ function populateSystem(tiles, system, zoneCoords, rng, bodyRng) {
   }
 }
 
-export function generateMap({ seed } = {}) {
+function randomDesignation(rng, used) {
+  const letter = () => String.fromCharCode(65 + Math.floor(rng() * 26));
+  for (;;) {
+    // Digit count first, so "GD-7" is as likely as "GD-4821".
+    const digits = 1 + Math.floor(rng() * 4);
+    const lo = 10 ** (digits - 1);
+    const number = lo + Math.floor(rng() * (10 ** digits - lo));
+    const name = `${letter()}${letter()}-${number}`;
+    if (!used.has(name)) {
+      used.add(name);
+      return name;
+    }
+  }
+}
+
+// Removes and returns a random unused name, or null once the pool runs dry.
+function takeName(rng, pool, used) {
+  while (pool.length > 0) {
+    const [name] = pool.splice(Math.floor(rng() * pool.length), 1);
+    if (!used.has(name)) {
+      used.add(name);
+      return name;
+    }
+  }
+  return null;
+}
+
+function namePool(names, uses) {
+  return names.filter((n) => uses.includes(n.use)).map((n) => n.name);
+}
+
+// Bearing of `tile` seen from `center`, clockwise from north, in [0, 2π).
+function bearing(center, tile) {
+  const a = axialToPixel(center.q, center.r);
+  const b = axialToPixel(tile.q, tile.r);
+  const angle = Math.atan2(b.x - a.x, a.y - b.y);
+  return angle < 0 ? angle + 2 * Math.PI : angle;
+}
+
+function byBearing(center) {
+  return (a, b) => bearing(center, a) - bearing(center, b);
+}
+
+function toRoman(n) {
+  const numerals = [
+    [10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"],
+  ];
+  let out = "";
+  for (const [value, numeral] of numerals) {
+    while (n >= value) {
+      out += numeral;
+      n -= value;
+    }
+  }
+  return out;
+}
+
+// Final pass, after the whole map exists: its own stream, so naming never
+// shifts a layout draw. Planets are numbered by hex distance from the primary
+// star (ties clockwise from north), moons lettered clockwise around their
+// parent, companion stars lettered B, C... clockwise around the primary.
+function nameMap(tiles, systems, names, seed) {
+  const rng = createRng(`${seed}:names`);
+  const used = new Set(RESERVED_NAMES);
+  const pools = {
+    system: namePool(names, ["star", "any"]),
+    planet: namePool(names, ["planet", "any"]),
+    moon: namePool(names, ["moon", "any"]),
+  };
+
+  const bySystem = new Map(systems.map((s) => [s.id, { stars: [], planets: [], moons: [] }]));
+  for (const tile of tiles.values()) {
+    const group = bySystem.get(tile.regionId);
+    if (!group) continue;
+    if (tile.type === "star") group.stars.push(tile);
+    else if (tile.type === "planet") group.planets.push(tile);
+    else if (tile.type === "moon") group.moons.push(tile);
+  }
+
+  for (const system of systems) {
+    const { stars, planets, moons } = bySystem.get(system.id);
+    if (system.isHome) system.name = "Sol";
+    else if (rng() < DESIGNATION_CHANCE) system.name = randomDesignation(rng, used);
+    else system.name = takeName(rng, pools.system, used) ?? randomDesignation(rng, used);
+
+    const primary = stars.find((t) => t.q === system.q && t.r === system.r);
+    primary.name = system.name;
+    stars
+      .filter((t) => t !== primary)
+      .sort(byBearing(primary))
+      .forEach((t, i) => {
+        t.name = `${system.name} ${String.fromCharCode(66 + i)}`;
+      });
+
+    const dist = (t) => hexDistance(primary, t);
+    planets
+      .sort((a, b) => dist(a) - dist(b) || bearing(primary, a) - bearing(primary, b))
+      .forEach((t, i) => {
+        t.name = `${system.name} ${toRoman(i + 1)}`;
+      });
+
+    const moonsByParent = new Map();
+    for (const moon of moons) {
+      const key = axialKey(moon.parent.q, moon.parent.r);
+      if (!moonsByParent.has(key)) moonsByParent.set(key, []);
+      moonsByParent.get(key).push(moon);
+    }
+    for (const [key, group] of moonsByParent) {
+      const parent = tiles.get(key);
+      group.sort(byBearing(parent)).forEach((t, i) => {
+        t.name = `${parent.name}-${String.fromCharCode(97 + i)}`;
+      });
+    }
+
+    for (const tile of [...planets, ...moons]) {
+      if (tile.home) tile.ownName = "Earth";
+      else if (tile.inhabited) {
+        tile.ownName = takeName(rng, pools[tile.type], used) ?? tile.name;
+      }
+    }
+  }
+}
+
+export function generateMap({ seed, names = [] } = {}) {
   const rng = createRng(seed);
   const { systems, skipped } = placeSystems(rng);
 
@@ -498,6 +630,8 @@ export function generateMap({ seed } = {}) {
       );
     }
   }
+
+  nameMap(tiles, systems, names, seed);
 
   let earth = { q: 0, r: 0 };
   for (const tile of tiles.values()) {

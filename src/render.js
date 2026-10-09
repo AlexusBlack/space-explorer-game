@@ -7,6 +7,10 @@
 import { HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./hexgrid.js";
 
 const BACKGROUND = "#05070d";
+// Names and tags show when zoom > LABEL_ZOOM (the old label threshold); plain designations
+// of bodies and companion stars only when zoomed in further.
+const LABEL_ZOOM = 0.5;
+const DESIGNATION_ZOOM = 1;
 
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
 // silhouette centered with a 6px alignment-guide margin on each side. The
@@ -83,11 +87,49 @@ function drawHealthBar(ctx, cx, cy, zoom, frac) {
   ctx.fillRect(x, y, w * Math.max(0, frac), h);
 }
 
-function drawLabel(ctx, text, p, hh, zoom) {
+// Labels hang just under `anchor`, the bottom centre of their drawn icon
+// (see labelAnchor), so they follow a body's size and moon offset.
+function drawLabel(ctx, text, anchor, zoom) {
+  const size = Math.max(10, 12 * zoom);
   ctx.fillStyle = "rgba(255,255,255,0.85)";
-  ctx.font = `${Math.max(10, 12 * zoom)}px sans-serif`;
+  ctx.font = `${size}px sans-serif`;
   ctx.textAlign = "center";
-  ctx.fillText(text, p.x, p.y + hh + 14 * zoom);
+  ctx.fillText(text, anchor.x, anchor.y + 2 * zoom + size * 0.82);
+}
+
+// Inhabited worlds' own names: bold, slightly larger white text in a dark
+// blue rounded box, its top just under `anchor` like a plain label.
+function drawTag(ctx, text, anchor, zoom) {
+  const size = Math.max(11, 14 * zoom);
+  ctx.font = `bold ${size}px sans-serif`;
+  ctx.textAlign = "center";
+  const padX = size * 0.45;
+  const padY = size * 0.25;
+  const top = anchor.y + 2 * zoom;
+  const w = ctx.measureText(text).width + 2 * padX;
+  const h = size + 2 * padY;
+  ctx.fillStyle = "rgba(27,47,107,0.9)";
+  ctx.beginPath();
+  ctx.roundRect(anchor.x - w / 2, top, w, h, size * 0.35);
+  ctx.fill();
+  ctx.fillStyle = "#fff";
+  ctx.fillText(text, anchor.x, top + padY + size * 0.82);
+}
+
+// Bottom centre of an icon drawn at `centre` with drawIcon's `zoom`; falls
+// back to the hex's half-height while the image is still loading.
+function labelAnchor(img, centre, zoom, hh) {
+  return { x: centre.x, y: centre.y + (img ? (img.height * zoom) / 2 : hh) };
+}
+
+// Inhabited planets/moons show their own name as a tag; the rest show their
+// designation ("GD-17 III-a") only when zoomed in, to keep the map readable.
+function pushBodyLabel(pendingLabels, tile, anchor, zoom) {
+  if (tile.ownName) {
+    if (zoom > LABEL_ZOOM) pendingLabels.push([tile.ownName, anchor, "tag"]);
+  } else if (tile.name && zoom >= DESIGNATION_ZOOM) {
+    pendingLabels.push([tile.name, anchor]);
+  }
 }
 
 function tileWorldBounds(radius) {
@@ -173,12 +215,18 @@ export function render(
       switch (tile.type) {
         case "band":
           break;
-        case "star":
-          pendingIcons.push([iconImages && iconImages[tile.sprite], p]);
-          if (tile.sol && camera.zoom > 0.5) {
-            pendingLabels.push(["Sol", p]);
+        case "star": {
+          const img = iconImages && iconImages[tile.sprite];
+          pendingIcons.push([img, p]);
+          // Every star is always visible, so its name is too. Companion
+          // stars ("GD-17 B") only show close up, like body designations.
+          const system = mapData.systems[tile.regionId];
+          const primary = tile.q === system.q && tile.r === system.r;
+          if (primary ? camera.zoom > LABEL_ZOOM : camera.zoom >= DESIGNATION_ZOOM) {
+            pendingLabels.push([tile.name, labelAnchor(img, p, camera.zoom, hh)]);
           }
           break;
+        }
         case "asteroid-belt":
           pendingIcons.push([iconImages && iconImages[`asteroid-belt-${tile.variant}`], p]);
           break;
@@ -189,24 +237,17 @@ export function render(
           pendingIcons.push([iconImages && iconImages["anomaly"], p]);
           break;
         case "planet":
-          pendingIcons.push([iconImages && iconImages[tile.sprite], p, tile.scale]);
-          if (tile.home && camera.zoom > 0.5) {
-            pendingLabels.push(["Earth", p]);
-          } else if (tile.inhabited && camera.zoom > 0.5) {
-            pendingLabels.push(["Inhabited", p]);
-          }
+        case "moon": {
+          const img = iconImages && iconImages[tile.sprite];
+          // A moon is half size and shifted within its own hex by a fraction
+          // of the half-width/height; its label follows it.
+          const moon = tile.type === "moon";
+          const scale = moon ? 0.5 * tile.scale : tile.scale;
+          const centre = moon ? { x: p.x + tile.offset.x * hw, y: p.y + tile.offset.y * hh } : p;
+          pendingIcons.push([img, centre, scale]);
+          pushBodyLabel(pendingLabels, tile, labelAnchor(img, centre, camera.zoom * scale, hh), camera.zoom);
           break;
-        case "moon":
-          // Shifted within its own hex by a fraction of the half-width/height.
-          pendingIcons.push([
-            iconImages && iconImages[tile.sprite],
-            { x: p.x + tile.offset.x * hw, y: p.y + tile.offset.y * hh },
-            0.5 * tile.scale,
-          ]);
-          if (tile.inhabited && camera.zoom > 0.5) {
-            pendingLabels.push(["Inhabited", p]);
-          }
-          break;
+        }
         default:
           break;
       }
@@ -217,8 +258,8 @@ export function render(
     drawIcon(ctx, img, p.x, p.y, camera.zoom * scale);
   }
 
-  for (const [text, p] of pendingLabels) {
-    drawLabel(ctx, text, p, hh, camera.zoom);
+  for (const [text, anchor, style] of pendingLabels) {
+    (style === "tag" ? drawTag : drawLabel)(ctx, text, anchor, camera.zoom);
   }
 
   // Pirate bases/ships (MVP4): dynamic markers, not tile features, so they
