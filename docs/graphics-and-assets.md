@@ -155,8 +155,18 @@ truth for this grouping, consumed by both `mapgen.js` (generation) and
 | Molten | `planet-uninhabited`, `planet-furs` | Inner |
 | Toxic | `planet-ivory`, `planet-fruit` | Inner |
 | Rocky | `planet-inhabited`, `planet-wine`, `planet-wheat`, `planet-spice`, `planet-oasis`, `planet-silk` | Middle |
-| Gas Giant | `planet-whales` — stands out, a purple/magenta ringed gas giant | Outer |
+| Gas Giant | `planet-whales` (the original purple/magenta ringed gas giant), `planet-gas-brown`, `planet-gas-yellow`, `planet-gas-cyan`, `planet-gas-blue`, `planet-gas-green` | Outer |
 | Ice | `planet-shield`, `planet-buffalo` | Outer |
+
+The five `planet-gas-*` sprites are colour variants of `planet-whales`
+(same `terrain1.png` cell), recoloured by `extract-icons.py`'s
+`recolor_body`: Jupiter brown, Saturn yellow, Uranus cyan, Neptune blue and
+a fictional green, so gas giants don't all look alike on the map. The body
+is strongly saturated and the rings pale, so a saturation threshold selects
+the body (including the strip of ring in front of it); each body pixel's
+brightness is then mapped onto the variant's colour stops
+(`GAS_GIANT_PALETTES`), which keeps the original cloud bands and shading.
+The rings are left unchanged. All six are equally likely.
 
 Moons reuse this exact same sprite catalog, just rendered at 50% scale (see
 `render.js`'s icon pass) — no separate moon art was needed.

@@ -248,10 +248,10 @@ function isClaimable(tiles, key) {
 }
 
 // Picks one {planetClass, sprite} from the pooled sprite lists of the given
-// classes. Always draws rng() even when the pool has only one entry (true
-// today only for "gas-giant") so that a future second sprite in that class
-// doesn't change how many rng() calls happen at this point — only which
-// sprite gets picked.
+// classes. Always draws rng() even when the pool has only one entry, so that
+// adding a sprite to a class (as the gas giant colour variants did) doesn't
+// change how many rng() calls happen at this point — only which sprite gets
+// picked.
 function pickClassAndSprite(rng, classNames) {
   const entries = [];
   for (const cls of classNames) {

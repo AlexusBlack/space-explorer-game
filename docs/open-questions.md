@@ -422,3 +422,15 @@ from here.
   +25/tier, now five times instead of twice) — pure catalog extension, no
   new balance numbers invented. 30 total upgrades now exist across
   speed/vision/science/health/attack/repair.
+
+- **Gas giants get six colour variants instead of one sprite.** Direct user
+  request: every gas giant used the same purple `planet-whales` sprite. Five
+  recolours of it were added (Jupiter brown, Saturn yellow, Uranus cyan,
+  Neptune blue, a fictional green), generated locally by
+  `scripts/extract-icons.py` rather than new art. Chosen with the user: keep
+  the original purple as one of the six (and keep its name, so nothing is
+  renamed), all six equally likely, rings left as they are on every variant.
+  `pickClassAndSprite` already made one rng draw even for a one-sprite
+  class, so map layouts are unchanged for every seed (checked on 200 seeds);
+  only which colour a gas giant gets changes, including in existing saves,
+  since the map is regenerated from the seed on load.

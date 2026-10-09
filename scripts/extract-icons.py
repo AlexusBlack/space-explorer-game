@@ -8,7 +8,8 @@ Each icon is: crop its cell (border excluded), trim to content bounding box,
 optionally boost+recolor a low-opacity source (not currently needed by
 anything in MANIFEST, but terrain2.png's cloud blends once required it —
 kept as a per-entry option so a future low-opacity source is a one-line
-manifest addition, not new code), then save.
+manifest addition, not new code), optionally recolour a ringed planet's
+body (the gas giant colour variants, all from one cell), then save.
 
 Usage: python3 scripts/extract-icons.py [name ...]
   No arguments: regenerate everything in MANIFEST.
@@ -20,7 +21,7 @@ Run from anywhere; paths are resolved relative to this script's location.
 
 import sys
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageFilter
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 IMAGES_DIR = REPO_ROOT / "images"
@@ -123,9 +124,62 @@ def boost_and_tint(img, boost, tint):
     return out
 
 
+# Gas giant colour variants, all recoloured from the purple planet-whales
+# cell: brightness -> colour stops, darkest first. Real Sol giants plus one
+# fictional green.
+GAS_GIANT_PALETTES = {
+    "jupiter": [(45, 25, 15), (110, 60, 35), (170, 110, 70), (215, 175, 130), (245, 230, 205)],
+    "saturn": [(60, 45, 15), (140, 110, 45), (205, 170, 90), (235, 210, 140), (250, 240, 200)],
+    "uranus": [(20, 60, 75), (60, 130, 150), (120, 190, 205), (175, 225, 230), (225, 248, 250)],
+    "neptune": [(10, 20, 70), (30, 60, 150), (60, 110, 210), (110, 160, 240), (190, 215, 255)],
+    "green": [(15, 45, 20), (45, 100, 50), (95, 160, 80), (160, 205, 120), (220, 240, 190)],
+}
+
+
+def recolor_body(img, stops, sat_lo=0.30, sat_hi=0.50):
+    """Recolours a ringed planet's body with a brightness gradient map,
+    keeping its cloud bands and shading. The body is strongly saturated and
+    the rings pale, so a saturation ramp (sat_lo..sat_hi, slightly feathered)
+    selects the body, including the ring strip passing in front of it, and
+    leaves the rings untouched."""
+    img = img.convert("RGBA")
+    src = img.load()
+    w, h = img.size
+    mask = Image.new("L", img.size, 0)
+    mpx = mask.load()
+    lum = {}
+    for y in range(h):
+        for x in range(w):
+            r, g, b, a = src[x, y]
+            hi, lo = max(r, g, b), min(r, g, b)
+            sat = (hi - lo) / hi if hi else 0
+            mpx[x, y] = round(255 * min(1, max(0, (sat - sat_lo) / (sat_hi - sat_lo))))
+            lum[x, y] = 0.299 * r + 0.587 * g + 0.114 * b
+    mask = mask.filter(ImageFilter.GaussianBlur(0.6))
+    mpx = mask.load()
+    # Stretch the body's own brightness range (2nd-98th percentile) over the stops.
+    body = sorted(lum[p] for p in lum if mpx[p] > 127)
+    b_lo, b_hi = body[len(body) * 2 // 100], body[len(body) * 98 // 100]
+    out = img.copy()
+    dst = out.load()
+    n = len(stops) - 1
+    for y in range(h):
+        for x in range(w):
+            m = mpx[x, y] / 255
+            if not m:
+                continue
+            t = min(1, max(0, (lum[x, y] - b_lo) / (b_hi - b_lo))) * n
+            i = min(int(t), n - 1)
+            f = t - i
+            new = [stops[i][c] + (stops[i + 1][c] - stops[i][c]) * f for c in range(3)]
+            r, g, b, a = src[x, y]
+            dst[x, y] = (*(round(old + (nw - old) * m) for old, nw in zip((r, g, b), new)), a)
+    return out
+
+
 # (output filename stem, source filename, row, col) — row/col are 0-indexed
-# into that source's auto-detected grid. Add `inset`/`pad`/`boost`/`tint` to
-# an entry only if its defaults aren't right for that cell.
+# into that source's auto-detected grid. Add `inset`/`pad`/`boost`/`tint`/
+# `recolor` to an entry only if its defaults aren't right for that cell.
 MANIFEST = [
     # -- terrain1.png: star, the 2 currently-wired planets, black hole --
     ("star", "terrain1.png", 9, 2),
@@ -145,6 +199,12 @@ MANIFEST = [
     ("planet-spice", "terrain1.png", 7, 4),
     ("planet-fruit", "terrain1.png", 8, 4),
     ("planet-whales", "terrain1.png", 9, 4),
+    # -- gas giant colour variants of the same cell (see GAS_GIANT_PALETTES) --
+    ("planet-gas-brown", "terrain1.png", 9, 4, {"recolor": "jupiter"}),
+    ("planet-gas-yellow", "terrain1.png", 9, 4, {"recolor": "saturn"}),
+    ("planet-gas-cyan", "terrain1.png", 9, 4, {"recolor": "uranus"}),
+    ("planet-gas-blue", "terrain1.png", 9, 4, {"recolor": "neptune"}),
+    ("planet-gas-green", "terrain1.png", 9, 4, {"recolor": "green"}),
     ("planet-shield", "terrain1.png", 11, 4),
     # -- hills.png: 16 asteroid/Kuiper belt variants, used as-is --
     *[(f"asteroid-belt-{i + 1}", "hills.png", i // 4, i % 4) for i in range(16)],
@@ -178,6 +238,8 @@ def main():
         result = trim(cell, pad=opts.get("pad", 2))
         if "boost" in opts:
             result = boost_and_tint(result, opts["boost"], opts["tint"])
+        if "recolor" in opts:
+            result = recolor_body(result, GAS_GIANT_PALETTES[opts["recolor"]])
 
         out_path = ICONS_DIR / f"{name}.png"
         result.save(out_path)

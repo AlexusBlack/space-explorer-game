@@ -143,7 +143,7 @@ space between systems, is).
   uses to pick the background image; only `"band"` type tiles have *nothing
   else* drawn on top. `planet`/`moon` tiles additionally carry `planetClass`
   (molten/toxic/rocky/gas-giant/ice), `sprite` (the specific icon key within
-  that class), and `inhabited` (boolean, independent of class/sprite); a
+  that class; the gas-giant class has six colour variants), and `inhabited` (boolean, independent of class/sprite); a
   `moon` tile also carries `parent: {q, r}` pointing at its planet.
 - After all systems are carved and populated, one final sweep covers every
   remaining hex within the map radius with `{ type: "band", band:

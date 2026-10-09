@@ -5,7 +5,12 @@ export const PLANET_CLASSES = {
   molten: ["planet-uninhabited", "planet-furs"],
   toxic: ["planet-ivory", "planet-fruit"],
   rocky: ["planet-inhabited", "planet-wine", "planet-wheat", "planet-spice", "planet-oasis", "planet-silk"],
-  "gas-giant": ["planet-whales"],
+  // planet-whales is the original purple; the rest are recoloured from it
+  // by scripts/extract-icons.py (Jupiter, Saturn, Uranus, Neptune, green).
+  "gas-giant": [
+    "planet-whales", "planet-gas-brown", "planet-gas-yellow",
+    "planet-gas-cyan", "planet-gas-blue", "planet-gas-green",
+  ],
   ice: ["planet-shield", "planet-buffalo"],
 };
 
