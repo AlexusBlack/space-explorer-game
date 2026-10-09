@@ -598,7 +598,9 @@ switch and load is covered). Entries come from three places:
 Each circle handles its own pointer events, so they never reach the canvas
 pan/tap handler:
 - a release after moving under 10 px is a tap: `centerCameraOn` plus
-  `#notice-caption` for 7 s, with one shared timer that a new tap restarts;
+  `#notice-caption` for 7 s, with one shared timer that a new tap restarts
+  (a `species` entry opens `showWorldCard` for its tile instead of the
+  caption);
 - a horizontal drag of 40 px or more removes the entry and saves.
 
 The column's z-index is below the full-screen overlays, so the opaque

@@ -36,7 +36,7 @@ game — losing a ship is a setback, not a game-over.
     disappears once the anomaly is used up by either player.
 
   Tapping an icon centers the map on that object and shows its explanation
-  for about 7 seconds. Swiping an icon sideways removes it, and ending your
+  for about 7 seconds; a species icon opens that world's card instead. Swiping an icon sideways removes it, and ending your
   turn clears your whole list. Earth and Luna, which are visible from the
   start, are never announced.
 

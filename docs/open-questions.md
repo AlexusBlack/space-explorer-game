@@ -610,3 +610,8 @@ from here.
   in `species/species.json` and its `species.csv` mirror: Sphenod, Latimer,
   Meganeur, Limulus, Jaekelo, Triopsa, Wallise, Opabina, Hallucig, Dactylo
   and Euperip.
+
+- **Species notifications open the world card.** User request: tapping an
+  inhabited-world notification now centers on the world and opens its world
+  card (the same one a name-tag tap opens) instead of the short caption,
+  which only repeated what the card shows.

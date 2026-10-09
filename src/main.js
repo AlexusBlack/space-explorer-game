@@ -372,6 +372,16 @@ function noticeElement(player, notification) {
 
 function openNotification(notification) {
   centerCameraOn(notification.q, notification.r);
+  // An inhabited world opens its world card, which already says everything
+  // the caption would.
+  if (notification.kind === "species") {
+    const tile = mapData.tiles.get(axialKey(notification.q, notification.r));
+    if (tile) {
+      hideNoticeCaption();
+      showWorldCard(tile);
+      return;
+    }
+  }
   noticeCaption.textContent = notification.message;
   noticeCaption.hidden = false;
   clearTimeout(noticeCaptionTimer);
