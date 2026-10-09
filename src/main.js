@@ -25,6 +25,10 @@ import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from
 
 // Star/planet name list for mapgen's naming pass (data, not code: no build step).
 const names = await fetch("data/star_planet_names.json").then((r) => r.json());
+// Species catalogue: mapgen assigns one to each inhabited world, and the world
+// card shows its portrait and description.
+const species = await fetch("species/species.json").then((r) => r.json());
+const speciesById = new Map(species.map((s) => [s.id, s]));
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
@@ -48,6 +52,12 @@ const anomalyOverlay = document.getElementById("anomaly-overlay");
 const anomalyMessage = document.getElementById("anomaly-message");
 const combatOverlay = document.getElementById("combat-overlay");
 const combatMessage = document.getElementById("combat-message");
+const worldCard = document.getElementById("world-card");
+const worldCardName = document.getElementById("world-card-name");
+const worldCardType = document.getElementById("world-card-type");
+const worldCardImage = document.getElementById("world-card-image");
+const worldCardSpecies = document.getElementById("world-card-species");
+const worldCardDescription = document.getElementById("world-card-description");
 
 function readSeedFromUrl() {
   const params = new URLSearchParams(location.search);
@@ -70,6 +80,8 @@ let mapData;
 let gameState;
 let currentSeed;
 let needsRedraw = true;
+// Name tags drawn in the last frame ({rect, tile}), for tap hit-testing.
+let tagHits = [];
 
 // Loads/generates the map for `seed` without touching player/turn state —
 // used both by startNewGame (below) and by the resume-from-save path, since
@@ -77,7 +89,7 @@ let needsRedraw = true;
 // rather than persisted.
 function loadMap(seed) {
   currentSeed = seed;
-  mapData = generateMap({ seed, names });
+  mapData = generateMap({ seed, names, species });
   camera.x = 0;
   camera.y = 0;
   camera.zoom = DEFAULT_ZOOM;
@@ -146,10 +158,10 @@ function frame(bandImages, iconImages) {
       color: p.color,
       active: i === gameState.activePlayerIndex,
     }));
-    render(
+    ({ tagHits } = render(
       ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages,
       active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips
-    );
+    ));
     needsRedraw = false;
   }
   requestAnimationFrame(() => frame(bandImages, iconImages));
@@ -267,11 +279,61 @@ function maybeShowUpgradePicker() {
   }
 }
 
+const CLASS_DISPLAY_NAMES = {
+  rocky: "Rocky",
+  ice: "Ice",
+  "gas-giant": "Gas giant",
+  toxic: "Toxic",
+  molten: "Molten",
+};
+
+// The tag drawn last is on top, so it wins an overlap.
+function tagAt(screenPos) {
+  for (let i = tagHits.length - 1; i >= 0; i--) {
+    const { rect, tile } = tagHits[i];
+    if (
+      screenPos.x >= rect.x && screenPos.x <= rect.x + rect.w &&
+      screenPos.y >= rect.y && screenPos.y <= rect.y + rect.h
+    ) {
+      return tile;
+    }
+  }
+  return null;
+}
+
+// Info card for an inhabited world, opened by tapping its name tag. Display
+// only: nothing in the game reads species.
+function showWorldCard(tile) {
+  const kind = tile.species ? speciesById.get(tile.species.id) : null;
+  worldCardName.textContent = tile.ownName;
+  worldCardType.textContent = `${CLASS_DISPLAY_NAMES[tile.planetClass]} ${tile.type}`;
+  worldCardSpecies.textContent = tile.species ? tile.species.name : "Unknown species";
+  worldCardDescription.textContent = kind ? kind.description : "";
+  worldCardImage.hidden = !kind;
+  if (kind) {
+    worldCardImage.src = `species/images-opt/${String(kind.id).padStart(3, "0")}-${kind.key}.webp`;
+    worldCardImage.alt = tile.species.name;
+  }
+  worldCard.classList.add("visible");
+}
+
+function dismissWorldCard() {
+  worldCard.classList.remove("visible");
+}
+
 function handleTap(screenPos) {
   if (interstitial.classList.contains("visible")) return;
   if (upgradePicker.classList.contains("visible")) return;
   if (anomalyOverlay.classList.contains("visible")) return;
   if (combatOverlay.classList.contains("visible")) return;
+  if (worldCard.classList.contains("visible")) return;
+
+  // A tap on an inhabited world's name tag opens its card instead of moving.
+  const tagged = tagAt(screenPos);
+  if (tagged) {
+    showWorldCard(tagged);
+    return;
+  }
 
   const active = gameState.players[gameState.activePlayerIndex];
   const worldX = (screenPos.x - window.innerWidth / 2) / camera.zoom + camera.x;
@@ -392,6 +454,7 @@ endTurnButton.addEventListener("click", endTurn);
 interstitial.addEventListener("pointerdown", dismissInterstitial);
 anomalyOverlay.addEventListener("pointerdown", dismissAnomalyOverlay);
 combatOverlay.addEventListener("pointerdown", dismissCombatOverlay);
+worldCard.addEventListener("pointerdown", dismissWorldCard);
 
 resizeCanvas();
 

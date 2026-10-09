@@ -100,6 +100,33 @@
   }
   #combat-overlay.visible { display: flex; }
   #combat-message { font-size: 1.3em; font-weight: 600; text-align: center; max-width: 80%; }
+
+  /* Inhabited world info card: the map stays visible, dimmed, behind it. */
+  #world-card {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+    background: rgba(5,7,13,0.6); color: #cfe0ff; font: 15px/1.4 system-ui, sans-serif;
+    z-index: 10; cursor: pointer;
+  }
+  #world-card.visible { display: flex; }
+  #world-card-panel {
+    position: relative; width: 320px; max-width: 100%; box-sizing: border-box;
+    padding: 18px; border-radius: 12px; text-align: center;
+    background: #0d1426; border: 1px solid #1b2f6b; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  #world-card-close {
+    position: absolute; top: 6px; right: 8px; background: none; border: none;
+    color: #cfe0ff; font-size: 22px; line-height: 1; cursor: pointer;
+  }
+  #world-card-name { font-size: 1.4em; font-weight: 700; color: #fff; }
+  #world-card-type { opacity: 0.75; margin-bottom: 10px; }
+  #world-card-image {
+    display: block; width: 200px; max-width: 100%; aspect-ratio: 1;
+    margin: 0 auto 10px; border-radius: 8px; background: #05070d;
+  }
+  #world-card-image[hidden] { display: none; }
+  #world-card-species { font-size: 1.15em; font-weight: 600; color: #fff; }
+  #world-card-description { margin-top: 6px; font-size: 0.9em; opacity: 0.85; text-align: left; }
 </style>
 </head>
 <body>
@@ -131,6 +158,16 @@
 <div id="anomaly-overlay">
   <div id="anomaly-message"></div>
   <button id="anomaly-continue">Tap to continue</button>
+</div>
+<div id="world-card">
+  <div id="world-card-panel">
+    <button id="world-card-close" aria-label="Close">&times;</button>
+    <div id="world-card-name"></div>
+    <div id="world-card-type"></div>
+    <img id="world-card-image" alt="" />
+    <div id="world-card-species"></div>
+    <div id="world-card-description"></div>
+  </div>
 </div>
 <div id="combat-overlay">
   <div id="combat-message"></div>

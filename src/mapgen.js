@@ -703,7 +703,44 @@ function nameMap(tiles, systems, names, seed) {
   }
 }
 
-export function generateMap({ seed, names = [] } = {}) {
+// species.json's `planetoids` vocabulary for each planet class.
+const CLASS_TO_PLANETOID = {
+  rocky: "rocky",
+  ice: "frozen",
+  "gas-giant": "gas_giant",
+  toxic: "toxic",
+  molten: "molten",
+};
+const HUMAN_SPECIES = { key: "Humani", name: "Human" };
+
+// Final pass, after naming: its own stream, so species never shift a layout
+// or name draw (existing saves keep their map). Every inhabited planet/moon
+// gets a random species that lives on its class (repeats allowed) and one of
+// its names, the species key included; Earth and Luna are always Human.
+// Stores `species: { id, name }`; the card looks the rest up by id.
+function assignSpecies(tiles, species, seed) {
+  if (!species.length) return;
+  const rng = createRng(`${seed}:species`);
+  const byPlanetoid = {};
+  for (const s of species) {
+    for (const p of s.planetoids) (byPlanetoid[p] ??= []).push(s);
+  }
+  const human = species.find((s) => s.key === HUMAN_SPECIES.key);
+  for (const tile of tiles.values()) {
+    if (!tile.inhabited) continue;
+    if ((tile.home || tile.luna) && human) {
+      tile.species = { id: human.id, name: HUMAN_SPECIES.name };
+      continue;
+    }
+    const pool = byPlanetoid[CLASS_TO_PLANETOID[tile.planetClass]];
+    if (!pool) continue;
+    const pick = pool[Math.floor(rng() * pool.length)];
+    const variants = [pick.key, ...pick.name_variants];
+    tile.species = { id: pick.id, name: variants[Math.floor(rng() * variants.length)] };
+  }
+}
+
+export function generateMap({ seed, names = [], species = [] } = {}) {
   const rng = createRng(seed);
   const field = buildClusterField(seed);
   const { systems, skipped } = placeSystems(rng, field);
@@ -737,6 +774,7 @@ export function generateMap({ seed, names = [] } = {}) {
   }
 
   nameMap(tiles, systems, names, seed);
+  assignSpecies(tiles, species, seed);
 
   let earth = { q: 0, r: 0 };
   for (const tile of tiles.values()) {

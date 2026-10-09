@@ -472,8 +472,9 @@ planetary information and communication ("video call") screens instead:
 - **Exported finals (committed):** `species/images/<id03>-<Key>.png` (1024²
   RGBA PNG, about 1.5 MB each, 513 MB total) and `species/images-opt/<id03>-<Key>.webp`
   (512² WebP, quality 85, full-quality alpha, about 57 KB each, 19 MB total).
-  The game should load the WebPs; the PNGs are the full-size masters. Names
-  derive from `species.json`: zero-padded id, a dash, then `key`.
+  The game loads the WebPs (one at a time, when an inhabited world's card is
+  opened); the PNGs are the full-size masters. Names derive from
+  `species.json`: zero-padded id, a dash, then `key`.
 - **Known quirks:** floaters need `--strict-anatomy` on flare to avoid a
   humanoid torso; a catalogue pose can force a side crop (`--no-pose`); some
   bodies end above the bottom edge (`--crop-bottom`, or the automatic bottom

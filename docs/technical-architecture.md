@@ -142,6 +142,19 @@ side of this; the key algorithmic ideas:
   designation if the pool runs dry. `DESIGNATION_CHANCE` = 0.4. Names are
   regenerated, not saved: editing the JSON renames bodies in existing saves
   but never moves them.
+- **Species come from one more final pass with its own stream**
+  (`assignSpecies`, `` createRng(`${seed}:species`) ``, run after
+  `nameMap`), so adding species changed no layout or name and needed no
+  `SAVE_VERSION` bump. `generateMap({ seed, names, species })` takes the
+  parsed `species/species.json` (fetched once by `main.js`, like the names;
+  with no list nothing is assigned). Each inhabited planet/moon, in tile
+  order, gets `species: { id, name }`: a random species whose `planetoids`
+  include its class (`CLASS_TO_PLANETOID`: rocky→rocky, ice→frozen,
+  gas-giant→gas_giant, toxic→toxic, molten→molten; repeats allowed), then a
+  random name from `[key, ...name_variants]`. Earth and Luna are fixed to
+  Humani (found by `key`) as "Human". Only `id` and the chosen name are on
+  the tile; the card looks up the rest by `id`. Display only, nothing in
+  game logic reads it.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -544,6 +557,19 @@ spillover part of an earlier tile's icon or label. Queuing icons/labels
 during the background pass and drawing them only once every background is
 down (`src/render.js`'s `pendingIcons`/`pendingLabels`) guarantees nothing
 ever clips them, regardless of q/r iteration order.
+
+**Tappable name tags.** `drawTag` returns the screen rect it drew, and
+`render` returns `{ tagHits }`, a `{ rect, tile }` per tag drawn this frame.
+`main.js` keeps the latest list (any camera change redraws, so it's never
+stale) and `handleTap` hit-tests it before treating a tap as a move,
+last-drawn tag first. Tags only draw for the active player's discovered
+worlds above `LABEL_ZOOM`, so tappability follows the same fog and zoom
+rules. A hit opens the `#world-card` overlay (`index.html`): a dimmed
+backdrop with a ~320px card holding the world's `ownName`, its class and
+type, the species portrait (`species/images-opt/<id03>-<Key>.webp`, loaded
+by `<img>` only when the card opens), the species name and its
+description. Any tap on the card or backdrop closes it, and `handleTap`
+ignores taps while it is open, like the other overlays.
 
 ## Persistence
 

@@ -106,7 +106,8 @@ function drawLabel(ctx, text, anchor, zoom) {
 }
 
 // Inhabited worlds' own names: bold, slightly larger white text in a dark
-// blue rounded box, its top just under `anchor` like a plain label.
+// blue rounded box, its top just under `anchor` like a plain label. Returns
+// the box's screen rect, so a tap on the tag can open the world card.
 function drawTag(ctx, text, anchor, zoom) {
   const size = Math.min(TAG_MAX_PX, Math.max(11, 14 * zoom));
   ctx.font = `bold ${size}px sans-serif`;
@@ -122,6 +123,7 @@ function drawTag(ctx, text, anchor, zoom) {
   ctx.fill();
   ctx.fillStyle = "#fff";
   ctx.fillText(text, anchor.x, top + padY + size * 0.82);
+  return { x: anchor.x - w / 2, y: top, w, h };
 }
 
 // Bottom centre of an icon drawn at `centre` with drawIcon's `zoom`; falls
@@ -134,7 +136,7 @@ function labelAnchor(img, centre, zoom, hh) {
 // designation ("GD-17 III-a") only when zoomed in, to keep the map readable.
 function pushBodyLabel(pendingLabels, tile, anchor, zoom) {
   if (tile.ownName) {
-    if (zoom > LABEL_ZOOM) pendingLabels.push([tile.ownName, anchor, "tag"]);
+    if (zoom > LABEL_ZOOM) pendingLabels.push([tile.ownName, anchor, "tag", tile]);
   } else if (tile.name && zoom >= DESIGNATION_ZOOM) {
     pendingLabels.push([tile.name, anchor]);
   }
@@ -266,8 +268,11 @@ export function render(
     drawIcon(ctx, img, p.x, p.y, camera.zoom * scale);
   }
 
-  for (const [text, anchor, style] of pendingLabels) {
-    (style === "tag" ? drawTag : drawLabel)(ctx, text, anchor, camera.zoom);
+  // Drawn name tags' screen rects, returned so main.js can hit-test taps.
+  const tagHits = [];
+  for (const [text, anchor, style, tile] of pendingLabels) {
+    if (style === "tag") tagHits.push({ rect: drawTag(ctx, text, anchor, camera.zoom), tile });
+    else drawLabel(ctx, text, anchor, camera.zoom);
   }
 
   // Pirate bases/ships (MVP4): dynamic markers, not tile features, so they
@@ -323,4 +328,6 @@ export function render(
       drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, ship.color);
     }
   }
+
+  return { tagHits };
 }

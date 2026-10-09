@@ -202,7 +202,9 @@ src/
 
 **Species portraits** (`species/`, `scripts/species_art/`): an offline Python
 pipeline (gitignored venv; not a game dependency) that generates one RGBA
-portrait per species with OpenAI `gpt-image-2`. Read
+portrait per species with OpenAI `gpt-image-2`. Its outputs are game data,
+though: `main.js` fetches `species/species.json` (mapgen gives each inhabited
+world a species) and the world card shows `species/images-opt/*.webp`. Read
 `scripts/species_art/README.md` first. Hard rules from the user: the API key
 lives only in the gitignored `.env` and is never printed or committed; **every
 paid step stops at a human review gate**, so never run a paid command (`--yes`)

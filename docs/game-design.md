@@ -94,11 +94,26 @@ any-use names). Other bodies are named after their system:
   (planet or moon names plus any-use ones), unique across the map. Earth's
   own name is always **Earth**, and its moon's is always **Luna**.
 
+**Species.** Every inhabited world is home to a species from the species
+catalogue (`species/species.json`), picked at random among the species that
+live on that kind of world (rocky, ice, gas giant, toxic or molten). The
+same species can turn up on several worlds. Each world also uses one of its
+species' names (the species' catalogue name or one of its variants), so the
+same species can go by different names on different worlds. Earth and Luna
+are always inhabited by Humans. Species are flavour only for now: they
+don't change any rules.
+
 Labels: a system's name shows under its main star from the start (stars are
 always visible). An inhabited world shows its own name as a tag, bold white
 text in a dark blue rounded box, once discovered. Plain designations of
 other planets, moons and companion stars only show when zoomed in close
 (zoom 1 or more), to keep the map readable.
+
+Tapping an inhabited world's name tag opens a small card over the dimmed
+map, showing the world's name and type (e.g. "Rocky planet", "Ice moon"),
+its species' portrait, the name the species goes by there, and the species
+description. A tap anywhere closes it. Tapping a tag never moves the ship or
+spends moves.
 
 ## Movement & Exploration
 

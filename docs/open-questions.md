@@ -554,3 +554,23 @@ from here.
   to native size (`SHIP_MAX_ZOOM`). Their health bar uses the same capped
   zoom so it doesn't drift away from the sprite. Pirate bases are still
   unchanged.
+
+- **Inhabited worlds get a species, shown on a tappable world card.** User
+  request: each inhabited planet/moon gets a species from
+  `species/species.json` and one of its names (the species key counts as
+  one); Earth and Luna are always 332-Humani under the name "Human" (the
+  user added "Human" to Humani's variants for this); tapping an inhabited
+  world's name tag opens a small window with the world's name, species name,
+  species portrait (`species/images-opt/`) and world type. Decisions at plan
+  time:
+  - **Match the world type.** Only species whose `planetoids` include the
+    world's class can live there (ice maps to the catalogue's "frozen",
+    gas giant to "gas_giant"). Every class has at least 62 candidates.
+  - **Repeats allowed.** Each world picks independently; about 50 distinct
+    species appear across about 55 inhabited worlds per map.
+  - **A small card over the dimmed map**, not a full-screen overlay; any tap
+    closes it.
+  - **The species description is shown too.**
+
+  Species use their own random stream, so maps and saves are unchanged. A
+  tag tap opens the card instead of moving and spends no moves.
