@@ -446,7 +446,7 @@ planetary information and communication ("video call") screens instead:
   bodies end above the bottom edge (`--crop-bottom`, or the automatic bottom
   snap when it's just a straight cut a few px short); "glowing"/"translucent"
   descriptions can leave a soft white haze in the alpha.
-- **Status:** 200 of 331 species have an accepted test portrait in
+- **Status:** 300 of 331 species have an accepted test portrait in
   `species/work/one/` (gitignored, machine-local); the newest numbered file
   per species is current.
 

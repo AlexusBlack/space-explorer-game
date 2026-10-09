@@ -103,6 +103,14 @@ bottom snap) and three with `--no-pose` (one plus a `--note` folding manta
 wings like a cloak). The rest, including a scorpion and a seahorse whose
 tails end above the edge and some glow haze, were accepted as is.
 Smartphone-like devices are fine: they fit the setting.
+A fourth batch of 100 (300 species in total): 10 bodies ended above the
+bottom edge (3 of them floaters, left as is) and one dragonfly's wings touched
+both sides (fixed with `--no-pose` and a `--note` folding them back). The
+seven `--crop-bottom` regenerations all reached the bottom, but three wide
+bodies (sprawled arms, a centipede's segments, a batfish's fins) then touched
+the sides: a waist-up crop enlarges the subject. Adding `--no-pose` and a
+`--note` keeping the arms or body tucked in with clear space on both sides
+fixed all three. Glow haze up to about 13% was accepted again.
 
 ## Stages
 
