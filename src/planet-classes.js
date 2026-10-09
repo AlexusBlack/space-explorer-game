@@ -14,6 +14,13 @@ export const PLANET_CLASSES = {
   ice: ["planet-shield", "planet-buffalo"],
 };
 
+// Extra per-class sprites only moons may use, never planets. moon-grey is
+// planet-shield with all colour stripped (scripts/extract-icons.py); it is
+// also always Earth's moon, Luna.
+export const MOON_ONLY_SPRITES = {
+  rocky: ["moon-grey"],
+};
+
 export const PLANET_CLASS_NAMES = Object.keys(PLANET_CLASSES);
 
 // Classes a moon may be. Gas giants can't be moons (a gas giant orbiting a

@@ -530,3 +530,21 @@ from here.
   Deep space rises from about 21% to 70% of the map. The per-hex anomaly
   chance is unchanged, so anomalies rise from about 120 to 260 per map, with
   the extra ones out in the voids. Generation takes about 90 ms per map.
+
+- **Earth has one grey moon, Luna; rocky moons gain a moon-only grey look.**
+  Moons had no art of their own, and Earth rolled 0-2 random rocky or molten
+  moons with designations like "Sol III-a". The user asked for a grey rocky
+  moon made from an ice planet icon with zero saturation, used only by moons,
+  and for Earth to always have a single moon labelled Luna. Decisions:
+  - **Source icon: `planet-shield`** (the pale icy one), desaturated into
+    `moon-grey` by a new `desaturate` option in `scripts/extract-icons.py`.
+  - **Moon-only, not a new class.** It is a Rocky sprite listed in
+    `MOON_ONLY_SPRITES`, which only `placeMoons` draws from. Any rocky moon
+    can be grey, 1 in 7 (one extra sprite next to the six rocky ones); this
+    is the knob if grey moons feel too common or too rare.
+  - **Luna is inhabited** (10 XP) and shows its name tag like Earth. First
+    planned as uninhabited but tagged; the user changed it before
+    implementation. "Luna" is reserved so no other world can take it.
+  - **Discard old saves again.** Luna's fixed placement changes the home
+    system's draws from the main stream, which shifts every later system, so
+    `SAVE_VERSION` goes from 2 to 3.

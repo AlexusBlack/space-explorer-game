@@ -10,7 +10,7 @@ anything in MANIFEST, but terrain2.png's cloud blends once required it —
 kept as a per-entry option so a future low-opacity source is a one-line
 manifest addition, not new code), optionally recolour a ringed planet's
 body or a star (the gas giant and star colour variants, each set from one
-cell), then save.
+cell) or strip all colour (the grey moon), then save.
 
 Usage: python3 scripts/extract-icons.py [name ...]
   No arguments: regenerate everything in MANIFEST.
@@ -22,7 +22,7 @@ Run from anywhere; paths are resolved relative to this script's location.
 
 import sys
 from pathlib import Path
-from PIL import Image, ImageFilter
+from PIL import Image, ImageEnhance, ImageFilter
 
 REPO_ROOT = Path(__file__).resolve().parent.parent
 IMAGES_DIR = REPO_ROOT / "images"
@@ -125,6 +125,15 @@ def boost_and_tint(img, boost, tint):
     return out
 
 
+def desaturate(img):
+    """Zero saturation (luminance grey), alpha kept: the grey moon from an
+    ice planet cell."""
+    alpha = img.getchannel("A")
+    grey = ImageEnhance.Color(img.convert("RGB")).enhance(0).convert("RGBA")
+    grey.putalpha(alpha)
+    return grey
+
+
 # Gas giant colour variants, all recoloured from the purple planet-whales
 # cell: brightness -> colour stops, darkest first. Real Sol giants plus one
 # fictional green.
@@ -213,7 +222,8 @@ def recolor_star(img, stops, core_blue=200):
 
 # (output filename stem, source filename, row, col) — row/col are 0-indexed
 # into that source's auto-detected grid. Add `inset`/`pad`/`boost`/`tint`/
-# `recolor`/`star_color` to an entry only if its defaults aren't right for that cell.
+# `recolor`/`star_color`/`desaturate` to an entry only if its defaults aren't
+# right for that cell.
 MANIFEST = [
     # -- terrain1.png: star, the 2 currently-wired planets, black hole --
     ("star", "terrain1.png", 9, 2),
@@ -242,6 +252,8 @@ MANIFEST = [
     ("planet-gas-blue", "terrain1.png", 9, 4, {"recolor": "neptune"}),
     ("planet-gas-green", "terrain1.png", 9, 4, {"recolor": "green"}),
     ("planet-shield", "terrain1.png", 11, 4),
+    # -- moon-only grey variant of the same cell (Luna, other rocky moons) --
+    ("moon-grey", "terrain1.png", 11, 4, {"desaturate": True}),
     # -- hills.png: 16 asteroid/Kuiper belt variants, used as-is --
     *[(f"asteroid-belt-{i + 1}", "hills.png", i // 4, i % 4) for i in range(16)],
     # -- units.png: ship sprites (chroma-key green background, see
@@ -278,6 +290,8 @@ def main():
             result = recolor_body(result, GAS_GIANT_PALETTES[opts["recolor"]])
         if "star_color" in opts:
             result = recolor_star(result, STAR_PALETTES[opts["star_color"]])
+        if opts.get("desaturate"):
+            result = desaturate(result)
 
         out_path = ICONS_DIR / f"{name}.png"
         result.save(out_path)

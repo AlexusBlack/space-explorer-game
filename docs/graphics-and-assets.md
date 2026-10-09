@@ -176,8 +176,18 @@ brightness is then mapped onto the variant's colour stops
 (`GAS_GIANT_PALETTES`), which keeps the original cloud bands and shading.
 The rings are left unchanged. All six are equally likely.
 
-Moons reuse this exact same sprite catalog, just rendered at 50% scale (see
-`render.js`'s icon pass) — no separate moon art was needed.
+Moons reuse this same sprite catalog, rendered at 50% scale (see
+`render.js`'s icon pass), plus one moon-only sprite that planets never use
+(`MOON_ONLY_SPRITES` in `src/planet-classes.js`):
+
+| Class | Moon-only sprites | Used for |
+|---|---|---|
+| Rocky | `moon-grey` | Earth's moon Luna (always), and about 1 in 7 other rocky moons |
+
+`moon-grey` is the `planet-shield` cell (row 11, column 4) with all colour
+removed by `extract-icons.py`'s `desaturate` option (luminance grey via
+`ImageEnhance.Color(...).enhance(0)`, alpha kept), so it has the shield's
+craters and shading in plain grey.
 
 Every column-2/column-4 cell across all 11 `terrain1.png` rows was surveyed
 (not just these 12 planet-like ones) — excluded as not planet-shaped: Coal

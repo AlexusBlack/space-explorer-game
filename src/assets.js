@@ -1,6 +1,6 @@
 // Loads the per-band hex background art and feature icon sprites once at startup.
 
-import { PLANET_CLASSES } from "./planet-classes.js";
+import { PLANET_CLASSES, MOON_ONLY_SPRITES } from "./planet-classes.js";
 import { STAR_COLORS } from "./star-classes.js";
 
 const BAND_IMAGE_PATHS = {
@@ -29,7 +29,7 @@ const ICON_IMAGE_PATHS = {
   // strip, drawn as-is (no per-player recolor) in render.js.
   select: "images/select-alpha.png",
 };
-for (const sprites of Object.values(PLANET_CLASSES)) {
+for (const sprites of [...Object.values(PLANET_CLASSES), ...Object.values(MOON_ONLY_SPRITES)]) {
   for (const sprite of sprites) {
     ICON_IMAGE_PATHS[sprite] = `images/icons/${sprite}.png`;
   }

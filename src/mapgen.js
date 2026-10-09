@@ -31,7 +31,7 @@
 
 import { createRng } from "./rng.js";
 import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors, HEX_SIZE } from "./hexgrid.js";
-import { PLANET_CLASSES, MOON_CLASS_NAMES } from "./planet-classes.js";
+import { PLANET_CLASSES, MOON_ONLY_SPRITES, MOON_CLASS_NAMES } from "./planet-classes.js";
 import { pickStarSprite } from "./star-classes.js";
 import { createNoise2D, fbm } from "./noise.js";
 
@@ -86,7 +86,7 @@ const ANOMALY_DEEPSPACE_CHANCE = 0.0032;
 // Share of non-home systems named with a catalogue designation ("GD-17")
 // instead of a name from data/star_planet_names.json.
 const DESIGNATION_CHANCE = 0.4;
-const RESERVED_NAMES = ["Sol", "Earth"];
+const RESERVED_NAMES = ["Sol", "Earth", "Luna"];
 const WOBBLE_HARMONICS = [
   { freq: 2, weight: 1 },
   { freq: 3, weight: 0.5 },
@@ -360,14 +360,15 @@ function isClaimable(tiles, key) {
 }
 
 // Picks one {planetClass, sprite} from the pooled sprite lists of the given
-// classes. Always draws rng() even when the pool has only one entry, so that
-// adding a sprite to a class (as the gas giant colour variants did) doesn't
-// change how many rng() calls happen at this point — only which sprite gets
-// picked.
-function pickClassAndSprite(rng, classNames) {
+// classes, plus their moon-only sprites when `forMoon`. Always draws rng()
+// even when the pool has only one entry, so that adding a sprite to a class
+// (as the gas giant colour variants did) doesn't change how many rng() calls
+// happen at this point — only which sprite gets picked.
+function pickClassAndSprite(rng, classNames, forMoon = false) {
   const entries = [];
   for (const cls of classNames) {
-    for (const sprite of PLANET_CLASSES[cls]) entries.push({ planetClass: cls, sprite });
+    const sprites = [...PLANET_CLASSES[cls], ...(forMoon ? MOON_ONLY_SPRITES[cls] ?? [] : [])];
+    for (const sprite of sprites) entries.push({ planetClass: cls, sprite });
   }
   return entries[Math.floor(rng() * entries.length)];
 }
@@ -419,7 +420,7 @@ function placeMoons(tiles, system, pool, rng, bodyRng, parentCoord, maxMoons, mo
   const moonCount = Math.floor(rng() * (maxMoons + 1));
   const moonCoords = claimNeighborsFromPool(rng, pool, parentCoord, moonCount);
   for (const coord of moonCoords) {
-    const { planetClass, sprite } = pickClassAndSprite(rng, moonClassPool);
+    const { planetClass, sprite } = pickClassAndSprite(rng, moonClassPool, true);
     tiles.set(axialKey(coord.q, coord.r), {
       ...coord,
       type: "moon",
@@ -490,7 +491,20 @@ function populateSystem(tiles, system, zoneCoords, rng, bodyRng) {
         home: true,
         regionId: system.id,
       });
-      placeMoons(tiles, system, pool, rng, bodyRng, earthCoord, 2, ["rocky", "molten"]);
+      // Earth always has exactly one moon, Luna: grey, inhabited, named in nameMap.
+      for (const coord of claimNeighborsFromPool(rng, pool, earthCoord, 1)) {
+        tiles.set(axialKey(coord.q, coord.r), {
+          ...coord,
+          type: "moon",
+          planetClass: "rocky",
+          sprite: "moon-grey",
+          ...rollMoonLook(bodyRng),
+          inhabited: true,
+          luna: true,
+          parent: { q: earthCoord.q, r: earthCoord.r },
+          regionId: system.id,
+        });
+      }
     }
   }
 
@@ -681,6 +695,7 @@ function nameMap(tiles, systems, names, seed) {
 
     for (const tile of [...planets, ...moons]) {
       if (tile.home) tile.ownName = "Earth";
+      else if (tile.luna) tile.ownName = "Luna";
       else if (tile.inhabited) {
         tile.ownName = takeName(rng, pools[tile.type], used) ?? tile.name;
       }

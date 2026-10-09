@@ -135,7 +135,8 @@ side of this; the key algorithmic ideas:
   north around the primary), planets (Roman numeral by hex distance from
   the primary, ties clockwise from north) and moons (`-a`, `-b`... clockwise
   around `parent`), and `ownName` on inhabited planets/moons (Earth's is
-  "Earth"). One `used` set (seeded with "Sol" and "Earth") keeps every
+  "Earth", its moon's "Luna"). One `used` set (seeded with `RESERVED_NAMES`:
+  "Sol", "Earth" and "Luna") keeps every
   system and own name unique per map; a pick removes a random entry from
   its pool (`use` star+any, planet+any or moon+any) and falls back to a
   designation if the pool runs dry. `DESIGNATION_CHANCE` = 0.4. Names are
@@ -148,7 +149,16 @@ side of this; the key algorithmic ideas:
   ice-only moons). `src/planet-classes.js` is the single source of truth
   for the class → sprite catalog (and the moon-eligible subset, excluding
   Gas Giant — a gas giant orbiting a gas giant doesn't make sense), imported
-  by both `mapgen.js` (generation) and `assets.js` (loading). A moon is a
+  by both `mapgen.js` (generation) and `assets.js` (loading). Its
+  `MOON_ONLY_SPRITES` adds per-class sprites only moons may draw: `placeMoons`
+  calls `pickClassAndSprite(rng, pool, true)`, planets never pass `true`.
+  Today that is `moon-grey` in Rocky, so a Rocky moon is grey 1 time in 7.
+  **Earth always has exactly one moon, Luna**: instead of `placeMoons`,
+  `populateSystem` claims one neighbor of Earth with
+  `claimNeighborsFromPool(rng, pool, earthCoord, 1)` and writes a fixed
+  Rocky, `moon-grey`, inhabited moon flagged `luna: true` (size and offset
+  still rolled). Earth is placed first, so its medium-ring pool always has a
+  free neighbor (checked over 500 seeds). A moon is a
   real tile claiming one of its parent planet's own unclaimed same-zone
   neighbor hexes (`src/mapgen.js`'s
   `claimNeighborsFromPool`, generalizing the same shuffle-and-slice pattern
@@ -538,7 +548,8 @@ ever clips them, regardless of q/r iteration order.
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`;
   the key name is fixed, the payload's `version` field is what changes:
-  `SAVE_VERSION` 2 since star clusters changed every seed's layout, and
+  `SAVE_VERSION` 2 since star clusters changed every seed's layout, 3 since
+  Earth's fixed Luna changed the home system's main-stream draws, and
   `loadGame` returns null on a mismatch so an old save is ignored and the
   next save overwrites it), holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/

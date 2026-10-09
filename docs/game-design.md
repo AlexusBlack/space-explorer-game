@@ -92,7 +92,7 @@ any-use names). Other bodies are named after their system:
   north around the planet (`Sol V-c`, `GD-17 III-a`).
 - **Inhabited planets and moons** also get their own name from the list
   (planet or moon names plus any-use ones), unique across the map. Earth's
-  own name is always **Earth**.
+  own name is always **Earth**, and its moon's is always **Luna**.
 
 Labels: a system's name shows under its main star from the start (stars are
 always visible). An inhabited world shows its own name as a tag, bold white
@@ -327,8 +327,11 @@ Generation section for how bands are carved):
 **Moons are real, separately-discoverable tiles** — not a decorative overlay
 on their parent planet — each claiming one of the parent's own unclaimed
 neighboring hexes, and rendered at half the normal icon size. Earth is the
-home system's designated Rocky, inhabited planet, and can itself roll 0-2
-moons like any other rocky planet.
+home system's designated Rocky, inhabited planet, and always has exactly
+one moon, **Luna**: a grey Rocky moon, inhabited, with its name tag.
+
+Rocky moons have one extra look planets never use: a plain grey moon (an
+ice world's art with all colour removed), about 1 in 7 rocky moons.
 
 **Sizes vary, so no two bodies look stamped out** (visual only, no gameplay
 effect): each planet is drawn at 75-100% of its sprite's size, each moon at
