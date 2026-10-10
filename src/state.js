@@ -112,9 +112,9 @@ export function xpBonusForPlayer(player) {
 // ~100 HP/attack scale (Civ5-like), not the original MVP4 first-pass
 // numbers (HEALTH_BASE was 10, ATTACK_BASE was 3) — bumped per playtesting
 // feedback so fights take several hits across multiple turns instead of
-// resolving in one exchange. combat.js's damage constants (4-8 per hit at
-// parity) were already ported directly from Civ5's own 100-HP convention,
-// so this is the scale they were designed for — no formula changes needed.
+// resolving in one exchange. combat.js's damage constants (24-36 per hit at
+// parity, Civ5's own 100-HP values since the combat damage fix) assume this
+// scale.
 export const HEALTH_BASE = 100; // tunable
 export const ATTACK_BASE = 12; // tunable — ~2x a standard pirate raider's attack
 // Turns of ship movement trails this player sees (0 until the Vessel Trail
@@ -399,7 +399,7 @@ export function applyShipLoss(mapData, gameState, player) {
 // just-completed round regenerates some health, upgradeable via the Repair
 // track (see upgrades.js). Confirmed with the user: eligibility is "no
 // combat happened this round" (not a proximity/detection-range check).
-export const PASSIVE_HEAL_BASE = 5; // tunable
+export const PASSIVE_HEAL_BASE = 10; // tunable — Civ5's out-of-combat 10 HP/turn; was 5 before the combat damage fix
 export function passiveHealForPlayer(player) {
   return PASSIVE_HEAL_BASE + sumUpgradeBonus(player, "passiveHealBonus");
 }

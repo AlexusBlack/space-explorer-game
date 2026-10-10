@@ -36,7 +36,11 @@ export const PIRATE_BASE_SUPPORT_CAP = 3; // max concurrent ships per base — t
 export const PIRATE_BASE_PRODUCTION_CHANCE = 0.5; // per base under cap, per round — tunable
 export const PIRATE_SHIP_MAX_HEALTH = 100; // tunable
 export const PIRATE_SHIP_ATTACK = 6; // tunable — player's ATTACK_BASE is ~2x this
-export const PIRATE_BASE_BOUNTY_XP = 30; // tunable
+export const PIRATE_BASE_BOUNTY_XP = 30; // tunable — paid on top of COMBAT_SURVIVAL_XP
+// Every attack the player launches and survives pays this, kill or not, so
+// fighting levels a ship as well as exploring does. Not paid for pirate
+// attacks on the player, nor when the player's ship is destroyed.
+export const COMBAT_SURVIVAL_XP = 50; // tunable
 // Flat cost for a melee attack action, replacing the earlier "full tapped
 // distance" rule — regardless of how far the ship traveled to engage (or
 // whether it was already adjacent), attacking costs exactly this many
@@ -337,18 +341,19 @@ export function resolvePlayerAttack(mapData, gameState, player, target, rng = Ma
   player.currentHealth = attacker.health;
   entity.health = defender.health;
 
+  if (!result.attackerDefeated) player.xp += COMBAT_SURVIVAL_XP;
   if (result.defenderDefeated) {
     if (target.kind === "base") {
       removeBase(gameState, entity.id);
       player.xp += PIRATE_BASE_BOUNTY_XP;
       return {
-        message: `Pirate base destroyed! +${PIRATE_BASE_BOUNTY_XP} XP bounty.`,
+        message: `Pirate base destroyed! +${COMBAT_SURVIVAL_XP + PIRATE_BASE_BOUNTY_XP} XP (incl. ${PIRATE_BASE_BOUNTY_XP} XP bounty).`,
         defenderDefeated: true,
         attackerDefeated: false,
       };
     }
     removeShip(gameState, entity.id);
-    return { message: "Pirate ship destroyed!", defenderDefeated: true, attackerDefeated: false };
+    return { message: `Pirate ship destroyed! +${COMBAT_SURVIVAL_XP} XP.`, defenderDefeated: true, attackerDefeated: false };
   }
   if (result.attackerDefeated) {
     applyShipLoss(mapData, gameState, player);
@@ -360,7 +365,7 @@ export function resolvePlayerAttack(mapData, gameState, player, target, rng = Ma
   }
   const label = target.kind === "base" ? "Pirate base" : "Pirate raider";
   return {
-    message: `Exchanged fire with the ${label} — it's at ${entity.health}/${entity.maxHealth} HP, your ship at ${player.currentHealth}/${maxHealthForPlayer(player)} HP.`,
+    message: `Exchanged fire with the ${label} — it's at ${entity.health}/${entity.maxHealth} HP, your ship at ${player.currentHealth}/${maxHealthForPlayer(player)} HP. +${COMBAT_SURVIVAL_XP} XP.`,
     defenderDefeated: false,
     attackerDefeated: false,
   };

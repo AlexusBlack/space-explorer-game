@@ -428,10 +428,14 @@ raider's; pirate bases hit harder (8 vs. a raider's 6) to compensate for
 having no more health** — a deliberate bump from the original MVP4 pass's
 much smaller pool (8-30 HP), which made most fights resolve in one or two
 hits.
-`combat.js`'s damage constants (4-8 per hit at parity) were already ported
-directly from Civ5's own 100-HP convention, so this rebalance is pure stat
-tuning — no changes to `resolveCombat` itself, which already operates on
-dimensionless ratios/fractions and so was scale-independent all along.
+That rebalance assumed `combat.js`'s damage constants (4-8 per hit at
+parity) were already Civ5's 100-HP values; they weren't (Civ5 uses 24-36),
+so fights at parity dealt only ~6% a hit. The combat damage fix set
+`COMBAT_MIN_DAMAGE`/`COMBAT_DAMAGE_SPREAD` to 24/12 (30 on average, 30% of
+a ship) and doubled `PASSIVE_HEAL_BASE` to 10 so recovery keeps pace.
+`resolveCombat`'s ratio modifier and wounded penalty were unchanged: they
+operate on dimensionless ratios/fractions, so only the base band needed
+fixing.
 
 `combat.js`'s `resolveCombat(attacker, defender, terrainBonusPct, rng)` is
 a single mutual exchange (not a multi-round loop) per call — repeated
@@ -555,7 +559,8 @@ It then sorts each stack, keeping the incoming order within a rank:
 
 The top ship gets its usual extras:
 - the selection pulse and owner dot if it's a player ship;
-- the health bar if it's a pirate.
+- the health bar if it's a pirate, or a player ship below max health
+  (`main.js` passes `health`/`maxHealth` on each player ship entry).
 
 A stack of two or more also gets a count at the hex's upper-right corner
 (`drawStackCount`), which is why the owner dot moved to the upper-left.
@@ -765,8 +770,11 @@ long.
 
 **Drawing.** `render.js`'s trail pass runs after the map sprites and
 before labels, bases and ships, older records first. Each step is its own
-segment between hex centres, drawn only when both hexes are in the viewer's
-discovered set (the same fog rule as pirate ships). Age 1 goes from
+segment between hex centres. Both hexes in the viewer's discovered set: drawn
+in full. Only one: drawn from the discovered centre to the midpoint (the
+shared hex edge, where the fog starts) with a `butt` cap, so the line looks
+like it continues under the fog instead of stopping short inside explored
+space. Neither: skipped. Age 1 goes from
 `TRAIL_ALPHA_TAIL` (0.2) at the record's start to `TRAIL_ALPHA_HEAD` (0.75)
 at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
 

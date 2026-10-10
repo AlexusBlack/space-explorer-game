@@ -724,3 +724,41 @@ from here.
     `unlockedUpgrades`, so it counts as a spent pick, which uses up the
     player's next level-up pick in advance rather than granting an extra
     one. Left for the user to decide.
+
+- **Combat damage fix** (supersedes the MVP4 combat rebalance entry's claim
+  that `combat.js`'s damage constants "were already ported from Civ5's own
+  100-HP convention, so no formula changes were needed"). Playtesting found
+  fights near a 1:1 strength ratio took at most ~10% HP a hit, making
+  battles slow and dull; the user's target was about 30% at parity, growing
+  steeply with an advantage. Cause: `COMBAT_MIN_DAMAGE`/`COMBAT_DAMAGE_SPREAD`
+  were 4/4 (6 on average) left from the 8-30 HP first pass, while Civ5's
+  `ATTACK_SAME_STRENGTH_MIN_DAMAGE`/`POSSIBLE_EXTRA_DAMAGE` are 24/12. The
+  ratio curve (`0.5 + (r+3)^4/512`) was already Civ5's. Decisions at plan
+  time:
+  - **Civ5's literal 24-36 band** (30 on average), over a gentler 20-30 or
+    a harder 30-40.
+  - **Stats unchanged** (player attack 12, raider 6, base 8, 100 HP), over
+    raising raider attack to ~10 or scaling raiders with turn number. A
+    fresh player now kills a fresh raider in two exchanges, taking ~17 a
+    hit; revisit after playtesting.
+  - **`PASSIVE_HEAL_BASE` doubled to 10** (Civ5's out-of-combat rate),
+    Repair tiers unchanged at +5 each, so recovery keeps pace with ~5x
+    bigger hits.
+
+- **XP for surviving an attack.** The user asked that attacks the player's
+  ship survives pay 50 XP (`COMBAT_SURVIVAL_XP` in `pirates.js`). Read as:
+  paid on every player-launched attack the ship survives, kill or not, so
+  repeated exchanges with one target each pay; stacked with the 30 XP base
+  bounty (80 for a base kill); not paid when a pirate attacks the player,
+  nor when the player's ship is destroyed. A flat amount, not scaled by the
+  Science XP bonus (same as the anomaly's bulk XP).
+
+- **Trails run to the fog edge** (supersedes the Vessel Trail Detector
+  entry's "trails only draw on discovered hexes, like pirate ships").
+  Playtesting: a step with one end in fog was skipped, so a trail stopped
+  one hex short inside explored space, which looked wrong. The plan first
+  proposed fading the line out over the whole step into the fogged hex; the
+  user preferred running it to the shared hex edge (the step's midpoint)
+  and cutting it off there, so it reads as continuing under the fog without
+  drawing anything inside it. Accepted cost: a trail now shows which
+  neighbouring fogged hex a ship (pirates included) left into or came from.

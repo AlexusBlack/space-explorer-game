@@ -61,7 +61,9 @@ game — losing a ship is a setback, not a game-over.
   A small number at the hex's upper-right corner shows how many ships are
   there, and the drawn player ship's team-coloured owner circle sits at the
   upper-left corner, with its "ICV" name label underneath (shown at the same
-  zoom as world name tags; a world's own name moves down to make room). A pirate base isn't a ship: it's always drawn and isn't
+  zoom as world name tags; a world's own name moves down to make room). A
+  damaged player ship also shows a health bar above it, like a pirate's;
+  at full health it has none. A pirate base isn't a ship: it's always drawn and isn't
   counted. Long-press the hex to see every ship in the stack.
 - Each player has their own **notification area**: a column of round icons
   down the right edge, showing only the active player's list.
@@ -263,8 +265,10 @@ its tile report. It never moves the ship or spends moves. The report shows:
     and the pirate round in between). The line is strongest at the ship and
     fades toward where the move started.
   - **Mk II** adds the turn before that, drawn flat at the faintest opacity.
-  - Trails only draw on hexes the viewer's team has discovered, like pirate
-    ships, so they never reveal unexplored space. A wormhole jump or a
+  - Trails draw on hexes the viewer's team has discovered. Where a ship
+    moved into or out of unexplored space, the line runs to the edge of the
+    fog and stops there, as if it carries on underneath; it shows which way
+    the ship went but nothing beyond the first fogged hex. A wormhole jump or a
     respawn at Earth isn't a move, so it breaks the line rather than
     streaking across the map. A destroyed raider's trail stays until it ages
     out.
@@ -367,11 +371,11 @@ turns, not one.** Player ships, pirate raider ships, and pirate bases all
 share the same 100 max health pool; a player's attack (12 base) is roughly
 2x a standard pirate raider's (6), while a pirate base hits harder (8) to
 stay a credible siege target despite having no more health than a raider.
-`src/combat.js`'s damage constants (4-8 per hit at parity, ported directly
-from Civ5's own 100-HP convention) were already sized for this scale; the
-original MVP4 pass used a much smaller HP pool (8-30), which made most
-fights resolve in one or two hits — this rebalance is purely stat tuning,
-no combat-formula changes.
+A hit between evenly matched ships deals 24-36 damage (30 on average,
+Civ5's own numbers), so a fight at parity takes three or four exchanges.
+The strength-ratio modifier widens that gap steeply as one side gets
+stronger: at 2:1 the stronger ship deals about 52 per hit and takes about
+17, so a fresh player ship finishes a fresh raider in two exchanges.
 
 **Resolution** (`src/combat.js`'s `resolveCombat`): a single mutual
 exchange per engagement, not a multi-round loop within one call — repeated
@@ -404,8 +408,13 @@ costs a flat 4 moves (`ATTACK_MOVE_COST`), regardless of how far the ship
 traveled to engage or whether it ends up advancing — simpler than, and
 replacing, an earlier "full tapped distance" rule.
 
+**Every attack your ship survives earns 50 XP** (`COMBAT_SURVIVAL_XP`),
+whether or not it destroys the target, so fighting levels a ship as well as
+exploring does. Losing the ship earns nothing (the loss penalty below
+applies instead), and a pirate attacking you pays no XP.
+
 **Destroying a pirate base** grants a one-time XP bounty
-(`PIRATE_BASE_BOUNTY_XP`) and frees that region to spawn a new base later.
+(`PIRATE_BASE_BOUNTY_XP`, 30, on top of the 50) and frees that region to spawn a new base later.
 Ships the base already produced are not retroactively destroyed — they
 become ownerless but otherwise fight normally.
 
@@ -422,7 +431,8 @@ any moves remaining that turn. The game continues; this is never a session
 full round (not attacked, and didn't attack) regenerates some health at
 the start of the next round — eligibility is purely "no combat happened,"
 not a proximity/detection-range check, so simply avoiding an engagement for
-one round is enough to start recovering. The base heal rate is upgradeable
+one round is enough to start recovering. The base heal rate (10 HP per
+round, Civ5's out-of-combat rate) is upgradeable
 via the **Repair** track (see "Experience & Leveling" above). Pirates do
 not get passive healing — only player ships.
 

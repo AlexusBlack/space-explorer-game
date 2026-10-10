@@ -90,8 +90,10 @@ function drawOwnerDot(ctx, cx, cy, hw, hh, zoom, color) {
 }
 
 // One trail record ({ color, path, age }) as a line through hex centres, one
-// segment per step so each can take its own opacity. A step only draws when
-// both its hexes are in the viewer's discovered set, like pirate ships.
+// segment per step so each can take its own opacity. A step between two
+// discovered hexes draws in full; one from a discovered hex into fog (or out
+// of it) stops at the shared edge, halfway, so the line reads as carrying on
+// under the fog; a step with neither hex discovered isn't drawn.
 function drawTrail(ctx, camera, canvasW, canvasH, trail, discovered) {
   const { path, age, color } = trail;
   const steps = path.length - 1;
@@ -102,14 +104,19 @@ function drawTrail(ctx, camera, canvasW, canvasH, trail, discovered) {
     const a = path[i];
     const b = path[i + 1];
     if (a.q === b.q && a.r === b.r) continue;
-    if (discovered && (!discovered.has(axialKey(a.q, a.r)) || !discovered.has(axialKey(b.q, b.r)))) continue;
+    const aSeen = !discovered || discovered.has(axialKey(a.q, a.r));
+    const bSeen = !discovered || discovered.has(axialKey(b.q, b.r));
+    if (!aSeen && !bSeen) continue;
     ctx.globalAlpha = age === 1
       ? TRAIL_ALPHA_TAIL + (TRAIL_ALPHA_HEAD - TRAIL_ALPHA_TAIL) * ((i + 1) / steps)
       : TRAIL_ALPHA_OLD;
     const wa = axialToPixel(a.q, a.r);
     const wb = axialToPixel(b.q, b.r);
-    const pa = worldToScreen(camera, canvasW, canvasH, wa.x, wa.y);
-    const pb = worldToScreen(camera, canvasW, canvasH, wb.x, wb.y);
+    let pa = worldToScreen(camera, canvasW, canvasH, wa.x, wa.y);
+    let pb = worldToScreen(camera, canvasW, canvasH, wb.x, wb.y);
+    const mid = { x: (pa.x + pb.x) / 2, y: (pa.y + pb.y) / 2 };
+    if (!aSeen) pa = mid;
+    if (!bSeen) pb = mid;
     ctx.beginPath();
     ctx.moveTo(pa.x, pa.y);
     ctx.lineTo(pb.x, pb.y);
@@ -163,7 +170,8 @@ export function shipStacks(playerShips, otherShips, discovered) {
   return stacks;
 }
 
-// Small floating health bar, drawn above a pirate base/ship marker (MVP4).
+// Small floating health bar, drawn above a pirate base/ship marker (MVP4),
+// and above a player ship once it's damaged.
 function drawHealthBar(ctx, cx, cy, zoom, frac) {
   const w = 24 * zoom;
   const h = 4 * zoom;
@@ -460,6 +468,8 @@ export function render(
       if (top.active) drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, shipZoom);
       drawIcon(ctx, playerImg, p.x, p.y, shipZoom);
       drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, top.color);
+      // Only once damaged, so a healthy fleet doesn't clutter the map.
+      if (top.health < top.maxHealth) drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
       const labelAt = shipLabelAnchors.get(axialKey(top.q, top.r));
       if (labelAt) shipLabels.push([top.label, labelAt, top.color]);
     } else {

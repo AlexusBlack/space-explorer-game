@@ -3,8 +3,12 @@
 // counters if it survives that hit, same as Civ5's own melee combat. Pure
 // math, no dependency on any other project module.
 
-export const COMBAT_MIN_DAMAGE = 4; // tunable, Civ5's melee minDamage
-export const COMBAT_DAMAGE_SPREAD = 4; // tunable, Civ5's melee spread
+// Damage per hit at a 1:1 strength ratio is MIN + 0..SPREAD, so 24-36 (30
+// on average, 30% of a 100-HP ship): Civ5's ATTACK_SAME_STRENGTH_MIN_DAMAGE
+// and ATTACK_SAME_STRENGTH_POSSIBLE_EXTRA_DAMAGE. These were 4/4 (6% a hit)
+// until the combat damage fix; they had never been moved to the 100-HP scale.
+export const COMBAT_MIN_DAMAGE = 24; // tunable
+export const COMBAT_DAMAGE_SPREAD = 12; // tunable
 export const COMBAT_RATIO_MIDPOINT = 0.5; // Civ5's constant term
 export const COMBAT_RATIO_SCALE = 1 / 512; // Civ5's (r+3)^4/512 scale
 

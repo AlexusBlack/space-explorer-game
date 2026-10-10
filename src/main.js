@@ -190,6 +190,8 @@ function frame(bandImages, iconImages) {
       r: p.r,
       color: p.color,
       label: shipTitle(p),
+      health: p.currentHealth,
+      maxHealth: maxHealthForPlayer(p),
       active: i === gameState.activePlayerIndex,
     }));
     ({ tagHits } = render(
