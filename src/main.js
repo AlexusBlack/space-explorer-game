@@ -359,7 +359,11 @@ function noticeElement(player, notification) {
   } else {
     const img = document.createElement("img");
     img.alt = "";
-    img.src = kind ? speciesImagePath(kind) : "images/icons/pirate-ship.png";
+    img.src = kind
+      ? speciesImagePath(kind)
+      : notification.kind === "wormhole"
+        ? "images/icons/wormhole-glyph.png"
+        : "images/icons/pirate-ship.png";
     el.appendChild(img);
   }
 

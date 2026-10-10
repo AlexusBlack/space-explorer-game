@@ -291,11 +291,23 @@ its tile report. It never moves the ship or spends moves. The report shows:
 
 ## Anomalies
 
-Anomalies are special tiles — rendered as a question mark in a black circle
-— seeded onto the map two ways: up to two per star system (nearly every
+Anomalies are special tiles, seeded onto the map two ways: up to two per star system (nearly every
 system has one, most have two) and a sparse scatter directly in deep space, so
 flying through otherwise-empty space has an occasional real payoff too
 (`src/mapgen.js`'s `ANOMALY_SYSTEM_CHANCE`/`ANOMALY_DEEPSPACE_CHANCE`).
+
+They come in two kinds, told apart at a glance so players who'd rather not
+be thrown across the map can avoid one:
+
+- A **regular anomaly** is a white "?" in a black circle (black bubble in the
+  notification area). Its effect is a mystery until a ship lands on it.
+- A **wormhole** is a white spiral in a purple circle (purple bubble in the
+  notification area). Landing on one always relocates the ship. About 1 in 4
+  anomalies is a wormhole (`ANOMALY_WORMHOLE_SHARE`).
+
+Only the hex where a move *ends* counts, so a ship can fly straight through
+either kind without triggering it. The long-press tile report names the
+kind and its effect.
 
 **Unlike every other discovery, an anomaly's effect does not fire on mere
 reveal.** Simply seeing it within vision radius pays only the normal flat
@@ -306,11 +318,14 @@ any player visits it, so it can never be triggered a second time by
 anyone. This is a deliberate choice (confirmed during MVP3 planning) that
 makes landing on one a real decision, not an automatic drive-by bonus.
 
-Landing on a live anomaly triggers one random effect from:
+Landing on a **wormhole** always does one thing:
 
 - **Wormhole** — teleports the ship to a random map location (never another
   anomaly tile) and reveals around the new position, awarding XP for
   whatever's newly discovered there same as any move.
+
+Landing on a **regular anomaly** triggers one random effect from:
+
 - **Bulk experience points** — a large flat XP bonus
   (`src/state.js`'s `ANOMALY_BULK_XP`).
 - **Local map reveal** — instantly reveals a radius of nearby tiles well
@@ -320,8 +335,8 @@ Landing on a live anomaly triggers one random effect from:
 - **Free ability** — immediately grants one random currently-available
   upgrade pick (see "Experience & Leveling" above), without needing to
   cross a level threshold for it. If every upgrade the catalog can
-  currently offer is already unlocked, the game rerolls among the other
-  three effects instead of wasting the anomaly on a no-op.
+  currently offer is already unlocked, the game rerolls between the other
+  two effects instead of wasting the anomaly on a no-op.
 
 Anomalies were introduced once the leveling system exists (MVP3), since
 "free ability" has no meaning without an unlock table to grant from.

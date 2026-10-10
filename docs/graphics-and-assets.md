@@ -321,6 +321,14 @@ the repetition becomes a real complaint during playtesting.
   (`ImageDraw`), sized to match the ~50x47px scale of the planet/star
   icons; run it directly (`python3 scripts/generate-anomaly-icon.py`) to
   regenerate.
+- **Wormhole icons** — the same script also writes
+  `images/icons/wormhole.png` (48x48, a purple `#4b2a7a` circle with a white
+  ring and a white spiral, for the map) and `images/icons/wormhole-glyph.png`
+  (the spiral alone on transparency, for the purple notification bubble).
+  The spiral is drawn at 4x and scaled down so it stays smooth. Rerunning
+  the script on a different Pillow version can rewrite `anomaly.png` with
+  slightly different bytes; restore it from git if it's otherwise
+  unchanged.
 
 **Resolved via the 5 hand-painted band tiles** (see above) — the
 procedurally-generated starfield this section originally called for was

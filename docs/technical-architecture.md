@@ -211,6 +211,12 @@ side of this; the key algorithmic ideas:
   band hex of its own, outer zone first. That pass runs on its own
   `${seed}:anomalies` stream, so it changes no other tile: an existing save
   keeps its map and every anomaly it had, and just gains new ones.
+- **Wormholes.** After the deep-space sweep, `assignAnomalyKinds` marks
+  `ANOMALY_WORMHOLE_SHARE` (0.25) of anomaly tiles `anomalyKind:
+  "wormhole"`, on its own `${seed}:anomaly-kinds` stream, so again no other
+  tile changes and existing saves keep their maps. The tile type stays
+  `"anomaly"`, so landing, destruction, the `destroyedAnomalies` replay and
+  notification pruning all handle both kinds unchanged.
 
 ## Band Materialization
 
@@ -358,10 +364,10 @@ rather than adding it to the `unlockedUpgrades` Set, which can't hold an id
 twice. So `pendingUpgradePicks` is `level − 1 − unlockedUpgrades.size −
 instantRepairsUsed`, clamped at 0 as before.
 
-**Anomalies** (`type: "anomaly"` tiles, `src/mapgen.js`) carry no extra
-gen-time data — which of four effects fires is rolled at trigger time, not
-stored on the tile (same "nothing to store yet" treatment as
-`wonder-blackhole`). Unlike every other feature, an anomaly's effect does
+**Anomalies** (`type: "anomaly"` tiles, `src/mapgen.js`) carry one piece of
+gen-time data: `anomalyKind: "wormhole"` on a wormhole, absent on a regular
+anomaly. A regular anomaly's effect is still rolled at trigger time, not
+stored on the tile. Unlike every other feature, an anomaly's effect does
 **not** fire on reveal — `src/state.js`'s `checkAnomalyLanding(mapData,
 gameState, player)` only fires when a player's position, after a move,
 exactly matches a still-live anomaly tile. On a hit, it **mutates the
@@ -375,11 +381,13 @@ called once at boot after a saved game's `mapData` is regenerated, to
 replay every previously-destroyed tile back to `"band"` before play
 resumes — otherwise a reload would resurrect every anomaly a player had
 already consumed. `src/state.js`'s `triggerAnomaly(mapData, player, tile,
-rng)` then resolves one of wormhole / bulk-XP / local-reveal / free-upgrade
-uniformly at random (`rng` defaults to `Math.random`, injectable for
-tests); if free-upgrade is rolled but `availableUpgrades` has nothing left
-to offer, it rerolls among the other three rather than wasting the
-anomaly. The local-reveal effect reuses `revealAround` with an explicit
+rng)` then always relocates the ship on a wormhole tile, and otherwise
+resolves one of bulk-XP / local-reveal / free-upgrade uniformly at random
+(`rng` defaults to `Math.random`, injectable for tests); if free-upgrade is
+rolled but `availableUpgrades` has nothing left to offer, it rerolls between
+the other two rather than wasting the anomaly. `render.js` draws
+`images/icons/wormhole.png` instead of `anomaly.png` for a wormhole, and
+`tile-report.js` titles it "Wormhole" with an Effect row. The local-reveal effect reuses `revealAround` with an explicit
 `radius` override (bigger than any upgrade-boosted vision radius) and
 awards XP for whatever it newly reveals exactly like any other reveal —
 it's a bonus discovery burst, not a free unfog.
@@ -691,15 +699,18 @@ the report and calls `showWorldCard`) can be pressed.
 feeds `#notifications`, a DOM column on the right edge rebuilt by
 `renderNotifications` (called from `updateHud`, so every state change, turn
 switch and load is covered). Entries come from three places:
-- `revealTile` pushes a `species` or `anomaly` entry when it newly reveals an
-  inhabited world with a species or an anomaly tile, but only when
+- `revealTile` pushes a `species`, `anomaly` or `wormhole` entry when it
+  newly reveals an inhabited world with a species, a regular anomaly or a
+  wormhole, but only when
   `awardXp` is true. `awardXp` already separates real discoveries from the
   silent spawn and respawn reveals, so Earth and Luna are never announced,
   and no second flag is needed.
 - `endTurn` routes `tickPirates` events into `pirate` entries (see "Pirates
   & Combat").
-- `pruneNotifications` drops `anomaly` entries whose tile is no longer an
-  anomaly. Anomaly destruction is shared, so this runs for both players in
+- `pruneNotifications` drops `anomaly` and `wormhole` entries whose tile is
+  no longer an anomaly. A regular anomaly's bubble is black with a "?"; a
+  wormhole's is purple with `images/icons/wormhole-glyph.png`, the spiral
+  alone, since the bubble has its own ring. Anomaly destruction is shared, so this runs for both players in
   `afterStateChange` and at load.
 
 `clearNotifications` empties the ending player's list in `endTurn`.

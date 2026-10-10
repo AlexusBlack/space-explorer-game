@@ -81,6 +81,15 @@ function describeTile(mapData, tile) {
       "Life",
       tile.inhabited && tile.species ? `Inhabited by the ${tile.species.name}` : "Uninhabited",
     ]);
+  } else if (tile.type === "anomaly") {
+    const wormhole = tile.anomalyKind === "wormhole";
+    title = wormhole ? "Wormhole" : FEATURE_TITLES.anomaly;
+    rows.push([
+      "Effect",
+      wormhole
+        ? "Ending a move here relocates your ship to a random spot"
+        : "Ending a move here gives XP, a sensor sweep or an upgrade",
+    ]);
   } else {
     title = FEATURE_TITLES[tile.type] ?? tile.type;
   }

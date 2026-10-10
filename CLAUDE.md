@@ -31,7 +31,8 @@ hasn't been fixed yet; trust `git log` and `docs/mvp-roadmap.md` over it.
   prerequisite tree — see "Key lessons" below, this was NOT the obvious
   first reading of the design doc).
 - MVP3: anomaly tiles (landing-only trigger, shared/global one-shot
-  destruction, 4 random effects: wormhole/bulk-XP/local-reveal/free-pick).
+  destruction; wormholes are their own visible kind, about 1 in 4, and a
+  regular anomaly rolls bulk-XP/local-reveal/free-pick).
 - MVP4: pirates & melee combat (`src/combat.js`, `src/pirates.js`) —
   implemented, then rebalanced **three more times in the same session**
   based on direct playtesting feedback. Current state: ~100 HP/attack

@@ -18,6 +18,7 @@ const ICON_IMAGE_PATHS = {
   // Synthesized, not cropped from a sheet (see
   // scripts/generate-anomaly-icon.py) — same treatment as `select` below.
   anomaly: "images/icons/anomaly.png",
+  wormhole: "images/icons/wormhole.png",
   ship: "images/icons/ship.png",
   "pirate-ship": "images/icons/pirate-ship.png",
   // Already a complete standalone sprite (64x64, real per-pixel alpha) —

@@ -87,6 +87,9 @@ const ANOMALY_SYSTEM_CHANCE = 0.96;
 // deep-space rate doubles.
 const ANOMALY_SYSTEM_SECOND_CHANCE = 0.96;
 const ANOMALY_DEEPSPACE_CHANCE = 0.0064;
+// Share of anomalies that are wormholes, marked at generation so players can
+// see (and avoid) them; 1 in 4, the share the old trigger-time roll gave.
+export const ANOMALY_WORMHOLE_SHARE = 0.25;
 // Share of non-home systems named with a catalogue designation ("GD-17")
 // instead of a name from data/star_planet_names.json.
 const DESIGNATION_CHANCE = 0.4;
@@ -765,6 +768,16 @@ function placeSecondAnomalies(tiles, systems, seed) {
   }
 }
 
+// Marks each anomaly as a wormhole or not, on its own stream so it never
+// shifts a layout draw (existing saves keep their map). Runs after the
+// deep-space sweep, which places anomalies of its own.
+function assignAnomalyKinds(tiles, seed) {
+  const rng = createRng(`${seed}:anomaly-kinds`);
+  for (const tile of tiles.values()) {
+    if (tile.type === "anomaly" && rng() < ANOMALY_WORMHOLE_SHARE) tile.anomalyKind = "wormhole";
+  }
+}
+
 export function generateMap({ seed, names = [], species = [] } = {}) {
   const rng = createRng(seed);
   const field = buildClusterField(seed);
@@ -799,6 +812,7 @@ export function generateMap({ seed, names = [], species = [] } = {}) {
     }
   }
 
+  assignAnomalyKinds(tiles, seed);
   nameMap(tiles, systems, names, seed);
   assignSpecies(tiles, species, seed);
 

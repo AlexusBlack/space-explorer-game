@@ -771,3 +771,20 @@ from here.
   (a threshold change on a roll every deep-space hex already made). Result:
   about 260 to 524 per map, every other tile identical, so saved games keep
   their maps and their destroyed anomalies and simply gain new ones.
+
+- **Wormholes become a separate, visible anomaly kind** (supersedes MVP3's
+  "one of four effects rolled at trigger time"). Some players would rather
+  not be relocated, but every anomaly looked the same, so they couldn't
+  avoid it. Mapgen now marks `ANOMALY_WORMHOLE_SHARE` of anomalies as
+  wormholes on its own seeded stream (no layout change; saves keep their
+  maps). A wormhole always relocates the ship; a regular anomaly rolls
+  bulk-XP, local-reveal or free-upgrade. Decisions at plan time:
+  - **Icon: a white spiral in a purple circle**, over keeping the "?" and
+    changing only the colour; once you can tell wormholes apart they aren't
+    a mystery.
+  - **Share: 25%**, the same as the old trigger-time roll gave, over 15% or
+    35%; the overall effect mix is unchanged, just visible ahead of time.
+  - Notification bubbles swap colours to match: regular anomalies black,
+    wormholes keep the purple every anomaly used to have.
+  - Assumption: ending a move on a wormhole is the only trigger, as before,
+    so flying through one is safe; nothing was added to steer pathing.

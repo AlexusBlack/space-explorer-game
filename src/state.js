@@ -173,6 +173,14 @@ export function revealTile(player, tile, { awardXp = true } = {}) {
 // The notification-area entry a newly discovered tile earns, or null.
 function discoveryNotification(tile) {
   const { q, r } = tile;
+  if (tile.type === "anomaly" && tile.anomalyKind === "wormhole") {
+    return {
+      kind: "wormhole",
+      q,
+      r,
+      message: "Wormhole detected — ending a move here throws your ship to a random spot.",
+    };
+  }
   if (tile.type === "anomaly") {
     return { kind: "anomaly", q, r, message: "Anomaly detected — land on it to see what it does." };
   }
@@ -193,11 +201,12 @@ export function clearNotifications(player) {
   player.notifications.length = 0;
 }
 
-// Drops anomaly notifications whose anomaly has since been used up (by
-// either player — anomaly destruction is shared).
+// Drops anomaly and wormhole notifications whose anomaly has since been
+// used up (by either player — anomaly destruction is shared).
 export function pruneNotifications(mapData, player) {
   player.notifications = player.notifications.filter(
-    (n) => n.kind !== "anomaly" || mapData.tiles.get(axialKey(n.q, n.r))?.type === "anomaly"
+    (n) => (n.kind !== "anomaly" && n.kind !== "wormhole") ||
+      mapData.tiles.get(axialKey(n.q, n.r))?.type === "anomaly"
   );
 }
 
@@ -299,7 +308,8 @@ export function createNewGame(mapData, setup) {
 // --- Anomalies --------------------------------------------------------
 // Visiting an anomaly tile destroys it (one-time only, shared across both
 // players — see createNewGame's destroyedAnomalies comment) and triggers
-// one of four random effects. Unlike every other discovery (XP for
+// its effect: a wormhole tile (mapgen's anomalyKind) always relocates the
+// ship, any other anomaly rolls one of three. Unlike every other discovery (XP for
 // planets/wonders), this does NOT fire on mere reveal/vision — only when a
 // player's move actually lands on the tile (confirmed design choice; see
 // docs/game-design.md's Anomalies section).
@@ -307,7 +317,8 @@ export const ANOMALY_BULK_XP = 250; // raised from 50 so it stays meaningful at 
 export const ANOMALY_REVEAL_RADIUS = 5; // first-pass, tunable — bigger than
                                          // any MVP2 vision radius
 
-const ANOMALY_EFFECTS = ["wormhole", "bulk-xp", "local-reveal", "free-upgrade"];
+// Regular anomalies only; wormholes are their own, visible kind.
+const ANOMALY_EFFECTS = ["bulk-xp", "local-reveal", "free-upgrade"];
 
 // If `player` is standing on a still-live anomaly tile, destroys it
 // (mutates the shared mapData tile in place to a plain band tile, so it
@@ -334,15 +345,17 @@ export function applyDestroyedAnomalies(mapData, gameState) {
   }
 }
 
-// Resolves one of the four anomaly effects for `player` and mutates state
+// Resolves the anomaly's effect for `player` and mutates state
 // accordingly. `rng` defaults to Math.random (this doesn't need to be
 // seeded/deterministic like map generation does — same as the plain
 // Math.random() already used for "New Game" seed strings in main.js) but is
 // injectable so tests can force every branch. If "free ability grant" is
 // rolled but the catalog has nothing left to offer, rerolls among the
-// other three rather than wasting the anomaly on a no-op.
+// other two rather than wasting the anomaly on a no-op.
 export function triggerAnomaly(mapData, player, tile, rng = Math.random) {
-  let effect = ANOMALY_EFFECTS[Math.floor(rng() * ANOMALY_EFFECTS.length)];
+  let effect = tile.anomalyKind === "wormhole"
+    ? "wormhole"
+    : ANOMALY_EFFECTS[Math.floor(rng() * ANOMALY_EFFECTS.length)];
   if (effect === "free-upgrade" && availableUpgrades(player.unlockedUpgrades).length === 0) {
     const fallback = ANOMALY_EFFECTS.filter((e) => e !== "free-upgrade");
     effect = fallback[Math.floor(rng() * fallback.length)];

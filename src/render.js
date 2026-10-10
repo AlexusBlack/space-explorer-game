@@ -360,7 +360,7 @@ export function render(
           pendingIcons.push([iconImages && iconImages["wonder-blackhole"], p]);
           break;
         case "anomaly":
-          pendingIcons.push([iconImages && iconImages["anomaly"], p]);
+          pendingIcons.push([iconImages && iconImages[tile.anomalyKind === "wormhole" ? "wormhole" : "anomaly"], p]);
           break;
         case "planet":
         case "moon": {
