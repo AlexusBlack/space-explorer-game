@@ -292,8 +292,8 @@ its tile report. It never moves the ship or spends moves. The report shows:
 ## Anomalies
 
 Anomalies are special tiles — rendered as a question mark in a black circle
-— seeded onto the map two ways: a small per-system chance (same mechanism
-as a natural wonder) and a very sparse scatter directly in deep space, so
+— seeded onto the map two ways: up to two per star system (nearly every
+system has one, most have two) and a sparse scatter directly in deep space, so
 flying through otherwise-empty space has an occasional real payoff too
 (`src/mapgen.js`'s `ANOMALY_SYSTEM_CHANCE`/`ANOMALY_DEEPSPACE_CHANCE`).
 

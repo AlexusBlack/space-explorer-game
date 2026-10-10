@@ -205,6 +205,12 @@ side of this; the key algorithmic ideas:
   placement guarantee; an unlucky seed can still in principle place every
   anomaly far from home. At `0.96` per system, nearly every system has
   one — anomalies are now a near-ubiquitous feature, not a rare find.
+  A later request doubled them again (about 260 to 520 per map): the
+  deep-space rate went to `0.0064`, and `placeSecondAnomalies` gives every
+  system a second roll (`ANOMALY_SYSTEM_SECOND_CHANCE`, 0.96) on a plain
+  band hex of its own, outer zone first. That pass runs on its own
+  `${seed}:anomalies` stream, so it changes no other tile: an existing save
+  keeps its map and every anomaly it had, and just gains new ones.
 
 ## Band Materialization
 

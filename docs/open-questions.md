@@ -762,3 +762,12 @@ from here.
   and cutting it off there, so it reads as continuing under the fog without
   drawing anything inside it. Accepted cost: a trail now shows which
   neighbouring fogged hex a ship (pirates included) left into or came from.
+
+- **Anomalies doubled again.** The user asked for anomalies to be twice as
+  common. The per-system chance was already 0.96, so doubling it literally
+  meant a second roll per system rather than a bigger number:
+  `ANOMALY_SYSTEM_SECOND_CHANCE` 0.96, placed by `placeSecondAnomalies` on
+  its own seeded stream, plus `ANOMALY_DEEPSPACE_CHANCE` 0.0032 to 0.0064
+  (a threshold change on a roll every deep-space hex already made). Result:
+  about 260 to 524 per map, every other tile identical, so saved games keep
+  their maps and their destroyed anomalies and simply gain new ones.

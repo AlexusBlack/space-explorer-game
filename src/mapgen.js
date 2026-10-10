@@ -82,7 +82,11 @@ const MOON_OFFSET_MAX = 0.5;
 // 8x the original first-pass rates (0.12/0.0004) — playtesting found the
 // original, then a 4x bump, both too sparse to reliably encounter early.
 const ANOMALY_SYSTEM_CHANCE = 0.96;
-const ANOMALY_DEEPSPACE_CHANCE = 0.0032;
+// Doubled again (from 0.96-per-system-only and 0.0032): every system rolls a
+// second anomaly at the same chance in placeSecondAnomalies, and the
+// deep-space rate doubles.
+const ANOMALY_SYSTEM_SECOND_CHANCE = 0.96;
+const ANOMALY_DEEPSPACE_CHANCE = 0.0064;
 // Share of non-home systems named with a catalogue designation ("GD-17")
 // instead of a name from data/star_planet_names.json.
 const DESIGNATION_CHANCE = 0.4;
@@ -740,6 +744,27 @@ function assignSpecies(tiles, species, seed) {
   }
 }
 
+// Each system's second anomaly roll, on its own stream so it never shifts a
+// layout draw (existing saves keep their map). Claims a plain band hex of
+// the system, outer zone first, like the first roll in populateSystem.
+function placeSecondAnomalies(tiles, systems, seed) {
+  const rng = createRng(`${seed}:anomalies`);
+  const free = new Map();
+  for (const tile of tiles.values()) {
+    if (tile.type !== "band" || tile.band === "interstellar" || tile.regionId < 0) continue;
+    const zones = free.get(tile.regionId) ?? free.set(tile.regionId, { inner: [], medium: [], outer: [] }).get(tile.regionId);
+    zones[tile.band].push(tile);
+  }
+  for (const system of systems) {
+    if (rng() >= ANOMALY_SYSTEM_SECOND_CHANCE) continue;
+    const zones = free.get(system.id);
+    if (!zones) continue;
+    const pool = zones.outer.length ? zones.outer : zones.medium.length ? zones.medium : zones.inner;
+    const tile = takeRandom(rng, pool);
+    if (tile) tiles.set(axialKey(tile.q, tile.r), { q: tile.q, r: tile.r, type: "anomaly", regionId: system.id });
+  }
+}
+
 export function generateMap({ seed, names = [], species = [] } = {}) {
   const rng = createRng(seed);
   const field = buildClusterField(seed);
@@ -757,6 +782,7 @@ export function generateMap({ seed, names = [], species = [] } = {}) {
     const zoneCoords = carveSystem(tiles, system, rng, starRng);
     populateSystem(tiles, system, zoneCoords, rng, bodyRng);
   }
+  placeSecondAnomalies(tiles, systems, seed);
 
   // Deep-space sweep: materialize every remaining hex in the map radius as a
   // plain deep-space backdrop tile, computed once here rather than inferred
