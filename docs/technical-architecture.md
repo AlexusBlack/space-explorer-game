@@ -659,10 +659,15 @@ stale) and `handleTap` hit-tests it before treating a tap as a move,
 last-drawn tag first. Tags only draw for the active player's discovered
 worlds above `LABEL_ZOOM`, so tappability follows the same fog and zoom
 rules. A hit opens the `#world-card` overlay (`index.html`): a dimmed
-backdrop with a ~320px card holding the world's `ownName`, its class and
+backdrop with a card holding the world's `ownName`, its class and
 type, the species portrait (`species/images-opt/<id03>-<Key>.webp`, loaded
 by `<img>` only when the card opens), the species name and its
-description. Any tap on the card or backdrop closes it, and `handleTap`
+description. The portrait's size is the CSS variable `--portrait` on
+`#world-card`: as large as the viewport allows after the card's gutters
+(68px across) and text (~300px down), clamped to 120-512px, 512 being the
+portraits' native size so they're never upscaled. The card is at least
+320px wide and grows with the portrait; on a short screen the overlay
+scrolls. Any tap on the card or backdrop closes it, and `handleTap`
 ignores taps while it is open, like the other overlays.
 
 **Tile report.** `input.js`'s `attachCameraControls` takes a fifth

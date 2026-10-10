@@ -106,11 +106,19 @@
     position: fixed; inset: 0; display: none;
     align-items: center; justify-content: center; padding: 16px;
     background: rgba(5,7,13,0.6); color: #cfe0ff; font: 15px/1.4 system-ui, sans-serif;
-    z-index: 10; cursor: pointer;
+    z-index: 10; cursor: pointer; overflow-y: auto;
+    /* Species portrait size: as big as the screen allows after the card's
+       gutters (2x16 + 2x18 padding = 68px across) and its text (~300px
+       down), but never past the portraits' native 512px, nor under 120px. */
+    --portrait: max(120px, min(512px, calc(100vw - 68px), calc(100vh - 300px)));
+  }
+  @supports (height: 100dvh) {
+    #world-card { --portrait: max(120px, min(512px, calc(100vw - 68px), calc(100dvh - 300px))); }
   }
   #world-card.visible { display: flex; }
   #world-card-panel {
-    position: relative; width: 320px; max-width: 100%; box-sizing: border-box;
+    position: relative; width: max(320px, calc(var(--portrait) + 36px)); max-width: 100%;
+    box-sizing: border-box; margin: auto;
     padding: 18px; border-radius: 12px; text-align: center;
     background: #0d1426; border: 1px solid #1b2f6b; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
   }
@@ -121,7 +129,7 @@
   #world-card-name { font-size: 1.4em; font-weight: 700; color: #fff; }
   #world-card-type { opacity: 0.75; margin-bottom: 10px; }
   #world-card-image {
-    display: block; width: 200px; max-width: 100%; aspect-ratio: 1;
+    display: block; width: var(--portrait); max-width: 100%; aspect-ratio: 1;
     margin: 0 auto 10px; border-radius: 8px; background: #05070d;
   }
   #world-card-image[hidden] { display: none; }

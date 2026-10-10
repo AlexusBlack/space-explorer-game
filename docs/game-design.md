@@ -161,10 +161,10 @@ text in a dark blue rounded box, once discovered. Plain designations of
 other planets, moons and companion stars only show when zoomed in close
 (zoom 1 or more), to keep the map readable.
 
-Tapping an inhabited world's name tag opens a small card over the dimmed
+Tapping an inhabited world's name tag opens a card over the dimmed
 map, showing the world's name and type (e.g. "Rocky planet", "Ice moon"),
-its species' portrait, the name the species goes by there, and the species
-description. A tap anywhere closes it. Tapping a tag never moves the ship or
+its species' portrait (as large as the screen allows, up to its full
+512px), the name the species goes by there, and the species description. A tap anywhere closes it. Tapping a tag never moves the ship or
 spends moves.
 
 ### Tile report
