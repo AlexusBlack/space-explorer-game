@@ -480,10 +480,10 @@ are told apart three ways, each answering a different question:
 - A small color-coded badge fixed to the screen's top-right corner
   (`index.html`'s `#player-badge`, updated in `main.js`'s `updateHud`) —
   "whose turn is it."
-- A small color-coded dot drawn at the upper-right corner of each ship's
-  own hex tile (`render.js`'s `drawOwnerDot`, drawn for both ships always,
-  same "not privileged information" policy as the ship sprite itself) —
-  "which on-screen ship is whose."
+- A small color-coded dot drawn at the upper-left corner of the ship's hex
+  (`render.js`'s `drawOwnerDot`, same "not privileged information" policy
+  as the ship sprite itself), for the stack's visible ship only (see
+  "Ship stacks" below) — "which on-screen ship is whose."
 - A "marching ants" selection animation drawn under the *active* player's
   ship only (`render.js`'s `drawSelectionPulse`, using
   `images/select-alpha.png` — a 4-frame white dashed-oval strip, drawn as
@@ -498,6 +498,31 @@ pixel size (`SHIP_MAX_ZOOM` = 1 in `render.js`): zoomed in further they
 stay put, so they stay sharp and don't grow to planet size. The owner dot
 still follows the hex. Pirate ships use the same cap, and so does their
 health bar so it stays just above the sprite; pirate bases still scale freely.
+
+**Ship stacks**: player and pirate ships share one render pass. Each hex
+draws only one ship. `render.js`'s exported, pure `shipStacks(playerShips,
+otherShips, discovered)` groups the visible ships by hex:
+- player ships are always visible;
+- pirate ships are visible only on hexes the active player has discovered.
+
+It then sorts each stack, keeping the incoming order within a rank:
+1. the active player's ship;
+2. other players' ships;
+3. everything else (pirates now, future AI ships).
+
+The top ship gets its usual extras:
+- the selection pulse and owner dot if it's a player ship;
+- the health bar if it's a pirate.
+
+A stack of two or more also gets a count at the hex's upper-right corner
+(`drawStackCount`), which is why the owner dot moved to the upper-left.
+
+Pirate bases are structures, not ships. They are drawn first, always
+visible on discovered hexes, and never counted. Stacks topped by a pirate
+draw before stacks topped by a player, so a player ship stays on top where
+sprites spill into a neighboring hex.
+
+The long-press tile report lists the whole stack.
 
 **Win condition check**: with deep space now the vast majority of the map,
 "every tile revealed" is no longer the right completion condition (see

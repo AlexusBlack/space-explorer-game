@@ -26,6 +26,17 @@ game — losing a ship is a setback, not a game-over.
   may end early), then explicitly ends their turn, handing the device to the
   other player via a pass-and-play interstitial (see
   [`ui-ux-spec.md`](ui-ux-spec.md)).
+- **Ship stacks:** several ships can share a hex. Today that's both players,
+  or raiders on their base's hex or bumping into each other; AI ships are
+  planned. Only one ship is drawn:
+  - your own ship when it's in the stack;
+  - otherwise the other player's ship;
+  - otherwise a pirate (or, later, other ships).
+
+  A small number at the hex's upper-right corner shows how many ships are
+  there, and the drawn player ship's colored owner circle sits at the
+  upper-left corner. A pirate base isn't a ship: it's always drawn and isn't
+  counted. Long-press the hex to see every ship in the stack.
 - Each player has their own **notification area**: a column of round icons
   down the right edge, showing only the active player's list.
   - **Pirate ship icon:** pirates attacked your ship during the end-of-round

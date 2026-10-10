@@ -64,12 +64,13 @@ function drawSelectionPulse(ctx, img, frameIndex, cx, cy, zoom) {
   );
 }
 
-// Small per-player-colored marker at a ship's hex's upper-right vertex —
+// Small per-player-colored marker at a ship's hex's upper-left vertex —
 // lets two same-sprite ships be told apart directly on the map, rather than
 // only via the screen-corner #player-badge (which only says whose turn it
-// is, not which on-screen ship is whose).
+// is, not which on-screen ship is whose). The upper-right vertex holds the
+// stack count (drawStackCount).
 function drawOwnerDot(ctx, cx, cy, hw, hh, zoom, color) {
-  const dotX = cx + hw * 0.55;
+  const dotX = cx - hw * 0.55;
   const dotY = cy - hh * 0.8;
   const radius = Math.max(3, 5 * zoom);
   ctx.beginPath();
@@ -79,6 +80,51 @@ function drawOwnerDot(ctx, cx, cy, hw, hh, zoom, color) {
   ctx.lineWidth = Math.max(1, 1.5 * zoom);
   ctx.strokeStyle = "rgba(5,7,13,0.9)";
   ctx.stroke();
+}
+
+// Number of ships on a hex, in a small dark circle at its upper-right
+// vertex (mirroring the owner dot). Only drawn for stacks of two or more.
+function drawStackCount(ctx, cx, cy, hw, hh, zoom, count) {
+  const x = cx + hw * 0.55;
+  const y = cy - hh * 0.8;
+  const radius = Math.max(6, 8 * zoom);
+  ctx.beginPath();
+  ctx.arc(x, y, radius, 0, Math.PI * 2);
+  ctx.fillStyle = "rgba(5,7,13,0.9)";
+  ctx.fill();
+  ctx.lineWidth = Math.max(1, 1.5 * zoom);
+  ctx.strokeStyle = "#cfe0ff";
+  ctx.stroke();
+  ctx.fillStyle = "#fff";
+  ctx.font = `bold ${Math.round(radius * 1.3)}px sans-serif`;
+  ctx.textAlign = "center";
+  ctx.textBaseline = "middle";
+  ctx.fillText(String(count), x, y);
+  ctx.textBaseline = "alphabetic";
+}
+
+// Groups visible ships by hex, best-first: the active player's ship, then
+// other players' ships, then everything else (pirates now, AI ships later),
+// each group in its incoming order. Only a stack's first ship is drawn.
+// Players' ships are always visible; other ships only on hexes the active
+// player has discovered (`discovered` null = no fog). Returns
+// Map<"q,r", ship[]>, where each ship is { kind: "player"|"pirate", q, r, ... }.
+export function shipStacks(playerShips, otherShips, discovered) {
+  const rank = (ship) => (ship.kind !== "player" ? 2 : ship.active ? 0 : 1);
+  const stacks = new Map();
+  const add = (ship) => {
+    const key = axialKey(ship.q, ship.r);
+    if (!stacks.has(key)) stacks.set(key, []);
+    stacks.get(key).push(ship);
+  };
+  for (const ship of playerShips ?? []) add({ ...ship, kind: "player" });
+  for (const ship of otherShips ?? []) {
+    if (discovered && !discovered.has(axialKey(ship.q, ship.r))) continue;
+    add({ ...ship, kind: "pirate" });
+  }
+  // Array.prototype.sort is stable, so equal ranks keep their order.
+  for (const stack of stacks.values()) stack.sort((a, b) => rank(a) - rank(b));
+  return stacks;
 }
 
 // Small floating health bar, drawn above a pirate base/ship marker (MVP4).
@@ -275,12 +321,13 @@ export function render(
     else drawLabel(ctx, text, anchor, camera.zoom);
   }
 
-  // Pirate bases/ships (MVP4): dynamic markers, not tile features, so they
-  // draw in their own pass rather than the tile-type switch above. Unlike
+  // Pirate bases (MVP4): dynamic markers, not tile features, so they draw
+  // in their own pass rather than the tile-type switch above. Unlike
   // player ships below, pirates ARE fog-gated — only drawn once the active
   // player has discovered that hex — so an always-visible pirate base
-  // can't leak map structure through enemy vision. Drawn before player
-  // ships so a player standing on a pirate's tile reads as "on top of" it.
+  // can't leak map structure through enemy vision. Bases are structures,
+  // not ships: always drawn (below any ship stack on their hex) and never
+  // counted in it.
   if (pirateBases) {
     const baseImg = iconImages && iconImages["pirate-base"];
     for (const base of pirateBases) {
@@ -292,41 +339,36 @@ export function render(
       drawHealthBar(ctx, p.x, p.y, camera.zoom, base.health / base.maxHealth);
     }
   }
-  if (pirateShips) {
-    const shipImg = iconImages && iconImages["pirate-ship"];
-    // Same native-size cap as player ships; the health bar follows the
-    // sprite so it stays just above it.
-    const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
-    for (const ship of pirateShips) {
-      const key = axialKey(ship.q, ship.r);
-      if (discovered && !discovered.has(key)) continue;
-      const world = axialToPixel(ship.q, ship.r);
-      const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
-      drawIcon(ctx, shipImg, p.x, p.y, shipZoom);
-      drawHealthBar(ctx, p.x, p.y, shipZoom, ship.health / ship.maxHealth);
+  // Ships (player and pirate) share one pass: each hex draws only the top
+  // ship of its stack (see shipStacks) plus a count when more are there; the
+  // long-press tile report lists the whole stack. Player ships use the same
+  // sprite for every player — the screen-corner #player-badge, the owner
+  // dot and the active-player selection pulse tell them apart — and are
+  // drawn regardless of whose turn it is: unlike fog, seeing where the
+  // ships are isn't privileged information. Ships and the selection oval
+  // never draw above their native pixel size: they stay sharp and don't
+  // swell to planet size when zoomed in.
+  const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
+  const playerImg = iconImages && iconImages.ship;
+  const pirateImg = iconImages && iconImages["pirate-ship"];
+  const selectImg = iconImages && iconImages.select;
+  // Pirate-topped stacks first, so a player ship reads as on top where
+  // sprites overlap neighboring hexes.
+  const stacks = [...shipStacks(ships, pirateShips, discovered).values()];
+  stacks.sort((a, b) => (a[0].kind === "player") - (b[0].kind === "player"));
+  for (const stack of stacks) {
+    const top = stack[0];
+    const world = axialToPixel(top.q, top.r);
+    const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+    if (top.kind === "player") {
+      if (top.active) drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, shipZoom);
+      drawIcon(ctx, playerImg, p.x, p.y, shipZoom);
+      drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, top.color);
+    } else {
+      drawIcon(ctx, pirateImg, p.x, p.y, shipZoom);
+      drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
     }
-  }
-
-  // Ship markers (the same sprite for every player — the screen-corner
-  // #player-badge, the per-tile owner dot below, and the active-player
-  // selection pulse are how players are actually told apart) are drawn for
-  // both players regardless of whose turn it is: unlike fog, seeing where
-  // the ships are isn't privileged information.
-  if (ships) {
-    const shipImg = iconImages && iconImages.ship;
-    const selectImg = iconImages && iconImages.select;
-    // Ship and selection oval never draw above their native pixel size:
-    // they stay sharp and don't swell to planet size when zoomed in.
-    const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
-    for (const ship of ships) {
-      const world = axialToPixel(ship.q, ship.r);
-      const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
-      if (ship.active) {
-        drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, shipZoom);
-      }
-      drawIcon(ctx, shipImg, p.x, p.y, shipZoom);
-      drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, ship.color);
-    }
+    if (stack.length > 1) drawStackCount(ctx, p.x, p.y, hw, hh, camera.zoom, stack.length);
   }
 
   return { tagHits };

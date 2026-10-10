@@ -634,3 +634,16 @@ from here.
   - **Extra facts:** star system and zone, combat defense bonus, discovery
     XP, and distance from your ship, including whether it's reachable this
     turn.
+
+- **Ship stacks draw one ship plus a count.** User request: when several
+  ships share a hex, only one is drawn, with the number of ships at the
+  hex's right corner. The player owner circle moved to the left corner to
+  make room. Player ships always outrank other ships, and the active player
+  always comes first. This supersedes the "per-tile owner dot at the
+  upper-right corner" entry above. Decisions at plan time:
+  - **A pirate base stays a structure.** It's always drawn and isn't counted.
+    Raiders already stacked before this change, because they spawn on their
+    base's hex and roam without avoiding each other, so ships on a base's hex
+    form a stack drawn on top of it.
+  - **Only the visible ship gets an owner circle.** A hidden rival ship shows
+    only in the count and in the long-press tile report.
