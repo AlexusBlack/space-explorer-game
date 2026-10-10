@@ -25,6 +25,19 @@ import {
 import { availableUpgrades } from "./upgrades.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
+import {
+  TEAM_COLORS,
+  MAX_PLAYERS,
+  MIN_PLAYERS,
+  NAME_MAX_LENGTH,
+  SHIP_PREFIX,
+  defaultSetup,
+  addPlayer,
+  removePlayer,
+  pickShipName,
+  normalizeSetup,
+  shipTitle,
+} from "./setup.js";
 
 // Star/planet name list for mapgen's naming pass (data, not code: no build step).
 const names = await fetch("data/star_planet_names.json").then((r) => r.json());
@@ -37,7 +50,6 @@ const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
 const seedLabel = document.getElementById("seed-label");
 const turnCountLabel = document.getElementById("turn-count-label");
-const seedInput = document.getElementById("seed-input");
 const newMapButton = document.getElementById("new-map");
 const turnLabel = document.getElementById("turn-label");
 const levelLabel = document.getElementById("level-label");
@@ -67,6 +79,13 @@ const tileReportCoords = document.getElementById("tile-report-coords");
 const tileReportRows = document.getElementById("tile-report-rows");
 const tileReportEntities = document.getElementById("tile-report-entities");
 const tileReportWorld = document.getElementById("tile-report-world");
+const setupScreen = document.getElementById("setup");
+const setupSeed = document.getElementById("setup-seed");
+const setupSeedReroll = document.getElementById("setup-seed-reroll");
+const setupPlayerList = document.getElementById("setup-players");
+const setupAdd = document.getElementById("setup-add");
+const setupCancel = document.getElementById("setup-cancel");
+const setupStart = document.getElementById("setup-start");
 const tileReportClose = document.getElementById("tile-report-close");
 const notificationList = document.getElementById("notifications");
 const noticeCaption = document.getElementById("notice-caption");
@@ -109,17 +128,16 @@ function loadMap(seed) {
   seedLabel.textContent = `seed: ${seed} (${placed} systems${
     mapData.systemsSkipped ? `, ${mapData.systemsSkipped} skipped` : ""
   }, ${mapData.tiles.size} tiles)`;
-  seedInput.value = seed;
   writeSeedToUrl(seed);
   requestRedraw();
 }
 
-// Generates a fresh map AND resets both players to a brand-new game —
-// always overwrites any existing save for this seed, since MVP1 has only
-// one save slot. Used by "New Game" and by typing a seed into the input.
-function startNewGame(seed) {
+// Generates a fresh map AND a brand-new game for the start screen's roster
+// (`setup`, see setup.js) — always overwrites any existing save, since
+// there's only one save slot.
+function startNewGame(seed, setup) {
   loadMap(seed);
-  gameState = createNewGame(mapData);
+  gameState = createNewGame(mapData, setup);
   saveGame(currentSeed, gameState);
   updateHud();
   hideWinBanner();
@@ -162,12 +180,14 @@ function frame(bandImages, iconImages) {
     lastSelectFrame = selectFrame;
     requestRedraw();
   }
-  if (needsRedraw) {
+  // No game yet on a first launch: only the start screen shows.
+  if (needsRedraw && gameState) {
     const active = gameState.players[gameState.activePlayerIndex];
     const ships = gameState.players.map((p, i) => ({
       q: p.q,
       r: p.r,
       color: p.color,
+      label: shipTitle(p),
       active: i === gameState.activePlayerIndex,
     }));
     ({ tagHits } = render(
@@ -184,15 +204,15 @@ function updateHud() {
   const playerNum = gameState.activePlayerIndex + 1;
   const level = playerLevel(active);
   turnCountLabel.textContent = `Turn ${gameState.turnNumber ?? 1}`;
-  turnLabel.textContent = `Player ${playerNum}'s turn`;
+  turnLabel.textContent = `${active.name}'s turn · ${shipTitle(active)}`;
   turnLabel.style.color = active.color;
   levelLabel.textContent = `Level ${level}`;
   xpLabel.textContent = `XP: ${active.xp}/${cumulativeXpForLevel(level + 1)}`;
   movesLabel.textContent = `Moves: ${gameState.movesRemaining}/${movesPerTurnForPlayer(active)}`;
   healthLabel.textContent = `HP: ${active.currentHealth}/${maxHealthForPlayer(active)}`;
-  // Both ships render with the same sprite on the map (see render.js) — this
-  // corner badge, colored per the active player, is the actual way to tell
-  // players apart, i.e. whose turn it currently is.
+  // Every ship renders with the same sprite on the map (see render.js) —
+  // this corner badge, in the active player's team colour, shows whose turn
+  // it is. It keeps the turn-order number because teammates share a colour.
   playerBadge.style.background = active.color;
   playerBadge.textContent = `P${playerNum}`;
   renderNotifications();
@@ -457,9 +477,9 @@ function dismissTileReport() {
 
 // Any full-screen window that should swallow map gestures.
 function overlayOpen() {
-  return [interstitial, upgradePicker, anomalyOverlay, combatOverlay, worldCard, tileReport].some(
-    (el) => el.classList.contains("visible")
-  );
+  return [
+    interstitial, upgradePicker, anomalyOverlay, combatOverlay, worldCard, tileReport, setupScreen,
+  ].some((el) => el.classList.contains("visible"));
 }
 
 function screenToHex(screenPos) {
@@ -564,7 +584,7 @@ function endTurn() {
   // instead of permanently latching onto NaN.
   if (gameState.activePlayerIndex === 0) {
     gameState.turnNumber = (gameState.turnNumber ?? 1) + 1;
-    // Pirates act once per full round (both players' turns complete), not
+    // Pirates act once per full round (every player's turn complete), not
     // per-player-turn or per-move — see docs/game-design.md's Pirates
     // section. Each fight goes to the attacked player's own notification
     // area (not a blocking overlay), so they see it on their next turn.
@@ -578,7 +598,7 @@ function endTurn() {
   gameState.movesRemaining = movesPerTurnForPlayer(nextActive);
   saveGame(currentSeed, gameState);
   updateHud();
-  interstitialMessage.textContent = `Pass to Player ${gameState.activePlayerIndex + 1}`;
+  interstitialMessage.textContent = `Pass to ${nextActive.name}`;
   interstitial.classList.add("visible");
   requestRedraw();
 }
@@ -590,15 +610,123 @@ function dismissInterstitial() {
   if (!showNextCombatOverlay()) maybeShowUpgradePicker();
 }
 
+// --- Start screen -------------------------------------------------------
+// Edited in place by the #setup form; handed to startNewGame on Start.
+let setupPlayers = [];
+
+function randomSeed() {
+  return Math.random().toString(36).slice(2);
+}
+
+// `cancellable` only when a game is already running to return to.
+function showSetup({ cancellable, seed = randomSeed() }) {
+  setupPlayers = defaultSetup();
+  setupSeed.value = seed;
+  setupCancel.hidden = !cancellable;
+  renderSetup();
+  setupScreen.classList.add("visible");
+}
+
+function hideSetup() {
+  setupScreen.classList.remove("visible");
+}
+
+function setupButton(text, label, onClick) {
+  const btn = document.createElement("button");
+  btn.type = "button";
+  btn.textContent = text;
+  btn.setAttribute("aria-label", label);
+  btn.addEventListener("click", onClick);
+  return btn;
+}
+
+function setupTextInput(value, label, onInput) {
+  const input = document.createElement("input");
+  input.value = value;
+  input.maxLength = NAME_MAX_LENGTH;
+  input.setAttribute("aria-label", label);
+  input.addEventListener("input", () => onInput(input.value));
+  return input;
+}
+
+// One row per player: team colour, name, "ICV" + ship name with a reroll,
+// and remove. Rebuilt after add/remove/reroll; typing edits setupPlayers
+// directly without a rebuild (so focus isn't lost).
+function renderSetup() {
+  setupPlayerList.replaceChildren();
+  setupPlayers.forEach((player, index) => {
+    const row = document.createElement("div");
+    row.className = "setup-row";
+
+    // iOS can't colour individual <option>s, so the select itself shows
+    // the chosen team colour.
+    const team = document.createElement("select");
+    team.className = "setup-team";
+    team.setAttribute("aria-label", "Team colour");
+    for (const { color, name } of TEAM_COLORS) {
+      const option = document.createElement("option");
+      option.value = color;
+      option.textContent = name;
+      team.append(option);
+    }
+    team.value = player.color;
+    team.style.background = player.color;
+    team.addEventListener("change", () => {
+      player.color = team.value;
+      team.style.background = team.value;
+    });
+
+    const name = setupTextInput(player.name, "Player name", (v) => {
+      player.name = v;
+    });
+    name.className = "setup-name";
+    name.placeholder = "Player name";
+
+    const ship = document.createElement("span");
+    ship.className = "setup-ship";
+    const prefix = document.createElement("span");
+    prefix.textContent = SHIP_PREFIX;
+    const shipInput = setupTextInput(player.shipName, "Ship name", (v) => {
+      player.shipName = v;
+    });
+    shipInput.placeholder = "Ship name";
+    const reroll = setupButton("🎲", "Random ship name", () => {
+      player.shipName = pickShipName(setupPlayers);
+      renderSetup();
+    });
+    ship.append(prefix, shipInput, reroll);
+
+    const remove = setupButton("×", "Remove player", () => {
+      removePlayer(setupPlayers, index);
+      renderSetup();
+    });
+    remove.className = "setup-remove";
+    remove.disabled = setupPlayers.length <= MIN_PLAYERS;
+
+    row.append(team, name, ship, remove);
+    setupPlayerList.append(row);
+  });
+  setupAdd.disabled = setupPlayers.length >= MAX_PLAYERS;
+}
+
 window.addEventListener("resize", resizeCanvas);
 attachCameraControls(canvas, camera, requestRedraw, handleTap, handleLongPress);
 
-newMapButton.addEventListener("click", () => {
-  startNewGame(Math.random().toString(36).slice(2));
+newMapButton.addEventListener("click", () => showSetup({ cancellable: true }));
+setupSeedReroll.addEventListener("click", () => {
+  setupSeed.value = randomSeed();
 });
-
-seedInput.addEventListener("keydown", (e) => {
-  if (e.key === "Enter") startNewGame(seedInput.value.trim() || "earth");
+setupAdd.addEventListener("click", () => {
+  addPlayer(setupPlayers);
+  renderSetup();
+});
+setupCancel.addEventListener("click", hideSetup);
+setupStart.addEventListener("click", () => {
+  const seed = setupSeed.value.trim() || randomSeed();
+  const setup = normalizeSetup(setupPlayers);
+  hideSetup();
+  startNewGame(seed, setup);
+  maybeShowUpgradePicker();
 });
 
 endTurnButton.addEventListener("click", endTurn);
@@ -638,8 +766,7 @@ if (saved && (!urlSeed || urlSeed === saved.seed)) {
   centerCameraOn(active.q, active.r);
   maybeShowUpgradePicker();
 } else {
-  startNewGame(urlSeed || "earth");
-  maybeShowUpgradePicker();
+  showSetup({ cancellable: false, seed: urlSeed || randomSeed() });
 }
 
 const [bandImages, iconImages] = await Promise.all([loadBandImages(), loadIconImages()]);

@@ -4,21 +4,26 @@
 // drives what's actually drawn.
 //
 // Fog-of-war is deliberately kept OFF the shared `mapData.tiles` objects
-// (both players read the same Map built once by generateMap) and instead
-// lives as two independent per-player Sets of axialKey strings — storing it
-// on the tile itself would leak one player's discoveries into the other's
-// render pass immediately.
+// (every player reads the same Map built once by generateMap) and instead
+// lives as one Set of axialKey strings per TEAM — storing it on the tile
+// itself would leak one team's discoveries into another's render pass
+// immediately. Teammates (players with the same `color`) hold the very same
+// Set instance in `player.discovered`, so every reader stays per-player and
+// a tile one teammate revealed is already discovered (no XP) for the rest.
 
 import { axialKey, hexesInRadius } from "./hexgrid.js";
 import { UPGRADES, availableUpgrades } from "./upgrades.js";
+import { SHIP_NAMES } from "./setup.js";
 
-export const PLAYER_COLORS = ["#4fd1ff", "#ff9f4f"];
 export const SAVE_KEY = "explorer-game:save:v1";
 // Bumped to 2 when star clusters changed every seed's map layout: a v1 save's
 // fog, ship positions and pirates point at hexes that no longer match.
 // Bumped to 3 when Earth got a fixed single moon (Luna): the home system is
 // generated first, so its changed rng draws shift every later system.
-const SAVE_VERSION = 3;
+// Bumped to 4 for teams: fog is saved once per team (`teamFog`) and players
+// gained name/shipName. A v3 save is still migrated, not discarded (see
+// deserializeState).
+const SAVE_VERSION = 4;
 
 // --- XP table -------------------------------------------------------------
 // Flat XP for a tile with no notable feature: plain band tiles (deep
@@ -189,14 +194,16 @@ export function revealAround(mapData, player, center, { awardXp = true, radius }
   }
 }
 
-function createPlayer(color) {
+function createPlayer({ name, shipName, color }, discovered) {
   return {
-    color,
+    name,
+    shipName,
+    color, // team colour — teammates share it and their `discovered` Set
     q: 0,
     r: 0,
     xp: 0,
     unlockedUpgrades: new Set(), // chosen upgrade ids — real progress, persisted
-    discovered: new Set(),
+    discovered, // the team's shared fog Set (see the header comment)
     // Depletes during combat, persisted (unlike the derived moves/vision/xp
     // helpers above) since it's mutable moment-to-moment state, not a pure
     // function of xp/unlockedUpgrades. Respawn-only full heal (see
@@ -204,7 +211,7 @@ function createPlayer(color) {
     // until it dies or a future MVP adds a heal-at-Earth mechanic.
     currentHealth: HEALTH_BASE,
     // Did this player fight (either side) during the round currently in
-    // progress? Spans both players' turns plus the round-tick — reset to
+    // progress? Spans every player's turn plus the round-tick — reset to
     // false only once tickPassiveHealing processes the completed round.
     // Transient in the sense that it's only meaningful mid-round, but
     // still persisted (see serializeState) so a reload mid-round doesn't
@@ -230,9 +237,13 @@ export function applyMove(mapData, player, path) {
   player.r = last.r;
 }
 
-export function createNewGame(mapData) {
-  const players = PLAYER_COLORS.map((color) => {
-    const player = createPlayer(color);
+// `setup` is the start screen's roster: [{ name, shipName, color }], in
+// turn order (see setup.js).
+export function createNewGame(mapData, setup) {
+  const teamFog = new Map(); // colour -> the team's shared discovered Set
+  const players = setup.map((entry) => {
+    if (!teamFog.has(entry.color)) teamFog.set(entry.color, new Set());
+    const player = createPlayer(entry, teamFog.get(entry.color));
     player.q = mapData.earth.q;
     player.r = mapData.earth.r;
     revealAround(mapData, player, mapData.earth, { awardXp: false });
@@ -243,7 +254,7 @@ export function createNewGame(mapData) {
     movesRemaining: movesPerTurnForPlayer(players[0]),
     turnNumber: 1,
     won: false,
-    // Shared across both players, NOT per-player — an anomaly tile is a
+    // Shared across all players, NOT per-player — an anomaly tile is a
     // one-shot world resource: whichever player lands on it first destroys
     // it (reverts to a plain band tile) for both. Stores the axialKey of
     // every destroyed anomaly so loadGame can replay the destruction onto a
@@ -276,7 +287,7 @@ const ANOMALY_EFFECTS = ["wormhole", "bulk-xp", "local-reveal", "free-upgrade"];
 
 // If `player` is standing on a still-live anomaly tile, destroys it
 // (mutates the shared mapData tile in place to a plain band tile, so it
-// renders and behaves as empty space for both players from now on) and
+// renders and behaves as empty space for every player from now on) and
 // records the destruction so it survives a reload. Returns the
 // pre-destruction tile for the caller to pass to triggerAnomaly, or null if
 // the player isn't on a live anomaly.
@@ -387,7 +398,7 @@ export function tickPassiveHealing(gameState) {
 
 // Every placed system's primary star tile sits at exactly (system.q,
 // system.r) (see mapgen.js's carveSystem) — win condition is the union of
-// both players' discovered sets covering every one of those coordinates.
+// all players' discovered sets covering every one of those coordinates.
 export function checkWinCondition(mapData, players) {
   return mapData.systems.every((system) => {
     const key = axialKey(system.q, system.r);
@@ -406,13 +417,18 @@ export function serializeState(seed, gameState) {
     pirateBases: gameState.pirateBases,
     pirateShips: gameState.pirateShips,
     nextPirateEntityId: gameState.nextPirateEntityId,
+    // Once per team, not per player: teammates share one Set.
+    teamFog: Object.fromEntries(
+      gameState.players.map((player) => [player.color, [...player.discovered]])
+    ),
     players: gameState.players.map((player) => ({
+      name: player.name,
+      shipName: player.shipName,
       color: player.color,
       q: player.q,
       r: player.r,
       xp: player.xp,
       unlockedUpgrades: [...player.unlockedUpgrades],
-      discovered: [...player.discovered],
       currentHealth: player.currentHealth,
       inCombatThisRound: player.inCombatThisRound,
       notifications: player.notifications,
@@ -421,6 +437,14 @@ export function serializeState(seed, gameState) {
 }
 
 export function deserializeState(raw) {
+  // v4 saves share one Set per team colour; v3 saves have a `discovered`
+  // array per player and two different colours, so each stays its own team.
+  const teamFog = new Map();
+  const fogFor = (p) => {
+    if (!raw.teamFog) return new Set(p.discovered);
+    if (!teamFog.has(p.color)) teamFog.set(p.color, new Set(raw.teamFog[p.color] ?? []));
+    return teamFog.get(p.color);
+  };
   return {
     activePlayerIndex: raw.activePlayerIndex,
     movesRemaining: raw.movesRemaining,
@@ -434,7 +458,10 @@ export function deserializeState(raw) {
     pirateBases: raw.pirateBases ?? [],
     pirateShips: raw.pirateShips ?? [],
     nextPirateEntityId: raw.nextPirateEntityId ?? 1,
-    players: raw.players.map((p) => ({
+    players: raw.players.map((p, i) => ({
+      // v3 saves predate the start screen's names.
+      name: p.name ?? `Player ${i + 1}`,
+      shipName: p.shipName ?? SHIP_NAMES[i % SHIP_NAMES.length],
       color: p.color,
       q: p.q,
       r: p.r,
@@ -442,7 +469,7 @@ export function deserializeState(raw) {
       // Old saves predating leveling (or a stale visionRadius field, now
       // fully derived and no longer read) start with no upgrades chosen.
       unlockedUpgrades: new Set(p.unlockedUpgrades ?? []),
-      discovered: new Set(p.discovered),
+      discovered: fogFor(p),
       // Old saves predating MVP4 start at full health.
       currentHealth: p.currentHealth ?? HEALTH_BASE,
       // Old saves predating the combat-rebalance update have no mid-round
@@ -475,7 +502,9 @@ export function loadGame() {
   if (!raw) return null;
   try {
     const parsed = JSON.parse(raw);
-    if (parsed.version !== SAVE_VERSION) return null;
+    // v3 differs only in fog layout and missing names; deserializeState
+    // migrates it.
+    if (parsed.version !== SAVE_VERSION && parsed.version !== 3) return null;
     return { seed: parsed.seed, gameState: deserializeState(parsed) };
   } catch {
     return null;

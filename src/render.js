@@ -172,6 +172,32 @@ function drawTag(ctx, text, anchor, zoom) {
   return { x: anchor.x - w / 2, y: top, w, h };
 }
 
+// A player ship's "ICV <name>" label: bold text in the ship's team colour
+// on a dark pill, its top just under `anchor` (the ship sprite's bottom).
+// Sized like a plain label. Not a tap target, unlike drawTag. The ship
+// sprite is about as tall as a planet's, so on a world hex the world's own
+// label/tag is pushed down below this one (see render's shipLabelBottoms).
+function shipLabelBox(zoom) {
+  const size = Math.min(LABEL_MAX_PX, Math.max(10, 12 * zoom));
+  const padY = size * 0.15;
+  const gap = size * 0.1;
+  return { size, padX: size * 0.4, padY, gap, h: size + 2 * padY };
+}
+
+function drawShipLabel(ctx, text, anchor, zoom, color) {
+  const { size, padX, padY, gap, h } = shipLabelBox(zoom);
+  ctx.font = `bold ${size}px sans-serif`;
+  ctx.textAlign = "center";
+  const top = anchor.y + gap;
+  const w = ctx.measureText(text).width + 2 * padX;
+  ctx.fillStyle = "rgba(5,7,13,0.75)";
+  ctx.beginPath();
+  ctx.roundRect(anchor.x - w / 2, top, w, h, size * 0.35);
+  ctx.fill();
+  ctx.fillStyle = color;
+  ctx.fillText(text, anchor.x, top + padY + size * 0.82);
+}
+
 // Bottom centre of an icon drawn at `centre` with drawIcon's `zoom`; falls
 // back to the hex's half-height while the image is still loading.
 function labelAnchor(img, centre, zoom, hh) {
@@ -184,7 +210,7 @@ function pushBodyLabel(pendingLabels, tile, anchor, zoom) {
   if (tile.ownName) {
     if (zoom > LABEL_ZOOM) pendingLabels.push([tile.ownName, anchor, "tag", tile]);
   } else if (tile.name && zoom >= DESIGNATION_ZOOM) {
-    pendingLabels.push([tile.name, anchor]);
+    pendingLabels.push([tile.name, anchor, "label", tile]);
   }
 }
 
@@ -279,7 +305,7 @@ export function render(
           const system = mapData.systems[tile.regionId];
           const primary = tile.q === system.q && tile.r === system.r;
           if (primary ? camera.zoom > LABEL_ZOOM : camera.zoom >= DESIGNATION_ZOOM) {
-            pendingLabels.push([tile.name, labelAnchor(img, p, camera.zoom, hh)]);
+            pendingLabels.push([tile.name, labelAnchor(img, p, camera.zoom, hh), "label", tile]);
           }
           break;
         }
@@ -314,9 +340,34 @@ export function render(
     drawIcon(ctx, img, p.x, p.y, camera.zoom * scale);
   }
 
+  // Player ship stacks (drawn below, after pirate bases) are worked out
+  // here so a hex's own label can make room for the ship's "ICV" label:
+  // where a labelled player ship sits, the tile's name/tag moves down to
+  // start under the ship label instead of overlapping it.
+  const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
+  const playerImg = iconImages && iconImages.ship;
+  const stacks = [...shipStacks(ships, pirateShips, discovered).values()];
+  const shipLabelBottoms = new Map(); // "q,r" -> screen y of the ship label's bottom
+  const shipLabelAnchors = new Map(); // "q,r" -> the ship label's anchor
+  if (camera.zoom > LABEL_ZOOM) {
+    const box = shipLabelBox(camera.zoom);
+    for (const stack of stacks) {
+      const top = stack[0];
+      if (top.kind !== "player" || !top.label) continue;
+      const world = axialToPixel(top.q, top.r);
+      const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+      const anchor = labelAnchor(playerImg, p, shipZoom, hh);
+      const key = axialKey(top.q, top.r);
+      shipLabelAnchors.set(key, anchor);
+      shipLabelBottoms.set(key, anchor.y + box.gap + box.h);
+    }
+  }
+
   // Drawn name tags' screen rects, returned so main.js can hit-test taps.
   const tagHits = [];
-  for (const [text, anchor, style, tile] of pendingLabels) {
+  for (let [text, anchor, style, tile] of pendingLabels) {
+    const below = shipLabelBottoms.get(axialKey(tile.q, tile.r));
+    if (below !== undefined && below > anchor.y) anchor = { x: anchor.x, y: below };
     if (style === "tag") tagHits.push({ rect: drawTag(ctx, text, anchor, camera.zoom), tile });
     else drawLabel(ctx, text, anchor, camera.zoom);
   }
@@ -342,20 +393,19 @@ export function render(
   // Ships (player and pirate) share one pass: each hex draws only the top
   // ship of its stack (see shipStacks) plus a count when more are there; the
   // long-press tile report lists the whole stack. Player ships use the same
-  // sprite for every player — the screen-corner #player-badge, the owner
-  // dot and the active-player selection pulse tell them apart — and are
+  // sprite for every player — the "ICV <name>" label, the screen-corner
+  // #player-badge, the team-coloured owner dot and the active-player
+  // selection pulse tell them apart — and are
   // drawn regardless of whose turn it is: unlike fog, seeing where the
   // ships are isn't privileged information. Ships and the selection oval
   // never draw above their native pixel size: they stay sharp and don't
   // swell to planet size when zoomed in.
-  const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
-  const playerImg = iconImages && iconImages.ship;
   const pirateImg = iconImages && iconImages["pirate-ship"];
   const selectImg = iconImages && iconImages.select;
   // Pirate-topped stacks first, so a player ship reads as on top where
   // sprites overlap neighboring hexes.
-  const stacks = [...shipStacks(ships, pirateShips, discovered).values()];
   stacks.sort((a, b) => (a[0].kind === "player") - (b[0].kind === "player"));
+  const shipLabels = []; // drawn after every ship, so no sprite covers one
   for (const stack of stacks) {
     const top = stack[0];
     const world = axialToPixel(top.q, top.r);
@@ -364,11 +414,16 @@ export function render(
       if (top.active) drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, shipZoom);
       drawIcon(ctx, playerImg, p.x, p.y, shipZoom);
       drawOwnerDot(ctx, p.x, p.y, hw, hh, camera.zoom, top.color);
+      const labelAt = shipLabelAnchors.get(axialKey(top.q, top.r));
+      if (labelAt) shipLabels.push([top.label, labelAt, top.color]);
     } else {
       drawIcon(ctx, pirateImg, p.x, p.y, shipZoom);
       drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
     }
     if (stack.length > 1) drawStackCount(ctx, p.x, p.y, hw, hh, camera.zoom, stack.length);
+  }
+  for (const [text, anchor, color] of shipLabels) {
+    drawShipLabel(ctx, text, anchor, camera.zoom, color);
   }
 
   return { tagHits };

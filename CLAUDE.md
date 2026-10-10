@@ -63,6 +63,14 @@ hasn't been fixed yet; trust `git log` and `docs/mvp-roadmap.md` over it.
   planets have no health/ownership model anywhere in this codebase).
 - `README.md`'s status line needs bumping to reflect MVP4.
 
+**Players and teams (post-MVP4):** the start screen (`src/setup.js` +
+`#setup`) makes the roster 1–6 players with names, ship names and a team
+colour. Teammates hold the **same `discovered` Set instance** (team fog), so
+don't copy or replace one player's `discovered` without the others; the
+save stores fog per team (`teamFog`, `SAVE_VERSION` 4, v3 migrated). Many
+older comments and docs still say "both players"; treat that as "all
+players".
+
 ## Development conventions (established over this project's history)
 
 **No build step, ever.** `./serve.sh` runs a plain Python static server
@@ -194,6 +202,7 @@ src/
 ├── combat.js       pure melee math (Civ5-adapted), no other project imports
 ├── pirates.js      pirate base/ship spawn, production, roam AI, combat orchestration
 ├── tile-report.js  pure data builder for the long-press tile report
+├── setup.js        start-screen roster model (team colours, ship names, ICV prefix)
 ├── render.js       canvas drawing
 ├── assets.js       image loading
 ├── input.js        tap/pan/zoom handling

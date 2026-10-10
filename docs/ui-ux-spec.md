@@ -1,20 +1,31 @@
 # UI / UX Spec
 
-Target device: iPad Mini (touch-only, ~8" screen), shared by two people
-sitting together. No mouse, no hover affordances assumed anywhere.
+Target device: iPad Mini (touch-only, ~8" screen), shared by one to six
+people sitting together. No mouse, no hover affordances assumed anywhere.
 
 ## Screen Regions
 
+- **Start screen** — opened by the top bar's "New Game" button, and shown on
+  a launch with no save (a launch with a save resumes directly). A card over
+  a dark backdrop, above every other overlay, with:
+  - a seed field and 🎲 reroll (the seed input used to sit in the top bar);
+  - one row per player: team colour dropdown (the dropdown itself shows the
+    chosen colour, since iOS can't colour individual options), name, "ICV"
+    plus ship name with a 🎲 reroll, and × remove (disabled at one player);
+  - "+ Add player" (disabled at six), "Start game", and "Cancel" only when
+    there is a running game to go back to.
+
+  Controls are at least 40 px tall for touch.
 - **Map viewport** — the dominant region; full-bleed canvas showing the
   hex/diamond map, ships, and fog-of-war.
 - **HUD strip** — a fixed bar (bottom, for thumb reach) showing: whose turn
-  it is, that player's XP/level, moves remaining this turn, and an "End Turn"
+  it is ("Ann's turn · ICV Enterprise", in the team colour), that player's XP/level, moves remaining this turn, and an "End Turn"
   button.
-- **Pass-and-play interstitial** — a full-screen "Pass to Player 2"
+- **Pass-and-play interstitial** — a full-screen "Pass to <name>"
   tap-to-continue screen shown immediately after a turn ends and before the
   next player's map/fog-of-war is revealed. This is a real information-hiding
-  requirement (not just cosmetic): both players share one physical screen,
-  and one player's fog-of-war/discoveries must not be visible to the other
+  requirement (not just cosmetic): every player shares one physical screen,
+  and one team's fog-of-war/discoveries must not be visible to another
   during handoff.
 - **Notification area** — a column of round icons on the right edge for the
   active player's own events: pirate attacks, inhabited worlds and anomalies

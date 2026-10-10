@@ -2,8 +2,8 @@
 
 ## Overview & Tone
 
-A peaceful, friendly 2D space exploration game for two people, hot-seat on one
-device (designed around an iPad Mini). Each player commands their own
+A peaceful, friendly 2D space exploration game for one to six people, hot-seat
+on one device (designed around an iPad Mini). Each player commands their own
 starship, exploring a shared pregenerated hex map to find planets, natural
 wonders, and anomalies, earning experience and growing their ship's
 capabilities. Pirates exist as a Civ5-barbarian-style threat, but combat is a
@@ -12,30 +12,56 @@ game — losing a ship is a setback, not a game-over.
 
 ## Players & Ships
 
-- Two players, hot-seat on one device, each controlling one independent
-  starship from the very first playable build (MVP1).
-- Both ships start at **Earth**, a planet in the shared home system (whose
+- One to six players, hot-seat on one device, each controlling one
+  independent starship. (MVP1 through MVP4 had exactly two players; the
+  start screen below made the roster configurable.)
+- **Start screen:** "New Game", or launching with no save, opens it. It sets:
+  - the map seed (a random one by default, with a 🎲 reroll);
+  - the players, in turn order. Each player has a name, a ship name and a
+    team. Players can be added (up to 6) and removed (down to 1).
+
+  Defaults: two players on the same team, named "Player 1" and "Player 2",
+  with ship names picked at random from a list of famous spaceships
+  (Enterprise, Voyager, Pioneer, Endeavour…), never repeated within a game.
+  An added player gets the lowest free "Player N", a fresh random ship name,
+  and the first player's team. A blank name or ship name falls back to these
+  defaults when the game starts. Launching with a save resumes it directly.
+- **Ship names:** every player ship is an **ICV**, an Interstellar
+  Commonwealth Vehicle (a lore prefix kept for future story), so the
+  "Enterprise" is shown as "ICV Enterprise": on the map under the ship, in
+  the HUD, the tile report and pirate reports.
+- **Teams:** a team is just a colour (cyan, orange, green, magenta, yellow or
+  white; no red, which reads as pirates). The team colour is the player's
+  ship colour: owner dot, ship label, turn label and corner badge.
+  **Teammates share fog of war**: a hex any teammate has seen is revealed for
+  the whole team. Discovery XP and the discovery notification go only to the
+  teammate who reveals a hex first; a teammate gets nothing for a hex the
+  team has already seen. Teammates' ships look alike on the map, so the ship
+  label tells them apart, and the corner badge keeps the turn-order number
+  (P1, P2…).
+- Every ship starts at **Earth**, a planet in the shared home system (whose
   star — the one every player's ship can see first — is "Sol"). Earth is a
   planet tile, not the star itself; see "Stars" below for why that
   distinction matters.
-- Each player has their own: fog-of-war/revealed-tile state, position,
-  experience total, level, and ship stats (moves/turn, vision radius, health,
-  attack). Players do not share progress with each other, even though they
-  share the same map.
+- Each player has their own position, experience total, level, and ship stats
+  (moves/turn, vision radius, health, attack). Fog of war is per team (above).
+  Players don't share progress otherwise, even though they share the same
+  map.
 - Turn structure: each player takes a full turn (spends their move budget,
   may end early), then explicitly ends their turn, handing the device to the
-  other player via a pass-and-play interstitial (see
+  next player via a pass-and-play interstitial (see
   [`ui-ux-spec.md`](ui-ux-spec.md)).
-- **Ship stacks:** several ships can share a hex. Today that's both players,
+- **Ship stacks:** several ships can share a hex. Today that's players,
   or raiders on their base's hex or bumping into each other; AI ships are
   planned. Only one ship is drawn:
   - your own ship when it's in the stack;
-  - otherwise the other player's ship;
+  - otherwise another player's ship;
   - otherwise a pirate (or, later, other ships).
 
   A small number at the hex's upper-right corner shows how many ships are
-  there, and the drawn player ship's colored owner circle sits at the
-  upper-left corner. A pirate base isn't a ship: it's always drawn and isn't
+  there, and the drawn player ship's team-coloured owner circle sits at the
+  upper-left corner, with its "ICV" name label underneath (shown at the same
+  zoom as world name tags; a world's own name moves down to make room). A pirate base isn't a ship: it's always drawn and isn't
   counted. Long-press the hex to see every ship in the stack.
 - Each player has their own **notification area**: a column of round icons
   down the right edge, showing only the active player's list.
@@ -44,7 +70,7 @@ game — losing a ship is a setback, not a game-over.
     it at the start of their next turn.
   - **Species portrait:** you discovered an inhabited world.
   - **"?":** you discovered an anomaly (it came into view). The notification
-    disappears once the anomaly is used up by either player.
+    disappears once the anomaly is used up by any player.
 
   Tapping an icon centers the map on that object and shows its explanation
   for about 7 seconds; a species icon opens that world's card instead. Swiping an icon sideways removes it, and ending your
@@ -146,7 +172,7 @@ its tile report. It never moves the ship or spends moves. The report shows:
 - **Always:** the hex's coordinates and its distance from your ship. The
   distance line also says whether you can reach the hex with the moves you
   have left this turn.
-- **An unexplored hex** (still fogged for you) shows only "Unexplored", so
+- **An unexplored hex** (still fogged for your team) shows only "Unexplored", so
   the report never gives away what fog hides. A hex past the map's edge
   says "Beyond the map".
 - **An explored hex** shows what it is:
@@ -158,8 +184,8 @@ its tile report. It never moves the ship or spends moves. The report shows:
     zone (Inner, Medium, Outer, Interstellar or Deep space), the defense
     bonus a ship gets when attacked there, and the hex's discovery XP.
 - **Ships on the hex:**
-  - Player ships, yours or your rival's, with full stats: HP, attack,
-    level, moves per turn and vision.
+  - Every player ship, titled "ICV <ship> — <player>" ("(you)" on yours),
+    with full stats: HP, attack, level, moves per turn and vision.
   - A pirate base with HP, attack and how many raiders it supports.
   - Pirate raiders with HP and attack.
   - Pirates are listed only on hexes you've explored, the same rule that
@@ -242,8 +268,8 @@ flying through otherwise-empty space has an occasional real payoff too
 reveal.** Simply seeing it within vision radius pays only the normal flat
 discovery XP, same as any blank tile. The effect only triggers when a
 ship's move actually **lands on** the tile — and doing so **destroys it,
-permanently, for both players**: it reverts to an ordinary tile the instant
-either player visits it, so it can never be triggered a second time by
+permanently, for every player**: it reverts to an ordinary tile the instant
+any player visits it, so it can never be triggered a second time by
 anyone. This is a deliberate choice (confirmed during MVP3 planning) that
 makes landing on one a real decision, not an automatic drive-by bonus.
 
@@ -422,15 +448,15 @@ but it never changes which sprite is drawn.
 ## Session End
 
 **Win condition (MVP, revised): every star system has been discovered** —
-i.e. a ship (either player's) has revealed each system's star tile at least
+i.e. a ship (any player's) has revealed each system's star tile at least
 once. Originally framed as "the map is fully explored," but with the map now
 mostly deep space (not a uniformly-paved grid, see "Map & Coordinate System"
 above), literally revealing every single hex is no longer a reasonable or
 fun completion condition — it would mean carpet-covering tens of thousands
 of empty tiles. Discovering every *system* preserves the original intent
 (a shared, cooperative "have we mapped everything of substance" goal)
-without that grind. Still cooperative, not competitive, across both
-players' fog-of-war; per-player XP/level remain a personal-progress measure,
+without that grind. Still cooperative, not competitive, across every
+team's fog-of-war; per-player XP/level remain a personal-progress measure,
 not a scoring contest.
 
 ## Glossary

@@ -8,6 +8,7 @@
 import { axialKey, axialNeighbors, hexDistance, hexesInRadius } from "./hexgrid.js";
 import { resolveCombat, terrainDefenseBonus } from "./combat.js";
 import { attackForPlayer, maxHealthForPlayer, applyShipLoss, SHIP_LOSS_XP_PENALTY } from "./state.js";
+import { shipTitle } from "./setup.js";
 
 export const PIRATE_BASE_SPAWN_CHANCE = 0.05; // per eligible region, per round — tunable
 // ~100 HP/attack scale (Civ5-like) — see state.js's HEALTH_BASE/ATTACK_BASE
@@ -245,7 +246,7 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   playerHere.currentHealth = defender.health;
 
   const playerIndex = gameState.players.indexOf(playerHere);
-  const playerNum = playerIndex + 1;
+  const victim = shipTitle(playerHere);
   // Routed to the attacked player's notification area, pointing at the fight.
   const where = { playerIndex, q: next.q, r: next.r };
   if (result.defenderDefeated) {
@@ -254,21 +255,21 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
     ship.r = next.r;
     return {
       ...where,
-      message: `A pirate raider destroyed Player ${playerNum}'s ship! Respawned at Earth, -${SHIP_LOSS_XP_PENALTY} XP.`,
+      message: `A pirate raider destroyed ${victim}! Respawned at Earth, -${SHIP_LOSS_XP_PENALTY} XP.`,
     };
   }
   if (result.attackerDefeated) {
     removeShip(gameState, ship.id); // stays put — irrelevant, it's gone
-    return { ...where, message: `Player ${playerNum}'s ship fought off and destroyed a pirate raider!` };
+    return { ...where, message: `${victim} fought off and destroyed a pirate raider!` };
   }
   return {
     ...where,
-    message: `A pirate raider clashed with Player ${playerNum}'s ship — raider ${ship.health}/${ship.maxHealth} HP, Player ${playerNum} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP.`,
+    message: `A pirate raider clashed with ${victim} — raider ${ship.health}/${ship.maxHealth} HP, ${victim} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP.`,
   };
 }
 
 // Orchestrates one full round: spawn -> produce -> roam/attack each ship.
-// Called once per full round (both players' turns complete), NOT seeded
+// Called once per full round (every player's turn complete), NOT seeded
 // like map generation — rng defaults to Math.random, injectable for tests,
 // same convention as state.js's triggerAnomaly.
 export function tickPirates(mapData, gameState, rng = Math.random) {

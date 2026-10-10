@@ -20,10 +20,6 @@
   }
   #hud > * { pointer-events: auto; }
   #seed-label { opacity: 0.85; }
-  #seed-input {
-    width: 8em; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
-    color: #fff; border-radius: 4px; padding: 3px 6px; font: inherit;
-  }
   button {
     background: rgba(255,255,255,0.12); border: 1px solid rgba(255,255,255,0.25);
     color: #fff; border-radius: 4px; padding: 3px 8px; font: inherit; cursor: pointer;
@@ -183,6 +179,43 @@
   .notice-anomaly { background: #4b2a7a; }
   .notice.snap { transition: transform 0.15s, opacity 0.15s; }
 
+  /* Start screen: opens from New Game, and on a launch with no save. Above
+     every other overlay, so nothing can sit on top of it. */
+  #setup {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+    background: rgba(5,7,13,0.85); color: #cfe0ff; font: 15px/1.4 system-ui, sans-serif;
+    z-index: 20;
+  }
+  #setup.visible { display: flex; }
+  #setup-panel {
+    width: 620px; max-width: 100%; max-height: 100%; overflow-y: auto; box-sizing: border-box;
+    padding: 20px; border-radius: 12px;
+    background: #0d1426; border: 1px solid #1b2f6b; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  #setup-title { font-size: 1.5em; font-weight: 700; color: #fff; margin-bottom: 12px; }
+  #setup input, #setup select {
+    min-width: 0; box-sizing: border-box; min-height: 40px; padding: 6px 8px; border-radius: 6px;
+    background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.2);
+    color: #fff; font: inherit;
+  }
+  #setup button { min-height: 40px; min-width: 40px; padding: 6px 12px; border-radius: 6px; font-size: 15px; }
+  #setup button:disabled { opacity: 0.35; cursor: default; }
+  #setup-seed-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  #setup-seed { flex: 1; }
+  #setup-players { display: flex; flex-direction: column; gap: 8px; }
+  .setup-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
+  #setup select.setup-team { width: 104px; color: #05070d; font-weight: 600; border-color: rgba(255,255,255,0.85); }
+  #setup select.setup-team option { background: #0d1426; color: #fff; }
+  .setup-name { flex: 1 1 140px; }
+  .setup-ship { flex: 1 1 220px; display: flex; align-items: center; gap: 6px; }
+  .setup-ship > span { font-weight: 700; opacity: 0.8; }
+  .setup-ship input { flex: 1; }
+  #setup-add { margin-top: 10px; }
+  #setup-actions { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; }
+  #setup-start { background: #1b2f6b; border-color: #2c4aa0; font-weight: 600; }
+  #setup-cancel[hidden] { display: none; }
+
   #notice-caption {
     position: fixed; top: 56px; left: 50%; transform: translateX(-50%);
     max-width: min(420px, calc(100% - 140px)); padding: 10px 14px; border-radius: 8px;
@@ -197,7 +230,6 @@
 <div id="hud">
   <span id="seed-label">seed: —</span>
   <span id="turn-count-label"></span>
-  <input id="seed-input" placeholder="seed" />
   <button id="new-map">New Game</button>
 </div>
 <div id="player-hud">
@@ -242,6 +274,22 @@
     <dl id="tile-report-rows"></dl>
     <div id="tile-report-entities"></div>
     <button id="tile-report-world" hidden>View world</button>
+  </div>
+</div>
+<div id="setup">
+  <div id="setup-panel">
+    <div id="setup-title">New Game</div>
+    <div id="setup-seed-row">
+      <span>Seed</span>
+      <input id="setup-seed" aria-label="Map seed" autocomplete="off" />
+      <button id="setup-seed-reroll" type="button" aria-label="Random seed">🎲</button>
+    </div>
+    <div id="setup-players"></div>
+    <button id="setup-add" type="button">+ Add player</button>
+    <div id="setup-actions">
+      <button id="setup-cancel" type="button">Cancel</button>
+      <button id="setup-start" type="button">Start game</button>
+    </div>
   </div>
 </div>
 <div id="combat-overlay">

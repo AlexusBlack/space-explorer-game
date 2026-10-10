@@ -16,6 +16,7 @@ import {
   visionRadiusForPlayer,
 } from "./state.js";
 import { PIRATE_BASE_ATTACK, PIRATE_BASE_SUPPORT_CAP } from "./pirates.js";
+import { shipTitle } from "./setup.js";
 
 export const CLASS_DISPLAY_NAMES = {
   rocky: "Rocky",
@@ -96,9 +97,9 @@ function describeTile(mapData, tile) {
   return { title, rows };
 }
 
-function playerEntity(player, index, isViewer) {
+function playerEntity(player, isViewer) {
   return {
-    title: `Player ${index + 1}'s ship${isViewer ? " (you)" : ""}`,
+    title: `${shipTitle(player)} — ${player.name}${isViewer ? " (you)" : ""}`,
     rows: [
       ["HP", `${player.currentHealth}/${maxHealthForPlayer(player)}`],
       ["Attack", String(attackForPlayer(player))],
@@ -132,7 +133,7 @@ export function buildTileReport(mapData, gameState, q, r) {
   const entities = [];
   gameState.players.forEach((player, index) => {
     if (player.q === q && player.r === r) {
-      entities.push(playerEntity(player, index, index === viewerIndex));
+      entities.push(playerEntity(player, index === viewerIndex));
     }
   });
   if (discovered) {

@@ -269,9 +269,11 @@ gameState (src/state.js, persisted — see "Persistence" below)
 │     entities, NOT a mapData tile mutation (see "Pirates & Combat" below)
 ├── pirateShips: [{ id, q, r, health, maxHealth, attack, baseId }]
 ├── nextPirateEntityId — shared id counter for both arrays above
-└── players: [PlayerState, PlayerState]
-      └── PlayerState: { color, q, r, xp, unlockedUpgrades: Set<upgradeId>,
-            discovered: Set<"q,r">, currentHealth, inCombatThisRound,
+└── players: PlayerState[] — 1..6, in turn order (from the start screen)
+      └── PlayerState: { name, shipName, color (= team), q, r, xp,
+            unlockedUpgrades: Set<upgradeId>,
+            discovered: Set<"q,r"> (the SAME instance for teammates),
+            currentHealth, inCombatThisRound,
             notifications: [{ kind, q, r, message, speciesId? }] }
 ```
 Only `xp` and `unlockedUpgrades` are persisted leveling state — `level`,
@@ -284,13 +286,26 @@ moment-to-moment combat state, not a pure function of `xp`/
 `unlockedUpgrades`.
 
 Fog-of-war (`discovered`) is deliberately kept **off** the shared `tiles`
-map and lives entirely as two independent per-player `Set`s of `axialKey`
-strings — both players read the same singleton tile objects, so storing a
-"revealed" flag on the tile itself would leak one player's discoveries into
-the other's render pass immediately. `src/render.js` only ever receives the
-*active* player's `discovered` set, which is what actually enforces "can't
-see the other player's fog" (a data-availability guarantee, not a runtime
-check).
+map and lives entirely as one `Set` of `axialKey` strings **per team** —
+every player reads the same singleton tile objects, so storing a "revealed"
+flag on the tile itself would leak one team's discoveries into another's
+render pass immediately. `src/render.js` only ever receives the *active*
+player's `discovered` set, which is what actually enforces "can't see
+another team's fog" (a data-availability guarantee, not a runtime check).
+
+**Team fog is a shared Set instance.** A team is just a colour.
+`createNewGame(mapData, setup)` gives every player of one colour the very
+same `Set` object as `player.discovered`, rather than adding a separate
+team record. Why:
+- every fog reader (`render.js`, `tile-report.js`, pirate fog gates, the
+  win check) keeps reading `player.discovered` unchanged;
+- `revealTile`'s existing "already discovered → no XP, no notification"
+  rule gives exactly the chosen XP rule: discovery XP goes only to the
+  teammate who reveals a hex first.
+
+The catch is persistence: JSON can't express shared references, so the
+save stores fog once per team colour and `deserializeState` rebuilds one
+Set per colour (see "Persistence").
 
 **Reveal is vision-radius-based, not single-tile.** Whenever a ship
 occupies or passes through a hex — every step of a tapped move's path,
@@ -472,15 +487,21 @@ where every system is from the start — and is independent of the
 `discovered` set: seeing a star this way does **not** mark it discovered,
 so it grants no XP and doesn't count toward the win condition below.
 
-**Ship markers**: both players' ships are always drawn (regardless of whose
+**Ship markers**: every player's ship is always drawn (regardless of whose
 turn it is — unlike fog, ship position isn't privileged information),
 using `images/icons/ship.png` (cropped from `units.png`, see
-`graphics-and-assets.md`) — the **same sprite for both players**. Players
-are told apart three ways, each answering a different question:
-- A small color-coded badge fixed to the screen's top-right corner
+`graphics-and-assets.md`) — the **same sprite for every player**. Players
+are told apart four ways, each answering a different question:
+- A small badge in the team colour, fixed to the screen's top-right corner
   (`index.html`'s `#player-badge`, updated in `main.js`'s `updateHud`) —
-  "whose turn is it."
-- A small color-coded dot drawn at the upper-left corner of the ship's hex
+  "whose turn is it." It shows the turn-order number (P1, P2…), since
+  teammates share a colour.
+- An "ICV <ship-name>" label under the ship (`render.js`'s
+  `drawShipLabel`; `main.js` passes `label: shipTitle(player)` in each ship
+  record), team-coloured text on a dark pill, for the stack's visible ship
+  only, at zoom > `LABEL_ZOOM` like world tags — "which ship is this,"
+  including between teammates.
+- A small team-coloured dot drawn at the upper-left corner of the ship's hex
   (`render.js`'s `drawOwnerDot`, same "not privileged information" policy
   as the ship sprite itself), for the stack's visible ship only (see
   "Ship stacks" below) — "which on-screen ship is whose."
@@ -491,7 +512,16 @@ are told apart three ways, each answering a different question:
   currently being commanded."
 
 None of these recolor or swap the ship icon itself — the sprite stays
-identical for both players throughout.
+identical for every player throughout.
+
+**Ship label vs. world labels.** The ship sprite (44 px) is about as tall
+as a planet (47 px), so a ship label hanging under the ship would overlap
+the world's own name tag hanging under the planet. `render` therefore
+computes the ship stacks *before* drawing the tile label queue, records
+each labelled ship's label bottom per hex (`shipLabelBottoms`), and moves
+any label or tag queued for that hex down to start under it. The tag's
+returned hit rect moves with it, so tapping it still opens the world card.
+Ship labels draw after every ship sprite, so no sprite covers one.
 
 The ship sprite and selection oval scale with zoom only up to their native
 pixel size (`SHIP_MAX_ZOOM` = 1 in `render.js`): zoomed in further they
@@ -530,7 +560,7 @@ The long-press tile report lists the whole stack.
 discovered** instead. A system's primary star always sits at exactly
 `(system.q, system.r)` (see `mapgen.js`'s `carveSystem`), so
 `checkWinCondition` just tests, for every entry in `mapData.systems`,
-whether *either* player's `discovered` set contains that key — a
+whether *any* player's `discovered` set contains that key — a
 cooperative union, O(systems × players) per move, run after every move.
 
 ## Rendering Loop
@@ -662,20 +692,53 @@ The column's z-index is below the full-screen overlays, so the opaque
 interstitial hides it during handoff. Only the player's own attack on a
 pirate still uses the `#combat-overlay` queue.
 
+## Start Screen
+
+`src/setup.js` is pure (no DOM): `TEAM_COLORS` (6, cyan and orange first
+so pre-team saves keep their colours; no red, which reads as pirates),
+`SHIP_NAMES`, `MIN_PLAYERS`/`MAX_PLAYERS` (1/6), `NAME_MAX_LENGTH` (20),
+`SHIP_PREFIX` ("ICV") and `shipTitle(player)`. The roster is an array of
+`{ name, shipName, color }` in turn order:
+- `defaultSetup` is two players on the first colour;
+- `addPlayer` uses `defaultPlayerName` (lowest free "Player N") and
+  `pickShipName` (random among unused names), on the first player's team;
+- `normalizeSetup` runs on Start: trims, truncates, fills blanks with
+  defaults, and drops unknown colours.
+
+`main.js` renders it into `#setup` (DOM nodes and `textContent`/`value`
+only, no `innerHTML` with user text). Text inputs write straight into the
+working array without a re-render, so typing keeps focus; add, remove and
+reroll rebuild the rows. `showSetup({ cancellable })` opens it: the top
+bar's New Game passes `true`; boot passes `false` when there is no usable
+save (or `?seed=` names a different seed than the save), prefilling that
+URL seed. Until Start there is no `gameState`, so `frame()` skips drawing.
+`#setup` is in `overlayOpen()`, so map gestures are ignored under it.
+
+Ship names are stored without the "ICV" prefix; everything that shows one
+goes through `shipTitle` (map label, HUD, tile report, pirate messages).
+
 ## Persistence
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`;
   the key name is fixed, the payload's `version` field is what changes:
   `SAVE_VERSION` 2 since star clusters changed every seed's layout, 3 since
-  Earth's fixed Luna changed the home system's main-stream draws, and
-  `loadGame` returns null on a mismatch so an old save is ignored and the
-  next save overwrites it), holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
+  Earth's fixed Luna changed the home system's main-stream draws, 4 for
+  teams; `loadGame` returns null on any other mismatch so an old save is
+  ignored and the next save overwrites it), holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
-  and both players' `{ color, q, r, xp, unlockedUpgrades, discovered,
-  currentHealth, inCombatThisRound, notifications }` (`discovered`, `unlockedUpgrades`, and
-  `destroyedAnomalies` all serialized as plain arrays, restored back to
-  real `Set`s on load). `visionRadius`/`maxHealth`/`attack` are **not**
+  `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
+  every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
+  currentHealth, inCombatThisRound, notifications }` (`teamFog` entries,
+  `unlockedUpgrades`, and `destroyedAnomalies` all serialized as plain
+  arrays, restored back to real `Set`s on load; `deserializeState` builds
+  one Set per colour and hands it to every player of that colour, so
+  teammates share it again after a reload).
+- **v3 saves are migrated, not dropped.** Version 3 differs only in fog
+  layout (a `discovered` array per player) and missing names, so
+  `loadGame` accepts it: each player keeps their own fog (the two v3
+  colours differ, so they stay separate teams), names default to
+  "Player N", and ships to `SHIP_NAMES[i]`. `visionRadius`/`maxHealth`/`attack` are **not**
   persisted — they're fully derived from `xp`/`unlockedUpgrades` (see
   "Leveling & upgrades" above), so retuning thresholds or the upgrade
   catalog later re-evaluates every existing save automatically rather than
@@ -790,6 +853,9 @@ src/
 │                      handling
 ├── tile-report.js     pure builder for the long-press tile report
 │                      (fog rules, stats); main.js renders it
+├── setup.js           start-screen roster model: team colours, ship
+│                      names, ICV prefix, add/remove/default-name rules;
+│                      main.js renders it as #setup
 ├── state.js           player/turn GameState model, fog-of-war, XP/
 │                      leveling, anomaly landing/effects, ship-loss
 │                      (MVP4), win-condition check, localStorage

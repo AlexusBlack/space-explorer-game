@@ -647,3 +647,37 @@ from here.
     form a stack drawn on top of it.
   - **Only the visible ship gets an owner circle.** A hidden rival ship shows
     only in the count and in the long-press tile report.
+
+- **Start screen: 1–6 players, names, ship names and teams.** User request:
+  a start screen to add and remove players and set each one's name, ship
+  name and team. A team is just a colour dropdown, and the old two player
+  colours became team colours. Teammates share fog of war. Defaults: two
+  players on the same team, named "Player #", with ship names picked at
+  random from a list of classic spaceship names. Added players get the same
+  auto-filled defaults. This changes the default game: before, the two
+  players were effectively on separate teams. Decisions at plan time:
+  - **Discovery XP goes to the first teammate only.** Shared fog means a hex
+    one teammate saw is already discovered for the team, so the others get
+    no XP or notification for it. Rejected: each player still earning XP
+    once per hex, which would need a second per-player set.
+  - **When it appears:** New Game opens it, and so does a launch with no
+    save. A launch with a save resumes directly. The seed input moved from
+    the top bar into the start screen, prefilled with a random seed (or the
+    URL's `?seed=`).
+  - **1–6 players, 6 colours:** cyan, orange, green, magenta, yellow, white.
+    No red, which reads as pirates.
+  - Assumptions made without asking: an added player joins the first
+    player's team; the corner badge keeps its turn-order "P1/P2…" number,
+    since teammates now share a colour; v3 saves are migrated (separate
+    teams, default names) rather than discarded.
+
+- **Player ships show an "ICV <ship-name>" label.** User request, added
+  while planning the start screen, to tell ships apart (teammates share a
+  colour). ICV stands for **Interstellar Commonwealth Vehicle**, a prefix
+  chosen for future lore. It is shown wherever a player ship is named: the
+  map label, HUD, tile report and pirate reports; the stored ship name never
+  includes it. The label is team-coloured under the stack's visible ship and
+  shows at the same zoom as world tags. The plan assumed the ship sprite was
+  smaller than a planet so the two labels wouldn't meet; a headless check
+  showed they overlap (44 px ship vs 47 px planet), so a world's label on a
+  ship's hex now moves down below the ship label.
