@@ -21,15 +21,25 @@ sitting together. No mouse, no hover affordances assumed anywhere.
   they discovered. Tap one to center on it and show its text for about 7 s;
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
-- **Tile/object detail** — a lightweight on-tap popover (canvas-drawn or a
-  simple absolutely-positioned DOM overlay), not a full modal, so inspecting
-  a planet/wonder/anomaly doesn't interrupt the exploration flow.
+- **Tile report** — opened by long-pressing a hex, since a tap already moves
+  the ship. It's a card over the dimmed map in the same style as the world
+  card. It shows the coordinates, what the hex is, its system, zone, defense
+  bonus, discovery XP and distance, then each ship or pirate on the hex with
+  its stats (see `game-design.md`'s "Tile report"). Close it with the × or a
+  tap on the backdrop. Taps on the card itself don't close it, so its "View
+  world" button works.
 
 ## Touch Interactions
 
 - **Tap an in-range hex** — move the ship there (if within this turn's move
   budget).
 - **Tap the ship** — select/re-center the camera on it.
+- **Long-press a hex** (one still finger, about 500 ms) — open its tile
+  report. Long-press is the iPadOS convention for "show details without
+  acting". Moving more than 10 px or adding a second finger cancels it.
+  Once it fires, lifting the finger doesn't move the ship and the map
+  doesn't pan until every finger is up. Safari's own long-press callout and
+  text selection are turned off on the canvas.
 - **One-finger drag** — pan the map.
 - **Pinch** — zoom the map.
 - **Tap "End Turn"** — ends the current player's turn and triggers the

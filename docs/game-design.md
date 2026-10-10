@@ -128,6 +128,32 @@ its species' portrait, the name the species goes by there, and the species
 description. A tap anywhere closes it. Tapping a tag never moves the ship or
 spends moves.
 
+### Tile report
+
+Long-press any hex (hold one finger still for about half a second) to open
+its tile report. It never moves the ship or spends moves. The report shows:
+- **Always:** the hex's coordinates and its distance from your ship. The
+  distance line also says whether you can reach the hex with the moves you
+  have left this turn.
+- **An unexplored hex** (still fogged for you) shows only "Unexplored", so
+  the report never gives away what fog hides. A hex past the map's edge
+  says "Beyond the map".
+- **An explored hex** shows what it is:
+  - stars show their colour;
+  - planets and moons show their class, their designation, what a moon
+    orbits, and whether the world is inhabited and by whom. An inhabited
+    world gets a "View world" button that opens its world card.
+  - every hex shows its star system ("Deep space" outside systems), its
+    zone (Inner, Medium, Outer, Interstellar or Deep space), the defense
+    bonus a ship gets when attacked there, and the hex's discovery XP.
+- **Ships on the hex:**
+  - Player ships, yours or your rival's, with full stats: HP, attack,
+    level, moves per turn and vision.
+  - A pirate base with HP, attack and how many raiders it supports.
+  - Pirate raiders with HP and attack.
+  - Pirates are listed only on hexes you've explored, the same rule that
+    draws them on the map.
+
 ## Movement & Exploration
 
 - Each ship has a fixed number of moves per turn (increases with leveling).

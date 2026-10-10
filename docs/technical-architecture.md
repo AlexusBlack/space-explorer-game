@@ -578,6 +578,36 @@ by `<img>` only when the card opens), the species name and its
 description. Any tap on the card or backdrop closes it, and `handleTap`
 ignores taps while it is open, like the other overlays.
 
+**Tile report.** `input.js`'s `attachCameraControls` takes a fifth
+callback, `onLongPress`:
+- The first pointer's `pointerdown` starts a 500 ms timer.
+- The timer is cancelled when the press stops being a tap candidate (more
+  than 10 px of movement), when a second pointer arrives, and when the last
+  pointer is released.
+- When it fires, it clears `tapCandidate` so the release isn't also a tap,
+  which would move the ship. It also sets `longPressed`, which makes
+  `pointermove` ignore movement until every pointer is up, so the map doesn't
+  drift under the window.
+
+`main.js`'s `handleLongPress` converts the point with `screenToHex`, which
+`handleTap` now shares. It then renders `tile-report.js`'s
+`buildTileReport(mapData, gameState, q, r)` into `#tile-report`, using DOM
+nodes and `textContent` only.
+
+The builder is pure, so it can be tested headlessly, and it is always from
+the active player's point of view:
+- An undiscovered hex returns only "Unexplored" and the distance.
+- Pirates are listed only on discovered hexes, the same rule `render.js` uses.
+- Player ships are always listed, because they are always drawn.
+
+`CLASS_DISPLAY_NAMES` moved there from `main.js`, and the world card imports
+it.
+
+`overlayOpen()` is the shared guard: taps and long-presses do nothing while
+any overlay, the world card or the report is open. The report closes only
+on its backdrop or its × button, so its "View world" button (which closes
+the report and calls `showWorldCard`) can be pressed.
+
 **Notification area.** Each player's `notifications` array (oldest first)
 feeds `#notifications`, a DOM column on the right edge rebuilt by
 `renderNotifications` (called from `updateHud`, so every state change, turn
@@ -731,7 +761,10 @@ src/
 ├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
 │                      fog-of-war skip, ship markers, pirate markers)
 ├── assets.js          per-band/icon image loading
-├── input.js           tap/drag-pan/pinch-zoom/wheel-zoom handling
+├── input.js           tap/long-press/drag-pan/pinch-zoom/wheel-zoom
+│                      handling
+├── tile-report.js     pure builder for the long-press tile report
+│                      (fog rules, stats); main.js renders it
 ├── state.js           player/turn GameState model, fog-of-war, XP/
 │                      leveling, anomaly landing/effects, ship-loss
 │                      (MVP4), win-condition check, localStorage

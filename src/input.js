@@ -7,8 +7,13 @@ const MAX_ZOOM = 3;
 // time in between — anything else (drag, pinch) is not a tap.
 const TAP_MOVE_THRESHOLD = 10;
 const TAP_TIME_THRESHOLD = 500;
+// Holding a single still finger this long is a long-press (the iPadOS
+// "show details" gesture). It consumes the touch: the release is not also
+// a tap (which would move the ship), and the map stops panning until every
+// finger lifts, so it doesn't drift under the window the press opened.
+const LONG_PRESS_MS = 500;
 
-export function attachCameraControls(canvas, camera, onChange, onTap) {
+export function attachCameraControls(canvas, camera, onChange, onTap, onLongPress) {
   const pointers = new Map();
   let lastDragPos = null;
   let pinchStartDist = null;
@@ -16,6 +21,13 @@ export function attachCameraControls(canvas, camera, onChange, onTap) {
   let tapCandidate = false;
   let tapDownPos = null;
   let tapDownTime = 0;
+  let longPressTimer = null;
+  let longPressed = false;
+
+  function cancelLongPress() {
+    clearTimeout(longPressTimer);
+    longPressTimer = null;
+  }
 
   function clampZoom(z) {
     return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
@@ -40,6 +52,16 @@ export function attachCameraControls(canvas, camera, onChange, onTap) {
       tapCandidate = true;
       tapDownPos = { x: e.clientX, y: e.clientY };
       tapDownTime = performance.now();
+      longPressed = false;
+      if (onLongPress) {
+        longPressTimer = setTimeout(() => {
+          longPressTimer = null;
+          if (!tapCandidate) return;
+          tapCandidate = false;
+          longPressed = true;
+          onLongPress({ ...tapDownPos });
+        }, LONG_PRESS_MS);
+      }
     }
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
     if (pointers.size === 1) {
@@ -49,17 +71,22 @@ export function attachCameraControls(canvas, camera, onChange, onTap) {
       pinchStartZoom = camera.zoom;
       lastDragPos = null;
       tapCandidate = false;
+      cancelLongPress();
     }
   });
 
   canvas.addEventListener("pointermove", (e) => {
     if (!pointers.has(e.pointerId)) return;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (longPressed) return;
 
     if (pointers.size === 1 && lastDragPos) {
       if (tapCandidate && tapDownPos) {
         const moved = Math.hypot(e.clientX - tapDownPos.x, e.clientY - tapDownPos.y);
-        if (moved > TAP_MOVE_THRESHOLD) tapCandidate = false;
+        if (moved > TAP_MOVE_THRESHOLD) {
+          tapCandidate = false;
+          cancelLongPress();
+        }
       }
       const dx = e.clientX - lastDragPos.x;
       const dy = e.clientY - lastDragPos.y;
@@ -94,7 +121,11 @@ export function attachCameraControls(canvas, camera, onChange, onTap) {
     ) {
       onTap({ x: e.clientX, y: e.clientY });
     }
-    if (pointers.size === 0) tapCandidate = false;
+    if (pointers.size === 0) {
+      tapCandidate = false;
+      longPressed = false;
+      cancelLongPress();
+    }
   }
 
   canvas.addEventListener("pointerup", releasePointer);

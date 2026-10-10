@@ -615,3 +615,22 @@ from here.
   inhabited-world notification now centers on the world and opens its world
   card (the same one a name-tag tap opens) instead of the short caption,
   which only repeated what the card shows.
+
+- **Tile report on long-press.** User request: a window with a hex's
+  coordinates, what it is, and the entities on it with their stats. Long-press
+  (about 500 ms, cancelled by more than 10 px of movement or a second finger)
+  was chosen over other gestures because:
+  - it is the iPadOS convention for "details without acting";
+  - tap already moves the ship.
+
+  Decisions at plan time:
+  - **A fogged hex shows only its coordinates, "Unexplored" and the
+    distance.** Nothing leaks, and pirates on it aren't listed.
+  - **Both players' ships show full stats**, the rival's as well as your
+    own.
+  - **An inhabited world shows a compact species line** plus a "View world"
+    button that opens the existing world card. The portrait isn't
+    duplicated.
+  - **Extra facts:** star system and zone, combat defense bonus, discovery
+    XP, and distance from your ship, including whether it's reachable this
+    turn.

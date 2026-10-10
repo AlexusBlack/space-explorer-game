@@ -6,7 +6,11 @@
 <title>Space Explorer — MVP1</title>
 <style>
   html, body { margin: 0; padding: 0; overflow: hidden; background: #05070d; }
-  canvas { display: block; touch-action: none; }
+  canvas {
+    display: block; touch-action: none;
+    /* Long-press opens the tile report, not Safari's callout/selection. */
+    -webkit-touch-callout: none; -webkit-user-select: none; user-select: none;
+  }
   #hud {
     position: fixed; top: 0; left: 0; right: 0;
     display: flex; align-items: center; gap: 8px;
@@ -127,6 +131,37 @@
   #world-card-image[hidden] { display: none; }
   #world-card-species { font-size: 1.15em; font-weight: 600; color: #fff; }
   #world-card-description { margin-top: 6px; font-size: 0.9em; opacity: 0.85; text-align: left; }
+  /* Tile report (long-press a hex): same card family as #world-card. */
+  #tile-report {
+    position: fixed; inset: 0; display: none;
+    align-items: center; justify-content: center; padding: 16px;
+    background: rgba(5,7,13,0.6); color: #cfe0ff; font: 15px/1.4 system-ui, sans-serif;
+    z-index: 10;
+  }
+  #tile-report.visible { display: flex; }
+  #tile-report-panel {
+    position: relative; width: 320px; max-width: 100%; max-height: 100%; overflow-y: auto;
+    box-sizing: border-box; padding: 18px; border-radius: 12px;
+    background: #0d1426; border: 1px solid #1b2f6b; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
+  }
+  #tile-report-close {
+    position: absolute; top: 6px; right: 8px; background: none; border: none;
+    color: #cfe0ff; font-size: 22px; line-height: 1; cursor: pointer;
+  }
+  #tile-report-title { font-size: 1.3em; font-weight: 700; color: #fff; padding-right: 24px; }
+  #tile-report-coords { opacity: 0.75; margin-bottom: 8px; }
+  #tile-report dl {
+    display: grid; grid-template-columns: auto 1fr; gap: 2px 12px; margin: 0;
+  }
+  #tile-report dt { opacity: 0.7; }
+  #tile-report dd { margin: 0; color: #fff; }
+  .tile-report-entity { margin-top: 12px; padding-top: 10px; border-top: 1px solid #1b2f6b; }
+  .tile-report-entity h3 { margin: 0 0 4px; font-size: 1em; color: #fff; }
+  #tile-report-world {
+    display: block; width: 100%; margin-top: 14px; padding: 8px; border-radius: 8px;
+    background: #1b2f6b; border: 1px solid #2c4aa0; color: #fff; font: inherit; cursor: pointer;
+  }
+  #tile-report-world[hidden] { display: none; }
   /* Per-player notification area on the right edge. Below the full-screen
      overlays (z-index 10), so the pass-and-play interstitial hides it. */
   #notifications {
@@ -197,6 +232,16 @@
     <img id="world-card-image" alt="" />
     <div id="world-card-species"></div>
     <div id="world-card-description"></div>
+  </div>
+</div>
+<div id="tile-report">
+  <div id="tile-report-panel">
+    <button id="tile-report-close" aria-label="Close">&times;</button>
+    <div id="tile-report-title"></div>
+    <div id="tile-report-coords"></div>
+    <dl id="tile-report-rows"></dl>
+    <div id="tile-report-entities"></div>
+    <button id="tile-report-world" hidden>View world</button>
   </div>
 </div>
 <div id="combat-overlay">

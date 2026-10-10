@@ -24,6 +24,7 @@ import {
 } from "./state.js";
 import { availableUpgrades } from "./upgrades.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
+import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 
 // Star/planet name list for mapgen's naming pass (data, not code: no build step).
 const names = await fetch("data/star_planet_names.json").then((r) => r.json());
@@ -60,6 +61,13 @@ const worldCardType = document.getElementById("world-card-type");
 const worldCardImage = document.getElementById("world-card-image");
 const worldCardSpecies = document.getElementById("world-card-species");
 const worldCardDescription = document.getElementById("world-card-description");
+const tileReport = document.getElementById("tile-report");
+const tileReportTitle = document.getElementById("tile-report-title");
+const tileReportCoords = document.getElementById("tile-report-coords");
+const tileReportRows = document.getElementById("tile-report-rows");
+const tileReportEntities = document.getElementById("tile-report-entities");
+const tileReportWorld = document.getElementById("tile-report-world");
+const tileReportClose = document.getElementById("tile-report-close");
 const notificationList = document.getElementById("notifications");
 const noticeCaption = document.getElementById("notice-caption");
 
@@ -283,14 +291,6 @@ function maybeShowUpgradePicker() {
   }
 }
 
-const CLASS_DISPLAY_NAMES = {
-  rocky: "Rocky",
-  ice: "Ice",
-  "gas-giant": "Gas giant",
-  toxic: "Toxic",
-  molten: "Molten",
-};
-
 // The tag drawn last is on top, so it wins an overlap.
 function tagAt(screenPos) {
   for (let i = tagHits.length - 1; i >= 0; i--) {
@@ -413,12 +413,68 @@ function dismissWorldCard() {
   worldCard.classList.remove("visible");
 }
 
+// Tile report window, opened by long-pressing a hex (see input.js). The
+// facts come from tile-report.js; this only lays them out.
+let tileReportWorldTile = null;
+
+function appendRows(dl, rows) {
+  for (const [label, value] of rows) {
+    const dt = document.createElement("dt");
+    dt.textContent = label;
+    const dd = document.createElement("dd");
+    dd.textContent = value;
+    dl.append(dt, dd);
+  }
+}
+
+function showTileReport(screenPos) {
+  const { q, r } = screenToHex(screenPos);
+  const report = buildTileReport(mapData, gameState, q, r);
+  tileReportTitle.textContent = report.title;
+  tileReportCoords.textContent = `Coordinates ${report.coords}`;
+  tileReportRows.replaceChildren();
+  appendRows(tileReportRows, report.rows);
+  tileReportEntities.replaceChildren();
+  for (const entity of report.entities) {
+    const section = document.createElement("div");
+    section.className = "tile-report-entity";
+    const heading = document.createElement("h3");
+    heading.textContent = entity.title;
+    const dl = document.createElement("dl");
+    appendRows(dl, entity.rows);
+    section.append(heading, dl);
+    tileReportEntities.append(section);
+  }
+  tileReportWorldTile = report.worldTile;
+  tileReportWorld.hidden = !report.worldTile;
+  tileReport.classList.add("visible");
+}
+
+function dismissTileReport() {
+  tileReport.classList.remove("visible");
+  tileReportWorldTile = null;
+}
+
+// Any full-screen window that should swallow map gestures.
+function overlayOpen() {
+  return [interstitial, upgradePicker, anomalyOverlay, combatOverlay, worldCard, tileReport].some(
+    (el) => el.classList.contains("visible")
+  );
+}
+
+function screenToHex(screenPos) {
+  const worldX = (screenPos.x - window.innerWidth / 2) / camera.zoom + camera.x;
+  const worldY = (screenPos.y - window.innerHeight / 2) / camera.zoom + camera.y;
+  return pixelToAxial(worldX, worldY);
+}
+
+function handleLongPress(screenPos) {
+  if (overlayOpen()) return;
+  showTileReport(screenPos);
+}
+
 function handleTap(screenPos) {
-  if (interstitial.classList.contains("visible")) return;
-  if (upgradePicker.classList.contains("visible")) return;
-  if (anomalyOverlay.classList.contains("visible")) return;
-  if (combatOverlay.classList.contains("visible")) return;
-  if (worldCard.classList.contains("visible")) return;
+  if (overlayOpen()) return;
 
   // A tap on an inhabited world's name tag opens its card instead of moving.
   const tagged = tagAt(screenPos);
@@ -428,9 +484,7 @@ function handleTap(screenPos) {
   }
 
   const active = gameState.players[gameState.activePlayerIndex];
-  const worldX = (screenPos.x - window.innerWidth / 2) / camera.zoom + camera.x;
-  const worldY = (screenPos.y - window.innerHeight / 2) / camera.zoom + camera.y;
-  const target = pixelToAxial(worldX, worldY);
+  const target = screenToHex(screenPos);
   const current = { q: active.q, r: active.r };
 
   const tile = mapData.tiles.get(axialKey(target.q, target.r));
@@ -537,7 +591,7 @@ function dismissInterstitial() {
 }
 
 window.addEventListener("resize", resizeCanvas);
-attachCameraControls(canvas, camera, requestRedraw, handleTap);
+attachCameraControls(canvas, camera, requestRedraw, handleTap, handleLongPress);
 
 newMapButton.addEventListener("click", () => {
   startNewGame(Math.random().toString(36).slice(2));
@@ -552,6 +606,16 @@ interstitial.addEventListener("pointerdown", dismissInterstitial);
 anomalyOverlay.addEventListener("pointerdown", dismissAnomalyOverlay);
 combatOverlay.addEventListener("pointerdown", dismissCombatOverlay);
 worldCard.addEventListener("pointerdown", dismissWorldCard);
+// Only the backdrop and the close button dismiss, so "View world" stays pressable.
+tileReport.addEventListener("pointerdown", (e) => {
+  if (e.target === tileReport) dismissTileReport();
+});
+tileReportClose.addEventListener("click", dismissTileReport);
+tileReportWorld.addEventListener("click", () => {
+  const tile = tileReportWorldTile;
+  dismissTileReport();
+  if (tile) showWorldCard(tile);
+});
 
 resizeCanvas();
 
