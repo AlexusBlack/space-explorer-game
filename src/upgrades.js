@@ -18,6 +18,10 @@
 // The trail track (Vessel Trail Detector) is the deliberate exception: a
 // root track with only Mk I/II, each adding one turn of ship movement trails
 // (see trails.js) — capped at two turns so the map never gets crowded.
+// Instant Ship Repair is the one `repeatable` entry: no tiers, never
+// "owned" (picking it heals the ship and is counted in the player's
+// instantRepairsUsed, not unlockedUpgrades — see state.js), and only
+// offered while the ship is damaged.
 export const UPGRADES = {
   "speed-1": {
     id: "speed-1",
@@ -275,13 +279,23 @@ export const UPGRADES = {
     description: "+1 turn of trail history (faint)",
     trailTurnsBonus: 1,
   },
+  "instant-repair": {
+    id: "instant-repair",
+    track: "instant-repair",
+    requires: null,
+    repeatable: true,
+    name: "Instant Ship Repair",
+    description: "Repair hull to full",
+  },
 };
 
 // Upgrades currently offerable given the ids a player already has: not
 // already taken, and its prerequisite (if any, from any track) already
-// is taken.
-export function availableUpgrades(unlockedIds) {
+// is taken. Repeatable entries are offered only when `damaged`; callers
+// that leave it out (the free-upgrade anomaly) never get one.
+export function availableUpgrades(unlockedIds, { damaged = false } = {}) {
   return Object.values(UPGRADES).filter((u) => {
+    if (u.repeatable) return damaged;
     if (unlockedIds.has(u.id)) return false;
     if (u.requires && !unlockedIds.has(u.requires)) return false;
     return true;

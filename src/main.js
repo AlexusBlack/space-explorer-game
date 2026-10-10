@@ -15,6 +15,7 @@ import {
   playerLevel,
   pendingUpgradePicks,
   unlockUpgrade,
+  pickableUpgrades,
   cumulativeXpForLevel,
   checkAnomalyLanding,
   triggerAnomaly,
@@ -24,7 +25,6 @@ import {
   trailTurnsForPlayer,
 } from "./state.js";
 import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer } from "./trails.js";
-import { availableUpgrades } from "./upgrades.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 import {
@@ -280,11 +280,12 @@ function dismissCombatOverlay() {
 }
 
 function renderUpgradeOptions(player) {
-  const options = availableUpgrades(player.unlockedUpgrades);
+  const options = pickableUpgrades(player);
   upgradePickerOptions.innerHTML = "";
   for (const upgrade of options) {
     const btn = document.createElement("button");
-    btn.textContent = `${upgrade.name} — ${upgrade.description}`;
+    const hp = upgrade.repeatable ? ` (${player.currentHealth}/${maxHealthForPlayer(player)} HP)` : "";
+    btn.textContent = `${upgrade.name} — ${upgrade.description}${hp}`;
     btn.addEventListener("click", () => {
       unlockUpgrade(player, upgrade.id);
       saveGame(currentSeed, gameState);
@@ -300,11 +301,12 @@ function renderUpgradeOptions(player) {
 // hides it and resumes play otherwise — including the case where a pick
 // is banked/owed but nothing's offerable yet (e.g. every upgrade already
 // taken), which is a graceful no-op until a later MVP adds more tracks to
-// spend it on.
+// spend it on. Instant Ship Repair is offered whenever the ship is damaged,
+// so a banked pick reopens the picker once the player takes damage.
 function maybeShowUpgradePicker() {
   const active = gameState.players[gameState.activePlayerIndex];
   const owed = pendingUpgradePicks(active);
-  const options = availableUpgrades(active.unlockedUpgrades);
+  const options = pickableUpgrades(active);
   if (owed > 0 && options.length > 0) {
     renderUpgradeOptions(active);
     upgradePicker.classList.add("visible");

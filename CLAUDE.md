@@ -48,7 +48,10 @@ hasn't been fixed yet; trust `git log` and `docs/mvp-roadmap.md` over it.
   Mk I/II specifically so long playtests don't exhaust the catalog.
   The later **Trail** track (Vessel Trail Detector, `src/trails.js`) is
   the deliberate exception: a root track with only Mk I/II, each adding
-  one turn of ship movement trails.
+  one turn of ship movement trails. **Instant Ship Repair** is a
+  `repeatable` entry (offered only while damaged, full heal on pick); it's
+  counted in `player.instantRepairsUsed` instead of `unlockedUpgrades`, so
+  spent picks = `unlockedUpgrades.size + instantRepairsUsed`.
 
 **Known open items / deferred work:**
 - Cache-busting for `src/*.js`/`index.html` was discussed and explicitly

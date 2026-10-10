@@ -341,6 +341,17 @@ than forced. `movesPerTurnForPlayer`/`visionRadiusForPlayer`/
 `trailTurnsBonus` from a base of 0: how many turns of ship trails the player
 sees (see "Vessel Trail Detector" below).
 
+**Repeatable picks.** Instant Ship Repair (`instant-repair`) is the one
+catalog entry with `repeatable: true`. `availableUpgrades(ids, { damaged })`
+offers repeatable entries only when `damaged` is true, and
+`pickableUpgrades(player)` passes `currentHealth < maxHealthForPlayer`; the
+picker uses that. The free-upgrade anomaly calls `availableUpgrades` without
+the flag, so it never rolls a repair. `unlockUpgrade` applies a repeatable
+pick immediately (full heal) and counts it in `player.instantRepairsUsed`
+rather than adding it to the `unlockedUpgrades` Set, which can't hold an id
+twice. So `pendingUpgradePicks` is `level − 1 − unlockedUpgrades.size −
+instantRepairsUsed`, clamped at 0 as before.
+
 **Anomalies** (`type: "anomaly"` tiles, `src/mapgen.js`) carry no extra
 gen-time data — which of four effects fires is rolled at trigger time, not
 stored on the tile (same "nothing to store yet" treatment as
@@ -772,7 +783,7 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   `trails` (the Vessel Trail Detector's records, a plain array),
   `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
   every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
-  currentHealth, inCombatThisRound, notifications }` (`teamFog` entries,
+  currentHealth, inCombatThisRound, notifications, instantRepairsUsed }` (`teamFog` entries,
   `unlockedUpgrades`, and `destroyedAnomalies` all serialized as plain
   arrays, restored back to real `Set`s on load; `deserializeState` builds
   one Set per colour and hands it to every player of that colour, so
@@ -799,7 +810,7 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   defaults to an empty set, `pirateBases`/`pirateShips` default to `[]`,
   `nextPirateEntityId` defaults to `1`, `currentHealth` defaults to
   `HEALTH_BASE`, `inCombatThisRound` defaults to `false`, and
-  `notifications` and `trails` default to `[]` (so this needed no `SAVE_VERSION` bump), when
+  `notifications` and `trails` default to `[]`, `instantRepairsUsed` to `0` (so this needed no `SAVE_VERSION` bump), when
   deserializing a save from before those fields
   existed, rather than surfacing as `undefined`/throwing.
 - Persisted after every state-changing action — a move or an End Turn, not

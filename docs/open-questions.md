@@ -705,3 +705,22 @@ from here.
     of the game, so a fresh Mk I shows the last turn at once; the upgrade is
     per player like every other one, not shared with teammates; teleports
     break the line; trails are saved without a `SAVE_VERSION` bump.
+
+- **Instant Ship Repair upgrade (no tiers).** User request. Decisions at
+  plan time:
+  - **A repeatable pick that heals immediately**, not an unlocked HUD
+    button or a stored charge. Picking it in the level-up picker repairs
+    the hull to full and uses that level's pick; it can be picked again at
+    later level-ups. A question about limiting an on-demand button (cost of
+    the rest of the turn, cooldown or once per game) became moot with this
+    choice.
+  - **No prerequisite.**
+  - Assumptions made without asking: offered only while the ship is
+    damaged (otherwise the pick is wasted), so banked picks become repairs
+    once a maxed-out player takes damage; the free-upgrade anomaly never
+    rolls it; picks spent on it are counted in a new
+    `instantRepairsUsed` field, saved without a `SAVE_VERSION` bump.
+  - Noticed while planning, not changed: the free-upgrade anomaly adds to
+    `unlockedUpgrades`, so it counts as a spent pick, which uses up the
+    player's next level-up pick in advance rather than granting an extra
+    one. Left for the user to decide.

@@ -270,9 +270,19 @@ its tile report. It never moves the ship or spends moves. The report shows:
     out.
   - Movement is recorded from the start of every game, so picking Mk I
     immediately shows the last turn's trails.
+- **Instant Ship Repair** (no tiers, no prerequisite): offered in the
+  level-up picker whenever the ship is damaged, showing its current HP.
+  Picking it repairs the hull to full at once and uses that level's pick.
+  It's never "owned", so it can be picked again at any later level-up; at
+  full health it isn't offered, since the pick would be wasted. It's a
+  trade: a permanent upgrade given up for an immediate heal. The
+  free-upgrade anomaly never rolls it.
 - If a pick is owed but the catalog has nothing left to offer (every
   reachable tier already taken), it's simply left banked/unspendable —
-  not forced or discarded — until a later MVP adds more tracks.
+  not forced or discarded — until a later MVP adds more tracks. Instant
+  Ship Repair is offered whenever the ship is damaged, so the picker opens
+  with a banked pick as soon as the player has taken damage, turning it
+  into a repair.
 - Levels, XP, and chosen upgrades are all per-player, not shared.
 
 ## Anomalies

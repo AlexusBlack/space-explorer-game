@@ -81,10 +81,12 @@ export function playerLevel(player) {
 
 // Reaching a level grants one upgrade PICK (not a fixed automatic effect —
 // see upgrades.js) — how many the player has earned (by level) but not
-// yet spent (recorded in unlockedUpgrades). Level 1 owes none; every
-// level past that owes exactly one pick each.
+// yet spent (recorded in unlockedUpgrades, plus instantRepairsUsed for the
+// repeatable Instant Ship Repair, which the Set can't count). Level 1 owes
+// none; every level past that owes exactly one pick each.
 export function pendingUpgradePicks(player) {
-  return Math.max(0, playerLevel(player) - 1 - player.unlockedUpgrades.size);
+  const spent = player.unlockedUpgrades.size + (player.instantRepairsUsed ?? 0);
+  return Math.max(0, playerLevel(player) - 1 - spent);
 }
 
 export const MOVES_PER_TURN_BASE = 8;
@@ -127,13 +129,26 @@ export function attackForPlayer(player) {
   return ATTACK_BASE + sumUpgradeBonus(player, "attackBonus");
 }
 
+// Upgrades the level-up picker offers this player right now (repeatable
+// ones only while the ship is damaged).
+export function pickableUpgrades(player) {
+  const damaged = player.currentHealth < maxHealthForPlayer(player);
+  return availableUpgrades(player.unlockedUpgrades, { damaged });
+}
+
 // Records a chosen upgrade. Returns false (no-op) if it isn't actually
 // offerable right now (already taken, or its prerequisite isn't yet) —
 // defensive guard against a caller bug, mirrors revealTile's own "return
-// whether it happened" pattern.
+// whether it happened" pattern. A repeatable pick (Instant Ship Repair)
+// takes effect now and is counted instead of stored.
 export function unlockUpgrade(player, upgradeId) {
-  const offered = availableUpgrades(player.unlockedUpgrades).some((u) => u.id === upgradeId);
+  const offered = pickableUpgrades(player).some((u) => u.id === upgradeId);
   if (!offered) return false;
+  if (UPGRADES[upgradeId].repeatable) {
+    player.currentHealth = maxHealthForPlayer(player);
+    player.instantRepairsUsed = (player.instantRepairsUsed ?? 0) + 1;
+    return true;
+  }
   player.unlockedUpgrades.add(upgradeId);
   return true;
 }
@@ -208,6 +223,7 @@ function createPlayer({ name, shipName, color }, discovered) {
     r: 0,
     xp: 0,
     unlockedUpgrades: new Set(), // chosen upgrade ids — real progress, persisted
+    instantRepairsUsed: 0, // picks spent on the repeatable Instant Ship Repair
     discovered, // the team's shared fog Set (see the header comment)
     // Depletes during combat, persisted (unlike the derived moves/vision/xp
     // helpers above) since it's mutable moment-to-moment state, not a pure
@@ -441,6 +457,7 @@ export function serializeState(seed, gameState) {
       currentHealth: player.currentHealth,
       inCombatThisRound: player.inCombatThisRound,
       notifications: player.notifications,
+      instantRepairsUsed: player.instantRepairsUsed,
     })),
   };
 }
@@ -488,6 +505,8 @@ export function deserializeState(raw) {
       inCombatThisRound: p.inCombatThisRound ?? false,
       // Old saves predating the notification area start with none.
       notifications: p.notifications ?? [],
+      // Saves predating Instant Ship Repair have spent no picks on it.
+      instantRepairsUsed: p.instantRepairsUsed ?? 0,
     })),
   };
 }
