@@ -17,6 +17,13 @@ const TAG_MAX_PX = 16;
 // Ships (player and pirate) and the player selection oval scale with zoom
 // only up to native size.
 const SHIP_MAX_ZOOM = 1;
+// Vessel Trail Detector lines (see trails.js): the last turn's trail fades
+// from TRAIL_ALPHA_HEAD at the ship to TRAIL_ALPHA_TAIL where it started; the
+// turn before is flat at the faintest TRAIL_ALPHA_OLD.
+const TRAIL_ALPHA_HEAD = 0.75;
+const TRAIL_ALPHA_TAIL = 0.2;
+const TRAIL_ALPHA_OLD = 0.12;
+const TRAIL_WIDTH = 4; // px at zoom 1, capped like ships
 
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
 // silhouette centered with a 6px alignment-guide margin on each side. The
@@ -80,6 +87,35 @@ function drawOwnerDot(ctx, cx, cy, hw, hh, zoom, color) {
   ctx.lineWidth = Math.max(1, 1.5 * zoom);
   ctx.strokeStyle = "rgba(5,7,13,0.9)";
   ctx.stroke();
+}
+
+// One trail record ({ color, path, age }) as a line through hex centres, one
+// segment per step so each can take its own opacity. A step only draws when
+// both its hexes are in the viewer's discovered set, like pirate ships.
+function drawTrail(ctx, camera, canvasW, canvasH, trail, discovered) {
+  const { path, age, color } = trail;
+  const steps = path.length - 1;
+  ctx.lineWidth = TRAIL_WIDTH * Math.min(camera.zoom, SHIP_MAX_ZOOM);
+  ctx.lineCap = "butt";
+  ctx.strokeStyle = color;
+  for (let i = 0; i < steps; i++) {
+    const a = path[i];
+    const b = path[i + 1];
+    if (a.q === b.q && a.r === b.r) continue;
+    if (discovered && (!discovered.has(axialKey(a.q, a.r)) || !discovered.has(axialKey(b.q, b.r)))) continue;
+    ctx.globalAlpha = age === 1
+      ? TRAIL_ALPHA_TAIL + (TRAIL_ALPHA_HEAD - TRAIL_ALPHA_TAIL) * ((i + 1) / steps)
+      : TRAIL_ALPHA_OLD;
+    const wa = axialToPixel(a.q, a.r);
+    const wb = axialToPixel(b.q, b.r);
+    const pa = worldToScreen(camera, canvasW, canvasH, wa.x, wa.y);
+    const pb = worldToScreen(camera, canvasW, canvasH, wb.x, wb.y);
+    ctx.beginPath();
+    ctx.moveTo(pa.x, pa.y);
+    ctx.lineTo(pb.x, pb.y);
+    ctx.stroke();
+  }
+  ctx.globalAlpha = 1;
 }
 
 // Number of ships on a hex, in a small dark circle at its upper-right
@@ -247,7 +283,7 @@ function visibleHexRange(camera, canvasW, canvasH) {
 
 export function render(
   ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame,
-  pirateBases, pirateShips
+  pirateBases, pirateShips, trails
 ) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
@@ -338,6 +374,16 @@ export function render(
 
   for (const [img, p, scale = 1] of pendingIcons) {
     drawIcon(ctx, img, p.x, p.y, camera.zoom * scale);
+  }
+
+  // Vessel Trail Detector trails: over the map's sprites but under every
+  // label, base and ship, so names stay readable and ships sit on the line's
+  // end. Older (age 2) records first, so the brighter last-turn line wins
+  // where they cross.
+  if (trails) {
+    for (const trail of [...trails].sort((a, b) => b.age - a.age)) {
+      drawTrail(ctx, camera, canvasW, canvasH, trail, discovered);
+    }
   }
 
   // Player ship stacks (drawn below, after pirate bases) are worked out

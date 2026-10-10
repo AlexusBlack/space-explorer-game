@@ -681,3 +681,27 @@ from here.
   smaller than a planet so the two labels wouldn't meet; a headless check
   showed they overlap (44 px ship vs 47 px planet), so a world's label on a
   ship's hex now moves down below the ship label.
+
+- **Vessel Trail Detector upgrade.** User request: a ship upgrade showing
+  every ship's movement over the last turn as a translucent trail, to help
+  track pirates moving in or running away. It's gated behind an upgrade so
+  the early map isn't crowded. Trails are team-coloured for players and red
+  for pirates. Mk I shows one turn and Mk II adds a second, so this track
+  deliberately stops at Mk II instead of Mk V. Decisions at plan time:
+  - **The line is strongest at the ship.** The request said it gets "less
+    opaque" closer to the ship, but also that the older second-turn line is
+    the most transparent. Confirmed: the last turn fades from the ship
+    toward its tail, and the turn before is flat at the faintest opacity.
+  - **Discovered hexes only.** A trail segment draws only where the
+    viewer's team has explored, the same rule as pirate ships. Rejected:
+    showing trails over unexplored space, which tracks runaways better but
+    reveals movement in space the team hasn't seen.
+  - **No prerequisite.** The plan first proposed requiring Extended Vision
+    Mk I; the user corrected it to a root upgrade offered from the first
+    level-up.
+  - Assumptions made without asking: "last turn" is measured from the
+    viewer's seat (everything since their own previous turn, including one
+    pirate round), not by round number; moves are recorded from the start
+    of the game, so a fresh Mk I shows the last turn at once; the upgrade is
+    per player like every other one, not shared with teammates; teleports
+    break the line; trails are saved without a `SAVE_VERSION` bump.

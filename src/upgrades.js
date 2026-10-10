@@ -15,6 +15,9 @@
 // purely to give longer playtest sessions more picks to spend before
 // every track is maxed out; per-tier bonus magnitude is unchanged, tiers
 // III-V just continue the same increment as I/II.
+// The trail track (Vessel Trail Detector) is the deliberate exception: a
+// root track with only Mk I/II, each adding one turn of ship movement trails
+// (see trails.js) — capped at two turns so the map never gets crowded.
 export const UPGRADES = {
   "speed-1": {
     id: "speed-1",
@@ -255,6 +258,22 @@ export const UPGRADES = {
     name: "Auto-Repair Mk V",
     description: "+5 passive healing per round",
     passiveHealBonus: 5,
+  },
+  "trail-1": {
+    id: "trail-1",
+    track: "trail",
+    requires: null,
+    name: "Vessel Trail Detector Mk I",
+    description: "Shows ship trails from the last turn",
+    trailTurnsBonus: 1,
+  },
+  "trail-2": {
+    id: "trail-2",
+    track: "trail",
+    requires: "trail-1",
+    name: "Vessel Trail Detector Mk II",
+    description: "+1 turn of trail history (faint)",
+    trailTurnsBonus: 1,
   },
 };
 

@@ -46,6 +46,9 @@ hasn't been fixed yet; trust `git log` and `docs/mvp-roadmap.md` over it.
 - Upgrade tracks (Speed/Vision/Science/Health/Attack/Repair) run **Mk I
   through Mk V** (5 tiers each, 30 upgrades total) — extended from
   Mk I/II specifically so long playtests don't exhaust the catalog.
+  The later **Trail** track (Vessel Trail Detector, `src/trails.js`) is
+  the deliberate exception: a root track with only Mk I/II, each adding
+  one turn of ship movement trails.
 
 **Known open items / deferred work:**
 - Cache-busting for `src/*.js`/`index.html` was discussed and explicitly
@@ -202,6 +205,7 @@ src/
 ├── combat.js       pure melee math (Civ5-adapted), no other project imports
 ├── pirates.js      pirate base/ship spawn, production, roam AI, combat orchestration
 ├── tile-report.js  pure data builder for the long-press tile report
+├── trails.js       Vessel Trail Detector: ship move records + age windows
 ├── setup.js        start-screen roster model (team colours, ship names, ICV prefix)
 ├── render.js       canvas drawing
 ├── assets.js       image loading

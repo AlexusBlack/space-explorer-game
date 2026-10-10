@@ -9,6 +9,18 @@ import { axialKey, axialNeighbors, hexDistance, hexesInRadius } from "./hexgrid.
 import { resolveCombat, terrainDefenseBonus } from "./combat.js";
 import { attackForPlayer, maxHealthForPlayer, applyShipLoss, SHIP_LOSS_XP_PENALTY } from "./state.js";
 import { shipTitle } from "./setup.js";
+import { currentStep, recordTrail, pirateTrailId, PIRATE_TRAIL_COLOR, PIRATE_TIME_OFFSET } from "./trails.js";
+
+// Stamp for this round's pirate moves in the trail log. tickPirates runs
+// from main.js's endTurn after the turn has wrapped to player 0, so the
+// pirate round sits half a step before that player-0 turn (see trails.js).
+function pirateTrailTime(gameState) {
+  return currentStep(gameState) + PIRATE_TIME_OFFSET;
+}
+
+function recordPirateStep(gameState, ship, from) {
+  recordTrail(gameState, pirateTrailId(ship.id), PIRATE_TRAIL_COLOR, [from, ship], pirateTrailTime(gameState));
+}
 
 export const PIRATE_BASE_SPAWN_CHANCE = 0.05; // per eligible region, per round — tunable
 // ~100 HP/attack scale (Civ5-like) — see state.js's HEALTH_BASE/ATTACK_BASE
@@ -218,8 +230,10 @@ function stepPirateShip(mapData, gameState, ship, rng) {
 
     const playerHere = gameState.players.find((p) => p.q === next.q && p.r === next.r);
     if (!playerHere) {
+      const from = { q: ship.q, r: ship.r };
       ship.q = next.q;
       ship.r = next.r;
+      recordPirateStep(gameState, ship, from);
       continue;
     }
 
@@ -251,8 +265,10 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   const where = { playerIndex, q: next.q, r: next.r };
   if (result.defenderDefeated) {
     applyShipLoss(mapData, gameState, playerHere);
+    const from = { q: ship.q, r: ship.r };
     ship.q = next.q; // vacated — advance in
     ship.r = next.r;
+    recordPirateStep(gameState, ship, from);
     return {
       ...where,
       message: `A pirate raider destroyed ${victim}! Respawned at Earth, -${SHIP_LOSS_XP_PENALTY} XP.`,

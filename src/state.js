@@ -115,6 +115,11 @@ export function xpBonusForPlayer(player) {
 // so this is the scale they were designed for — no formula changes needed.
 export const HEALTH_BASE = 100; // tunable
 export const ATTACK_BASE = 12; // tunable — ~2x a standard pirate raider's attack
+// Turns of ship movement trails this player sees (0 until the Vessel Trail
+// Detector; see trails.js).
+export function trailTurnsForPlayer(player) {
+  return sumUpgradeBonus(player, "trailTurnsBonus");
+}
 export function maxHealthForPlayer(player) {
   return HEALTH_BASE + sumUpgradeBonus(player, "maxHealthBonus");
 }
@@ -268,6 +273,9 @@ export function createNewGame(mapData, setup) {
     pirateBases: [], // [{ id, q, r, regionId, health, maxHealth }]
     pirateShips: [], // [{ id, q, r, health, maxHealth, attack, baseId }]
     nextPirateEntityId: 1, // shared id counter for both arrays above
+    // Recent ship movement for the Vessel Trail Detector, recorded for every
+    // ship whether or not anyone owns the upgrade (see trails.js).
+    trails: [], // [{ ship, color, time, path: [{ q, r }] }]
     players,
   };
 }
@@ -417,6 +425,7 @@ export function serializeState(seed, gameState) {
     pirateBases: gameState.pirateBases,
     pirateShips: gameState.pirateShips,
     nextPirateEntityId: gameState.nextPirateEntityId,
+    trails: gameState.trails,
     // Once per team, not per player: teammates share one Set.
     teamFog: Object.fromEntries(
       gameState.players.map((player) => [player.color, [...player.discovered]])
@@ -458,6 +467,8 @@ export function deserializeState(raw) {
     pirateBases: raw.pirateBases ?? [],
     pirateShips: raw.pirateShips ?? [],
     nextPirateEntityId: raw.nextPirateEntityId ?? 1,
+    // Saves predating the Vessel Trail Detector have no trails yet.
+    trails: raw.trails ?? [],
     players: raw.players.map((p, i) => ({
       // v3 saves predate the start screen's names.
       name: p.name ?? `Player ${i + 1}`,

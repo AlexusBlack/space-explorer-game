@@ -251,6 +251,25 @@ its tile report. It never moves the ship or spends moves. The report shows:
   **not** regenerate automatically every round — only if it wasn't on
   either side of a fight that round (passive healing, see "Pirates &
   Combat" below) or via a full respawn-at-Earth after a loss.
+- **Vessel Trail Detector** (Trail track, a root upgrade with no
+  prerequisite, and the one track that stops at **Mk II**): shows the
+  recent movement of every ship — the player's own, other players' and
+  pirates' — as a translucent line through the hexes it moved through.
+  Player trails are in the ship's team colour; pirate trails are red. It's
+  meant for tracking raiders closing in or running away, and is gated behind
+  an upgrade so the early map stays uncluttered.
+  - **Mk I** shows the last turn: everything that moved since the viewer's
+    own previous turn (their own last move, every other player's move since,
+    and the pirate round in between). The line is strongest at the ship and
+    fades toward where the move started.
+  - **Mk II** adds the turn before that, drawn flat at the faintest opacity.
+  - Trails only draw on hexes the viewer's team has discovered, like pirate
+    ships, so they never reveal unexplored space. A wormhole jump or a
+    respawn at Earth isn't a move, so it breaks the line rather than
+    streaking across the map. A destroyed raider's trail stays until it ages
+    out.
+  - Movement is recorded from the start of every game, so picking Mk I
+    immediately shows the last turn's trails.
 - If a pick is owed but the catalog has nothing left to offer (every
   reachable tier already taken), it's simply left banked/unspendable —
   not forced or discarded — until a later MVP adds more tracks.

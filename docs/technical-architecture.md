@@ -337,7 +337,9 @@ than forced. `movesPerTurnForPlayer`/`visionRadiusForPlayer`/
 `xpBonusForPlayer` sum whichever catalog entries' `movesPerTurnBonus`/
 `visionRadiusBonus`/`xpBonusPerTile` fields are present in
 `player.unlockedUpgrades`, each on top of a base constant
-(`MOVES_PER_TURN_BASE`/`VISION_RADIUS_BASE`).
+(`MOVES_PER_TURN_BASE`/`VISION_RADIUS_BASE`). `trailTurnsForPlayer` sums
+`trailTurnsBonus` from a base of 0: how many turns of ship trails the player
+sees (see "Vessel Trail Detector" below).
 
 **Anomalies** (`type: "anomaly"` tiles, `src/mapgen.js`) carry no extra
 gen-time data — which of four effects fires is rolled at trigger time, not
@@ -717,6 +719,46 @@ URL seed. Until Start there is no `gameState`, so `frame()` skips drawing.
 Ship names are stored without the "ICV" prefix; everything that shows one
 goes through `shipTitle` (map label, HUD, tile report, pirate messages).
 
+## Vessel Trail Detector
+
+`src/trails.js` is pure. `gameState.trails` is a list of
+`{ ship, color, time, path: [{ q, r }] }` records:
+- `ship` is `"p<index>"` for a player or `"s<id>"` for a pirate ship;
+- `color` is the team colour, or `PIRATE_TRAIL_COLOR` (red) for pirates.
+
+**Time.** Trails are stamped in player turns ("steps"):
+`currentStep = (turnNumber − 1) · P + activePlayerIndex`, with P the player
+count, so it is derived from existing fields and needs no counter of its
+own. The pirate round runs in `endTurn` after the turn has wrapped to
+player 0, so `pirates.js` stamps its moves `currentStep − 0.5`: after the
+last player's turn and before the next round's first.
+
+**Age.** For a viewer at step S, `trailsForViewer` gives age 1 to anything
+with `S − time ≤ P` (from their own previous turn up to now, including this
+turn) and age 2 to `P < S − time ≤ 2P`. From every seat that puts the
+viewer's own last move, every other player's move since, and exactly one
+pirate round at age 1. A half-step window was chosen over per-round
+numbering because round numbers would show seat 3 the previous round's
+moves of seats 4–6 as "older" than seats 1–2's.
+
+**Recording.** `main.js`'s `moveActive` wraps `applyMove` and records the
+hexes the player moved through (the approach path and any advance after a
+kill). `pirates.js` records every roam step and the advance after a kill.
+`recordTrail` extends a ship's latest record only when the time matches and
+the new path starts where that record ends; otherwise it starts a new one.
+Wormhole jumps and respawns aren't recorded as moves, so they break the
+line. Moves are recorded whether or not anyone owns the upgrade, so a fresh
+Mk I shows the last turn at once. `pruneTrails` runs on every End Turn and
+drops records older than 2P steps, so the list stays a couple of rounds
+long.
+
+**Drawing.** `render.js`'s trail pass runs after the map sprites and
+before labels, bases and ships, older records first. Each step is its own
+segment between hex centres, drawn only when both hexes are in the viewer's
+discovered set (the same fog rule as pirate ships). Age 1 goes from
+`TRAIL_ALPHA_TAIL` (0.2) at the record's start to `TRAIL_ALPHA_HEAD` (0.75)
+at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
+
 ## Persistence
 
 - Single `localStorage` key (`explorer-game:save:v1`, see `src/state.js`;
@@ -727,6 +769,7 @@ goes through `shipTitle` (map label, HUD, tile report, pirate messages).
   ignored and the next save overwrites it), holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
+  `trails` (the Vessel Trail Detector's records, a plain array),
   `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
   every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
   currentHealth, inCombatThisRound, notifications }` (`teamFog` entries,
@@ -756,7 +799,7 @@ goes through `shipTitle` (map label, HUD, tile report, pirate messages).
   defaults to an empty set, `pirateBases`/`pirateShips` default to `[]`,
   `nextPirateEntityId` defaults to `1`, `currentHealth` defaults to
   `HEALTH_BASE`, `inCombatThisRound` defaults to `false`, and
-  `notifications` defaults to `[]` (so this needed no `SAVE_VERSION` bump), when
+  `notifications` and `trails` default to `[]` (so this needed no `SAVE_VERSION` bump), when
   deserializing a save from before those fields
   existed, rather than surfacing as `undefined`/throwing.
 - Persisted after every state-changing action — a move or an End Turn, not
@@ -847,12 +890,15 @@ src/
 ├── pirates.js         pirate base/ship spawn, production, roam AI, and
 │                      combat orchestration, consumed by main.js
 ├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
-│                      fog-of-war skip, ship markers, pirate markers)
+│                      fog-of-war skip, ship markers, pirate markers,
+│                      ship trails)
 ├── assets.js          per-band/icon image loading
 ├── input.js           tap/long-press/drag-pan/pinch-zoom/wheel-zoom
 │                      handling
 ├── tile-report.js     pure builder for the long-press tile report
 │                      (fog rules, stats); main.js renders it
+├── trails.js          Vessel Trail Detector: ship move records, the
+│                      turn-step clock, age windows and pruning
 ├── setup.js           start-screen roster model: team colours, ship
 │                      names, ICV prefix, add/remove/default-name rules;
 │                      main.js renders it as #setup

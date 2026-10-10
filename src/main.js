@@ -21,7 +21,9 @@ import {
   applyDestroyedAnomalies,
   clearNotifications,
   pruneNotifications,
+  trailTurnsForPlayer,
 } from "./state.js";
+import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer } from "./trails.js";
 import { availableUpgrades } from "./upgrades.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
@@ -192,7 +194,8 @@ function frame(bandImages, iconImages) {
     }));
     ({ tagHits } = render(
       ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages,
-      active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips
+      active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips,
+      trailsForViewer(gameState, trailTurnsForPlayer(active))
     ));
     needsRedraw = false;
   }
@@ -528,14 +531,14 @@ function handleTap(screenPos) {
     // was already adjacent) — simpler than, and replaces, the earlier
     // "full tapped distance" rule.
     const approachPath = path.length > 1 ? path.slice(0, -1) : [current];
-    applyMove(mapData, active, approachPath);
+    moveActive(active, approachPath);
     gameState.movesRemaining = Math.max(0, gameState.movesRemaining - ATTACK_MOVE_COST);
 
     const combatResult = resolvePlayerAttack(mapData, gameState, active, pirateAtTarget);
     pendingCombatEvents.push(combatResult.message);
     suppressUpgradePicker = true;
     if (combatResult.defenderDefeated) {
-      applyMove(mapData, active, [target]); // vacated — advance in
+      moveActive(active, [approachPath[approachPath.length - 1], target]); // vacated — advance in
     }
     if (combatResult.attackerDefeated) {
       // Ship lost this turn — forfeit remaining moves. Only this path
@@ -545,7 +548,7 @@ function handleTap(screenPos) {
       gameState.movesRemaining = 0;
     }
   } else {
-    applyMove(mapData, active, path);
+    moveActive(active, path);
     gameState.movesRemaining -= distance;
   }
 
@@ -567,6 +570,14 @@ function handleTap(screenPos) {
   } else if (pendingCombatEvents.length) {
     showNextCombatOverlay();
   }
+}
+
+// applyMove plus the Vessel Trail Detector's record of the hexes moved
+// through (path includes the start hex).
+function moveActive(active, path) {
+  applyMove(mapData, active, path);
+  const index = gameState.players.indexOf(active);
+  recordTrail(gameState, playerTrailId(index), active.color, path, currentStep(gameState));
 }
 
 function endTurn() {
@@ -594,6 +605,7 @@ function endTurn() {
     }
     tickPassiveHealing(gameState);
   }
+  pruneTrails(gameState);
   const nextActive = gameState.players[gameState.activePlayerIndex];
   gameState.movesRemaining = movesPerTurnForPlayer(nextActive);
   saveGame(currentSeed, gameState);
