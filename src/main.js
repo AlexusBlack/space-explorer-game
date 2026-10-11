@@ -28,6 +28,15 @@ import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer }
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 import {
+  AXES,
+  ethicLabel,
+  attitudeLabel,
+  attitudeToPlayers,
+  attitudeToPirates,
+  knownWorldRelations,
+  diplomaticLabel,
+} from "./ethics.js";
+import {
   TEAM_COLORS,
   MAX_PLAYERS,
   MIN_PLAYERS,
@@ -75,6 +84,7 @@ const worldCardType = document.getElementById("world-card-type");
 const worldCardImage = document.getElementById("world-card-image");
 const worldCardSpecies = document.getElementById("world-card-species");
 const worldCardDescription = document.getElementById("world-card-description");
+const worldCardDetails = document.getElementById("world-card-details");
 const tileReport = document.getElementById("tile-report");
 const tileReportTitle = document.getElementById("tile-report-title");
 const tileReportCoords = document.getElementById("tile-report-coords");
@@ -424,8 +434,57 @@ function hideNoticeCaption() {
   noticeCaption.hidden = true;
 }
 
+const ATTITUDE_CLASSES = ["bad2", "bad1", "neutral", "good1", "good2"];
+
+function domEl(tag, className, text) {
+  const node = document.createElement(tag);
+  if (className) node.className = className;
+  if (text != null) node.textContent = text;
+  return node;
+}
+
+// Attitudes and diplomatic states share the -2..+2 scale and its colours.
+function attitudeSpan(attitude, label = attitudeLabel(attitude)) {
+  return domEl("span", `attitude ${ATTITUDE_CLASSES[attitude + 2]}`, label);
+}
+
+// The world card's Ethics / Attitudes / Known worlds sections. Balanced axes
+// are the default and aren't shown. Known worlds, with their diplomatic
+// state, come from the active team's fog, so undiscovered worlds stay hidden.
+function fillWorldDetails(tile) {
+  worldCardDetails.replaceChildren();
+  if (!tile.ethics) return;
+  worldCardDetails.append(domEl("h3", null, "Ethics"));
+  const shown = AXES.filter((axis) => tile.ethics[axis.id] !== 0)
+    .map((axis) => ethicLabel(axis.id, tile.ethics[axis.id]));
+  worldCardDetails.append(
+    domEl("div", "ethics-list", shown.length ? shown.join(" · ") : "Balance Views on Everything"));
+
+  worldCardDetails.append(domEl("h3", null, "Attitudes"));
+  for (const [label, attitude] of [
+    ["Toward explorers", attitudeToPlayers(tile)],
+    ["Toward pirates", attitudeToPirates(tile)],
+  ]) {
+    const line = domEl("div", null, `${label}: `);
+    line.append(attitudeSpan(attitude));
+    worldCardDetails.append(line);
+  }
+
+  worldCardDetails.append(domEl("h3", null, "Known worlds"));
+  const active = gameState.players[gameState.activePlayerIndex];
+  const relations = knownWorldRelations(mapData, tile, active.discovered);
+  if (!relations.length) worldCardDetails.append(domEl("div", null, "No known worlds nearby"));
+  for (const { tile: other, distance, state } of relations) {
+    const line = domEl("div", "relation");
+    const name = domEl("span", null, `${other.ownName ?? other.name}: `);
+    name.append(attitudeSpan(state, diplomaticLabel(state)));
+    line.append(name, domEl("span", "relation-distance", `${distance} hexes`));
+    worldCardDetails.append(line);
+  }
+}
+
 // Info card for an inhabited world, opened by tapping its name tag. Display
-// only: nothing in the game reads species.
+// only: nothing in the game acts on species or ethics.
 function showWorldCard(tile) {
   const kind = tile.species ? speciesById.get(tile.species.id) : null;
   worldCardName.textContent = tile.ownName;
@@ -437,6 +496,7 @@ function showWorldCard(tile) {
     worldCardImage.src = speciesImagePath(kind);
     worldCardImage.alt = tile.species.name;
   }
+  fillWorldDetails(tile);
   worldCard.classList.add("visible");
 }
 

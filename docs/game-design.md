@@ -155,6 +155,62 @@ same species can go by different names on different worlds. Earth and Luna
 are always inhabited by Humans. Species are flavour only for now: they
 don't change any rules.
 
+**Ethics.** Every inhabited world's population has its own ethics,
+independent of its species: a position on four axes, each with five steps.
+
+| Axis | -2 | -1 | 0 | +1 | +2 |
+|---|---|---|---|---|---|
+| Spiritualist–Materialist | Extreme spiritualist | Spiritualist | Balanced | Materialist | Extreme materialist |
+| Pacifist–Militarist | Extreme pacifist | Pacifist | Balanced | Militarist | Extreme militarist |
+| Authoritarian–Individualist | Extreme authoritarian | Authoritarian | Balanced | Individualist | Extreme individualist |
+| Xenophobe–Xenophile | Extreme xenophobe | Xenophobe | Balanced | Xenophile | Extreme xenophile |
+
+Each axis is rolled separately: Balanced 40%, each moderate view 20%, each
+extreme 10%. Earth and Luna are fixed: Materialist, Individualist and
+Xenophile, Balanced between pacifist and militarist.
+
+Ethics set two attitudes, each Hostile, Wary, Neutral, Friendly or Allied:
+- **Toward explorers** (the players): xenophiles welcome alien visitors and
+  xenophobes don't; materialists value a science mission and spiritualists
+  distrust it. Worlds of the players' own species (Human) always count as
+  fully xenophile toward them, so Earth and Luna are Allied. It's the same
+  for every player.
+- **Toward pirates:** individualists tolerate freebooters and authoritarians
+  want order; militarists hunt raiders and pacifists appease them. A
+  balanced world is Wary.
+**Diplomacy between worlds.** Every world holds an opinion of every other,
+0 (neutral) by default, changed by its ethics against the other's:
+- **Opposed views cost opinion, shared views gain it**, on the
+  Spiritualist–Materialist, Pacifist–Militarist and
+  Authoritarian–Individualist axes. Balanced on either side counts for
+  nothing. The amount depends on how strongly each side holds the view:
+
+  | Viewer → target | Moderate target | Extreme target |
+  |---|---|---|
+  | Moderate viewer | 25 | 75 |
+  | Extreme viewer | 50 | 150 |
+
+  So a pacifist has -25 toward a militarist and -75 toward an extreme
+  militarist, an extreme pacifist -50 and -150. Two individualists gain the
+  same amounts.
+- **Spiritualists lose opinion of each other** by the same amounts, since
+  every religion is different and they rival each other. (Materialists
+  gain like any shared view.)
+- **Xenophobes dislike everyone:** -25 toward every other world, -75 if
+  extreme. **Xenophiles like everyone:** +25, or +75 if extreme.
+- **Same species:** +50.
+
+Opinion gives a diplomatic state: **War** at -100 or less, **Rivalry** at
+-50 or less, **Friendship** at +50 or more, **Alliance** at +100 or more,
+otherwise **Neutral**. Two worlds share the lower of their two states: if
+one sees Friendship and the other Rivalry, both are in Rivalry. Worlds 40 or
+more hexes apart are always Neutral; within that range distance doesn't
+matter.
+
+Ethics, attitudes and diplomacy are fixed by ethics alone and don't change
+during a game. Like species, they're display only for now: nothing in the
+game acts on them yet.
+
 Labels: a system's name shows under its main star from the start (stars are
 always visible). An inhabited world shows its own name as a tag, bold white
 text in a dark blue rounded box, once discovered. Plain designations of
@@ -164,7 +220,15 @@ other planets, moons and companion stars only show when zoomed in close
 Tapping an inhabited world's name tag opens a card over the dimmed
 map, showing the world's name and type (e.g. "Rocky planet", "Ice moon"),
 its species' portrait (as large as the screen allows, up to its full
-512px), the name the species goes by there, and the species description. A tap anywhere closes it. Tapping a tag never moves the ship or
+512px), the name the species goes by there, and the species description.
+Below the portrait (beside it on wide screens) come the world's ethics,
+listed by name, e.g. "Extreme militarist · Xenophile"; Balanced axes are
+left out ("Balance Views on Everything" if all four are Balanced); its
+attitudes toward explorers and pirates; and "Known worlds": up to the six
+nearest inhabited worlds within 40 hexes that your team has discovered,
+closest first, each with the diplomatic state between them and the
+distance. Attitude and state words are coloured red (Hostile, Wary; War,
+Rivalry), grey (Neutral) or green (Friendly, Allied; Friendship, Alliance). A tap anywhere closes it. Tapping a tag never moves the ship or
 spends moves.
 
 ### Tile report
@@ -181,7 +245,7 @@ its tile report. It never moves the ship or spends moves. The report shows:
   - stars show their colour;
   - planets and moons show their class, their designation, what a moon
     orbits, and whether the world is inhabited and by whom. An inhabited
-    world gets a "View world" button that opens its world card.
+    world also shows its attitude toward explorers, and gets a "View world" button that opens its world card.
   - every hex shows its star system ("Deep space" outside systems), its
     zone (Inner, Medium, Outer, Interstellar or Deep space), the defense
     bonus a ship gets when attacked there, and the hex's discovery XP.

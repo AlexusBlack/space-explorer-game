@@ -155,6 +155,16 @@ side of this; the key algorithmic ideas:
   Humani (found by `key`) as "Human". Only `id` and the chosen name are on
   the tile; the card looks up the rest by `id`. Display only, nothing in
   game logic reads it.
+- **Ethics come from the last pass, on their own stream** (`assignEthics`,
+  `` createRng(`${seed}:ethics`) ``, run after `assignSpecies`), so they
+  changed no layout, name or species and needed no `SAVE_VERSION` bump;
+  like everything on `mapData`, they're regenerated, never saved. Each
+  inhabited planet/moon, in tile order, gets `ethics: { spirit, war, order,
+  xeno }` from `ethics.js`'s `rollEthics` (each -2..+2, first-named pole
+  negative), except Earth and Luna, which get a copy of `HOME_ETHICS` and
+  take no draw. Worlds of the Humani species (Earth, Luna and any world
+  that rolled Humani) also get `kin: true`, the one species fact
+  `ethics.js` needs, since tiles only carry the species `id`.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -664,10 +674,10 @@ type, the species portrait (`species/images-opt/<id03>-<Key>.webp`, loaded
 by `<img>` only when the card opens), the species name and its
 description. The portrait's size is the CSS variable `--portrait` on
 `#world-card`: as large as the viewport allows after the card's gutters
-(68px across) and text (~300px down), clamped to 120-512px, 512 being the
-portraits' native size so they're never upscaled. The card is at least
-320px wide and grows with the portrait; on a short screen the overlay
-scrolls. Any tap on the card or backdrop closes it, and `handleTap`
+(68px across) and text (see "Ethics and attitudes" below for how the
+details change this), clamped to 120-512px, 512 being the portraits'
+native size so they're never upscaled. The card is at least 320px wide and
+grows with the portrait. Any tap on the card or backdrop closes it, and `handleTap`
 ignores taps while it is open, like the other overlays.
 
 **Tile report.** `input.js`'s `attachCameraControls` takes a fifth
@@ -694,6 +704,48 @@ the active player's point of view:
 
 `CLASS_DISPLAY_NAMES` moved there from `main.js`, and the world card imports
 it.
+
+**Ethics and attitudes** (`src/ethics.js`, pure; imports only `hexgrid.js`).
+`AXES` holds the four axis ids and their five labels; `ETHIC_WEIGHTS`
+(10/20/40/20/10) is the one roll knob. Attitudes and diplomacy are static
+functions of the tiles, computed on demand and never stored (about 55
+worlds, so ~3,000 ordered pairs at most, and the card only asks for one
+world's):
+- `attitudeTier(raw)` maps any score to -2..+2 with symmetric thresholds
+  (±2, ±4) and no rounding, so a formula and its mirror give mirrored tiers.
+- `attitudeToPlayers`: `2·xeno + spirit`, the xeno term fixed at 4 for `kin`
+  worlds. It takes no player, because nothing per-player feeds it.
+- `attitudeToPirates`: `2·order − war − 2`.
+- `worldOpinion(a, b)`, a's opinion of b, starts at
+  `XENO_OPINION[a.xeno]` (-75/-25/0/+25/+75), adds `SAME_SPECIES_OPINION`
+  (50) for the same species, then for each of `OPINION_AXES` (spirit, war,
+  order) where both are non-Balanced takes
+  `ETHIC_OPINION[|a|][|b|]` (25/75 for a moderate viewer, 50/150 for an
+  extreme one, against a moderate/extreme target): added when on the same
+  side, subtracted when opposed, and subtracted for two spiritualists.
+  Distance doesn't enter it.
+- `diplomaticTier(opinion)` maps it to -2..+2 (War ≤ -100, Rivalry ≤ -50,
+  Friendship ≥ 50, Alliance ≥ 100; the four thresholds are constants).
+  `diplomaticState(a, b)` is the lower of the two worlds' tiers, so it's
+  symmetric, and 0 (Neutral) at or past `WORLD_RELATION_RANGE` (40 hexes).
+  Over seven seeds, pairs within range come out about 18/22/46/8/6%
+  War..Alliance; one-sided opinions alone would be 12/19/46/14/10%, the
+  difference being the lower-of-two rule.
+- `knownWorldRelations(mapData, tile, discovered)` lists other inhabited
+  worlds within range that the given fog Set holds, closest first, capped
+  at 6, each with its `state`, for the card.
+
+Every weight, bias and threshold is a named, tunable constant in
+`ethics.js`. `main.js`'s `fillWorldDetails` renders the card's Ethics (one line of non-Balanced labels),
+Attitudes and Known worlds sections into `#world-card-details` with DOM
+nodes and `textContent`, passing the active player's `discovered` (the team
+fog). The panel wraps the old content in `#world-card-main`; at 760px or
+wider it's a two-column flex row (portrait column plus a 320px details
+column), and `--portrait` subtracts the details' width (408px across) or,
+when stacked, their height (~560px down instead of ~300). Sizing to fit
+matters because a pointerdown anywhere closes the card, so it can't scroll
+by touch. `tile-report.js` adds an "Attitude" row (toward explorers) after
+"Life" for any tile with `ethics`.
 
 `overlayOpen()` is the shared guard: taps and long-presses do nothing while
 any overlay, the world card or the report is open. The report closes only
@@ -936,6 +988,9 @@ src/
 ├── assets.js          per-band/icon image loading
 ├── input.js           tap/long-press/drag-pan/pinch-zoom/wheel-zoom
 │                      handling
+├── ethics.js          inhabited worlds' ethics: axes, roll weights, home
+│                      ethics, static attitudes toward players/pirates,
+│                      opinion-based diplomacy between worlds
 ├── tile-report.js     pure builder for the long-press tile report
 │                      (fog rules, stats); main.js renders it
 ├── trails.js          Vessel Trail Detector: ship move records, the

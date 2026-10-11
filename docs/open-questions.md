@@ -836,3 +836,59 @@ from here.
   `backgrounds/recipes/`), and the base is `backgrounds/saturn-base.png`.
   Raws and retries (about 1.8 GB) stay out of git: recipes are enough to
   regenerate any final, and the finals themselves are committed.
+
+- **Inhabited worlds have ethics and static attitudes.** User request: an
+  ethics system for inhabited worlds, defining population attitudes toward
+  players, pirates and other worlds, on four axes with positions -2..+2
+  (Spiritualist–Materialist, Pacifist–Militarist,
+  Authoritarian–Individualist, Xenophobe–Xenophile; the first-named pole is
+  negative). Decisions at plan time:
+  - **Data and display first.** Ethics and attitudes show on the world card
+    (and an attitude row in the tile report); gameplay effects are a later
+    step (parked in `mvp-roadmap.md`).
+  - **Per world, independent** of species: each population rolls its own.
+  - **Weighted rolls per axis**, `ETHIC_WEIGHTS` 10/20/40/20/10, over a
+    Stellaris-style point budget or uniform rolls.
+  - **Static:** attitudes come from ethics alone, nothing is saved; player
+    actions don't move them yet.
+  - Follow-ups before building: **Balanced axes aren't shown** (it's the
+    default), and an all-balanced world reads "Balance Views on
+    Everything". **World-to-world attitudes depend on distance:** closer
+    worlds feel more strongly, and at `WORLD_RELATION_RANGE` (40 hexes)
+    or more they're always Neutral (the fade was later dropped; see
+    below). 40 because a world's nearest inhabited neighbour is a median
+    11-14 hexes away and about 5 lie within 40 (three seeds measured).
+    The known-worlds list is distance-ordered, closest first (up to 6).
+    **Earth and Luna have fixed ethics:** Materialist, Individualist,
+    Xenophile; Balanced on Pacifist–Militarist, which the user left
+    unspecified.
+  - After a first build: **ethics are a plain list** of the active views.
+    The first build drew a five-dot scale per axis, and the user found it
+    took too much space and broke immersion.
+  - **World-to-world relations were replaced by an opinion model.** The
+    first build used an ad-hoc affinity formula (shared-ethics closeness,
+    distance fade, then rivalry patches when it leaned too friendly). The
+    user replaced it with a simpler two-step approach: opinion, then state.
+    - **Opinion** starts at 0. Opposed views on an axis cost the viewer
+      25/75 (moderate viewer toward a moderate/extreme target) or 50/150
+      (extreme viewer), the user's own pacifist/militarist numbers.
+      Xenophobes have -25/-75 toward everyone, and spiritualists lose the
+      same amounts toward each other, since all religions differ and rival
+      each other.
+    - **State:** War ≤ -100, Rivalry ≤ -50, Friendship ≥ 50, Alliance ≥ 100
+      (starting thresholds, may be tuned). Two worlds share the lower of
+      their two states.
+    - Settled by AskUserQuestion, since only negatives would make
+      Friendship and Alliance unreachable: **shared views gain** the same
+      amounts as opposed ones cost (spiritualists excepted); **xenophiles
+      like everyone** (+25/+75, mirroring xenophobes); **same species**
+      gives +50. **Only opposite sides count** (Balanced costs nothing).
+      **Distance keeps only the 40-hex cut-off**, with no fade inside it.
+      The xeno axis feeds only the everyone modifier, not shared/opposed
+      views.
+    - Over seven seeds, pairs within range come out about 18/22/46/8/6%
+      War/Rivalry/Neutral/Friendship/Alliance.
+  - Explorer and pirate attitudes (all constants tunable in `ethics.js`):
+    toward players `2·xeno + spirit`, with Human worlds counted as fully
+    xenophile (kin); toward pirates `2·order − war − 2`. Between them they
+    use all four axes.

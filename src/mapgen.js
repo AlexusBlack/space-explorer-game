@@ -34,6 +34,7 @@ import { hexesInRadius, hexDistance, axialKey, axialToPixel, axialNeighbors, HEX
 import { PLANET_CLASSES, MOON_ONLY_SPRITES, MOON_CLASS_NAMES } from "./planet-classes.js";
 import { pickStarSprite } from "./star-classes.js";
 import { createNoise2D, fbm } from "./noise.js";
+import { rollEthics, HOME_ETHICS } from "./ethics.js";
 
 const MAP_RADIUS = 150;
 const SYSTEM_COUNT = 120;
@@ -747,6 +748,21 @@ function assignSpecies(tiles, species, seed) {
   }
 }
 
+// After species, on its own stream so ethics never shift a layout, name or
+// species draw (existing saves keep their map). Every inhabited planet/moon
+// rolls its own ethics, independent of its species; Earth and Luna get
+// HOME_ETHICS and take no draw. Worlds of the players' own species also get
+// `kin`, which ethics.js reads for their attitude toward players.
+function assignEthics(tiles, species, seed) {
+  const rng = createRng(`${seed}:ethics`);
+  const humanId = species.find((s) => s.key === HUMAN_SPECIES.key)?.id;
+  for (const tile of tiles.values()) {
+    if (!tile.inhabited) continue;
+    tile.ethics = tile.home || tile.luna ? { ...HOME_ETHICS } : rollEthics(rng);
+    if (tile.home || tile.luna || (humanId != null && tile.species?.id === humanId)) tile.kin = true;
+  }
+}
+
 // Each system's second anomaly roll, on its own stream so it never shifts a
 // layout draw (existing saves keep their map). Claims a plain band hex of
 // the system, outer zone first, like the first roll in populateSystem.
@@ -815,6 +831,7 @@ export function generateMap({ seed, names = [], species = [] } = {}) {
   assignAnomalyKinds(tiles, seed);
   nameMap(tiles, systems, names, seed);
   assignSpecies(tiles, species, seed);
+  assignEthics(tiles, species, seed);
 
   let earth = { q: 0, r: 0 };
   for (const tile of tiles.values()) {

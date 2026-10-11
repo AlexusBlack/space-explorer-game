@@ -32,9 +32,18 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   they discovered. Tap one to center on it and show its text for about 7 s;
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
+- **World card** — opened by tapping an inhabited world's name tag (or the
+  tile report's "View world"). Name, type, species portrait, species name
+  and description, then the world's ethics (a one-line list of its
+  non-Balanced views, no scales, to keep it compact and in-world), its attitudes toward explorers and
+  pirates, and its known neighbours with their diplomatic state, closest first. On screens 760px or
+  wider the details sit beside the portrait; narrower screens stack them
+  under a smaller portrait. Any tap closes it, so it's sized to fit rather
+  than scroll.
 - **Tile report** — opened by long-pressing a hex, since a tap already moves
   the ship. It's a card over the dimmed map in the same style as the world
-  card. It shows the coordinates, what the hex is, its system, zone, defense
+  card. It shows the coordinates, what the hex is (with an inhabited world's
+  attitude toward explorers), its system, zone, defense
   bonus, discovery XP and distance, then each ship or pirate on the hex with
   its stats (see `game-design.md`'s "Tile report"). Close it with the × or a
   tap on the backdrop. Taps on the card itself don't close it, so its "View
