@@ -493,6 +493,28 @@ planetary information and communication ("video call") screens instead:
   files stay in `species/work/one/` (gitignored, machine-local); the newest
   numbered file per species is the one exported.
 
+## Planet backgrounds (`backgrounds/`)
+
+A landscape per planet sprite and variant (as a planet, as a moon of a gas
+giant, as a moon of a rocky or ice planet: 42 pairs), generated one image at a
+time with `scripts/species_art/bg.py` (see its README section). They are meant
+to show through a window in separate, later room graphics, with the species
+portrait in front, so they are pure frameless landscapes with the subject
+central. Each takes its palette from its tile sprite, so a green toxic world
+looks green. Gas giants are image edits of one Saturn base so their rings are
+the planet's own, seen from its cloud tops. Settings: `gpt-image-2.5-flare`,
+1024² opaque, medium. A moon's parent planet is small, cloud-covered and tinted
+by the moon's own sky so it blends in. Not used by the game yet.
+
+- **Exported finals (committed):** `backgrounds/images/<sprite>-<variant>.png`
+  (1024² opaque PNG masters, about 1.5 MB each, 61 MB total) and
+  `backgrounds/images-opt/<sprite>-<variant>.webp` (512² WebP, quality 85,
+  about 45 KB each, 1.9 MB total), which the game should load. `<sprite>` is
+  the tile sprite name in `images/icons/`, `<variant>` one of `planet`,
+  `giant-moon`, `planet-moon`; only the 42 pairs mapgen can produce exist.
+  Written by `bg --export` from the newest attempt per pair; the attempts
+  themselves stay in the gitignored, machine-local `species/work/bg/`.
+
 ## Future Art Pipeline
 
 For MVP0–MVP4, continue reusing/cropping the existing FreeCiv/Amplio tileset

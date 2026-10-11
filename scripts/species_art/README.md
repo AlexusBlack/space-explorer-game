@@ -128,6 +128,68 @@ Lanczos, quality 85, `alpha_quality=100`, `method=6`) in
 `species/images-opt/<id03>-<Key>.webp`. `method=6` is slow (about 4 s per
 image) but gives the smallest files.
 
+## Planet backgrounds (`bg.py`)
+
+Same one-image-at-a-time loop as `one.py`, for the landscape behind a world's
+card: one 1024² opaque image per planet sprite and variant (`planet`,
+`giant-moon` = moon of a gas giant, `planet-moon` = moon of a rocky or ice
+planet). `backgrounds.py` holds the catalogue (palette and terrain words per
+sprite, written from the tile sprites, plus 4 hex colours pulled from each
+sprite's lit side) and the variant table, which mirrors mapgen's moon rules:
+42 pairs. Images are pure landscapes, no window frame: a separate room layer
+will frame them later, so the prompt keeps the settlement and sky bodies
+central and the picture even out to every edge.
+
+```sh
+alias bg='scripts/species_art/.venv/bin/python -m scripts.species_art.bg'   # run from repo root
+bg --list                                          # all 42 pairs + image counts
+bg --sprite planet-fruit --variant planet          # prompt + estimate only
+bg --sprite planet-fruit --variant planet --yes    # one paid call
+bg --gallery                                       # free: rebuild the gallery pages
+bg --export                                        # free: finals -> backgrounds/images(-opt)
+```
+
+Output: `species/work/bg/<sprite>-<variant>-<n>.png` with a `.txt` (model,
+quality, note, base, cost, prompt); every call goes into `spend.log`. Default
+model `gpt-image-2.5-flare`, medium; `--note "..."` appends a correction.
+Each call also rebuilds `species/work/bg/index.html`, a newest-first gallery
+of every attempt, and `current.html`, the newest image of each pair as a
+grid, and prints LAN URLs, so results can be checked on another device through
+`./serve.sh` (e.g. `http://<lan-ip>:8080/species/work/bg/`).
+
+**Gas giants are two-step.** Asked for directly, the model drew the planet's
+own rings as a closed arc hanging in the sky, like another planet's. So:
+`bg --saturn-base --yes` makes a plain view from Saturn's cloud tops (modelled
+on NASA's Cassini Grand Finale art: a huge near-straight striped band rising
+steeply out of the horizon), and every gas giant sprite is then an image
+**edit** of one chosen base (`GAS_BASE` in `bg.py`, currently
+`saturn-base-4.png`; `--base FILE` overrides) that keeps the camera and ring
+band and only recolours and adds the floating city. All six share one ring
+layout. An edit costs about $0.022 (the base is billed as input). The base
+lives in the gitignored work folder, so keep it if gas giants may need
+regenerating.
+
+What the first tests showed: the text-only prompt gets the palette and an
+alien feel right first time; a moon's parent planet needs "unmistakably not
+Earth" or it comes out as Earth, and sky bodies need "wholly inside the
+frame" or they get cropped. Flare costs about $0.0145 per text-only image
+(the tool's estimate, $0.054, uses the `gpt-image-2` rate).
+
+A moon's parent planet: with one generic parent per kind, a big planet made
+every moon sky look alike. It is now about a sixth of the image wide, covered
+in swirling white cloud and storm spirals, and seen through this world's
+atmosphere (washed in the sky's hue, low contrast, partly translucent, with
+this world's cloud wisps across it). The airless moon (`AIRLESS`, moon-grey)
+has no veil; its parent is instead desaturated toward the scene's greys. The
+gas giant in giant-moon skies is the same crisp generic giant everywhere.
+
+Export: `bg --export` copies the newest image of every pair (it refuses if
+any pair has none) to `backgrounds/images/<sprite>-<variant>.png` and writes
+a 512² WebP (Pillow, Lanczos, quality 85, `method=6`) to
+`backgrounds/images-opt/<sprite>-<variant>.webp`, the copy the game should
+load. To swap in an older attempt, delete or renumber the newer ones in the
+work folder and export again.
+
 ## Stages
 
 Every paid command prints its plan and estimate and does nothing without `--yes`.

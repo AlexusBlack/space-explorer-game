@@ -788,3 +788,41 @@ from here.
     wormholes keep the purple every anomaly used to have.
   - Assumption: ending a move on a wormhole is the only trigger, as before,
     so flying through one is safe; nothing was added to steer pathing.
+
+- **Planet backgrounds: generation decisions.** A landscape per planet sprite
+  that the world card can later show through a window. Decisions at plan time:
+  - **Pure landscape, no window frame**, over a room-with-window scene: the
+    room graphics are a separate later layer that frames the landscape, so
+    the landscape keeps its subject central and runs evenly to every edge.
+  - **1024² square**, over 1536×1024: cheaper, and the window crop decides
+    the final shape anyway.
+  - **Palette in words plus hex colours from the sprite**, over sending the
+    sprite as a reference image (which tends to copy the icon look).
+  - **One generic ringed gas giant in a moon's sky**, over one image per
+    parent colour (about 110 more images for little gain).
+  - Variants follow mapgen: planet, moon of a gas giant, moon of a rocky or
+    ice planet, only where mapgen can produce them (42 pairs).
+  - **Gas giants are edits of one Saturn base.** Two text-only attempts drew
+    the planet's own rings as an arc hanging in the sky, as if they belonged
+    to another planet. Following the user's suggestion, a plain view from
+    Saturn's cloud tops (described from NASA's Cassini Grand Finale art the
+    user supplied) is generated first, and each gas giant recolours it and
+    adds the city. The user kept the result as is, including the magenta
+    streaked sky and the city at the foot of the ring band.
+
+- **Planet backgrounds: moon skies and export** (follows the generation
+  decisions above).
+  - **A moon's parent planet is smaller, cloudy and sky-tinted.** With one
+    generic parent per kind, ten test images showed the same big rust and
+    teal planet in every rocky-parent sky. At the user's suggestion it is now
+    about a sixth of the image wide, under thick swirling cloud, and seen
+    through this world's atmosphere (washed in the sky's hue, low contrast,
+    with this world's cloud wisps across it). The airless moon gets no veil;
+    its parent is desaturated toward the scene's greys instead.
+  - The giant in giant-moon skies was left crisp and untinted, the same
+    generic giant everywhere; tinting it like the parent planet was offered
+    and not taken up for now.
+  - **Export mirrors the species portraits:** PNG masters in
+    `backgrounds/images/`, 512² WebPs in `backgrounds/images-opt/`, named
+    `<sprite>-<variant>`. 512² matches the portraits; if the window crop
+    ends up larger on screen, raise `OPT_SIZE` in `bg.py` and re-export.

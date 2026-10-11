@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from . import catalogue, config, costing, cutout, manifest, normalize, openai_images, prompts, selection
+from . import backgrounds, catalogue, config, costing, cutout, manifest, normalize, openai_images, prompts, selection
 from . import state as state_mod
 
 S = 256  # synthetic image size (keeps the test fast)
@@ -151,6 +151,33 @@ def test_prompts(cat, cfg):
     allp = [selection.spec(s, cfg, "A", "B")["prompt"] for s in cat.values()]
     assert len(allp) == len(cat) and len(set(allp)) == len(cat), "prompts must be unique per species"
     print(f"ok  prompts: deterministic, unique x{len(cat)}, transparency prompt has no backdrop words")
+
+
+def test_backgrounds():
+    pairs = backgrounds.combos()
+    assert len(pairs) == 42 and len(set(pairs)) == 42, len(pairs)
+    allp = [backgrounds.build(s, v) for s, v in pairs]
+    assert len(set(allp)) == 42, "background prompts must be unique per pair"
+    for (s, v), p in zip(pairs, allp):
+        assert p == backgrounds.build(s, v), "background prompt not deterministic"
+        assert p.count("#") == 4 and "window frame" in p and "No people" in p, s
+        assert ("gas giant" in p) == (v == "giant-moon" or backgrounds.SPRITES[s][0] == "gas-giant"), (s, v)
+    for bad in [("planet-fruit", "planet-moon"), ("planet-gas-blue", "giant-moon"), ("moon-grey", "planet")]:
+        try:
+            backgrounds.build(*bad)
+        except ValueError:
+            continue
+        raise AssertionError(f"{bad} should not exist")
+    assert "Correction: bluer sky" in backgrounds.build("planet-fruit", "planet", note="bluer sky")
+    gas = [s for s, (cls, _, _) in backgrounds.SPRITES.items() if cls == "gas-giant"]
+    edits = {backgrounds.build_gas_edit(s) for s in gas}
+    assert len(edits) == len(gas) and all("ring band" in e for e in edits)
+    try:
+        backgrounds.build_gas_edit("planet-fruit")
+        raise AssertionError("gas edit accepted a non-gas sprite")
+    except ValueError:
+        pass
+    print(f"ok  backgrounds: {len(pairs)} pairs, unique deterministic prompts, impossible pairs refused")
 
 
 def test_sync_idempotent(cat, cfg, work):
@@ -356,6 +383,7 @@ def main():
     with tempfile.TemporaryDirectory() as d:
         work = _sandbox(Path(d))
         test_prompts(cat, cfg)
+        test_backgrounds()
         test_sync_idempotent(cat, cfg, work)
         test_moderation(cat, cfg, work)
         test_quota(cat, cfg, work)

@@ -232,6 +232,12 @@ with `python -m scripts.species_art selftest` (offline, mock API). For single-im
 prompt tests use `python -m scripts.species_art.one` (see the README's "Quick
 single portraits"); current settings are `--model gpt-image-2.5-flare
 --transparent`, plus `--strict-anatomy` for floaters.
+Planet landscape backgrounds use the same package's `bg.py` (README section
+"Planet backgrounds"): one paid image per approval, a gallery under
+`species/work/bg/` to check through `./serve.sh`, gas giants edited from one
+Saturn base. Finals export (free, `bg --export`) to `backgrounds/images/` (PNG
+masters) and `backgrounds/images-opt/` (512² WebPs for the game). Same key and
+review-gate rules.
 
 `mapData` (from `mapgen.js`) is **never persisted** — always cheaply and
 deterministically regenerated from `seed`. `gameState` (from `state.js`)
