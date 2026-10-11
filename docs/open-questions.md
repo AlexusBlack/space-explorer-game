@@ -937,3 +937,12 @@ from here.
     which also answers the note above about the smaller map having fewer).
     The defaults are the old constants exactly, so legacy maps and existing
     saves are unchanged.
+
+- **Surviving a pirate attack pays XP too** (supersedes the "XP for
+  surviving an attack" entry's "not paid when a pirate attacks the
+  player"). The user asked that surviving an attack also give 50 XP. A
+  raider attack the player's ship survives now pays the same
+  `COMBAT_SURVIVAL_XP` (50), whether the raider is destroyed or both ships
+  live; still nothing when the player's ship is destroyed. The XP is
+  added during the round's pirate tick, so any level-up shows up through
+  the usual upgrade picker at the start of that player's next turn.

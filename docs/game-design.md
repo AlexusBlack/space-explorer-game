@@ -507,10 +507,11 @@ costs a flat 4 moves (`ATTACK_MOVE_COST`), regardless of how far the ship
 traveled to engage or whether it ends up advancing — simpler than, and
 replacing, an earlier "full tapped distance" rule.
 
-**Every attack your ship survives earns 50 XP** (`COMBAT_SURVIVAL_XP`),
-whether or not it destroys the target, so fighting levels a ship as well as
-exploring does. Losing the ship earns nothing (the loss penalty below
-applies instead), and a pirate attacking you pays no XP.
+**Every fight your ship survives earns 50 XP** (`COMBAT_SURVIVAL_XP`),
+whether you attacked or a pirate raider attacked you, and whether or not
+the enemy is destroyed, so fighting levels a ship as well as exploring
+does. Losing the ship earns nothing (the loss penalty below applies
+instead).
 
 **Destroying a pirate base** grants a one-time XP bounty
 (`PIRATE_BASE_BOUNTY_XP`, 30, on top of the 50) and frees that region to spawn a new base later.

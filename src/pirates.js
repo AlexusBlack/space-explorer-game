@@ -37,9 +37,9 @@ export const PIRATE_BASE_PRODUCTION_CHANCE = 0.5; // per base under cap, per rou
 export const PIRATE_SHIP_MAX_HEALTH = 100; // tunable
 export const PIRATE_SHIP_ATTACK = 6; // tunable — player's ATTACK_BASE is ~2x this
 export const PIRATE_BASE_BOUNTY_XP = 30; // tunable — paid on top of COMBAT_SURVIVAL_XP
-// Every attack the player launches and survives pays this, kill or not, so
-// fighting levels a ship as well as exploring does. Not paid for pirate
-// attacks on the player, nor when the player's ship is destroyed.
+// Every fight the player survives pays this, kill or not, whether they
+// launched it or a raider attacked them, so fighting levels a ship as well
+// as exploring does. Not paid when the player's ship is destroyed.
 export const COMBAT_SURVIVAL_XP = 50; // tunable
 // Flat cost for a melee attack action, replacing the earlier "full tapped
 // distance" rule — regardless of how far the ship traveled to engage (or
@@ -278,13 +278,14 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
       message: `A pirate raider destroyed ${victim}! Respawned at Earth, -${SHIP_LOSS_XP_PENALTY} XP.`,
     };
   }
+  playerHere.xp += COMBAT_SURVIVAL_XP;
   if (result.attackerDefeated) {
     removeShip(gameState, ship.id); // stays put — irrelevant, it's gone
-    return { ...where, message: `${victim} fought off and destroyed a pirate raider!` };
+    return { ...where, message: `${victim} fought off and destroyed a pirate raider! +${COMBAT_SURVIVAL_XP} XP.` };
   }
   return {
     ...where,
-    message: `A pirate raider clashed with ${victim} — raider ${ship.health}/${ship.maxHealth} HP, ${victim} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP.`,
+    message: `A pirate raider clashed with ${victim} — raider ${ship.health}/${ship.maxHealth} HP, ${victim} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP. +${COMBAT_SURVIVAL_XP} XP.`,
   };
 }
 
