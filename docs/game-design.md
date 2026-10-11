@@ -90,12 +90,31 @@ game — losing a ship is a setback, not a game-over.
   eventual number of separate, multi-tile systems, not the map's total tile
   count). Prototyping at ~100-150 systems first; see `mvp-roadmap.md` for the
   1,000+ scale-up.
-- Systems gather into **8–12 star clusters** with irregular, natural-looking
-  edges, separated by wide empty voids. The home system (Sol) always sits
-  in a cluster, so players explore their local cluster first and then
-  choose which void to cross. A few lone systems (about 10%) sit out in the
-  voids as waypoints. The extra deep space also holds proportionally more
-  anomalies.
+- By default, systems gather into **8–12 star clusters** with irregular,
+  natural-looking edges, separated by empty voids. The home system (Sol)
+  always sits in a cluster, so players explore their local cluster first
+  and then choose which void to cross. A few lone systems (about 10%) sit
+  out in the voids as waypoints. Deep-space anomalies are a per-hex chance,
+  so a bigger map with more deep space holds more of them.
+- **The map is configurable on the start screen.** A layout choice picks a
+  preset; an "Advanced" section exposes the numbers, and a small preview
+  shows the star systems the current seed and settings will place:
+  - **Clusters** (default): 120 systems, map radius 110, systems of radius
+    5–7 with at least 1 empty hex between them, 8–12 clusters at least 15
+    hexes apart, 7.5 systems per 1000 cluster hexes, full density out to
+    75% of each cluster's radius, 10% lone systems. A typical hop to the
+    next unexplored star is about 15 hexes (two turns at the base 8 moves,
+    under one with a few Speed upgrades).
+  - **Even**: the same systems scattered uniformly over a radius-90 map
+    with 2 empty hexes between them (about 14 hexes per hop, and no long
+    void crossings).
+  - Shared settings: number of systems, map radius, system size min/max,
+    gap between systems, anomaly chance per system (default 96%, rolled
+    twice per system) and deep-space anomalies per 1000 hexes (default
+    6.4). Cluster-only: cluster count min/max, gap between
+    clusters, cluster density, core size, lone-system share.
+  - Settings are saved with the game and added to the page URL when they
+    differ from the defaults, so a link reproduces the same map.
 - Each system is a small cluster of tiles (a star, optionally a few planets/
   asteroid-belt tiles, surrounded by a thin "interstellar" halo) rather than
   a single hex — see `graphics-and-assets.md`/`technical-architecture.md` for
@@ -358,7 +377,8 @@ its tile report. It never moves the ship or spends moves. The report shows:
 Anomalies are special tiles, seeded onto the map two ways: up to two per star system (nearly every
 system has one, most have two) and a sparse scatter directly in deep space, so
 flying through otherwise-empty space has an occasional real payoff too
-(`src/mapgen.js`'s `ANOMALY_SYSTEM_CHANCE`/`ANOMALY_DEEPSPACE_CHANCE`).
+(the map settings' anomaly chance per system and deep-space anomalies per
+1000 hexes).
 
 They come in two kinds, told apart at a glance so players who'd rather not
 be thrown across the map can avoid one:

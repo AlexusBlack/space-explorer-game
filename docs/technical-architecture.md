@@ -57,26 +57,57 @@ side of this; the key algorithmic ideas:
   as players explore). The seed is stored with persisted game state so a
   session can be reproduced/resumed exactly, and makes the generator
   testable: same seed in → same map out.
+- **Map settings** (`src/map-settings.js`, pure): the map is determined by
+  **seed + settings**, not the seed alone. `generateMap({ ..., settings })`
+  takes `{ layout, systemCount, mapRadius, systemRadiusMin/Max, systemGap,
+  clusterCountMin/Max, clusterGap, clusterDensity, clusterCore, loneShare,
+  anomalySystemChance, anomalyDeepSpace }`
+  in place of the old `MAP_RADIUS`, `SYSTEM_COUNT`, `SYS_RADIUS_*`,
+  `MIN_GAP`, `CLUSTER_COUNT`, `CLUSTER_GAP`, `CLUSTER_TOTAL_AREA`,
+  `CLUSTER_PLATEAU`, `LONE_SYSTEM_SHARE` and anomaly-rate constants
+  (`anomalySystemChance` % replaces both `ANOMALY_SYSTEM_CHANCE` and
+  `ANOMALY_SYSTEM_SECOND_CHANCE`; `anomalyDeepSpace` per 1000 hexes
+  replaces `ANOMALY_DEEPSPACE_CHANCE`; defaults 96 and 6.4 are the old
+  rates exactly, so legacy maps don't change). Cluster area is
+  `systemCount × 1000 / clusterDensity`; `clusterCore` and `loneShare` are
+  percentages. `normalizeMapSettings` fills, clamps (ranges in
+  `MAP_SETTING_FIELDS`) and orders min/max; every entry point runs it.
+  - `DEFAULT_MAP_SETTINGS` is the tighter-cluster rebalance (radius 110,
+    gap 1, cluster gap 15, density 7.5, core 75). `LEGACY_MAP_SETTINGS`
+    reproduces the old constants exactly (radius 150, gap 2, cluster gap 30,
+    density 6 = area 20000, core 55), verified tile-for-tile against the
+    previous generator; v3/v4 saves load with it.
+  - `layout: "even"` skips the cluster field: `pickSystemCandidate` darts
+    uniformly over the map, as before clusters. The `lone` roll is still
+    drawn so both layouts consume the main stream in the same order.
+  - The shrink-and-retry floor is `max(3, systemRadiusMin − 1)` (4 for the
+    old 5–7, as before).
+  - `layoutSystems(seed, settings)` runs only the cluster field and
+    `placeSystems` (the cheap part, no tiles) for the start screen's
+    preview. `generateMap` runs the same `layout` step first, so the
+    preview is exactly the map Start builds. `mapData` carries `settings`.
 - **Cluster field** (`buildClusterField`, own stream `${seed}:clusters`):
-  systems gather into 8–12 star clusters separated by empty voids, instead
+  in the clusters layout, systems gather into star clusters (8–12 by
+  default) separated by empty voids, instead
   of being spread evenly. It's a hybrid of fixed centres plus noise, rather
   than thresholded noise alone, because noise by itself can't guarantee a
   cluster count or that Sol sits in a cluster.
-  - The cluster count is uniform 8–12. Radii share `CLUSTER_TOTAL_AREA`
-    between them, are jittered, and are sorted largest first.
+  - The cluster count is uniform between the settings' min and max. Radii
+    share the total cluster area between them, are jittered, and are sorted
+    largest first.
   - The largest cluster is centred on the origin, so the home system always
     starts inside one.
-  - The other centres are dart-thrown at least `CLUSTER_GAP` hexes apart,
+  - The other centres are dart-thrown at least `clusterGap` hexes apart,
     edge to edge. A cluster that can't fit shrinks its radius and retries,
     down to half the base radius.
   - `density(q, r)` warps the position by `CLUSTER_WARP` hexes of fbm noise
     (`src/noise.js`: seeded 2D gradient noise, streams
     `${seed}:cluster-warp-x`/`-y`). It then returns the strongest cluster
-    falloff: 1 out to `CLUSTER_PLATEAU` of the radius, falling linearly to 0
+    falloff: 1 out to `clusterCore`% of the radius, falling linearly to 0
     at the edge. The warp is what gives clusters irregular, natural edges.
 - **Placement**: pre-roll every system's target radius, sort largest-first,
   then dart-throw candidate centers (up to a fixed attempt budget per
-  system), rejecting any candidate closer than `radius + otherRadius + MIN_GAP`
+  system), rejecting any candidate closer than `radius + otherRadius + systemGap`
   (native hex distance) to an already-placed system. If no candidate is
   found, shrink the radius and retry, down to an absolute minimum, and skip
   the system entirely if even that fails. Largest-first avoids the coverage
@@ -85,12 +116,14 @@ side of this; the key algorithmic ideas:
   - most systems pick a random cluster, take a point within
     `CLUSTER_SPREAD` × its radius, and accept it with probability equal to
     the density there;
-  - about `LONE_SYSTEM_SHARE` (10%) are lone systems: uniform darts accepted
+  - about `loneShare` (10%) are lone systems: uniform darts accepted
     only where density ≤ `LONE_MAX_DENSITY`, so they land in the voids.
 
-  With `MAP_RADIUS` 150 and `SYSTEM_COUNT` 120, about 112 systems are placed
-  and about 70% of hexes are deep space. Changing any of these constants
-  changes every seed's layout, so bump `SAVE_VERSION` when you do.
+  With the default settings about 108 of 120 systems are placed on about
+  37,000 tiles (the legacy radius-150 map: about 112 on 68,000). Saves
+  store their settings, so changing `DEFAULT_MAP_SETTINGS` no longer breaks
+  saves; changing the generator's code paths still changes every seed's
+  layout, and `LEGACY_MAP_SETTINGS` must keep matching the old constants.
 - **One system is always fixed at the origin** as the shared Earth/home
   system, placed before any dart-throwing; all other systems avoid it like
   any other placed system.
@@ -204,10 +237,11 @@ side of this; the key algorithmic ideas:
   — pirate spawn logic (MVP4) can look up "which system-region is this tile
   part of" as a plain field read, no separate region-clustering pass needed.
 - **Anomalies** are seeded two ways, both tunable: `populateSystem` rolls a
-  per-system chance (`ANOMALY_SYSTEM_CHANCE`, same mechanism as the
+  per-system chance (then `ANOMALY_SYSTEM_CHANCE`, now the
+  `anomalySystemChance` map setting; same mechanism as the
   `wonder-blackhole` roll just above it) claiming a zone-pool hex, and the
   deep-space sweep (below) separately rolls a rarer per-tile chance
-  (`ANOMALY_DEEPSPACE_CHANCE`) to seed one directly into otherwise-empty
+  (then `ANOMALY_DEEPSPACE_CHANCE`, now `anomalyDeepSpace`) to seed one directly into otherwise-empty
   space instead of a plain band tile. Both rates were raised to 8x their
   original first-pass values (0.12→0.96, 0.0004→0.0032) across two rounds
   of playtesting feedback, each prior rate still too sparse to reliably
@@ -217,7 +251,8 @@ side of this; the key algorithmic ideas:
   one — anomalies are now a near-ubiquitous feature, not a rare find.
   A later request doubled them again (about 260 to 520 per map): the
   deep-space rate went to `0.0064`, and `placeSecondAnomalies` gives every
-  system a second roll (`ANOMALY_SYSTEM_SECOND_CHANCE`, 0.96) on a plain
+  system a second roll (then `ANOMALY_SYSTEM_SECOND_CHANCE`, 0.96; now
+  the same `anomalySystemChance` setting) on a plain
   band hex of its own, outer zone first, keeping that hex's `band` so it
   draws the zone's starfield (and still does once destroyed back to a
   `"band"` tile). That pass runs on its own
@@ -261,9 +296,11 @@ space between systems, is).
   stored, deep space is implicit" principle. That principle still has merit
   at much larger scale (see below) but was explicitly traded away for
   simplicity and lower per-frame cost at the current prototype size.
-- **Scale**: prototyping at ~100-150 systems (mapRadius 150, ~68,000 tiles
-  fully materialized in ~95ms — fine at this size; the radius grew from 90
-  when star clusters were added, to leave room for voids). The concept doc's
+- **Scale**: prototyping at ~100-150 systems (default mapRadius 110, ~37,000
+  tiles fully materialized in ~80ms — fine at this size; the radius grew
+  from 90 to 150 when star clusters were added, then the spacing rebalance
+  brought it to 110). The start screen allows up to 300 systems and radius
+  200 (~120,000 tiles). The concept doc's
   "1,000+ star systems" is a later scale-up, not the current target — see
   `mvp-roadmap.md`'s parking lot. At that scale, two things need revisiting
   together, not just the placement algorithm: (1) the O(n²) placement scan
@@ -804,8 +841,19 @@ only, no `innerHTML` with user text). Text inputs write straight into the
 working array without a re-render, so typing keeps focus; add, remove and
 reroll rebuild the rows. `showSetup({ cancellable })` opens it: the top
 bar's New Game passes `true`; boot passes `false` when there is no usable
-save (or `?seed=` names a different seed than the save), prefilling that
-URL seed. Until Start there is no `gameState`, so `frame()` skips drawing.
+save (or the URL names a different map than the save: another `?seed=`,
+or `&map=` settings that differ), prefilling that URL seed and settings.
+
+The **Map** section: a layout `<select>` (picking one applies its
+`MAP_PRESETS` entry), a 180 px canvas preview and its caption ("108 of 120
+systems placed · radius 110 · ~37k tiles"), and a collapsed `<details>`
+"Advanced map settings" with one number input per `MAP_SETTING_FIELDS`
+entry (fields for the other layout hidden) plus "Reset to defaults". Typing
+updates the working settings through `normalizeMapSettings`; `change`
+re-renders the fields so clamped or swapped values show. Seed, layout,
+field and team-colour edits redraw the preview, debounced 150 ms
+(`layoutSystems` only, a few ms). New Game prefills the running game's
+settings. Start passes them to `startNewGame(seed, setup, settings)`. Until Start there is no `gameState`, so `frame()` skips drawing.
 `#setup` is in `overlayOpen()`, so map gestures are ignored under it.
 
 Ship names are stored without the "ICV" prefix; everything that shows one
@@ -860,8 +908,10 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   the key name is fixed, the payload's `version` field is what changes:
   `SAVE_VERSION` 2 since star clusters changed every seed's layout, 3 since
   Earth's fixed Luna changed the home system's main-stream draws, 4 for
-  teams; `loadGame` returns null on any other mismatch so an old save is
-  ignored and the next save overwrites it), holding the seed, `activePlayerIndex`, `movesRemaining`, `turnNumber`,
+  teams, 5 for map settings; `loadGame` returns null on any other mismatch
+  so an old save is ignored and the next save overwrites it), holding the
+  seed, `mapSettings` (a v3/v4 save has none and loads with
+  `LEGACY_MAP_SETTINGS`, keeping its exact map), `activePlayerIndex`, `movesRemaining`, `turnNumber`,
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
   `trails` (the Vessel Trail Detector's records, a plain array),
@@ -971,6 +1021,8 @@ src/
 ├── hexgrid.js         axial coordinate math, screen<->tile transforms,
 │                      hexLine (move-path interpolation for tap-to-move)
 ├── mapgen.js          seeded map generator (places systems, bands every tile)
+├── map-settings.js    map generator settings: defaults, legacy values,
+│                      presets, field ranges, normalize, URL encoding
 ├── noise.js           seeded 2D gradient noise + fbm (cluster edge warp)
 ├── planet-classes.js  planet/moon class -> sprite catalog (shared by
 │                      mapgen.js and assets.js)

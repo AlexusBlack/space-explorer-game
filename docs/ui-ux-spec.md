@@ -9,6 +9,17 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   a launch with no save (a launch with a save resumes directly). A card over
   a dark backdrop, above every other overlay, with:
   - a seed field and 🎲 reroll (the seed input used to sit in the top bar);
+  - a **Map** section: a layout dropdown (Clusters / Even, each a preset)
+    beside a 180 px preview of the star systems the seed and settings place
+    (one dot per system sized by its radius, home in the first player's
+    team colour, lone systems dimmer, the map's hexagonal edge), with a
+    caption such as "108 of 120 systems placed · radius 110 · ~37k tiles"
+    that also says how many systems didn't fit. It updates as you type;
+  - "Advanced map settings", collapsed by default: one number field per
+    setting (systems, map radius, system size min/max, gap between systems,
+    and for Clusters the cluster count min/max, gap between clusters,
+    density, core and lone share, then the anomaly chance per system and
+    deep-space anomalies per 1000 hexes), plus "Reset to defaults";
   - one row per player: team colour dropdown (the dropdown itself shows the
     chosen colour, since iOS can't colour individual options), name, "ICV"
     plus ship name with a 🎲 reroll, and × remove (disabled at one player);

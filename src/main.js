@@ -1,4 +1,14 @@
-import { generateMap } from "./mapgen.js";
+import { generateMap, layoutSystems } from "./mapgen.js";
+import {
+  DEFAULT_MAP_SETTINGS,
+  MAP_LAYOUTS,
+  MAP_PRESETS,
+  MAP_SETTING_FIELDS,
+  normalizeMapSettings,
+  sameMapSettings,
+  encodeMapSettings,
+  decodeMapSettings,
+} from "./map-settings.js";
 import { render, SELECT_FRAME_COUNT } from "./render.js";
 import { attachCameraControls } from "./input.js";
 import { loadBandImages, loadIconImages } from "./assets.js";
@@ -98,18 +108,28 @@ const setupPlayerList = document.getElementById("setup-players");
 const setupAdd = document.getElementById("setup-add");
 const setupCancel = document.getElementById("setup-cancel");
 const setupStart = document.getElementById("setup-start");
+const setupLayout = document.getElementById("setup-layout");
+const setupPreview = document.getElementById("setup-preview");
+const setupPreviewCaption = document.getElementById("setup-preview-caption");
+const setupFields = document.getElementById("setup-fields");
+const setupMapReset = document.getElementById("setup-map-reset");
 const tileReportClose = document.getElementById("tile-report-close");
 const notificationList = document.getElementById("notifications");
 const noticeCaption = document.getElementById("notice-caption");
 
-function readSeedFromUrl() {
+// `?seed=` plus, when any map setting differs from the defaults, `&map=`
+// (see map-settings.js's encodeMapSettings), so a link reproduces the map.
+function readMapFromUrl() {
   const params = new URLSearchParams(location.search);
-  return params.get("seed");
+  return { seed: params.get("seed"), settings: decodeMapSettings(params.get("map")) };
 }
 
-function writeSeedToUrl(seed) {
+function writeMapToUrl(seed, settings) {
   const params = new URLSearchParams(location.search);
   params.set("seed", seed);
+  const map = encodeMapSettings(settings);
+  if (map) params.set("map", map);
+  else params.delete("map");
   history.replaceState(null, "", `${location.pathname}?${params.toString()}`);
 }
 
@@ -122,17 +142,19 @@ const camera = { x: 0, y: 0, zoom: DEFAULT_ZOOM };
 let mapData;
 let gameState;
 let currentSeed;
+let currentMapSettings = DEFAULT_MAP_SETTINGS;
 let needsRedraw = true;
 // Name tags drawn in the last frame ({rect, tile}), for tap hit-testing.
 let tagHits = [];
 
-// Loads/generates the map for `seed` without touching player/turn state —
-// used both by startNewGame (below) and by the resume-from-save path, since
-// the map itself is always cheaply/deterministically rebuilt from the seed
-// rather than persisted.
-function loadMap(seed) {
+// Loads/generates the map for `seed` and map `settings` without touching
+// player/turn state — used both by startNewGame (below) and by the
+// resume-from-save path, since the map itself is always cheaply and
+// deterministically rebuilt from seed + settings rather than persisted.
+function loadMap(seed, settings) {
   currentSeed = seed;
-  mapData = generateMap({ seed, names, species });
+  currentMapSettings = normalizeMapSettings(settings);
+  mapData = generateMap({ seed, names, species, settings: currentMapSettings });
   camera.x = 0;
   camera.y = 0;
   camera.zoom = DEFAULT_ZOOM;
@@ -140,17 +162,17 @@ function loadMap(seed) {
   seedLabel.textContent = `seed: ${seed} (${placed} systems${
     mapData.systemsSkipped ? `, ${mapData.systemsSkipped} skipped` : ""
   }, ${mapData.tiles.size} tiles)`;
-  writeSeedToUrl(seed);
+  writeMapToUrl(seed, currentMapSettings);
   requestRedraw();
 }
 
 // Generates a fresh map AND a brand-new game for the start screen's roster
 // (`setup`, see setup.js) — always overwrites any existing save, since
 // there's only one save slot.
-function startNewGame(seed, setup) {
-  loadMap(seed);
+function startNewGame(seed, setup, settings) {
+  loadMap(seed, settings);
   gameState = createNewGame(mapData, setup);
-  saveGame(currentSeed, gameState);
+  saveGame(currentSeed, currentMapSettings, gameState);
   updateHud();
   hideWinBanner();
   centerCameraOn(mapData.earth.q, mapData.earth.r);
@@ -248,7 +270,7 @@ function afterStateChange({ suppressUpgradePicker = false } = {}) {
   gameState.won = checkWinCondition(mapData, gameState.players);
   if (gameState.won) showWinBanner();
   for (const player of gameState.players) pruneNotifications(mapData, player);
-  saveGame(currentSeed, gameState);
+  saveGame(currentSeed, currentMapSettings, gameState);
   updateHud();
   requestRedraw();
   if (!suppressUpgradePicker) maybeShowUpgradePicker();
@@ -300,7 +322,7 @@ function renderUpgradeOptions(player) {
     btn.textContent = `${upgrade.name} — ${upgrade.description}${hp}`;
     btn.addEventListener("click", () => {
       unlockUpgrade(player, upgrade.id);
-      saveGame(currentSeed, gameState);
+      saveGame(currentSeed, currentMapSettings, gameState);
       updateHud();
       maybeShowUpgradePicker();
     });
@@ -398,7 +420,7 @@ function noticeElement(player, notification) {
     if (Math.abs(dx) >= NOTICE_SWIPE_DISTANCE) {
       const i = player.notifications.indexOf(notification);
       if (i >= 0) player.notifications.splice(i, 1);
-      saveGame(currentSeed, gameState);
+      saveGame(currentSeed, currentMapSettings, gameState);
       renderNotifications();
       return;
     }
@@ -653,7 +675,7 @@ function endTurn() {
   // just ended their turn still reaches them at their next turn.
   clearNotifications(gameState.players[gameState.activePlayerIndex]);
   hideNoticeCaption();
-  saveGame(currentSeed, gameState);
+  saveGame(currentSeed, currentMapSettings, gameState);
   gameState.activePlayerIndex = (gameState.activePlayerIndex + 1) % gameState.players.length;
   // "Turn N" counts full rounds, not individual End Turn presses — only
   // increment once the turn has wrapped back around to the first player.
@@ -676,7 +698,7 @@ function endTurn() {
   pruneTrails(gameState);
   const nextActive = gameState.players[gameState.activePlayerIndex];
   gameState.movesRemaining = movesPerTurnForPlayer(nextActive);
-  saveGame(currentSeed, gameState);
+  saveGame(currentSeed, currentMapSettings, gameState);
   updateHud();
   interstitialMessage.textContent = `Pass to ${nextActive.name}`;
   interstitial.classList.add("visible");
@@ -693,17 +715,22 @@ function dismissInterstitial() {
 // --- Start screen -------------------------------------------------------
 // Edited in place by the #setup form; handed to startNewGame on Start.
 let setupPlayers = [];
+let setupMapSettings = DEFAULT_MAP_SETTINGS;
+let previewTimer = null;
 
 function randomSeed() {
   return Math.random().toString(36).slice(2);
 }
 
 // `cancellable` only when a game is already running to return to.
-function showSetup({ cancellable, seed = randomSeed() }) {
+function showSetup({ cancellable, seed = randomSeed(), settings = currentMapSettings }) {
   setupPlayers = defaultSetup();
   setupSeed.value = seed;
+  setupMapSettings = normalizeMapSettings(settings);
   setupCancel.hidden = !cancellable;
   renderSetup();
+  renderMapFields();
+  drawPreview();
   setupScreen.classList.add("visible");
 }
 
@@ -754,6 +781,7 @@ function renderSetup() {
     team.addEventListener("change", () => {
       player.color = team.value;
       team.style.background = team.value;
+      schedulePreview();
     });
 
     const name = setupTextInput(player.name, "Player name", (v) => {
@@ -789,12 +817,122 @@ function renderSetup() {
   setupAdd.disabled = setupPlayers.length >= MAX_PLAYERS;
 }
 
+// Layout select plus one numeric input per MAP_SETTING_FIELDS entry; fields
+// for the other layout are hidden. Rebuilt on a layout change, reset, or a
+// committed edit (so clamped or swapped values show).
+function renderMapFields() {
+  setupLayout.replaceChildren(
+    ...MAP_LAYOUTS.map(({ id, name }) => {
+      const option = document.createElement("option");
+      option.value = id;
+      option.textContent = name;
+      return option;
+    })
+  );
+  setupLayout.value = setupMapSettings.layout;
+  setupFields.replaceChildren();
+  for (const field of MAP_SETTING_FIELDS) {
+    const label = document.createElement("label");
+    label.className = "setup-field";
+    label.hidden = field.layout !== null && field.layout !== setupMapSettings.layout;
+    const text = document.createElement("span");
+    text.textContent = field.label;
+    const input = document.createElement("input");
+    input.type = "number";
+    input.inputMode = field.step < 1 ? "decimal" : "numeric";
+    input.min = field.min;
+    input.max = field.max;
+    input.step = field.step;
+    input.value = setupMapSettings[field.id];
+    input.addEventListener("input", () => {
+      if (input.value === "" || !Number.isFinite(Number(input.value))) return;
+      setupMapSettings = normalizeMapSettings({ ...setupMapSettings, [field.id]: input.value });
+      schedulePreview();
+    });
+    input.addEventListener("change", renderMapFields);
+    label.append(text, input);
+    setupFields.append(label);
+  }
+}
+
+// Debounced, since every keystroke in a field or the seed redraws it.
+function schedulePreview() {
+  clearTimeout(previewTimer);
+  previewTimer = setTimeout(drawPreview, 150);
+}
+
+// One dot per system the current seed + settings place (layoutSystems is
+// the first step of generateMap, so this is exactly the map Start builds),
+// sized by system radius, home in the first player's team colour, lone
+// systems dimmer, inside the map's hexagonal edge.
+function drawPreview() {
+  clearTimeout(previewTimer);
+  const seed = setupSeed.value.trim();
+  const settings = setupMapSettings;
+  const pctx = setupPreview.getContext("2d");
+  const size = setupPreview.width;
+  pctx.clearRect(0, 0, size, size);
+  if (!seed) {
+    setupPreviewCaption.textContent = "A random seed is picked on Start.";
+    return;
+  }
+  const { systems, skipped } = layoutSystems(seed, settings);
+  const corner = axialToPixel(settings.mapRadius, 0);
+  const scale = (size / 2 - 6) / Math.hypot(corner.x, corner.y);
+  const toCanvas = (q, r) => {
+    const p = axialToPixel(q, r);
+    return { x: size / 2 + p.x * scale, y: size / 2 + p.y * scale };
+  };
+
+  pctx.strokeStyle = "rgba(255,255,255,0.18)";
+  pctx.lineWidth = 2;
+  pctx.beginPath();
+  const R = settings.mapRadius;
+  [[R, 0], [0, R], [-R, R], [-R, 0], [0, -R], [R, -R]].forEach(([q, r], i) => {
+    const c = toCanvas(q, r);
+    if (i === 0) pctx.moveTo(c.x, c.y);
+    else pctx.lineTo(c.x, c.y);
+  });
+  pctx.closePath();
+  pctx.stroke();
+
+  const hexPx = Math.hypot(axialToPixel(1, 0).x, axialToPixel(1, 0).y) * scale;
+  for (const system of systems) {
+    const c = toCanvas(system.q, system.r);
+    pctx.fillStyle = system.isHome
+      ? setupPlayers[0]?.color ?? "#fff"
+      : system.lone
+        ? "rgba(255,240,200,0.45)"
+        : "rgba(255,240,200,0.9)";
+    pctx.beginPath();
+    pctx.arc(c.x, c.y, Math.max(system.isHome ? 3.5 : 2, system.radius * hexPx * 0.5), 0, Math.PI * 2);
+    pctx.fill();
+  }
+
+  const tiles = 3 * R * R + 3 * R + 1;
+  setupPreviewCaption.textContent =
+    `${systems.length} of ${settings.systemCount} systems placed` +
+    `${skipped ? ` (${skipped} didn't fit)` : ""} · radius ${R} · ~${Math.round(tiles / 1000)}k tiles`;
+}
+
 window.addEventListener("resize", resizeCanvas);
 attachCameraControls(canvas, camera, requestRedraw, handleTap, handleLongPress);
 
 newMapButton.addEventListener("click", () => showSetup({ cancellable: true }));
 setupSeedReroll.addEventListener("click", () => {
   setupSeed.value = randomSeed();
+  drawPreview();
+});
+setupSeed.addEventListener("input", schedulePreview);
+setupLayout.addEventListener("change", () => {
+  setupMapSettings = normalizeMapSettings(MAP_PRESETS[setupLayout.value]);
+  renderMapFields();
+  drawPreview();
+});
+setupMapReset.addEventListener("click", () => {
+  setupMapSettings = normalizeMapSettings(MAP_PRESETS[setupMapSettings.layout]);
+  renderMapFields();
+  drawPreview();
 });
 setupAdd.addEventListener("click", () => {
   addPlayer(setupPlayers);
@@ -805,7 +943,7 @@ setupStart.addEventListener("click", () => {
   const seed = setupSeed.value.trim() || randomSeed();
   const setup = normalizeSetup(setupPlayers);
   hideSetup();
-  startNewGame(seed, setup);
+  startNewGame(seed, setup, setupMapSettings);
   maybeShowUpgradePicker();
 });
 
@@ -827,10 +965,17 @@ tileReportWorld.addEventListener("click", () => {
 
 resizeCanvas();
 
-const urlSeed = readSeedFromUrl();
+// A save resumes unless the URL names a different map (seed, or settings
+// given with `map=`).
+const urlMap = readMapFromUrl();
+const urlSettingsGiven = new URLSearchParams(location.search).has("map");
 const saved = loadGame();
-if (saved && (!urlSeed || urlSeed === saved.seed)) {
-  loadMap(saved.seed);
+if (
+  saved &&
+  (!urlMap.seed || urlMap.seed === saved.seed) &&
+  (!urlSettingsGiven || sameMapSettings(urlMap.settings, saved.mapSettings))
+) {
+  loadMap(saved.seed, saved.mapSettings);
   gameState = saved.gameState;
   // mapData was just regenerated fresh from the seed (never persisted
   // directly) — replay any anomalies a prior session already destroyed so
@@ -846,7 +991,7 @@ if (saved && (!urlSeed || urlSeed === saved.seed)) {
   centerCameraOn(active.q, active.r);
   maybeShowUpgradePicker();
 } else {
-  showSetup({ cancellable: false, seed: urlSeed || randomSeed() });
+  showSetup({ cancellable: false, seed: urlMap.seed || randomSeed(), settings: urlMap.settings });
 }
 
 const [bandImages, iconImages] = await Promise.all([loadBandImages(), loadIconImages()]);

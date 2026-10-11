@@ -35,30 +35,23 @@ import { PLANET_CLASSES, MOON_ONLY_SPRITES, MOON_CLASS_NAMES } from "./planet-cl
 import { pickStarSprite } from "./star-classes.js";
 import { createNoise2D, fbm } from "./noise.js";
 import { rollEthics, HOME_ETHICS } from "./ethics.js";
+import { DEFAULT_MAP_SETTINGS, normalizeMapSettings } from "./map-settings.js";
 
-const MAP_RADIUS = 150;
-const SYSTEM_COUNT = 120;
+// Map size, system count and size, spacing and cluster shape come from the
+// map settings (map-settings.js), passed to generateMap.
 
-// Star clusters (see buildClusterField): systems gather in CLUSTER_COUNT
-// noise-shaped blobs with empty voids between them, plus a share of lone
-// systems out in the voids. Distances are in hexes.
-const CLUSTER_COUNT = [8, 12];
-// Total hex area all clusters share, split between them (so more clusters
-// means smaller ones), each radius then jittered by CLUSTER_RADIUS_JITTER.
-const CLUSTER_TOTAL_AREA = 20000;
+// Star clusters (see buildClusterField): systems gather in a settings-chosen
+// number of noise-shaped blobs with empty voids between them, plus a share of
+// lone systems out in the voids. Distances are in hexes. All clusters share
+// one total hex area (systemCount / clusterDensity), split between them (so
+// more clusters means smaller ones), each radius then jittered by
+// CLUSTER_RADIUS_JITTER. Each is at full density out to the settings'
+// clusterCore share of its radius, then fades to its edge.
 const CLUSTER_RADIUS_JITTER = [0.85, 1.15];
-const CLUSTER_GAP = 30; // min hexes between two cluster edges
-const CLUSTER_PLATEAU = 0.55; // full density out to this fraction of the radius
 const CLUSTER_WARP = 9; // max hexes the noise pushes a cluster's edge in or out
 const CLUSTER_WARP_SCALE = 30; // noise feature size, in hexes
 const CLUSTER_SPREAD = 1.25; // candidates are drawn within this many radii
-const LONE_SYSTEM_SHARE = 0.1;
 const LONE_MAX_DENSITY = 0.02;
-
-const SYS_RADIUS_MAX = 7;
-const SYS_RADIUS_MIN = Math.round(SYS_RADIUS_MAX * 0.7);
-const SYS_ABS_MIN = 4;
-const MIN_GAP = 2;
 const NEAR_SPACE_BAND = 2;
 const MAX_DART_ATTEMPTS = 250;
 const HOME_RADIUS = 6;
@@ -77,17 +70,12 @@ const PLANET_SCALE = [0.75, 1];
 const MOON_SCALE = [0.8, 1.2];
 const MOON_OFFSET_MAX = 0.5;
 // Anomaly placement: a per-system chance (same mechanism as the
-// wonder-blackhole roll below) plus a very sparse scatter directly in deep
-// space, so flying through otherwise-empty space has a real payoff too.
-// First-pass, tunable — see MVP3 in docs/mvp-roadmap.md.
-// 8x the original first-pass rates (0.12/0.0004) — playtesting found the
-// original, then a 4x bump, both too sparse to reliably encounter early.
-const ANOMALY_SYSTEM_CHANCE = 0.96;
-// Doubled again (from 0.96-per-system-only and 0.0032): every system rolls a
-// second anomaly at the same chance in placeSecondAnomalies, and the
-// deep-space rate doubles.
-const ANOMALY_SYSTEM_SECOND_CHANCE = 0.96;
-const ANOMALY_DEEPSPACE_CHANCE = 0.0064;
+// wonder-blackhole roll below), rolled twice per system (the second roll in
+// placeSecondAnomalies), plus a very sparse scatter directly in deep space,
+// so flying through otherwise-empty space has a real payoff too. Both rates
+// are map settings (anomalySystemChance %, anomalyDeepSpace per 1000 hexes);
+// the defaults 96% and 6.4 are the playtested rates (8x, then 2x more, the
+// MVP3 first pass of 12% and 0.4).
 // Share of anomalies that are wormholes, marked at generation so players can
 // see (and avoid) them; 1 in 4, the share the old trigger-time roll gave.
 export const ANOMALY_WORMHOLE_SHARE = 0.25;
@@ -127,13 +115,16 @@ const HEX_STEP = Math.sqrt(3) * HEX_SIZE;
 // in [0, 1]: 1 deep inside a cluster, 0 in the voids. Distances are measured
 // from a noise-warped position, so cluster edges come out as irregular blobs
 // with arms and bays rather than circles.
-function buildClusterField(seed) {
+function buildClusterField(seed, settings) {
+  const { mapRadius, clusterCountMin, clusterCountMax } = settings;
+  const totalArea = (settings.systemCount * 1000) / settings.clusterDensity;
+  const plateau = settings.clusterCore / 100;
   const rng = createRng(`${seed}:clusters`);
   const warpX = createNoise2D(`${seed}:cluster-warp-x`);
   const warpY = createNoise2D(`${seed}:cluster-warp-y`);
 
-  const count = CLUSTER_COUNT[0] + Math.floor(rng() * (CLUSTER_COUNT[1] - CLUSTER_COUNT[0] + 1));
-  const baseRadius = Math.sqrt(CLUSTER_TOTAL_AREA / count / 3);
+  const count = clusterCountMin + Math.floor(rng() * (clusterCountMax - clusterCountMin + 1));
+  const baseRadius = Math.sqrt(totalArea / count / 3);
   const radii = Array.from({ length: count }, () => Math.round(baseRadius * rollInRange(rng, CLUSTER_RADIUS_JITTER)));
   radii.sort((a, b) => b - a);
 
@@ -143,8 +134,8 @@ function buildClusterField(seed) {
     let placed = false;
     while (!placed && radius >= baseRadius / 2) {
       for (let attempt = 0; attempt < MAX_DART_ATTEMPTS && !placed; attempt++) {
-        const c = randomHexInRadius(rng, MAP_RADIUS - Math.round(radius * 0.5));
-        if (clusters.every((o) => hexDistance(c, o) >= radius + o.radius + CLUSTER_GAP)) {
+        const c = randomHexInRadius(rng, mapRadius - Math.round(radius * 0.5));
+        if (clusters.every((o) => hexDistance(c, o) >= radius + o.radius + settings.clusterGap)) {
           clusters.push({ ...c, radius });
           placed = true;
         }
@@ -163,7 +154,7 @@ function buildClusterField(seed) {
     let best = 0;
     for (const c of clusters) {
       const d = Math.hypot(wx - c.center.x / HEX_STEP, wy - c.center.y / HEX_STEP) / c.radius;
-      const f = d <= CLUSTER_PLATEAU ? 1 : Math.max(0, (1 - d) / (1 - CLUSTER_PLATEAU));
+      const f = d <= plateau ? 1 : Math.max(0, (1 - d) / (1 - plateau));
       if (f > best) best = f;
     }
     return best;
@@ -172,22 +163,27 @@ function buildClusterField(seed) {
   return { clusters, density };
 }
 
-// Candidate centre for a system of `radius`: a lone system darts anywhere and
+// Candidate centre for a system of `radius`. With no cluster field (the even
+// layout) it darts anywhere on the map. A lone system darts anywhere and
 // keeps only void spots; a cluster system darts near a random cluster and is
 // kept with probability equal to the density there. Null = rejected.
-function pickSystemCandidate(rng, field, radius, lone) {
+function pickSystemCandidate(rng, field, radius, lone, mapRadius) {
+  if (!field) return randomHexInRadius(rng, mapRadius - radius);
   if (lone) {
-    const c = randomHexInRadius(rng, MAP_RADIUS - radius);
+    const c = randomHexInRadius(rng, mapRadius - radius);
     return field.density(c.q, c.r) <= LONE_MAX_DENSITY ? c : null;
   }
   const cluster = field.clusters[Math.floor(rng() * field.clusters.length)];
   const offset = randomHexInRadius(rng, Math.round(cluster.radius * CLUSTER_SPREAD));
   const c = { q: cluster.q + offset.q, r: cluster.r + offset.r };
-  if (hexDistance(c, { q: 0, r: 0 }) > MAP_RADIUS - radius) return null;
+  if (hexDistance(c, { q: 0, r: 0 }) > mapRadius - radius) return null;
   return rng() < field.density(c.q, c.r) ? c : null;
 }
 
-function placeSystems(rng, field) {
+function placeSystems(rng, field, settings) {
+  const { systemRadiusMin, systemRadiusMax, systemGap, mapRadius } = settings;
+  // Shrink-and-retry floor for a system that doesn't fit.
+  const absMin = Math.max(3, systemRadiusMin - 1);
   const home = {
     id: 0,
     q: 0,
@@ -200,13 +196,14 @@ function placeSystems(rng, field) {
   const placed = [home];
 
   const requests = [];
-  for (let i = 1; i < SYSTEM_COUNT; i++) {
-    const radius = SYS_RADIUS_MIN + Math.floor(rng() * (SYS_RADIUS_MAX - SYS_RADIUS_MIN + 1));
+  for (let i = 1; i < settings.systemCount; i++) {
+    const radius = systemRadiusMin + Math.floor(rng() * (systemRadiusMax - systemRadiusMin + 1));
     requests.push({
       radius,
       starCount: pickStarCount(rng),
       phases: [rng() * Math.PI * 2, rng() * Math.PI * 2, rng() * Math.PI * 2],
-      lone: rng() < LONE_SYSTEM_SHARE,
+      // Drawn in both layouts so the draw order matches; only clusters use it.
+      lone: rng() < settings.loneShare / 100 && field !== null,
     });
   }
   requests.sort((a, b) => b.radius - a.radius);
@@ -215,12 +212,12 @@ function placeSystems(rng, field) {
   for (const request of requests) {
     let radius = request.radius;
     let placedThisSystem = false;
-    while (radius >= SYS_ABS_MIN && !placedThisSystem) {
+    while (radius >= absMin && !placedThisSystem) {
       for (let attempt = 0; attempt < MAX_DART_ATTEMPTS; attempt++) {
-        const candidate = pickSystemCandidate(rng, field, radius, request.lone);
+        const candidate = pickSystemCandidate(rng, field, radius, request.lone, mapRadius);
         if (!candidate) continue;
         const clear = placed.every(
-          (other) => hexDistance(candidate, other) >= radius + other.radius + MIN_GAP
+          (other) => hexDistance(candidate, other) >= radius + other.radius + systemGap
         );
         if (clear) {
           placed.push({
@@ -476,7 +473,7 @@ function placeBodiesInZone(tiles, system, pool, chosen, rng, bodyRng, { min, spa
   }
 }
 
-function populateSystem(tiles, system, zoneCoords, rng, bodyRng) {
+function populateSystem(tiles, system, zoneCoords, rng, bodyRng, anomalyChance) {
   const chosen = [];
 
   const innerPool = [...zoneCoords.inner];
@@ -560,7 +557,7 @@ function populateSystem(tiles, system, zoneCoords, rng, bodyRng) {
   // Anomalies carry no extra gen-time data — which of the four discovery
   // effects fires is rolled at trigger time (see state.js's triggerAnomaly),
   // same "nothing special to store yet" treatment as wonder-blackhole above.
-  if (rng() < ANOMALY_SYSTEM_CHANCE) {
+  if (rng() < anomalyChance) {
     const pool = outerPool.length ? outerPool : mediumPool.length ? mediumPool : innerPool;
     const coord = takeRandom(rng, pool);
     if (coord) {
@@ -766,7 +763,7 @@ function assignEthics(tiles, species, seed) {
 // Each system's second anomaly roll, on its own stream so it never shifts a
 // layout draw (existing saves keep their map). Claims a plain band hex of
 // the system, outer zone first, like the first roll in populateSystem.
-function placeSecondAnomalies(tiles, systems, seed) {
+function placeSecondAnomalies(tiles, systems, seed, anomalyChance) {
   const rng = createRng(`${seed}:anomalies`);
   const free = new Map();
   for (const tile of tiles.values()) {
@@ -775,7 +772,7 @@ function placeSecondAnomalies(tiles, systems, seed) {
     zones[tile.band].push(tile);
   }
   for (const system of systems) {
-    if (rng() >= ANOMALY_SYSTEM_SECOND_CHANCE) continue;
+    if (rng() >= anomalyChance) continue;
     const zones = free.get(system.id);
     if (!zones) continue;
     const pool = zones.outer.length ? zones.outer : zones.medium.length ? zones.medium : zones.inner;
@@ -794,10 +791,27 @@ function assignAnomalyKinds(tiles, seed) {
   }
 }
 
-export function generateMap({ seed, names = [], species = [] } = {}) {
+// System placement only: the cluster field (none in the even layout) and
+// every system's centre and radius, without carving or populating tiles.
+// Returns the main `rng` too, since generateMap keeps drawing from it.
+function layout(seed, settings) {
   const rng = createRng(seed);
-  const field = buildClusterField(seed);
-  const { systems, skipped } = placeSystems(rng, field);
+  const field = settings.layout === "clusters" ? buildClusterField(seed, settings) : null;
+  const { systems, skipped } = placeSystems(rng, field, settings);
+  return { rng, field, systems, skipped };
+}
+
+// The cheap first step of generateMap, for the start screen's preview: the
+// same systems the full map will have for this seed and settings.
+export function layoutSystems(seed, settings = DEFAULT_MAP_SETTINGS) {
+  const { field, systems, skipped } = layout(seed, normalizeMapSettings(settings));
+  return { systems, skipped, clusters: field ? field.clusters : [] };
+}
+
+export function generateMap({ seed, names = [], species = [], settings = DEFAULT_MAP_SETTINGS } = {}) {
+  settings = normalizeMapSettings(settings);
+  const { rng, field, systems, skipped } = layout(seed, settings);
+  const { mapRadius } = settings;
 
   // Star colours use a separate stream derived from the same seed: drawing
   // them from `rng` would shift every later draw and change every seed's
@@ -809,19 +823,19 @@ export function generateMap({ seed, names = [], species = [] } = {}) {
   const tiles = new Map();
   for (const system of systems) {
     const zoneCoords = carveSystem(tiles, system, rng, starRng);
-    populateSystem(tiles, system, zoneCoords, rng, bodyRng);
+    populateSystem(tiles, system, zoneCoords, rng, bodyRng, settings.anomalySystemChance / 100);
   }
-  placeSecondAnomalies(tiles, systems, seed);
+  placeSecondAnomalies(tiles, systems, seed, settings.anomalySystemChance / 100);
 
   // Deep-space sweep: materialize every remaining hex in the map radius as a
   // plain deep-space backdrop tile, computed once here rather than inferred
   // per frame at render time.
-  for (const { q, r } of hexesInRadius(MAP_RADIUS)) {
+  for (const { q, r } of hexesInRadius(mapRadius)) {
     const key = axialKey(q, r);
     if (!tiles.has(key)) {
       tiles.set(
         key,
-        rng() < ANOMALY_DEEPSPACE_CHANCE
+        rng() < settings.anomalyDeepSpace / 1000
           ? { q, r, type: "anomaly", band: "deep-space", regionId: -1 }
           : { q, r, type: "band", band: "deep-space", regionId: -1 }
       );
@@ -841,14 +855,15 @@ export function generateMap({ seed, names = [], species = [] } = {}) {
     }
   }
 
-  const totalHexCount = 3 * MAP_RADIUS * MAP_RADIUS + 3 * MAP_RADIUS + 1;
+  const totalHexCount = 3 * mapRadius * mapRadius + 3 * mapRadius + 1;
 
   return {
     seed,
-    mapRadius: MAP_RADIUS,
+    mapRadius,
+    settings,
     systems,
     systemsSkipped: skipped,
-    clusters: field.clusters,
+    clusters: field ? field.clusters : [],
     totalHexCount,
     tiles,
     earth,

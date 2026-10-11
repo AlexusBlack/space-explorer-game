@@ -241,6 +241,26 @@
   #setup button:disabled { opacity: 0.35; cursor: default; }
   #setup-seed-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
   #setup-seed { flex: 1; }
+  /* Map section: layout preset, a star-dot preview of the systems the
+     settings place, and the raw numbers under Advanced. */
+  #setup-map { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 10px; }
+  #setup-map-side { flex: 1 1 200px; display: flex; flex-direction: column; gap: 8px; }
+  #setup-layout-row { display: flex; align-items: center; gap: 8px; }
+  #setup-layout { flex: 1; }
+  #setup-preview-caption { font-size: 13px; opacity: 0.75; }
+  #setup-preview {
+    width: 180px; height: 180px; flex: none; border-radius: 8px;
+    background: #05070d; border: 1px solid rgba(255,255,255,0.12);
+  }
+  #setup-advanced { margin-bottom: 14px; }
+  #setup-advanced summary { cursor: pointer; padding: 6px 0; opacity: 0.85; }
+  #setup-fields {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 6px 14px; margin: 6px 0 10px;
+  }
+  .setup-field { display: flex; align-items: center; justify-content: space-between; gap: 8px; font-size: 14px; }
+  .setup-field[hidden] { display: none; }
+  #setup .setup-field input { width: 84px; flex: none; }
   #setup-players { display: flex; flex-direction: column; gap: 8px; }
   .setup-row { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; }
   #setup select.setup-team { width: 104px; color: #05070d; font-weight: 600; border-color: rgba(255,255,255,0.85); }
@@ -325,6 +345,21 @@
       <input id="setup-seed" aria-label="Map seed" autocomplete="off" />
       <button id="setup-seed-reroll" type="button" aria-label="Random seed">🎲</button>
     </div>
+    <div id="setup-map">
+      <div id="setup-map-side">
+        <label id="setup-layout-row">
+          <span>Map</span>
+          <select id="setup-layout" aria-label="Map layout"></select>
+        </label>
+        <div id="setup-preview-caption"></div>
+      </div>
+      <canvas id="setup-preview" width="360" height="360" aria-label="Map preview"></canvas>
+    </div>
+    <details id="setup-advanced">
+      <summary>Advanced map settings</summary>
+      <div id="setup-fields"></div>
+      <button id="setup-map-reset" type="button">Reset to defaults</button>
+    </details>
     <div id="setup-players"></div>
     <button id="setup-add" type="button">+ Add player</button>
     <div id="setup-actions">

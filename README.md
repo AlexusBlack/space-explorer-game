@@ -25,7 +25,7 @@ No build step. Serve the repo root over HTTP (plain `file://` won't work — ES 
 ./serve.sh        # serves on http://localhost:8080 (pass a port to override)
 ```
 
-Open `http://localhost:8080/?seed=earth` — the `seed` query param pins the generated map so you can reload and compare, or share a specific map with someone else.
+Open `http://localhost:8080/?seed=earth` — the `seed` query param pins the generated map so you can reload and compare, or share a specific map with someone else. Non-default map settings from the start screen add a `map` param (e.g. `&map=L:even,r:90,g:2`), so the link reproduces the same map.
 
 ## License
 

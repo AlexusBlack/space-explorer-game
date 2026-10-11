@@ -14,6 +14,7 @@
 import { axialKey, hexesInRadius } from "./hexgrid.js";
 import { UPGRADES, availableUpgrades } from "./upgrades.js";
 import { SHIP_NAMES } from "./setup.js";
+import { LEGACY_MAP_SETTINGS, normalizeMapSettings } from "./map-settings.js";
 
 export const SAVE_KEY = "explorer-game:save:v1";
 // Bumped to 2 when star clusters changed every seed's map layout: a v1 save's
@@ -23,7 +24,10 @@ export const SAVE_KEY = "explorer-game:save:v1";
 // Bumped to 4 for teams: fog is saved once per team (`teamFog`) and players
 // gained name/shipName. A v3 save is still migrated, not discarded (see
 // deserializeState).
-const SAVE_VERSION = 4;
+// Bumped to 5 when the map generator became configurable: the save stores
+// its `mapSettings`. v3/v4 saves load with LEGACY_MAP_SETTINGS (the
+// constants every map used until then), so they keep their exact map.
+const SAVE_VERSION = 5;
 
 // --- XP table -------------------------------------------------------------
 // Flat XP for a tile with no notable feature: plain band tiles (deep
@@ -443,10 +447,11 @@ export function checkWinCondition(mapData, players) {
   });
 }
 
-export function serializeState(seed, gameState) {
+export function serializeState(seed, mapSettings, gameState) {
   return {
     version: SAVE_VERSION,
     seed,
+    mapSettings,
     activePlayerIndex: gameState.activePlayerIndex,
     movesRemaining: gameState.movesRemaining,
     turnNumber: gameState.turnNumber,
@@ -524,17 +529,17 @@ export function deserializeState(raw) {
   };
 }
 
-export function saveGame(seed, gameState) {
+export function saveGame(seed, mapSettings, gameState) {
   try {
-    localStorage.setItem(SAVE_KEY, JSON.stringify(serializeState(seed, gameState)));
+    localStorage.setItem(SAVE_KEY, JSON.stringify(serializeState(seed, mapSettings, gameState)));
   } catch {
     // localStorage unavailable (private mode, quota, etc.) — persistence is
     // a nice-to-have, never fatal to gameplay.
   }
 }
 
-// Returns the saved { seed, gameState } pair, or null if there's no save, it
-// can't be parsed, or it's from an incompatible schema version.
+// Returns the saved { seed, mapSettings, gameState }, or null if there's no
+// save, it can't be parsed, or it's from an incompatible schema version.
 export function loadGame() {
   let raw;
   try {
@@ -546,9 +551,13 @@ export function loadGame() {
   try {
     const parsed = JSON.parse(raw);
     // v3 differs only in fog layout and missing names; deserializeState
-    // migrates it.
-    if (parsed.version !== SAVE_VERSION && parsed.version !== 3) return null;
-    return { seed: parsed.seed, gameState: deserializeState(parsed) };
+    // migrates it. v3 and v4 predate map settings.
+    if (![3, 4, SAVE_VERSION].includes(parsed.version)) return null;
+    return {
+      seed: parsed.seed,
+      mapSettings: normalizeMapSettings(parsed.mapSettings ?? LEGACY_MAP_SETTINGS),
+      gameState: deserializeState(parsed),
+    };
   } catch {
     return null;
   }

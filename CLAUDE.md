@@ -202,6 +202,7 @@ orient.)
 src/
 ├── hexgrid.js      axial coords, screen<->tile transforms, move-path interpolation
 ├── mapgen.js       seeded map generator (deterministic from `seed` alone)
+├── map-settings.js map generator settings (layout, size, spacing, clusters), presets, URL form
 ├── noise.js        seeded 2D gradient noise + fbm (star cluster edge warp)
 ├── planet-classes.js  planet/moon class -> sprite catalog
 ├── star-classes.js    star colour -> sprite catalog with spawn weights
@@ -247,7 +248,9 @@ a new final, re-export (`one --export` / `bg --export`, free) so its image and
 recipe land in git.
 
 `mapData` (from `mapgen.js`) is **never persisted** — always cheaply and
-deterministically regenerated from `seed`. `gameState` (from `state.js`)
+deterministically regenerated from **`seed` + map settings** (the start
+screen's Map section; saved as `mapSettings`, v3/v4 saves fall back to
+`LEGACY_MAP_SETTINGS`, which must keep reproducing the old constants). `gameState` (from `state.js`)
 **is** persisted to `localStorage` (single save slot). Anything that
 mutates a shared map tile at runtime (so far, only MVP3 anomaly
 destruction) must record that mutation separately in persisted

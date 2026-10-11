@@ -900,3 +900,40 @@ from here.
   draws change, so maps and saves are unaffected and old saves are fixed on
   load (the map is regenerated and destroyed anomalies replay onto tiles
   that now have a band).
+
+- **The map generator is configurable; tighter clusters by default**
+  (supersedes the cluster entry's sizing: radius 150, cluster gap 30).
+  Players found star-to-star flights had grown from about one turn to one
+  and a half. Measured over 20 seeds, the mean hop to the next unexplored
+  star rose from 14.5 hexes before clusters to 18.2, the worst 10% from 17
+  to 30 (void crossings), and the map from 24.7k to 68k tiles. The
+  nearest-star floor (about 13 hexes) comes from system size plus gap, not
+  clusters, so only smaller systems could get far below it.
+  - Instead of retuning once, the user asked for a configurable generator:
+    an **Even** layout with a spacing setting and the **Clusters** layout
+    with density and gap settings, sharing system size and spacing, with
+    good defaults and details on the start screen.
+  - Settled by AskUserQuestion: **map radius is its own setting** (not
+    auto-fitted); **a layout preset plus a collapsed Advanced section**;
+    **old saves are kept** (they load with `LEGACY_MAP_SETTINGS`, verified
+    tile-for-tile identical to the old maps); **all four groups exposed**
+    (system size range, spacing, cluster shape, number of systems). The user
+    also asked for a small star-dot preview of the resulting map.
+  - Default is the user's pick of the options measured, "tighter clusters":
+    radius 110, gap between systems 1, cluster gap 15, density 7.5 systems
+    per 1000 cluster hexes (16000 hexes for 120), core 75%. Result: about
+    108 systems, mean hop 15.2, worst 10% 21, about 37k tiles. The Even
+    preset (radius 90, gap 2) gives about 110 systems and a 14.3 mean hop.
+  - Deep-space anomalies stay a per-hex chance, so the smaller default map
+    has about 320 anomalies instead of about 520. Left as is; raise
+    `ANOMALY_DEEPSPACE_CHANCE` if they feel too rare.
+  - Smaller systems (radius 3–5 or 3–4) were measured too (hops about 12
+    and 11) but cost asteroid belts and moons; they're now reachable from
+    Advanced rather than the default.
+  - Follow-up: the user asked for an anomaly chance setting in Advanced.
+    Two fields, for both layouts: **anomaly chance per system** (%, default
+    96, used for both of a system's rolls, so one knob for "anomalies in
+    systems") and **deep-space anomalies per 1000 hexes** (default 6.4,
+    which also answers the note above about the smaller map having fewer).
+    The defaults are the old constants exactly, so legacy maps and existing
+    saves are unchanged.
