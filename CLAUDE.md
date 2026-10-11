@@ -216,6 +216,7 @@ src/
 ├── render.js       canvas drawing
 ├── assets.js       image loading
 ├── input.js        tap/pan/zoom handling
+├── lists.js        ranking/worlds list data, whole-map fit zoom
 ├── state.js        player/turn GameState model, XP/leveling, persistence
 └── main.js         wiring/game loop/turn orchestration
 ```

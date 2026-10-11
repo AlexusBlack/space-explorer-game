@@ -276,6 +276,19 @@ its tile report. It never moves the ship or spends moves. The report shows:
   - Pirates are listed only on hexes you've explored, the same rule that
     draws them on the map.
 
+## Finding your way
+
+Large maps make it easy to lose the camera, so:
+- tap your ship name at the bottom left to centre on your ship;
+- the **Ranking** button (list icon, top bar) lists every player's ship by
+  level with XP and upgrades; tap a row to centre on that ship;
+- the **Worlds** button (planet icon) lists the inhabited worlds your team
+  has discovered, nearest first, with their attitude toward explorers and
+  distance; tap a row to centre on that world;
+- zooming out always reaches the whole map, where ships show as coloured
+  dots (pirates as red dots, their bases as red squares) instead of
+  shrinking out of sight.
+
 ## Movement & Exploration
 
 - Each ship has a fixed number of moves per turn (increases with leveling).

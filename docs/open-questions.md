@@ -946,3 +946,24 @@ from here.
   live; still nothing when the player's ship is destroyed. The XP is
   added during the round's pirate tick, so any level-up shows up through
   the usual upgrade picker at the start of that player's next turn.
+
+- **Finding your way on large maps.** Playtesting: on a large map it was
+  easy to lose the camera. The user asked for four things: tapping the
+  ship name (bottom left) centres on the ship; a ranking button (a list
+  icon, not text) listing every player's ship by level with XP and
+  upgrades, a row centring on that ship; a worlds button listing worlds
+  with attitude and distance, a row centring on the world; and zooming out
+  far enough to always see the whole map. The old fixed zoom-out limit of
+  0.25 showed only part of the default map (it fits the iPad mini at about
+  0.056).
+  - Settled by AskUserQuestion: the worlds list shows **only discovered
+    inhabited worlds**, nearest first (no fog leak); it shows the
+    **attitude toward explorers only**; the ranking lists **every
+    player's ship**, other teams included (ships are always visible on the
+    map anyway); and far out, ships draw as **fixed-size markers** rather
+    than shrinking with the map.
+  - The zoom-out limit is the whole-map fit, but never above the old 0.25,
+    so small maps don't zoom out further than before. Below 0.2 the selection pulse stops, so the
+    whole-map view only redraws on pan or zoom. A level of detail for
+    tiles was left out: the user will judge from playtesting whether the
+    whole-map view needs it.

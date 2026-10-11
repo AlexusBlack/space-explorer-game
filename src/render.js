@@ -17,6 +17,26 @@ const TAG_MAX_PX = 16;
 // Ships (player and pirate) and the player selection oval scale with zoom
 // only up to native size.
 const SHIP_MAX_ZOOM = 1;
+// Below this zoom (far out, up to the whole-map view) ships and pirate bases
+// draw as fixed-size dots instead of sprites that shrink to a few pixels, so
+// they stay findable. main.js also stops the selection pulse's redraws here.
+export const SHIP_MARKER_ZOOM = 0.2; // tunable
+const MARKER_RADIUS = 3.5; // px
+const ACTIVE_MARKER_RADIUS = 4.5; // px
+const PIRATE_MARKER_COLOR = "#ff4a3d";
+
+// A far-zoom marker: a filled dot with an outline (white for players, dark
+// for pirates); `square` for pirate bases, which are structures, not ships.
+function drawMarker(ctx, cx, cy, radius, color, outline, square = false) {
+  ctx.beginPath();
+  if (square) ctx.rect(cx - radius, cy - radius, radius * 2, radius * 2);
+  else ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+  ctx.fillStyle = color;
+  ctx.fill();
+  ctx.lineWidth = 1.5;
+  ctx.strokeStyle = outline;
+  ctx.stroke();
+}
 // Vessel Trail Detector lines (see trails.js): the last turn's trail fades
 // from TRAIL_ALPHA_HEAD at the ship to TRAIL_ALPHA_TAIL where it started; the
 // turn before is flat at the faintest TRAIL_ALPHA_OLD.
@@ -433,6 +453,7 @@ export function render(
   // can't leak map structure through enemy vision. Bases are structures,
   // not ships: always drawn (below any ship stack on their hex) and never
   // counted in it.
+  const markers = camera.zoom < SHIP_MARKER_ZOOM;
   if (pirateBases) {
     const baseImg = iconImages && iconImages["pirate-base"];
     for (const base of pirateBases) {
@@ -440,6 +461,10 @@ export function render(
       if (discovered && !discovered.has(key)) continue;
       const world = axialToPixel(base.q, base.r);
       const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+      if (markers) {
+        drawMarker(ctx, p.x, p.y, MARKER_RADIUS, PIRATE_MARKER_COLOR, "#05070d", true);
+        continue;
+      }
       drawIcon(ctx, baseImg, p.x, p.y, camera.zoom);
       drawHealthBar(ctx, p.x, p.y, camera.zoom, base.health / base.maxHealth);
     }
@@ -464,6 +489,14 @@ export function render(
     const top = stack[0];
     const world = axialToPixel(top.q, top.r);
     const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+    if (markers) {
+      if (top.kind === "player") {
+        drawMarker(ctx, p.x, p.y, top.active ? ACTIVE_MARKER_RADIUS : MARKER_RADIUS, top.color, "#fff");
+      } else {
+        drawMarker(ctx, p.x, p.y, MARKER_RADIUS, PIRATE_MARKER_COLOR, "#05070d");
+      }
+      continue;
+    }
     if (top.kind === "player") {
       if (top.active) drawSelectionPulse(ctx, selectImg, selectFrame ?? 0, p.x, p.y, shipZoom);
       drawIcon(ctx, playerImg, p.x, p.y, shipZoom);

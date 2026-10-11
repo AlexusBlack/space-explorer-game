@@ -28,9 +28,26 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
 
   Controls are at least 40 px tall for touch.
 - **Map viewport** — the dominant region; full-bleed canvas showing the
-  hex/diamond map, ships, and fog-of-war.
+  hex/diamond map, ships, and fog-of-war. Pinch and wheel zoom out as far as
+  the whole map (never limited above 0.25 on small maps); below zoom 0.2
+  ships draw as fixed-size dots (team colour with a white outline, larger
+  for the active ship; pirate ships red dots, pirate bases red squares) so
+  they stay findable, and the selection pulse stops animating.
+- **Top bar** — seed, turn count, two 40 px icon buttons and "New Game":
+  - **Ranking** (list icon): every player's ship, ranked by level, then
+    XP, then turn order, with level, XP and upgrades (picks spent,
+    Instant Repairs included). The active player's row is highlighted.
+  - **Worlds** (planet icon): the inhabited worlds the active team has
+    discovered, nearest the active ship first, with species, attitude
+    toward explorers and distance in hexes; "No inhabited worlds
+    discovered yet" when empty.
+
+  Both open one shared card (same family as the tile report) with a
+  table; tapping a row closes it and centres the map on that ship or
+  world. The × or a tap on the backdrop closes it.
 - **HUD strip** — a fixed bar (bottom, for thumb reach) showing: whose turn
-  it is ("Ann's turn · ICV Enterprise", in the team colour), that player's XP/level, moves remaining this turn, and an "End Turn"
+  it is ("Ann's turn · ICV Enterprise", in the team colour; tap it to centre
+  the map on that ship), that player's XP/level, moves remaining this turn, and an "End Turn"
   button.
 - **Pass-and-play interstitial** — a full-screen "Pass to <name>"
   tap-to-continue screen shown immediately after a turn ends and before the

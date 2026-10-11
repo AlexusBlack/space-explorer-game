@@ -1,6 +1,7 @@
 // Pointer-based pan/zoom camera controls. No gesture library (see docs/ui-ux-spec.md).
 
-const MIN_ZOOM = 0.25;
+// The zoom-out limit comes from the caller (getMinZoom), so the whole map
+// always fits on screen whatever its radius (see lists.js's minZoomFor).
 const MAX_ZOOM = 3;
 
 // A tap is a pointerdown->pointerup with little movement and not too much
@@ -13,7 +14,7 @@ const TAP_TIME_THRESHOLD = 500;
 // finger lifts, so it doesn't drift under the window the press opened.
 const LONG_PRESS_MS = 500;
 
-export function attachCameraControls(canvas, camera, onChange, onTap, onLongPress) {
+export function attachCameraControls(canvas, camera, onChange, onTap, onLongPress, getMinZoom) {
   const pointers = new Map();
   let lastDragPos = null;
   let pinchStartDist = null;
@@ -30,7 +31,7 @@ export function attachCameraControls(canvas, camera, onChange, onTap, onLongPres
   }
 
   function clampZoom(z) {
-    return Math.min(MAX_ZOOM, Math.max(MIN_ZOOM, z));
+    return Math.min(MAX_ZOOM, Math.max(getMinZoom(), z));
   }
 
   function midpoint() {

@@ -609,6 +609,36 @@ stay put, so they stay sharp and don't grow to planet size. The owner dot
 still follows the hex. Pirate ships use the same cap, and so does their
 health bar so it stays just above the sprite; pirate bases still scale freely.
 
+**Far-zoom markers**: below `SHIP_MARKER_ZOOM` (0.2, `render.js`) sprites
+would shrink to a few pixels (the default map fits the iPad mini at about
+0.056), so each ship stack's top ship draws as a fixed-size dot instead
+(`drawMarker`: team colour with a white outline, 4.5 px radius for the
+active ship and 3.5 for others; pirate ships red, pirate bases red
+squares, still fog-gated), with no health bar, stack count or pulse.
+`main.js`'s `frame()` also stops the selection pulse's 150 ms redraw below
+that zoom, so the whole-map view, which covers every tile, redraws only on
+pan, zoom or state changes. If it still pans slowly late in a game, the
+next step is a level of detail for tiles (e.g. skipping deep-space band
+images far out); not done yet, pending playtesting.
+
+**Zoom range**: `input.js` takes a sixth argument, `getMinZoom`, in place of
+the old fixed `MIN_ZOOM` 0.25, and pinch and wheel zoom clamp to it.
+`main.js` passes `minZoom()`, which is `lists.js`'s `minZoomFor(mapRadius,
+innerWidth, innerHeight)`: `fitZoom` (the hexagonal map's extent, ±1.5·S·R
+across and ±√3·S·R down plus half a tile, at 92% of the screen), but never
+above 0.25, so small maps don't zoom out further than before. Resizing
+clamps the current zoom up to the new minimum.
+
+**Ranking and worlds lists**: `lists.js` builds the data (`rankPlayers`:
+level, then XP, then turn order, with upgrades = `unlockedUpgrades.size +
+instantRepairsUsed`; `worldsList`: tiles with `ethics` in the active team's
+`discovered`, with `attitudeToPlayers` and hex distance from the active
+ship, nearest first), and `main.js`'s `showListCard` renders either into
+the shared `#list-card` table. A row's click closes the card and calls
+`centerCameraOn`; `overlayOpen()` includes the card, so map gestures are
+ignored while it's open. `#turn-label` is a button that centres on the
+active ship.
+
 **Ship stacks**: player and pirate ships share one render pass. Each hex
 draws only one ship. `render.js`'s exported, pure `shipStacks(playerShips,
 otherShips, discovered)` groups the visible ships by hex:
@@ -1042,6 +1072,8 @@ src/
 ├── assets.js          per-band/icon image loading
 ├── input.js           tap/long-press/drag-pan/pinch-zoom/wheel-zoom
 │                      handling
+├── lists.js           pure data for the ranking and worlds lists, and
+│                      the zoom that fits the whole map
 ├── ethics.js          inhabited worlds' ethics: axes, roll weights, home
 │                      ethics, static attitudes toward players/pirates,
 │                      opinion-based diplomacy between worlds

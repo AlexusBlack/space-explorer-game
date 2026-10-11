@@ -9,7 +9,8 @@ import {
   encodeMapSettings,
   decodeMapSettings,
 } from "./map-settings.js";
-import { render, SELECT_FRAME_COUNT } from "./render.js";
+import { render, SELECT_FRAME_COUNT, SHIP_MARKER_ZOOM } from "./render.js";
+import { rankPlayers, worldsList, minZoomFor, MAX_MIN_ZOOM } from "./lists.js";
 import { attachCameraControls } from "./input.js";
 import { loadBandImages, loadIconImages } from "./assets.js";
 import { hexDistance, hexLine, pixelToAxial, axialToPixel, axialKey } from "./hexgrid.js";
@@ -116,6 +117,13 @@ const setupMapReset = document.getElementById("setup-map-reset");
 const tileReportClose = document.getElementById("tile-report-close");
 const notificationList = document.getElementById("notifications");
 const noticeCaption = document.getElementById("notice-caption");
+const rankingButton = document.getElementById("ranking-button");
+const worldsButton = document.getElementById("worlds-button");
+const listCard = document.getElementById("list-card");
+const listCardTitle = document.getElementById("list-card-title");
+const listCardTable = document.getElementById("list-card-table");
+const listCardEmpty = document.getElementById("list-card-empty");
+const listCardClose = document.getElementById("list-card-close");
 
 // `?seed=` plus, when any map setting differs from the defaults, `&map=`
 // (see map-settings.js's encodeMapSettings), so a link reproduces the map.
@@ -189,6 +197,11 @@ function centerCameraOn(q, r) {
   requestRedraw();
 }
 
+// Furthest zoom-out: the whole map fits on screen (see lists.js).
+function minZoom() {
+  return mapData ? minZoomFor(mapData.mapRadius, window.innerWidth, window.innerHeight) : MAX_MIN_ZOOM;
+}
+
 function resizeCanvas() {
   const dpr = window.devicePixelRatio || 1;
   canvas.width = window.innerWidth * dpr;
@@ -196,6 +209,7 @@ function resizeCanvas() {
   canvas.style.width = `${window.innerWidth}px`;
   canvas.style.height = `${window.innerHeight}px`;
   ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  camera.zoom = Math.max(camera.zoom, minZoom());
   requestRedraw();
 }
 
@@ -210,7 +224,10 @@ let lastSelectFrame = -1;
 function frame(bandImages, iconImages) {
   const interstitialVisible = interstitial.classList.contains("visible");
   const selectFrame = Math.floor(performance.now() / SELECT_FRAME_MS) % SELECT_FRAME_COUNT;
-  if (!interstitialVisible && selectFrame !== lastSelectFrame) {
+  // Far out, ships are static markers (render.js), so the pulse needn't run
+  // and the whole-map view redraws only on pan, zoom or state changes.
+  const pulsing = !interstitialVisible && camera.zoom >= SHIP_MARKER_ZOOM;
+  if (pulsing && selectFrame !== lastSelectFrame) {
     lastSelectFrame = selectFrame;
     requestRedraw();
   }
@@ -526,6 +543,77 @@ function dismissWorldCard() {
   worldCard.classList.remove("visible");
 }
 
+// Ranking and worlds lists (top bar icon buttons), sharing #list-card: a
+// table whose rows centre the camera on their ship or world when tapped.
+function showListCard(title, headers, rows, emptyText) {
+  listCardTitle.textContent = title;
+  listCardEmpty.hidden = rows.length > 0;
+  listCardEmpty.textContent = emptyText ?? "";
+  listCardTable.replaceChildren();
+  if (rows.length) {
+    const head = domEl("tr");
+    for (const [label, cls] of headers) head.append(domEl("th", cls, label));
+    const body = domEl("tbody");
+    for (const { cells, q, r, current } of rows) {
+      const tr = domEl("tr", current ? "current" : null);
+      for (const cell of cells) {
+        const td = domEl("td", cell.className);
+        td.append(...cell.nodes);
+        tr.append(td);
+      }
+      tr.addEventListener("click", () => {
+        dismissListCard();
+        centerCameraOn(q, r);
+      });
+      body.append(tr);
+    }
+    const thead = domEl("thead");
+    thead.append(head);
+    listCardTable.append(thead, body);
+  }
+  listCard.classList.add("visible");
+}
+
+function dismissListCard() {
+  listCard.classList.remove("visible");
+}
+
+const textCell = (text, className) => ({ className, nodes: [document.createTextNode(String(text))] });
+
+function showRanking() {
+  const rows = rankPlayers(gameState.players).map((entry, i) => {
+    const ship = domEl("span", null, shipTitle(entry.player));
+    ship.style.color = entry.player.color;
+    return {
+      q: entry.player.q,
+      r: entry.player.r,
+      current: entry.index === gameState.activePlayerIndex,
+      cells: [
+        textCell(i + 1, "num"),
+        { nodes: [ship, domEl("span", "sub", entry.player.name)] },
+        textCell(entry.level, "num"),
+        textCell(entry.xp, "num"),
+        textCell(entry.upgrades, "num"),
+      ],
+    };
+  });
+  showListCard("Ranking", [["#", "num"], ["Ship"], ["Level", "num"], ["XP", "num"], ["Upgrades", "num"]], rows);
+}
+
+function showWorldsList() {
+  const active = gameState.players[gameState.activePlayerIndex];
+  const rows = worldsList(mapData, active.discovered, active).map((world) => ({
+    q: world.tile.q,
+    r: world.tile.r,
+    cells: [
+      { nodes: [domEl("span", null, world.name), domEl("span", "sub", world.tile.species?.name ?? "")] },
+      { nodes: [attitudeSpan(world.attitude)] },
+      textCell(world.distance, "num"),
+    ],
+  }));
+  showListCard("Worlds", [["World"], ["Attitude"], ["Hexes", "num"]], rows, "No inhabited worlds discovered yet.");
+}
+
 // Tile report window, opened by long-pressing a hex (see input.js). The
 // facts come from tile-report.js; this only lays them out.
 let tileReportWorldTile = null;
@@ -571,7 +659,8 @@ function dismissTileReport() {
 // Any full-screen window that should swallow map gestures.
 function overlayOpen() {
   return [
-    interstitial, upgradePicker, anomalyOverlay, combatOverlay, worldCard, tileReport, setupScreen,
+    interstitial, upgradePicker, anomalyOverlay, combatOverlay, worldCard, tileReport, listCard,
+    setupScreen,
   ].some((el) => el.classList.contains("visible"));
 }
 
@@ -916,7 +1005,7 @@ function drawPreview() {
 }
 
 window.addEventListener("resize", resizeCanvas);
-attachCameraControls(canvas, camera, requestRedraw, handleTap, handleLongPress);
+attachCameraControls(canvas, camera, requestRedraw, handleTap, handleLongPress, minZoom);
 
 newMapButton.addEventListener("click", () => showSetup({ cancellable: true }));
 setupSeedReroll.addEventListener("click", () => {
@@ -948,6 +1037,17 @@ setupStart.addEventListener("click", () => {
 });
 
 endTurnButton.addEventListener("click", endTurn);
+turnLabel.addEventListener("click", () => {
+  if (!gameState) return;
+  const active = gameState.players[gameState.activePlayerIndex];
+  centerCameraOn(active.q, active.r);
+});
+rankingButton.addEventListener("click", () => gameState && showRanking());
+worldsButton.addEventListener("click", () => gameState && showWorldsList());
+listCard.addEventListener("pointerdown", (e) => {
+  if (e.target === listCard) dismissListCard();
+});
+listCardClose.addEventListener("click", dismissListCard);
 interstitial.addEventListener("pointerdown", dismissInterstitial);
 anomalyOverlay.addEventListener("pointerdown", dismissAnomalyOverlay);
 combatOverlay.addEventListener("pointerdown", dismissCombatOverlay);
