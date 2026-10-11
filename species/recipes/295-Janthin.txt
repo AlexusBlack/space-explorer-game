@@ -1,0 +1,11 @@
+model: gpt-image-2.5-flare
+quality: medium
+framing: bust
+strict_anatomy: True
+transparent: True
+no_pose: False
+crop_bottom: False
+cost_usd: 0.014565
+usage: {"input_tokens": 279, "input_tokens_details": {"image_tokens": 0, "text_tokens": 279}, "output_tokens": 439, "total_tokens": 718, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+Portrait of a member of an intelligent, sentient alien species that has a technological civilisation. Its people evolved from a creature like the Violet sea snail (Janthina janthina) but are clearly a thinking person, not an animal: Thin violet spiral shell hanging under a raft of silvery bubbles. Prehensile tentacle tips manipulating a small glowing instrument; a recognisable sensory 'face' area. Wears a harness, straps or jewellery fitted to its own body shape, no human-style garments; its body keeps its own non-human anatomy; subtle hints of technology. Hanging upside down beneath its bubble raft. Framed like a video call: the upper part of its body, wherever its sensory organs are, centred, facing the viewer, looking directly into the camera with calm, intelligent eye contact, the neutral expression of someone mid-conversation. The whole width of its body, including shoulders, limbs and tentacles, fits inside the frame with clear empty space on the left and right; only the bottom edge of the image may cut through the body. No humanoid torso, shoulders or arms; all its limbs are tentacles. Painterly-realistic digital art, cinematic soft key light from the upper left, subtle cool rim light; isolated subject on a transparent background. No text, no watermark, no border, no logo, no other characters.

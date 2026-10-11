@@ -1,0 +1,8 @@
+model: gpt-image-2.5-flare
+quality: medium
+note: None
+base: None
+cost_usd: 0.01437
+usage: {"input_tokens": 240, "input_tokens_details": {"image_tokens": 0, "text_tokens": 240}, "output_tokens": 439, "total_tokens": 679, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+A wide eye-level landscape on an alien planet, viewed from inside one of its settlements. Terrain: rust-brown canyons and mesas, ochre dust, a dim amber sky. Colour palette dominated by dark rust brown, ochre and amber (about #753e06, #906638, #824b0f, #5d3918); ground, water, haze and sky all take these hues, so the scene reads at a glance as this world. In the middle distance, alien towers and terraces built into the landscape. Its sun shines in the sky; no large planet looms overhead. Clearly an alien world, nothing Earth-like: unfamiliar rock forms, alien plants or none, a strange sky. Composition: horizon near the vertical middle; the settlement and anything in the sky stay within the central two-thirds of the frame; the picture runs evenly to every edge with nothing large close to the camera. Painterly-realistic digital art, natural daylight from the scene's own sun, cinematic depth and atmospheric perspective. No people, no creatures, no text, no watermark, no logo, no border, no window frame, no vignette.

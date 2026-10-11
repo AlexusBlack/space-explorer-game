@@ -826,3 +826,13 @@ from here.
     `backgrounds/images/`, 512² WebPs in `backgrounds/images-opt/`, named
     `<sprite>-<variant>`. 512² matches the portraits; if the window crop
     ends up larger on screen, raise `OPT_SIZE` in `bg.py` and re-export.
+
+- **Generated art pipelines travel with git.** The user asked that both the
+  species and background pipelines be fully committed. The code already was,
+  but the species export was an ad-hoc step and each final's prompt and
+  flags, plus the Saturn base, lived only in the gitignored work folder.
+  Now `one --export` and `bg --export` are committed commands, each final's
+  sidecar is committed as a recipe (`species/recipes/`,
+  `backgrounds/recipes/`), and the base is `backgrounds/saturn-base.png`.
+  Raws and retries (about 1.8 GB) stay out of git: recipes are enough to
+  regenerate any final, and the finals themselves are committed.

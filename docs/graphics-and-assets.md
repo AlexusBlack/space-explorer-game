@@ -482,7 +482,9 @@ planetary information and communication ("video call") screens instead:
   (512² WebP, quality 85, full-quality alpha, about 57 KB each, 19 MB total).
   The game loads the WebPs (one at a time, when an inhabited world's card is
   opened); the PNGs are the full-size masters. Names derive from
-  `species.json`: zero-padded id, a dash, then `key`.
+  `species.json`: zero-padded id, a dash, then `key`. Written by
+  `one --export`, which also commits each final's recipe (model, flags, full
+  prompt) to `species/recipes/<id03>-<Key>.txt`.
 - **Known quirks:** floaters need `--strict-anatomy` on flare to avoid a
   humanoid torso; a catalogue pose can force a side crop (`--no-pose`); some
   bodies end above the bottom edge (`--crop-bottom`, or the automatic bottom
@@ -512,8 +514,11 @@ by the moon's own sky so it blends in. Not used by the game yet.
   about 45 KB each, 1.9 MB total), which the game should load. `<sprite>` is
   the tile sprite name in `images/icons/`, `<variant>` one of `planet`,
   `giant-moon`, `planet-moon`; only the 42 pairs mapgen can produce exist.
-  Written by `bg --export` from the newest attempt per pair; the attempts
-  themselves stay in the gitignored, machine-local `species/work/bg/`.
+  Written by `bg --export` from the newest attempt per pair, together with
+  `backgrounds/recipes/<sprite>-<variant>.txt` (model, base, full prompt);
+  the attempts themselves stay in the gitignored, machine-local
+  `species/work/bg/`. The Saturn base the gas giants are edited from is
+  committed as `backgrounds/saturn-base.png`.
 
 ## Future Art Pipeline
 

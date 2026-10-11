@@ -1,0 +1,8 @@
+model: gpt-image-2.5-flare
+quality: medium
+note: None
+base: species/work/bg/saturn-base-4.png
+cost_usd: 0.022287
+usage: {"input_tokens": 1209, "input_tokens_details": {"image_tokens": 1024, "text_tokens": 185}, "output_tokens": 439, "total_tokens": 1648, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+Keep this image's camera, horizon, cloud layout and the ring band exactly where and how they are. Recolour the clouds and sky into an alien gas giant: swirling magenta and violet cloud bands, a palette dominated by magenta, violet and deep purple (about #51176c, #8a167a, #795859, #ae317f). The rings stay pale cream, tan and grey. Add a floating city of domes and towers on broad platforms held aloft above the clouds, more floating platforms in the distance, the city centred on the horizon within the central third of the frame. Painterly-realistic digital art, natural daylight from the scene's own sun, cinematic depth and atmospheric perspective. No people, no text, no watermark, no logo, no border, no vignette, no other planets.

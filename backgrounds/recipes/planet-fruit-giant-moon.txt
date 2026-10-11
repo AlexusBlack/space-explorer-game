@@ -1,0 +1,7 @@
+model: gpt-image-2.5-flare
+quality: medium
+note: None
+cost_usd: 0.0146
+usage: {"input_tokens": 286, "input_tokens_details": {"image_tokens": 0, "text_tokens": 286}, "output_tokens": 439, "total_tokens": 725, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+A wide eye-level landscape on an alien moon, viewed from inside one of its settlements. Terrain: mint-green acid seas and pink chemical streaks across a pale green crust, a luminous green haze. Colour palette dominated by toxic seafoam green and mint with streaks of magenta pink (about #9ba387, #90bd9f, #72a08c, #abe0cb); ground, water, haze and sky all take these hues, so the scene reads at a glance as this world. In the middle distance, sealed domes and tall spires with air-filter stacks, linked by enclosed walkways. A huge ringed gas giant with soft cream and tan bands, half lit by the sun, fills about a third of the sky in the upper centre; the whole giant, rings included, sits inside the frame. Clearly an alien world, nothing Earth-like: unfamiliar rock forms, alien plants or none, a strange sky. Composition: horizon near the vertical middle; the settlement and anything in the sky stay within the central two-thirds of the frame; the picture runs evenly to every edge with nothing large close to the camera. Painterly-realistic digital art, natural daylight from the scene's own sun, cinematic depth and atmospheric perspective. No people, no creatures, no text, no watermark, no logo, no border, no window frame, no vignette.

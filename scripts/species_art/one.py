@@ -4,6 +4,7 @@
   python -m scripts.species_art.one --id 1 --yes            # one paid call -> species/work/one/
   python -m scripts.species_art.one --id 1 --transparent --yes   # native transparent background
   python -m scripts.species_art.one --id 1 --cut FILE       # free: local matting cut of an opaque result
+  python -m scripts.species_art.one --export                # free: finals -> species/images(-opt)
 """
 
 import argparse
@@ -11,10 +12,46 @@ import base64
 import json
 from pathlib import Path
 
+import shutil
+
 from . import catalogue, config, costing, prompts
 from .config import WORK
 
 OUT_DIR = WORK / "one"
+# Finals for the game: 1024² RGBA PNG masters, the 512² WebPs the world card loads, and the
+# sidecar (model, flags, full prompt) of each, so a final can be regenerated from git alone.
+FINAL_DIR = config.REPO / "species" / "images"
+OPT_DIR = config.REPO / "species" / "images-opt"
+RECIPE_DIR = config.REPO / "species" / "recipes"
+OPT_SIZE = 512
+
+
+def newest(slug):
+    """Highest-numbered plain result <slug>-<n>.png in OUT_DIR (not -cut/-raw/-check), or None."""
+    nums = [int(p.stem[len(slug) + 1:]) for p in OUT_DIR.glob(f"{slug}-*.png")
+            if p.stem[len(slug) + 1:].isdigit()]
+    return OUT_DIR / f"{slug}-{max(nums)}.png" if nums else None
+
+
+def export():
+    """Newest result per species -> FINAL_DIR (byte copy), OPT_DIR (WebP), RECIPE_DIR (sidecar).
+    Species without a result are listed and skipped."""
+    from PIL import Image
+    for d in (FINAL_DIR, OPT_DIR, RECIPE_DIR):
+        d.mkdir(parents=True, exist_ok=True)
+    missing = []
+    for sp in catalogue.load().values():
+        src = newest(sp.slug)
+        if src is None:
+            missing.append(sp.slug)
+            continue
+        shutil.copyfile(src, FINAL_DIR / f"{sp.slug}.png")
+        Image.open(src).resize((OPT_SIZE, OPT_SIZE), Image.LANCZOS).save(
+            OPT_DIR / f"{sp.slug}.webp", quality=85, alpha_quality=100, method=6)
+        shutil.copyfile(src.with_suffix(".txt"), RECIPE_DIR / f"{sp.slug}.txt")
+        print(f"{src.name:32} -> {sp.slug}", flush=True)
+    if missing:
+        print("no result yet: " + ", ".join(missing))
 
 
 def alpha_summary(rgba):
@@ -117,7 +154,9 @@ def cut(path, cfg):
 
 def main():
     ap = argparse.ArgumentParser(prog="one")
-    ap.add_argument("--id", type=int, required=True)
+    ap.add_argument("--id", type=int)
+    ap.add_argument("--export", action="store_true",
+                    help="free: newest result per species -> species/images(-opt) + recipes")
     ap.add_argument("--framing", choices=sorted(prompts.FRAMING), default="bust")
     ap.add_argument("--quality", choices=["low", "medium", "high"], default="medium")
     ap.add_argument("--model", default=None, help="default: config.toml model")
@@ -136,6 +175,11 @@ def main():
                     help="free: apply the bottom snap to an existing transparent result, no API call")
     ap.add_argument("--yes", action="store_true", help="actually call the API (paid)")
     args = ap.parse_args()
+    if args.export:
+        export()
+        return
+    if args.id is None:
+        ap.error("--id is required (or use --export)")
 
     cfg = config.load()
     if args.cut:

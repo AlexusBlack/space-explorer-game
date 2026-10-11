@@ -1,0 +1,11 @@
+model: gpt-image-2.5-flare
+quality: medium
+framing: bust
+strict_anatomy: False
+transparent: True
+no_pose: False
+crop_bottom: True
+cost_usd: 0.01485
+usage: {"input_tokens": 336, "input_tokens_details": {"image_tokens": 0, "text_tokens": 336}, "output_tokens": 439, "total_tokens": 775, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+Portrait of a member of an intelligent, sentient alien species that has a technological civilisation. Its people evolved from a creature like the Sea otter (Enhydra lutris) but are clearly a thinking person, not an animal: Small otter, dense whiskered face, very dense plush fur, webbed hind feet, small dexterous forepaws. Upright or semi-upright posture; its forelimbs end in dexterous clawed fingers with an opposable digit, and one hand is visible. Wears simple functional clothing, harness or jewellery suited to its body and home world; subtle hints of technology. Sitting upright on its haunches, forepaws held at chest. Framed like a video call: head and upper body, centred, facing the viewer, looking directly into the camera with calm, intelligent eye contact, the neutral expression of someone mid-conversation. The whole width of its body, including shoulders, limbs and tentacles, fits inside the frame with clear empty space on the left and right; only the bottom edge of the image may cut through the body. Cropped at the waist like a video call: the bottom edge of the image cuts straight through its torso, and any wings, tail or lower limbs, so its body continues out of the bottom of the frame; no feet, lower body or wing tips are visible and nothing ends above the bottom edge. Painterly-realistic digital art, cinematic soft key light from the upper left, subtle cool rim light; isolated subject on a transparent background. No text, no watermark, no border, no logo, no other characters.

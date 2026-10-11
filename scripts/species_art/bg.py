@@ -15,6 +15,7 @@ import argparse
 import base64
 import html
 import json
+import shutil
 import socket
 from pathlib import Path
 
@@ -23,12 +24,14 @@ from .config import WORK
 
 OUT_DIR = WORK / "bg"
 # The Saturn base every gas giant is edited from (picked in review: band right of centre, crisp
-# gaps), so all six share one ring layout. --base overrides it.
-GAS_BASE = OUT_DIR / "saturn-base-4.png"
+# gaps), so all six share one ring layout. Committed (it was saturn-base-4.png in the work
+# folder) so gas giants can be regenerated from git alone. --base overrides it.
+GAS_BASE = config.REPO / "backgrounds" / "saturn-base.png"
 SIZE = "1024x1024"
 # Finals for the game, mirroring species/images(-opt): PNG masters and WebPs to load.
 FINAL_DIR = config.REPO / "backgrounds" / "images"
 OPT_DIR = config.REPO / "backgrounds" / "images-opt"
+RECIPE_DIR = config.REPO / "backgrounds" / "recipes"  # each final's sidecar: model, base, prompt
 OPT_SIZE = 512
 MODEL = "gpt-image-2.5-flare"
 
@@ -104,13 +107,15 @@ def write_current():
 
 def export():
     """Copy the newest image of every pair to FINAL_DIR as <sprite>-<variant>.png and write a
-    OPT_SIZE² WebP of it to OPT_DIR (same settings as the species portraits)."""
+    OPT_SIZE² WebP of it to OPT_DIR (same settings as the species portraits), and its sidecar
+    to RECIPE_DIR."""
     from PIL import Image
     missing = [f"{s} {v}" for s, v in backgrounds.combos() if not images_of(s, v)]
     if missing:
         raise SystemExit("no image yet for: " + ", ".join(missing))
     FINAL_DIR.mkdir(parents=True, exist_ok=True)
     OPT_DIR.mkdir(parents=True, exist_ok=True)
+    RECIPE_DIR.mkdir(parents=True, exist_ok=True)
     for sprite, variant in backgrounds.combos():
         src = images_of(sprite, variant)[-1]
         name = f"{sprite}-{variant}"
@@ -118,6 +123,7 @@ def export():
         img.save(FINAL_DIR / f"{name}.png", optimize=True)
         img.resize((OPT_SIZE, OPT_SIZE), Image.LANCZOS).save(
             OPT_DIR / f"{name}.webp", quality=85, method=6)
+        shutil.copyfile(src.with_suffix(".txt"), RECIPE_DIR / f"{name}.txt")
         print(f"{src.name:36} -> {name}")
 
 

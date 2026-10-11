@@ -1,0 +1,11 @@
+model: gpt-image-2.5-flare
+quality: medium
+framing: bust
+strict_anatomy: False
+transparent: True
+no_pose: False
+crop_bottom: False
+cost_usd: 0.01443
+usage: {"input_tokens": 252, "input_tokens_details": {"image_tokens": 0, "text_tokens": 252}, "output_tokens": 439, "total_tokens": 691, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+Portrait of a member of an intelligent, sentient alien species that has a technological civilisation. Its people evolved from a creature like the Giant isopod (Bathynomus giganteus) but are clearly a thinking person, not an animal: Large segmented grey-lilac isopod with big reflective compound eyes and many legs. Upright or semi-upright posture; its forelimbs end in dexterous clawed fingers with an opposable digit, and one hand is visible. Wears simple functional clothing, harness or jewellery suited to its body and home world; subtle hints of technology. Framed like a video call: head and upper body, centred, facing the viewer, looking directly into the camera with calm, intelligent eye contact, the neutral expression of someone mid-conversation. The whole width of its body, including shoulders, limbs and tentacles, fits inside the frame with clear empty space on the left and right; only the bottom edge of the image may cut through the body. Painterly-realistic digital art, cinematic soft key light from the upper left, subtle cool rim light; isolated subject on a transparent background. No text, no watermark, no border, no logo, no other characters.

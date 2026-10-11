@@ -1,0 +1,8 @@
+model: gpt-image-2.5-flare
+quality: medium
+note: None
+base: None
+cost_usd: 0.01442
+usage: {"input_tokens": 250, "input_tokens_details": {"image_tokens": 0, "text_tokens": 250}, "output_tokens": 439, "total_tokens": 689, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+The view from inside Saturn's upper atmosphere, just above the cloud tops, close to the ring plane, in daylight. Below, out to a flat, softly glowing hazy horizon near the vertical middle: Saturn's pale butterscotch, cream and tan cloud bands, streaky cloud tops and a swirling storm vortex. Saturn's own rings, seen from very close, dominate the sky: one huge, bright white band, about a third of the image wide, made of many fine parallel striations with thin dark gaps between them, slightly translucent at its edges. The band rises steeply and almost straight out of the horizon just left of centre and runs up to the top edge of the image on the right, leaning to the right, with only the faintest curve because the rings are so enormous. Deep blue-black sky above, fading to pale blue haze at the horizon, a small bright distant sun. Wide eye-level view, the picture even out to every edge. Painterly-realistic digital art, natural daylight from the scene's own sun, cinematic depth and atmospheric perspective. No text, no watermark, no logo, no border, no vignette, no spacecraft, no other planets or moons.

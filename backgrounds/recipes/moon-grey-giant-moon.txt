@@ -1,0 +1,7 @@
+model: gpt-image-2.5-flare
+quality: medium
+note: None
+cost_usd: 0.01452
+usage: {"input_tokens": 270, "input_tokens_details": {"image_tokens": 0, "text_tokens": 270}, "output_tokens": 439, "total_tokens": 709, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+A wide eye-level landscape on an alien moon, viewed from inside one of its settlements. Terrain: barren grey dust plains, craters and pale white rock under a dark thin sky. Colour palette dominated by neutral greys and white (about #dddddd, #6b6b6b, #b6b6b6, #ebebeb); ground, water, haze and sky all take these hues, so the scene reads at a glance as this world. In the middle distance, low pressurised domes and slender towers. A huge ringed gas giant with soft cream and tan bands, half lit by the sun, fills about a third of the sky in the upper centre; the whole giant, rings included, sits inside the frame. Clearly an alien world, nothing Earth-like: unfamiliar rock forms, alien plants or none, a strange sky. Composition: horizon near the vertical middle; the settlement and anything in the sky stay within the central two-thirds of the frame; the picture runs evenly to every edge with nothing large close to the camera. Painterly-realistic digital art, natural daylight from the scene's own sun, cinematic depth and atmospheric perspective. No people, no creatures, no text, no watermark, no logo, no border, no window frame, no vignette.

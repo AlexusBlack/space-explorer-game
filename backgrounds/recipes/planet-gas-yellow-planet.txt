@@ -1,0 +1,8 @@
+model: gpt-image-2.5-flare
+quality: medium
+note: None
+base: /home/alexchernov/github/space-explorer-game/species/work/bg/saturn-base-4.png
+cost_usd: 0.022302
+usage: {"input_tokens": 1212, "input_tokens_details": {"image_tokens": 1024, "text_tokens": 188}, "output_tokens": 439, "total_tokens": 1651, "output_tokens_details": {"image_tokens": 439, "text_tokens": 0}}
+
+Keep this image's camera, horizon, cloud layout and the ring band exactly where and how they are. Recolour the clouds and sky into an alien gas giant: swirling golden and ochre cloud bands, a palette dominated by golden yellow, ochre and cream (about #6b5536, #bc9b55, #917547, #d2b26f). The rings stay pale cream, tan and grey. Add a floating city of domes and towers on broad platforms held aloft above the clouds, more floating platforms in the distance, the city centred on the horizon within the central third of the frame. Painterly-realistic digital art, natural daylight from the scene's own sun, cinematic depth and atmospheric perspective. No people, no text, no watermark, no logo, no border, no vignette, no other planets.

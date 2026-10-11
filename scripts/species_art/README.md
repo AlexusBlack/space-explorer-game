@@ -122,11 +122,16 @@ combination straight away rather than `--crop-bottom` alone.
 Humans, dogs and cats were then added to the catalogue as 332-334 and came
 out clean on the first try with default settings.
 
-Export: the newest numbered file per species is copied to
-`species/images/<id03>-<Key>.png` and converted to a 512² WebP (Pillow,
+Export: `one --export` (free) copies the newest numbered file per species to
+`species/images/<id03>-<Key>.png`, converts it to a 512² WebP (Pillow,
 Lanczos, quality 85, `alpha_quality=100`, `method=6`) in
-`species/images-opt/<id03>-<Key>.webp`. `method=6` is slow (about 4 s per
-image) but gives the smallest files.
+`species/images-opt/<id03>-<Key>.webp`, and copies its sidecar (model, flags,
+the full prompt including any `--note`) to `species/recipes/<id03>-<Key>.txt`.
+`method=6` is slow (about 4 s per image, 20 minutes for all) but gives the
+smallest files. The output is byte-identical for an unchanged final, so a
+re-export only shows real changes in git. To regenerate a portrait from git
+alone, rerun `one --id N --yes` with the flags in its recipe; the prompt is
+deterministic from the catalogue, so the recipe's prompt is what you get.
 
 ## Planet backgrounds (`bg.py`)
 
@@ -165,9 +170,9 @@ steeply out of the horizon), and every gas giant sprite is then an image
 **edit** of one chosen base (`GAS_BASE` in `bg.py`, currently
 `saturn-base-4.png`; `--base FILE` overrides) that keeps the camera and ring
 band and only recolours and adds the floating city. All six share one ring
-layout. An edit costs about $0.022 (the base is billed as input). The base
-lives in the gitignored work folder, so keep it if gas giants may need
-regenerating.
+layout. An edit costs about $0.022 (the base is billed as input). The chosen
+base is committed as `backgrounds/saturn-base.png`, so gas giants can be
+regenerated on any machine.
 
 What the first tests showed: the text-only prompt gets the palette and an
 alien feel right first time; a moon's parent planet needs "unmistakably not
@@ -187,7 +192,7 @@ Export: `bg --export` copies the newest image of every pair (it refuses if
 any pair has none) to `backgrounds/images/<sprite>-<variant>.png` and writes
 a 512² WebP (Pillow, Lanczos, quality 85, `method=6`) to
 `backgrounds/images-opt/<sprite>-<variant>.webp`, the copy the game should
-load. To swap in an older attempt, delete or renumber the newer ones in the
+load, and its sidecar to `backgrounds/recipes/<sprite>-<variant>.txt`. To swap in an older attempt, delete or renumber the newer ones in the
 work folder and export again.
 
 ## Stages
@@ -250,6 +255,10 @@ species/species_images.json     committed: game-facing manifest (see docs/techni
 species/images/cutout|thumb/    committed: 1024² lossless WebP, 256² WebP thumbnails (staged pipeline)
 species/images/<id03>-<Key>.png committed: one.py finals, 1024² RGBA PNG masters
 species/images-opt/             committed: the same at 512², WebP: what the game should load
+species/recipes/                committed: each one.py final's sidecar (model, flags, full prompt)
+backgrounds/images(-opt)/       committed: bg.py finals, PNG masters + 512² WebPs
+backgrounds/recipes/            committed: each background's sidecar, plus saturn-base.txt
+backgrounds/saturn-base.png     committed: the Saturn base every gas giant is edited from
 species/work/                   gitignored: state, review verdicts, spend log, prompts, raws, variants, batches
 ```
 

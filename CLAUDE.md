@@ -238,6 +238,12 @@ Planet landscape backgrounds use the same package's `bg.py` (README section
 Saturn base. Finals export (free, `bg --export`) to `backgrounds/images/` (PNG
 masters) and `backgrounds/images-opt/` (512² WebPs for the game). Same key and
 review-gate rules.
+Both pipelines travel with git: code in `scripts/species_art/`, finals plus a
+recipe per final (`species/recipes/`, `backgrounds/recipes/`: model, flags,
+full prompt) and the gas giant base `backgrounds/saturn-base.png`. Only raws,
+retries and run state stay machine-local in `species/work/`. After accepting
+a new final, re-export (`one --export` / `bg --export`, free) so its image and
+recipe land in git.
 
 `mapData` (from `mapgen.js`) is **never persisted** — always cheaply and
 deterministically regenerated from `seed`. `gameState` (from `state.js`)
