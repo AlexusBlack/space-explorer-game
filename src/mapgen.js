@@ -780,7 +780,7 @@ function placeSecondAnomalies(tiles, systems, seed) {
     if (!zones) continue;
     const pool = zones.outer.length ? zones.outer : zones.medium.length ? zones.medium : zones.inner;
     const tile = takeRandom(rng, pool);
-    if (tile) tiles.set(axialKey(tile.q, tile.r), { q: tile.q, r: tile.r, type: "anomaly", regionId: system.id });
+    if (tile) tiles.set(axialKey(tile.q, tile.r), { q: tile.q, r: tile.r, type: "anomaly", band: tile.band, regionId: system.id });
   }
 }
 

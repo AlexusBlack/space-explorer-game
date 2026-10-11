@@ -218,7 +218,9 @@ side of this; the key algorithmic ideas:
   A later request doubled them again (about 260 to 520 per map): the
   deep-space rate went to `0.0064`, and `placeSecondAnomalies` gives every
   system a second roll (`ANOMALY_SYSTEM_SECOND_CHANCE`, 0.96) on a plain
-  band hex of its own, outer zone first. That pass runs on its own
+  band hex of its own, outer zone first, keeping that hex's `band` so it
+  draws the zone's starfield (and still does once destroyed back to a
+  `"band"` tile). That pass runs on its own
   `${seed}:anomalies` stream, so it changes no other tile: an existing save
   keeps its map and every anomaly it had, and just gains new ones.
 - **Wormholes.** After the deep-space sweep, `assignAnomalyKinds` marks

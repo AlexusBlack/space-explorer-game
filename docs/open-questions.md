@@ -892,3 +892,11 @@ from here.
     toward players `2·xeno + spirit`, with Human worlds counted as fully
     xenophile (kin); toward pirates `2·order − war − 2`. Between them they
     use all four axes.
+
+- **Second anomalies lost their starfield (bug fix).** `placeSecondAnomalies`
+  rebuilt the claimed tile without its `band`, so about one anomaly in five
+  (wormholes included) drew no background, and once used up it became a
+  completely black `"band"` tile. It now keeps the hex's `band`. No random
+  draws change, so maps and saves are unaffected and old saves are fixed on
+  load (the map is regenerated and destroyed anomalies replay onto tiles
+  that now have a band).
