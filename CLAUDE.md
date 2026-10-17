@@ -242,6 +242,10 @@ Planet landscape backgrounds use the same package's `bg.py` (README section
 Saturn base. Finals export (free, `bg --export`) to `backgrounds/images/` (PNG
 masters) and `backgrounds/images-opt/` (512² WebPs for the game). Same key and
 review-gate rules.
+Rooms (the middle layer: an interior with a transparent window, between the
+landscape and the portrait) use `room.py` (README section "Rooms"): 1536×1024,
+native transparency, one paid image per approval, gallery under
+`species/work/room/` with a free three-layer composite per attempt.
 Both pipelines travel with git: code in `scripts/species_art/`, finals plus a
 recipe per final (`species/recipes/`, `backgrounds/recipes/`: model, flags,
 full prompt) and the gas giant base `backgrounds/saturn-base.png`. Only raws,

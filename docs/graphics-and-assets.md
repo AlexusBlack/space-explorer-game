@@ -520,6 +520,32 @@ by the moon's own sky so it blends in. Not used by the game yet.
   `species/work/bg/`. The Saturn base the gas giants are edited from is
   committed as `backgrounds/saturn-base.png`.
 
+## Rooms (planned: `scripts/species_art/room.py`)
+
+The middle layer of the world card scene: landscape at the back, a room with
+a transparent window over it, the species portrait in front on the left.
+Rooms are 1536×1024 with **native transparency** (`gpt-image-2.5-flare`,
+`background="transparent"`): the window panes are clear and everything else
+is opaque, so the three layers stack with plain CSS or canvas and nothing is
+keyed. Every prompt shares one layout: eye-level like a video call, one
+large tall single-pane window (about two thirds of the height) three
+quarters across and a little above the middle, framed by a deep recess,
+sill, curtains and shutters so it reads as a window and not a painting; an
+uncluttered left half for the portrait; no foreground furniture. Rooms are
+reused across worlds and species, so they show one flat wall (like a video
+call background) with no furniture, Earth plants, flags, emblems, maps or planet
+pictures.
+
+Planned catalogue, 78 rooms in two families, both led by the world class
+(materials, shapes, light, window shape): 30 **base rooms** (world class ×
+government, 6 × 5) and 48 **ethic rooms** (world class × extreme ethic pole,
+6 × 8, the ethic replacing the government); a world may use its base room or
+the ethic room of any extreme ethic it has, picked at random. Earth and Luna get no dedicated rooms for now. So far the tool and all
+78 prompts exist, with test rooms only; the first test was rocky × Democracy (Earth's
+base room) composited with the human
+portrait and the `planet-inhabited-planet` landscape. No finals, not used by
+the game yet.
+
 ## Future Art Pipeline
 
 For MVP0–MVP4, continue reusing/cropping the existing FreeCiv/Amplio tileset

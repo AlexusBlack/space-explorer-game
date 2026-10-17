@@ -13,7 +13,7 @@ from pathlib import Path
 import numpy as np
 from PIL import Image
 
-from . import backgrounds, catalogue, config, costing, cutout, manifest, normalize, openai_images, prompts, selection
+from . import backgrounds, catalogue, room, rooms, config, costing, cutout, manifest, normalize, openai_images, prompts, selection
 from . import state as state_mod
 
 S = 256  # synthetic image size (keeps the test fast)
@@ -178,6 +178,63 @@ def test_backgrounds():
     except ValueError:
         pass
     print(f"ok  backgrounds: {len(pairs)} pairs, unique deterministic prompts, impossible pairs refused")
+
+
+def test_rooms():
+    pairs = rooms.combos()
+    assert len(pairs) == 30 and len(set(pairs)) == 30, len(pairs)
+    allp = [rooms.build_base(c, g) for c, g in pairs]
+    assert len(set(allp)) == 30, "room prompts must be unique per pair"
+    for (c, g), p in zip(pairs, allp):
+        assert p == rooms.build_base(c, g), "room prompt not deterministic"
+        assert "fully transparent" in p and "tall window" in p and "no flags" in p and "No people" in p, (c, g)
+        assert p.startswith(f"A wall inside a building on {rooms.CLASS_ARCH[c]}"), (c, g)  # world leads
+        assert rooms.WINDOW_SHAPE[c] in p and "{shape}" not in p, (c, g)
+    eth = rooms.ethic_combos()
+    assert len(eth) == 48 and len(rooms.ETHICS) == 8
+    alle = [rooms.build_ethic(c, e) for c, e in eth]
+    assert len(set(alle) | set(allp)) == 78, "ethic prompts must be unique and differ from base"
+    for (c, e), p in zip(eth, alle):
+        assert p.startswith(f"A wall inside a building on {rooms.CLASS_ARCH[c]}"), (c, e)
+        assert rooms.ETHIC_ROOM[e] in p and not any(g in p for g in rooms.GOV_ROOM.values()), (c, e)
+    for c, e in [("ice", "democracy"), ("lava", "militarist")]:
+        try:
+            rooms.build_ethic(c, e)
+        except ValueError:
+            continue
+        raise AssertionError(f"{(c, e)} should be refused")
+    for c, g in [("rocky", "empire"), ("lava", "democracy")]:
+        try:
+            rooms.build_base(c, g)
+        except ValueError:
+            continue
+        raise AssertionError(f"{(c, g)} should be refused")
+    assert "Correction: warmer" in rooms.build_base("ice", "monarchy", note="warmer")
+
+    # Synthetic 1536x1024 room: opaque wall, a clear window split by a frame bar, a stray speck.
+    a = np.full((1024, 1536, 4), 200, np.uint8)
+    a[..., 3] = 255
+    a[200:600, 1050:1400, 3] = 0
+    a[200:600, 1220:1230, 3] = 255  # mullion: two panes, still one window
+    a[900:960, 100:180, 3] = 0       # stray hole, 0.3% -> under the flag threshold
+    info, warn = room.check_window(Image.fromarray(a, "RGBA"))
+    assert info["regions"] == 3 and info["window"] == (1050, 200, 1400, 600), info
+    assert not warn, warn
+    a[600:1000, 0:400, 3] = 0        # bigger hole touching the edge, bottom left
+    info, warn = room.check_window(Image.fromarray(a, "RGBA"))
+    assert info["window"] == (0, 600, 400, 1000) and any("LEFT HALF" in w for w in warn) \
+        and any("EDGE" in w for w in warn) and any("EXTRA HOLES" in w for w in warn), (info, warn)
+    a[..., 3] = 255
+    assert room.check_window(Image.fromarray(a, "RGBA"))[1] == ["** OPAQUE RETURNED **"]
+    a[300:500, 1100:1350, 3] = 0
+    land = Image.new("RGB", (1024, 1024), (10, 200, 10))
+    por = Image.new("RGBA", (1024, 1024), (0, 0, 0, 0))
+    por.paste((250, 0, 0, 255), (300, 400, 700, 1024))
+    comp = room.composite(Image.fromarray(a, "RGBA"), land, por)
+    assert comp.size == (1536, 1024) and comp.mode == "RGBA"
+    assert comp.getpixel((1200, 400))[:3] == (10, 200, 10), "landscape must show through the window"
+    assert comp.getpixel((500, 800))[:3] == (250, 0, 0) and comp.getpixel((900, 100))[:3] == (200,) * 3
+    print("ok  rooms: 30 base + 48 ethic prompts, window checks flag holes/edges/opaque, 3-layer composite")
 
 
 def test_sync_idempotent(cat, cfg, work):
@@ -384,6 +441,7 @@ def main():
         work = _sandbox(Path(d))
         test_prompts(cat, cfg)
         test_backgrounds()
+        test_rooms()
         test_sync_idempotent(cat, cfg, work)
         test_moderation(cat, cfg, work)
         test_quota(cat, cfg, work)

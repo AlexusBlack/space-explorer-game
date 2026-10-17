@@ -19,6 +19,12 @@ from here.
   (25 → 15 → 9). Not changed without confirmation — may be intentional, or
   just an artifact of a quick repaint at a much smaller canvas. See
   `images/templates/README.md`.
+- **Rooms: how a world's room is chosen, and the world card scene.** Once
+  rooms exist, mapgen needs a pass (on its own random stream, so maps and
+  saves stay unchanged) that picks each inhabited world's room among those
+  it qualifies for, and the world card needs to become the 3:2 layered
+  scene (landscape, room, portrait) instead of the square portrait. Both
+  wait until the room look is settled.
 
 ## Resolved
 
@@ -1001,3 +1007,42 @@ from here.
     Federation and Republic of Luna.
   - Rolled on its own stream after governments, so maps, saves and
     governments are unchanged. Not added to the tile report (not asked).
+
+- **Rooms behind the species portrait.** User request: generate 50-100 room
+  types, iteratively like the species and planet art, from combinations of
+  world type, government and extreme ethics; a world eligible for several
+  picks one at random. The room is a background for the species portrait,
+  with a window right of centre and a little high; the window is
+  transparent and the planet landscape sits behind it. First step: one good
+  room, tested in a composite with a species and a landscape.
+  - Settled by AskUserQuestion: **two families, about 70 rooms**: 30 base
+    rooms (world class × government) and 40 ethic rooms (government ×
+    extreme ethic pole); **1536×1024 landscape**; first test **Earth**
+    (rocky, Democracy, the human portrait, `planet-inhabited-planet`).
+  - Transparency is **native** (flare's transparent background), not a
+    chroma-key colour keyed out later: the user pointed out the layers will
+    be combined with CSS, so the room should simply carry its own alpha. A
+    keyed fallback is only to be considered, with the user, if flare won't
+    leave a clean hole in a full-frame scene.
+  - **No dedicated rooms for Earth or Luna** at this stage (user decision,
+    after an Earth-only "built for humans" prompt had been tried): they use
+    the base room of their class and government like any other world, so the
+    first test runs the plain rocky × Democracy prompt.
+  - **The world comes first** (user, after five test rooms where only molten ×
+    Dictatorship looked like its world): the world class decides the building
+    materials, shapes, light and window shape (rounded portholes on gas giants),
+    and leads the prompt; government and extreme ethics only add objects and
+    mood on top (weapons and trophies for militarists, jewellery and treasures
+    for monarchies, machines and devices for materialists). Rooms are a single
+    flat wall like a video call background, with no furniture and nothing
+    Earthly. The ethic family's shape (government × pole has no world in it)
+    needs revisiting in light of this.
+  - **Ethic rooms** (user, answering that): on a world with an extreme ethic,
+    the ethic dominates the room and the government applies after it, all
+    still built from the world's materials. How many such rooms to make (every
+    world × pole × government would be 240) is not settled yet.
+  - **Superseded right after:** the user settled it the other way: in an ethic
+    room the extreme ethic **replaces** the government, so ethic rooms are
+    world class × extreme ethic pole, 6 × 8 = **48**, and 78 rooms in all with
+    the 30 base rooms. This replaces the original plan's 40 government × pole
+    rooms.

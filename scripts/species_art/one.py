@@ -92,9 +92,9 @@ def write_check(rgba, path):
     sheet.save(path)
 
 
-def snap_alpha(png):
+def snap_alpha(png, floor=250):
     """Transparency preview quirk: opaque areas arrive as alpha 250-254 (slightly see-through).
-    Snap those to 255 in place; the untouched API output is kept as <name>-raw.png."""
+    Snap those (>= floor) to 255 in place; the untouched API output is kept as <name>-raw.png."""
     import numpy as np
     from PIL import Image
     im = Image.open(png)
@@ -104,7 +104,7 @@ def snap_alpha(png):
     if not raw.exists():
         png.replace(raw)
     arr = np.array(Image.open(raw))
-    arr[..., 3][arr[..., 3] >= 250] = 255
+    arr[..., 3][arr[..., 3] >= floor] = 255
     Image.fromarray(arr, "RGBA").save(png)
 
 
