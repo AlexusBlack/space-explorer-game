@@ -16,6 +16,7 @@ import {
   visionRadiusForPlayer,
 } from "./state.js";
 import { PIRATE_BASE_ATTACK, PIRATE_BASE_SUPPORT_CAP } from "./pirates.js";
+import { homeWorld } from "./fleets.js";
 import { shipTitle } from "./setup.js";
 import { attitudeLabel, attitudeToPlayers } from "./ethics.js";
 import { governmentName } from "./government.js";
@@ -171,6 +172,18 @@ export function buildTileReport(mapData, gameState, q, r) {
           ["Attack", String(ship.attack)],
         ],
       });
+    }
+    for (const ship of gameState.worldShips ?? []) {
+      if (ship.q !== q || ship.r !== r) continue;
+      const home = homeWorld(mapData, ship);
+      if (!home) continue;
+      const rows = [
+        ["Home", worldName(home)],
+        ["HP", `${ship.health}/${ship.maxHealth}`],
+        ["Attack", String(ship.attack)],
+      ];
+      if (attitudeToPlayers(home) === -2) rows.push(["Stance", "Hostile to you"]);
+      entities.push({ title: "Military ship", rows });
     }
   }
 

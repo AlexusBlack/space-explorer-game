@@ -361,6 +361,9 @@ gameState (src/state.js, persisted — see "Persistence" below)
 │     entities, NOT a mapData tile mutation (see "Pirates & Combat" below)
 ├── pirateShips: [{ id, q, r, health, maxHealth, attack, baseId }]
 ├── nextPirateEntityId — shared id counter for both arrays above
+├── worldShips: [{ id, q, r, homeQ, homeR, health, maxHealth, attack }]
+│     — inhabited worlds' military ships (see "World military fleets")
+├── nextWorldShipId
 └── players: PlayerState[] — 1..6, in turn order (from the start screen)
       └── PlayerState: { name, shipName, color (= team), q, r, xp,
             unlockedUpgrades: Set<upgradeId>,
@@ -552,7 +555,11 @@ a pirate) and `pirates.js`'s `stepPirateShip` (pirate attacking a player)
 follow the same pattern: resolve combat using the *defender's* tile for
 the terrain bonus, without first moving the attacker onto it; only commit
 the attacker's position change to that tile if `resolveCombat` reports
-`defenderDefeated`. For the player, this means a multi-hex tapped move
+`defenderDefeated` **and** nothing hostile is left on the hex (a raider's
+base, another ship of a stack): `main.js` re-runs `findPirateAt ??
+findHostileWorldShipAt` after the fight, `pirates.js`'s `advanceIfClear`
+checks `pirateQuarry`, and `fleets.js`'s `hexHeld` checks any pirate ship or
+base plus the ship's own targets. For the player, this means a multi-hex tapped move
 that targets a live pirate applies only up to the second-to-last hex of
 the path (`path.slice(0, -1)`) before combat resolves, with a final
 `applyMove(mapData, active, [target])` only on a kill; a flat
@@ -592,6 +599,63 @@ round-tick. Eligibility is deliberately "no combat happened this round,"
 not a proximity/detection-range check (confirmed with the user). Pirates
 themselves have no passive healing — only `PlayerState` carries
 `inCombatThisRound`/benefits from this.
+
+**World military fleets (`src/fleets.js`).** Each inhabited world keeps
+`fleetSize(tile)` military ships: `WORLD_FLEET_SIZE` (1), or
+`PACIFIST_FLEET_SIZE` (0) / `MILITARIST_FLEET_SIZE` (2) at `war` = −2 / +2.
+A ship is a plain record in `gameState.worldShips`, keyed to its world by
+`homeQ`/`homeR` (`homeWorld` looks the tile up), so like pirates it needs
+no map replay at load. `createNewGame` starts with `worldShips: []` and
+`main.js` calls `seedWorldFleets` right after it, launching every fleet on
+its home hex. `deserializeState` returns `worldShips: null` for a save
+from before fleets (no `SAVE_VERSION` bump), and `main.js` seeds those on
+load the same way, once the map exists.
+
+Round order in `main.js`'s `endTurn`: `tickPirates` → `tickWorldFleets` →
+`tickPassiveHealing`. `tickWorldFleets` first rolls `rebuildWorldFleets`
+(`WORLD_SHIP_REBUILD_CHANCE` per short world per round, one ship at a time,
+never above `fleetSize`), then `moveWorldFleets`. Each ship takes up to
+`WORLD_SHIP_SPEED` steps, re-evaluating `worldShipTargets` before each:
+- Targets are computed fresh, only inside `WORLD_SHIP_PATROL_RADIUS` of
+  home, from `ethics.js`'s static attitudes: pirate ships and bases when
+  `attitudeToPirates(home) ≤ −1`; any pirate ship whose `lastAttack` is
+  within `PIRATE_WANTED_ROUNDS` turns and within the patrol radius of the
+  military ship (rule "attacked a ship nearby"); players when
+  `attitudeToPlayers(home) === −2`; other worlds' ships when
+  `diplomaticState(home, theirs) === −2` (War). The nearest wins.
+- Chase/flee mirrors `stepPirateShip`: chase with chance
+  `WORLD_SHIP_CHASE_CHANCE × healthRatio`; on a failed roll below
+  `WORLD_SHIP_FLEE_HEALTH_RATIO` the ship steps toward home, not just away.
+  With no target, a damaged ship heads home and a healthy one wanders.
+  Every step goes through `zoneStepToward`/a zone-clamped random neighbour,
+  so a ship never leaves its zone. Reaching home damaged repairs it fully
+  and ends its round; there is no other healing.
+- A step onto a target's hex is a `resolveCombat` exchange with the
+  defender's terrain bonus (a base answers with `PIRATE_BASE_ATTACK`); the
+  attacker advances only on a kill that leaves the hex clear (`hexHeld`),
+  and the fight ends the ship's round.
+  Losers go through `pirates.js`'s `removeShip`/`removeBase` (a base frees
+  its region as on a player kill) or are spliced from `worldShips`. A
+  player loser goes through `applyShipLoss`; a player survivor gets
+  `COMBAT_SURVIVAL_XP` and `inCombatThisRound`.
+- It returns player events in the pirate format, which `endTurn` turns into
+  `kind: "military"` notifications. Fights without a player emit nothing.
+
+Pirates in turn hunt world ships: `pirates.js`'s `pirateQuarry` lists
+players and world ships, `findNearest` picks the closer one, and a step onto
+a world ship's hex calls `resolvePirateAttackOnWorldShip`. Every pirate
+attack runs `markPirateAttack` (`ship.lastAttack = { turn, q, r }`), which is
+what the "attacked a ship nearby" rule reads. The import runs one way only,
+`fleets.js` → `pirates.js` (movement helpers, `removeBase`/`removeShip`,
+`COMBAT_SURVIVAL_XP`, `PIRATE_BASE_ATTACK`); pirates read
+`gameState.worldShips` directly, so there's no cycle.
+
+Players fight back through the same tap flow as pirates: `handleTap` takes
+`findPirateAt(...) ?? findHostileWorldShipAt(...)`; the latter returns only
+ships of worlds Hostile toward explorers (any other world's ship never
+blocks a move), and `resolvePlayerAttackOnWorldShip` pays combat XP and no
+emc. World ship moves are recorded as trails with `worldShipTrailId`
+(`w<id>`) and `WORLD_SHIP_TRAIL_COLOR`, stamped like pirate moves.
 
 **Fog exception — stars are always visible.** `render.js` always draws a
 `"star"` tile regardless of the active player's `discovered` set (every
@@ -910,7 +974,7 @@ switch and load is covered). Entries come from three places:
 
 **emc bounties.** `economy.js` is pure. `bountyWorlds(mapData, q, r,
 discovered)` scans `mapData.tiles` for inhabited worlds within
-`BOUNTY_RADIUS` (20) of the kill site with `attitudeToPirates <= 0` whose
+`BOUNTY_RADIUS` (12) of the kill site with `attitudeToPirates <= 0` whose
 key is in the killer's `discovered` Set (team fog), closest first.
 `awardBounties(mapData, player, kind, q, r)` adds `SHIP_BOUNTY_EMC` (100)
 or `BASE_BOUNTY_EMC` (300) per world to `player.emc` and returns `{ total,
@@ -1059,6 +1123,7 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   `LEGACY_MAP_SETTINGS`, keeping its exact map), `activePlayerIndex`, `movesRemaining`, `turnNumber`,
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
+  `worldShips`/`nextWorldShipId` (a save without them seeds fresh fleets),
   `trails` (the Vessel Trail Detector's records, a plain array),
   `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
   every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
@@ -1181,6 +1246,9 @@ src/
 │                      damage resolution) — no other project imports
 ├── pirates.js         pirate base/ship spawn, production, roam AI, and
 │                      combat orchestration, consumed by main.js
+├── fleets.js          inhabited worlds' military fleets: patrol zone,
+│                      targeting from attitudes, chase/flee, home repair,
+│                      rebuild; player attacks on Hostile worlds' ships
 ├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
 │                      fog-of-war skip, ship markers, pirate markers,
 │                      ship trails)

@@ -524,9 +524,10 @@ melee-only for MVP4 (no ranged units, no fortify bonus).
   (`PIRATE_BASE_SUPPORT_CAP`) — no further production once the cap is
   reached, until ship losses free up capacity.
 - Every existing pirate ship then roams up to `PIRATE_SHIP_SPEED` (6) hexes
-  that round, one at a time, re-evaluating each step. Within detection
-  range of the nearer player, it has a chance to path greedily toward
-  them — **not a flat chance**: a ship at full health relative to that
+  that round, one at a time, re-evaluating each step. Its quarry is the
+  nearest ship, a player's or a world's military ship (see "World military
+  fleets" below). Within detection range of it, it has a chance to path
+  greedily toward it — **not a flat chance**: a ship at full health relative to that
   player chases up to `PIRATE_CHASE_CHANCE` (90%) of the time, but the
   more it falls behind in relative HP, the less it presses the attack. If
   it rolls "don't chase" and it's badly outmatched (relative health below
@@ -582,7 +583,10 @@ defender. A fight that leaves the defender alive ends with the attacker
 adjacent, free to tap the same target again (next turn, or later the same
 turn if moves remain) to continue the engagement. This applies
 symmetrically: a pirate ship's own roam-step attack on a player works the
-same way — no forward progress that round unless it wins. Attacking always
+same way — no forward progress that round unless it wins. A kill moves the
+attacker in only if the hex is then clear: sinking a raider parked on its
+base, or one ship of a stack, leaves the attacker where it was, since the
+base or the other ships still hold the hex. Attacking always
 costs a flat 4 moves (`ATTACK_MOVE_COST`), regardless of how far the ship
 traveled to engage or whether it ends up advancing — simpler than, and
 replacing, an earlier "full tapped distance" rule.
@@ -619,10 +623,53 @@ via the **Repair** track (see "Experience & Leveling" above). Pirates do
 not get passive healing — only player ships.
 
 **Not in scope for MVP4**: pirates do not attack planets (planets have no
-health/ownership concept in this codebase yet) — only player ships and
-pirate bases are ever combat targets. Pirate markers are fog-gated like any
+health/ownership concept in this codebase yet). Planets still can't be
+attacked, but since world military fleets (below) pirates and players can
+fight a world's ships. Pirate markers are fog-gated like any
 tile feature (only visible once the active player has discovered that
 hex).
+
+## World military fleets
+
+Every inhabited world keeps a small fleet of **military ships**
+(`src/fleets.js`) that act on its attitudes (see the ethics and attitudes
+in the world card):
+
+- **Fleet size**: one ship per world; extreme pacifists keep none, extreme
+  militarists two. Earth and Luna keep one each. A new game starts with
+  every fleet launched from its home world.
+- **Ships**: attack 10, 100 HP, between a pirate raider (6) and a fresh
+  player ship (12).
+- **Patrol zone**: a ship never goes more than 8 hexes from its home world,
+  and only notices targets inside that zone.
+- **Targets**, the nearest one first:
+  - pirate ships and pirate bases, when the home world is Wary or worse
+    toward pirates;
+  - any pirate ship that attacked a ship (a player's or a world's) within 8
+    hexes of the military ship, this round or the round before, whatever
+    the world thinks of pirates;
+  - players' ships, when the home world is Hostile toward explorers;
+  - the ships of a world it is at War with (Rivalry isn't enough).
+- **Moving**: up to 6 hexes a round, right after the pirates, with the
+  pirates' chase rule (chase chance falls with relative health). A ship
+  that is badly outmatched runs **home** instead of just away, a damaged
+  ship with nothing to chase heads home, and a ship that reaches its home
+  world damaged is fully repaired there. They don't heal anywhere else.
+- **Fights** follow the same melee rules as pirates (attacker stops one hex
+  short unless it wins and the hex is then clear, terrain bonus for the
+  defender; a military ship never moves onto a hex that still holds a
+  pirate ship or base). A destroyed ship
+  is gone; its world has a 25% chance each round to launch a replacement
+  until the fleet is back to size. A destroyed pirate base frees its region,
+  as when a player destroys it.
+- **Players**: a Hostile world's ships attack you like pirates do (combat
+  XP if you survive, the usual loss penalty if not), and the fight shows up
+  in your notifications. You can attack a Hostile world's ships the same
+  way you attack pirates, for combat XP and no emc. Every other world's
+  ships ignore you and share hexes with you.
+- Fights between pirates and world ships, or between worlds, send no
+  notifications. Military ships are fog-gated like pirates and show in the
+  long-press tile report.
 
 ## Currency (emc)
 
@@ -634,7 +681,7 @@ a ship costs XP only). It's spent on ship repairs bought from worlds (see
 
 **Pirate bounties** are the first way to earn it. When your ship destroys
 a pirate ship or base, every inhabited world that:
-- lies within 20 hexes of where the pirate was destroyed
+- lies within 12 hexes of where the pirate was destroyed
   (`BOUNTY_RADIUS`),
 - has an attitude toward pirates of Neutral, Wary or Hostile, and
 - your team has already discovered

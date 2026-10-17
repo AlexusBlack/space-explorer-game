@@ -104,6 +104,12 @@ once per player during a playtest session.
 can damage/destroy a player ship, and the affected player resumes play from
 Earth without the session ending.
 
+**Scope notes (as implemented):** pirates never attack planets (planets have
+no health model). Post-MVP4, inhabited worlds gained small military fleets
+(`src/fleets.js`) that fight pirates, Hostile worlds' enemies and, for
+Hostile worlds, players; pirates attack those ships too, but planets
+themselves are still never combat targets.
+
 ## Parking Lot (not committed to any stage)
 
 - **Ethics gameplay effects.** Inhabited worlds have ethics, a government and

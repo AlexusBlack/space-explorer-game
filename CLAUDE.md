@@ -68,6 +68,8 @@ hasn't been fixed yet; trust `git log` and `docs/mvp-roadmap.md` over it.
   section) — don't ship a build that bundles them without resolving this.
 - Pirates deliberately never attack planets (MVP4 scope-narrowing —
   planets have no health/ownership model anywhere in this codebase).
+  Planets' military ships (`src/fleets.js`) are fair game, though: pirates
+  hunt them, and players can fight a Hostile world's ships.
 - `README.md`'s status line needs bumping to reflect MVP4.
 
 **Players and teams (post-MVP4):** the start screen (`src/setup.js` +
@@ -209,6 +211,7 @@ src/
 ├── upgrades.js     leveling upgrade catalog (tracks, tiers, cross-track prereqs)
 ├── combat.js       pure melee math (Civ5-adapted), no other project imports
 ├── pirates.js      pirate base/ship spawn, production, roam AI, combat orchestration
+├── fleets.js       inhabited worlds' military fleets: patrol, targeting, rebuild
 ├── ethics.js       inhabited worlds' ethics + static attitudes (display only)
 ├── government.js   inhabited worlds' government type, state name + ethics-flavoured form
 ├── economy.js      emc (Exotic Matter Currency): pirate bounties, per-player balance

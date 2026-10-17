@@ -308,6 +308,11 @@ export function createNewGame(mapData, setup) {
     pirateBases: [], // [{ id, q, r, regionId, health, maxHealth }]
     pirateShips: [], // [{ id, q, r, health, maxHealth, attack, baseId }]
     nextPirateEntityId: 1, // shared id counter for both arrays above
+    // Inhabited worlds' military ships (fleets.js), the same kind of dynamic
+    // record as pirate ships. main.js launches every world's fleet
+    // (seedWorldFleets) right after this, since that needs fleets.js.
+    worldShips: [], // [{ id, q, r, homeQ, homeR, health, maxHealth, attack }]
+    nextWorldShipId: 1,
     // Recent ship movement for the Vessel Trail Detector, recorded for every
     // ship whether or not anyone owns the upgrade (see trails.js).
     trails: [], // [{ ship, color, time, path: [{ q, r }] }]
@@ -465,6 +470,8 @@ export function serializeState(seed, mapSettings, gameState) {
     pirateBases: gameState.pirateBases,
     pirateShips: gameState.pirateShips,
     nextPirateEntityId: gameState.nextPirateEntityId,
+    worldShips: gameState.worldShips,
+    nextWorldShipId: gameState.nextWorldShipId,
     trails: gameState.trails,
     // Once per team, not per player: teammates share one Set.
     teamFog: Object.fromEntries(
@@ -510,6 +517,10 @@ export function deserializeState(raw) {
     pirateBases: raw.pirateBases ?? [],
     pirateShips: raw.pirateShips ?? [],
     nextPirateEntityId: raw.nextPirateEntityId ?? 1,
+    // null on saves from before world fleets: main.js then launches every
+    // world's fleet (fleets.js's seedWorldFleets) once the map is built.
+    worldShips: raw.worldShips ?? null,
+    nextWorldShipId: raw.nextWorldShipId ?? 1,
     // Saves predating the Vessel Trail Detector have no trails yet.
     trails: raw.trails ?? [],
     players: raw.players.map((p, i) => ({

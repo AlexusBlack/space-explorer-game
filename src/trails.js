@@ -1,13 +1,14 @@
-// Vessel Trail Detector: a short movement history for every ship, player and
-// pirate, shown to a viewer who owns the upgrade (see upgrades.js's trail
+// Vessel Trail Detector: a short movement history for every ship (player,
+// pirate and world military ship), shown to a viewer who owns the upgrade (see upgrades.js's trail
 // track). Pure data (no DOM) so it can be verified headlessly; main.js and
-// pirates.js record moves here, render.js draws what trailsForViewer returns.
+// pirates.js and fleets.js record moves here, render.js draws what trailsForViewer returns.
 //
 // Time is counted in player turns ("steps"): step = (turnNumber - 1) * P +
 // activePlayerIndex, P being the player count, so it's derived from fields
 // gameState already has. The pirate round runs after the last player's turn
 // and before the next round's player 0, so its moves are stamped half a step
-// before that player-0 turn (PIRATE_TIME_OFFSET).
+// before that player-0 turn (PIRATE_TIME_OFFSET). World military ships move
+// in the same round, right after the pirates, and share that stamp.
 //
 // A viewer at step S sees age 1 ("last turn") for anything from their own
 // previous turn (S - P) up to now, and age 2 for the window before it
@@ -16,6 +17,7 @@
 // seat the viewer is in.
 
 export const PIRATE_TRAIL_COLOR = "#ff4040";
+export const WORLD_SHIP_TRAIL_COLOR = "#3fc6c0";
 export const PIRATE_TIME_OFFSET = -0.5;
 export const MAX_TRAIL_TURNS = 2;
 
@@ -30,6 +32,10 @@ export function playerTrailId(index) {
 
 export function pirateTrailId(shipId) {
   return `s${shipId}`;
+}
+
+export function worldShipTrailId(shipId) {
+  return `w${shipId}`;
 }
 
 // Appends `path` (a list of hexes, its first one the ship's position before

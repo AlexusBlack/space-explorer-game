@@ -1138,3 +1138,40 @@ from here.
   main choices, so there's something to say when no repair is needed; the
   world replies and the card closes about a second later. (The request said
   "Buy"; read as "Bye" since it closes the window.)
+- **World military fleets.** User request: inhabited worlds keep small
+  fleets, similar to pirate bases: normally one ship (the `units.png` sprite
+  at row 2, column 18 counted from 1, grid cell (1, 17)), strength 10,
+  none for extreme pacifists, two for extreme militarists. Ships roam
+  within 8 hexes of home; they target pirates if the home world is Wary or
+  worse of pirates, or if a pirate attacked another ship within 8 hexes of
+  them; they attack players if the home world is Hostile toward explorers,
+  and other worlds' ships if relations are hostile; like pirates they run
+  when damaged, and they are fully repaired at home. In game they are
+  "military ships". Decisions taken at plan time (the user picked each):
+  - Lost ships come back by a per-round chance (25%), like pirate
+    production, not a fixed delay.
+  - Players can attack only the ships of worlds Hostile toward explorers
+    (combat XP, no emc); other worlds' ships share hexes with players.
+  - Pirates now hunt world ships as well as players, and any pirate attack
+    makes the pirate a target under the "attacked a ship nearby" rule (for
+    this round and the next).
+  - "Hostile relations" between worlds means War only, not Rivalry.
+  - Pirate bases are targets too (for worlds Wary or worse of pirates).
+  - Also settled in the plan: running means heading home (where the repair
+    is), a damaged ship with no target heads home, and fights without a
+    player send no notifications. This supersedes the MVP4 note that
+    pirates never fight anything but player ships; planets themselves still
+    have no health and can't be attacked.
+- **Kills don't open a held hex.** User bug report after world military
+  fleets: a world ship (and potentially a player) that sank a pirate ship
+  parked over a pirate base moved onto the base. Defeating one ship of a
+  stack, or a ship over a base, must not let the attacker move onto the hex
+  if that move would otherwise be illegal. Every advance-on-kill path
+  (player tap attack, pirate on player or world ship, world ship on any
+  target) now moves in only when the hex holds nothing the attacker would
+  still have to fight; otherwise it stays one hex short, as after a
+  non-lethal attack. For military ships that means any pirate ship or base
+  (even one their world isn't hunting) or another of their targets.
+- **Bounty radius 20 → 12.** User request: "Decrease pirate bounty radius
+  to 12". `BOUNTY_RADIUS` in `src/economy.js`; fewer, nearer worlds pay for
+  each pirate kill.

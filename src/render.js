@@ -24,6 +24,7 @@ export const SHIP_MARKER_ZOOM = 0.2; // tunable
 const MARKER_RADIUS = 3.5; // px
 const ACTIVE_MARKER_RADIUS = 4.5; // px
 const PIRATE_MARKER_COLOR = "#ff4a3d";
+const WORLD_SHIP_MARKER_COLOR = "#3fc6c0"; // worlds' military ships
 
 // A far-zoom marker: a filled dot with an outline (white for players, dark
 // for pirates); `square` for pirate bases, which are structures, not ships.
@@ -167,13 +168,14 @@ function drawStackCount(ctx, cx, cy, hw, hh, zoom, count) {
 }
 
 // Groups visible ships by hex, best-first: the active player's ship, then
-// other players' ships, then everything else (pirates now, AI ships later),
-// each group in its incoming order. Only a stack's first ship is drawn.
+// other players' ships, then pirates, then worlds' military ships, each group
+// in its incoming order. Only a stack's first ship is drawn.
 // Players' ships are always visible; other ships only on hexes the active
 // player has discovered (`discovered` null = no fog). Returns
-// Map<"q,r", ship[]>, where each ship is { kind: "player"|"pirate", q, r, ... }.
-export function shipStacks(playerShips, otherShips, discovered) {
-  const rank = (ship) => (ship.kind !== "player" ? 2 : ship.active ? 0 : 1);
+// Map<"q,r", ship[]>, where each ship is { kind: "player"|"pirate"|"world", q, r, ... }.
+export function shipStacks(playerShips, otherShips, discovered, worldShips = []) {
+  const RANK = { pirate: 2, world: 3 };
+  const rank = (ship) => RANK[ship.kind] ?? (ship.active ? 0 : 1);
   const stacks = new Map();
   const add = (ship) => {
     const key = axialKey(ship.q, ship.r);
@@ -184,6 +186,10 @@ export function shipStacks(playerShips, otherShips, discovered) {
   for (const ship of otherShips ?? []) {
     if (discovered && !discovered.has(axialKey(ship.q, ship.r))) continue;
     add({ ...ship, kind: "pirate" });
+  }
+  for (const ship of worldShips ?? []) {
+    if (discovered && !discovered.has(axialKey(ship.q, ship.r))) continue;
+    add({ ...ship, kind: "world" });
   }
   // Array.prototype.sort is stable, so equal ranks keep their order.
   for (const stack of stacks.values()) stack.sort((a, b) => rank(a) - rank(b));
@@ -311,7 +317,7 @@ function visibleHexRange(camera, canvasW, canvasH) {
 
 export function render(
   ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame,
-  pirateBases, pirateShips, trails
+  pirateBases, pirateShips, worldShips, trails
 ) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
@@ -420,7 +426,7 @@ export function render(
   // start under the ship label instead of overlapping it.
   const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
   const playerImg = iconImages && iconImages.ship;
-  const stacks = [...shipStacks(ships, pirateShips, discovered).values()];
+  const stacks = [...shipStacks(ships, pirateShips, discovered, worldShips).values()];
   const shipLabelBottoms = new Map(); // "q,r" -> screen y of the ship label's bottom
   const shipLabelAnchors = new Map(); // "q,r" -> the ship label's anchor
   if (camera.zoom > LABEL_ZOOM) {
@@ -480,6 +486,7 @@ export function render(
   // never draw above their native pixel size: they stay sharp and don't
   // swell to planet size when zoomed in.
   const pirateImg = iconImages && iconImages["pirate-ship"];
+  const worldShipImg = iconImages && iconImages["military-ship"];
   const selectImg = iconImages && iconImages.select;
   // Pirate-topped stacks first, so a player ship reads as on top where
   // sprites overlap neighboring hexes.
@@ -493,7 +500,8 @@ export function render(
       if (top.kind === "player") {
         drawMarker(ctx, p.x, p.y, top.active ? ACTIVE_MARKER_RADIUS : MARKER_RADIUS, top.color, "#fff");
       } else {
-        drawMarker(ctx, p.x, p.y, MARKER_RADIUS, PIRATE_MARKER_COLOR, "#05070d");
+        const color = top.kind === "world" ? WORLD_SHIP_MARKER_COLOR : PIRATE_MARKER_COLOR;
+        drawMarker(ctx, p.x, p.y, MARKER_RADIUS, color, "#05070d");
       }
       continue;
     }
@@ -505,6 +513,10 @@ export function render(
       if (top.health < top.maxHealth) drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
       const labelAt = shipLabelAnchors.get(axialKey(top.q, top.r));
       if (labelAt) shipLabels.push([top.label, labelAt, top.color]);
+    } else if (top.kind === "world") {
+      drawIcon(ctx, worldShipImg, p.x, p.y, shipZoom);
+      // Only once damaged, like players: most worlds keep a healthy ship.
+      if (top.health < top.maxHealth) drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
     } else {
       drawIcon(ctx, pirateImg, p.x, p.y, shipZoom);
       drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);

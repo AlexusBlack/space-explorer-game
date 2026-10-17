@@ -64,6 +64,10 @@ other sheets are — see below). Two sprites are designated for use:
 - **Initial pirate ship** — row 1, column 13 (a blue/white angular fighter)
   — **extracted and wired in (MVP4)**, see `images/icons/pirate-ship.png`
   below (59×35px, via the same chroma-key crop as `ship.png`).
+- **World military ship** — row 2, column 18 counted from 1, grid cell
+  (1, 17) in `extract-icons.py`'s `MANIFEST` (a tan twin-engine fighter) —
+  extracted to `images/icons/military-ship.png` (58×36px, same chroma-key
+  crop) for inhabited worlds' military fleets.
 
 This resolves the ship-sprite gap noted below: both MVP0's visual
 completeness and MVP4's pirate-ship requirement now have source art.
@@ -309,6 +313,10 @@ the repetition becomes a real complaint during playtesting.
   extracted (MVP4) to `images/icons/pirate-ship.png` (59×35px) via the same
   chroma-key crop as `ship.png`, wired into `render.js`'s new pirate-ship
   marker pass.
+- **World military ship** sprite — grid cell (1, 17) of `units.png`,
+  extracted to `images/icons/military-ship.png` (58×36px), drawn by
+  `render.js` for `kind: "world"` stack entries and used as the `military`
+  notice icon. Covered by the same open `units.png` provenance question.
 - **Pirate base** sprite — `pirate-base.png` (standalone file, MVP4),
   referenced directly (no crop step) into `render.js`'s new pirate-base
   marker pass.

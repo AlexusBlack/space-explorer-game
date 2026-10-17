@@ -10,7 +10,7 @@ import { attitudeToPirates } from "./ethics.js";
 import { stateLabel } from "./government.js";
 
 // Tunable.
-export const BOUNTY_RADIUS = 20;
+export const BOUNTY_RADIUS = 12;
 export const SHIP_BOUNTY_EMC = 100;
 export const BASE_BOUNTY_EMC = 300;
 

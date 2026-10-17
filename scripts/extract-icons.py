@@ -260,6 +260,7 @@ MANIFEST = [
     # graphics-and-assets.md's units.png section) --
     ("ship", "units.png", 1, 2, {"chroma_key": True}),  # rounded tan/beige craft
     ("pirate-ship", "units.png", 0, 12, {"chroma_key": True}),  # blue/white angular fighter
+    ("military-ship", "units.png", 1, 17, {"chroma_key": True}),  # tan twin-engine fighter: world military ships
 ]
 
 

@@ -122,7 +122,7 @@ export function produceFromBases(gameState, rng = Math.random) {
   }
 }
 
-function removeBase(gameState, baseId) {
+export function removeBase(gameState, baseId) {
   // Deliberately does NOT remove ships already produced by this base —
   // they become ownerless orphans, harmless, since produceFromBases only
   // ever counts ships whose baseId matches a STILL-PRESENT base's id, and
@@ -131,11 +131,11 @@ function removeBase(gameState, baseId) {
   gameState.pirateBases = gameState.pirateBases.filter((b) => b.id !== baseId);
 }
 
-function removeShip(gameState, shipId) {
+export function removeShip(gameState, shipId) {
   gameState.pirateShips = gameState.pirateShips.filter((s) => s.id !== shipId);
 }
 
-function randomNeighbor(mapData, from, rng) {
+export function randomNeighbor(mapData, from, rng) {
   const neighbors = axialNeighbors(from.q, from.r).filter((n) => mapData.tiles.has(axialKey(n.q, n.r)));
   if (!neighbors.length) return from;
   return neighbors[Math.floor(rng() * neighbors.length)];
@@ -144,7 +144,7 @@ function randomNeighbor(mapData, from, rng) {
 // Greedy step: the materialized neighbor that minimizes hexDistance to
 // `target`. Not real pathfinding (can get stuck going around a system's
 // own halo) — deliberately simple for an MVP roam AI.
-function stepToward(mapData, from, target) {
+export function stepToward(mapData, from, target) {
   const neighbors = axialNeighbors(from.q, from.r).filter((n) => mapData.tiles.has(axialKey(n.q, n.r)));
   if (!neighbors.length) return from;
   let best = neighbors[0];
@@ -162,7 +162,7 @@ function stepToward(mapData, from, target) {
 // Greedy flee: the materialized neighbor that MAXIMIZES hexDistance from
 // `avoid` — the mirror image of stepToward, used when a pirate ship is
 // badly outmatched (relative health) by the player it's facing.
-function stepAwayFrom(mapData, from, avoid) {
+export function stepAwayFrom(mapData, from, avoid) {
   const neighbors = axialNeighbors(from.q, from.r).filter((n) => mapData.tiles.has(axialKey(n.q, n.r)));
   if (!neighbors.length) return from;
   let best = neighbors[0];
@@ -177,22 +177,32 @@ function stepAwayFrom(mapData, from, avoid) {
   return best;
 }
 
-function findNearestPlayer(players, from) {
+// Every ship a pirate raider hunts: players' ships and worlds' military
+// ships (fleets.js), each with its health fraction for the chase roll.
+function pirateQuarry(gameState) {
+  return [
+    ...gameState.players.map((p) => ({ entity: p, healthFrac: p.currentHealth / maxHealthForPlayer(p) })),
+    ...(gameState.worldShips ?? []).map((s) => ({ entity: s, healthFrac: s.health / s.maxHealth })),
+  ];
+}
+
+function findNearest(quarry, from) {
   let nearest = null;
   let nearestDist = Infinity;
-  for (const player of players) {
-    const d = hexDistance(from, player);
+  for (const target of quarry) {
+    const d = hexDistance(from, target.entity);
     if (d < nearestDist) {
-      nearest = player;
+      nearest = target;
       nearestDist = d;
     }
   }
-  return { player: nearest, distance: nearestDist };
+  return { target: nearest, distance: nearestDist };
 }
 
 // One pirate ship's roam for this round: up to PIRATE_SHIP_SPEED single-hex
-// steps, each re-evaluating behavior fresh. Within PIRATE_SHIP_DETECTION_
-// RADIUS of the nearer player, chase chance isn't flat — it's
+// steps, each re-evaluating behavior fresh. Its quarry is the nearest ship,
+// a player's or a world's military ship (see pirateQuarry). Within
+// PIRATE_SHIP_DETECTION_RADIUS of it, chase chance isn't flat — it's
 // PIRATE_CHASE_CHANCE scaled by healthRatio, the pirate's own HP fraction
 // relative to that player's (clamped to 1, so being relatively healthier
 // never chases MORE than the ceiling): a ship at full relative health
@@ -211,21 +221,20 @@ function findNearestPlayer(players, from) {
 // REST of this round's movement attacking rather than advancing (mirrors
 // Civ5: a melee attack consumes the unit's action for the turn). Returns
 // a {playerIndex, q, r, message} event for the attacked player's
-// notification area, or null if the ship used its
-// whole speed budget without ever encountering a player.
+// notification area, or null if the ship used its whole speed budget
+// without a fight or fought a world's military ship (no player to tell).
 function stepPirateShip(mapData, gameState, ship, rng) {
   for (let step = 0; step < PIRATE_SHIP_SPEED; step++) {
-    const { player: nearest, distance } = findNearestPlayer(gameState.players, ship);
+    const { target: nearest, distance } = findNearest(pirateQuarry(gameState), ship);
     let next;
     if (nearest && distance <= PIRATE_SHIP_DETECTION_RADIUS) {
       const pirateHealthFrac = ship.health / ship.maxHealth;
-      const playerHealthFrac = nearest.currentHealth / maxHealthForPlayer(nearest);
-      const healthRatio = Math.min(1, pirateHealthFrac / Math.max(playerHealthFrac, 0.01));
+      const healthRatio = Math.min(1, pirateHealthFrac / Math.max(nearest.healthFrac, 0.01));
       const chaseChance = PIRATE_CHASE_CHANCE * healthRatio;
       if (rng() < chaseChance) {
-        next = stepToward(mapData, ship, nearest);
+        next = stepToward(mapData, ship, nearest.entity);
       } else if (healthRatio < PIRATE_FLEE_HEALTH_RATIO) {
-        next = stepAwayFrom(mapData, ship, nearest);
+        next = stepAwayFrom(mapData, ship, nearest.entity);
       } else {
         next = randomNeighbor(mapData, ship, rng);
       }
@@ -234,15 +243,16 @@ function stepPirateShip(mapData, gameState, ship, rng) {
     }
 
     const playerHere = gameState.players.find((p) => p.q === next.q && p.r === next.r);
-    if (!playerHere) {
-      const from = { q: ship.q, r: ship.r };
-      ship.q = next.q;
-      ship.r = next.r;
-      recordPirateStep(gameState, ship, from);
-      continue;
+    if (playerHere) return resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng);
+    const worldShipHere = (gameState.worldShips ?? []).find((s) => s.q === next.q && s.r === next.r);
+    if (worldShipHere) {
+      resolvePirateAttackOnWorldShip(mapData, gameState, ship, worldShipHere, rng);
+      return null;
     }
-
-    return resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng);
+    const from = { q: ship.q, r: ship.r };
+    ship.q = next.q;
+    ship.r = next.r;
+    recordPirateStep(gameState, ship, from);
   }
   return null;
 }
@@ -253,6 +263,7 @@ function stepPirateShip(mapData, gameState, ship, rng) {
 // for the round regardless of which step number encountered the player.
 function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   playerHere.inCombatThisRound = true;
+  markPirateAttack(gameState, ship, next);
   const tile = mapData.tiles.get(axialKey(next.q, next.r)); // defender's tile
   const attacker = { attack: ship.attack, health: ship.health, maxHealth: ship.maxHealth };
   const defender = {
@@ -270,10 +281,7 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   const where = { playerIndex, q: next.q, r: next.r };
   if (result.defenderDefeated) {
     applyShipLoss(mapData, gameState, playerHere);
-    const from = { q: ship.q, r: ship.r };
-    ship.q = next.q; // vacated — advance in
-    ship.r = next.r;
-    recordPirateStep(gameState, ship, from);
+    advanceIfClear(gameState, ship, next);
     return {
       ...where,
       message: `A pirate raider destroyed ${victim}! Respawned at Earth, -${SHIP_LOSS_XP_PENALTY} XP.`,
@@ -294,6 +302,37 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
     ...where,
     message: `A pirate raider clashed with ${victim} — raider ${ship.health}/${ship.maxHealth} HP, ${victim} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP. +${COMBAT_SURVIVAL_XP} XP.`,
   };
+}
+
+// After a kill the raider moves onto the victim's hex only if nothing else
+// it would have to fight is still there (a teammate stacked on it, a
+// world's military ship); otherwise it stays put, like any other attack.
+function advanceIfClear(gameState, ship, at) {
+  if (pirateQuarry(gameState).some((t) => t.entity.q === at.q && t.entity.r === at.r)) return;
+  const from = { q: ship.q, r: ship.r };
+  ship.q = at.q;
+  ship.r = at.r;
+  recordPirateStep(gameState, ship, from);
+}
+
+// Remembered so nearby worlds' military ships can hunt the attacker (see
+// fleets.js's rule (b)), whoever its victim was.
+function markPirateAttack(gameState, ship, at) {
+  ship.lastAttack = { turn: gameState.turnNumber, q: at.q, r: at.r };
+}
+
+// A raider attacking a world's military ship: a plain exchange, nobody to
+// notify and no bounty. Same "advance only on a kill" rule as against a
+// player.
+function resolvePirateAttackOnWorldShip(mapData, gameState, ship, target, rng) {
+  markPirateAttack(gameState, ship, target);
+  const tile = mapData.tiles.get(axialKey(target.q, target.r)); // defender's tile
+  const result = resolveCombat(ship, target, terrainDefenseBonus(tile), rng);
+  if (result.defenderDefeated) {
+    gameState.worldShips = gameState.worldShips.filter((s) => s !== target);
+    advanceIfClear(gameState, ship, target);
+  }
+  if (result.attackerDefeated) removeShip(gameState, ship.id);
 }
 
 // ", +300 emc in bounties" after a kill's XP, or nothing when no world paid.

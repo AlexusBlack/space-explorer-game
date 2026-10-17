@@ -37,6 +37,7 @@ import {
 } from "./state.js";
 import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer } from "./trails.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
+import { seedWorldFleets, tickWorldFleets, findHostileWorldShipAt, resolvePlayerAttackOnWorldShip } from "./fleets.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 import { roomImagePath, landscapeImagePath } from "./scene.js";
 import { formatEmc } from "./economy.js";
@@ -187,6 +188,7 @@ function loadMap(seed, settings) {
 function startNewGame(seed, setup, settings) {
   loadMap(seed, settings);
   gameState = createNewGame(mapData, setup);
+  seedWorldFleets(mapData, gameState);
   saveGame(currentSeed, currentMapSettings, gameState);
   updateHud();
   hideWinBanner();
@@ -253,7 +255,7 @@ function frame(bandImages, iconImages) {
     ({ tagHits } = render(
       ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages,
       active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips,
-      trailsForViewer(gameState, trailTurnsForPlayer(active))
+      gameState.worldShips, trailsForViewer(gameState, trailTurnsForPlayer(active))
     ));
     needsRedraw = false;
   }
@@ -422,7 +424,9 @@ function noticeElement(player, notification) {
       ? speciesImagePath(kind)
       : notification.kind === "wormhole"
         ? "images/icons/wormhole-glyph.png"
-        : "images/icons/pirate-ship.png";
+        : notification.kind === "military"
+          ? "images/icons/military-ship.png"
+          : "images/icons/pirate-ship.png";
     el.appendChild(img);
   }
 
@@ -821,10 +825,12 @@ function handleTap(screenPos) {
   if (distance <= 0 || distance > gameState.movesRemaining) return;
 
   const path = hexLine(current, target);
-  // Live pirate at the TAPPED TARGET, checked before committing any
-  // movement — needed for the "attacking ship doesn't move onto the
-  // target's tile unless it destroys the opponent" rule below.
-  const pirateAtTarget = findPirateAt(gameState, target.q, target.r);
+  // Live pirate (or a military ship of a world Hostile toward explorers) at
+  // the TAPPED TARGET, checked before committing any movement — needed for
+  // the "attacking ship doesn't move onto the target's tile unless it
+  // destroys the opponent" rule below. Other worlds' ships don't block.
+  const pirateAtTarget =
+    findPirateAt(gameState, target.q, target.r) ?? findHostileWorldShipAt(mapData, gameState, target.q, target.r);
 
   let suppressUpgradePicker = false;
 
@@ -838,11 +844,17 @@ function handleTap(screenPos) {
     moveActive(active, approachPath);
     gameState.movesRemaining = Math.max(0, gameState.movesRemaining - ATTACK_MOVE_COST);
 
-    const combatResult = resolvePlayerAttack(mapData, gameState, active, pirateAtTarget);
+    const combatResult = pirateAtTarget.kind === "world"
+      ? resolvePlayerAttackOnWorldShip(mapData, gameState, active, pirateAtTarget.entity)
+      : resolvePlayerAttack(mapData, gameState, active, pirateAtTarget);
     pendingCombatEvents.push(combatResult.message);
     active.notifications.push(...(combatResult.bounties ?? []));
     suppressUpgradePicker = true;
-    if (combatResult.defenderDefeated) {
+    // Advance only if the kill left the hex clear: a raider parked on its
+    // base, or a stack of ships, still holds it after one of them falls.
+    const stillHeld =
+      findPirateAt(gameState, target.q, target.r) ?? findHostileWorldShipAt(mapData, gameState, target.q, target.r);
+    if (combatResult.defenderDefeated && !stillHeld) {
       moveActive(active, [approachPath[approachPath.length - 1], target]); // vacated — advance in
     }
     if (combatResult.attackerDefeated) {
@@ -907,6 +919,10 @@ function endTurn() {
     const events = tickPirates(mapData, gameState);
     for (const { playerIndex, q, r, message, bounties = [] } of events) {
       gameState.players[playerIndex].notifications.push({ kind: "pirate", q, r, message }, ...bounties);
+    }
+    // Worlds' military fleets move right after the pirates (see fleets.js).
+    for (const { playerIndex, q, r, message } of tickWorldFleets(mapData, gameState)) {
+      gameState.players[playerIndex].notifications.push({ kind: "military", q, r, message });
     }
     tickPassiveHealing(gameState);
   }
@@ -1220,6 +1236,8 @@ if (
   // directly) — replay any anomalies a prior session already destroyed so
   // they don't reappear.
   applyDestroyedAnomalies(mapData, gameState);
+  // Saves from before world fleets: every world launches its full fleet.
+  if (!gameState.worldShips) seedWorldFleets(mapData, gameState);
   for (const player of gameState.players) pruneNotifications(mapData, player);
   updateHud();
   if (checkWinCondition(mapData, gameState.players)) {
