@@ -40,6 +40,7 @@ import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 import { roomImagePath, landscapeImagePath } from "./scene.js";
 import { formatEmc } from "./economy.js";
+import { chatHistory, appendExchange, mainChoices, respond } from "./comms.js";
 import {
   AXES,
   ethicLabel,
@@ -103,6 +104,8 @@ const worldCardPortrait = document.getElementById("world-card-portrait");
 const worldCardTabs = document.getElementById("world-card-tabs");
 const worldCardInfo = document.getElementById("world-card-info");
 const worldCardDiplomacy = document.getElementById("world-card-diplomacy");
+const commsLog = document.getElementById("comms-log");
+const commsChoices = document.getElementById("comms-choices");
 const worldCardPanels = [...worldCard.querySelectorAll(".world-card-tab")];
 const tileReport = document.getElementById("tile-report");
 const tileReportTitle = document.getElementById("tile-report-title");
@@ -558,6 +561,66 @@ function fillWorldDiplomacy(tile) {
   }
 }
 
+// The Communications tab (comms.js): the active player's chat history with
+// this world, then the choices. An open offer isn't saved, so every opening
+// starts from the main choices.
+const COMMS_TYPING_MS = 600;
+// After Bye's reply, so it can be read before the card closes.
+const COMMS_CLOSE_MS = 1000;
+let commsTile = null;
+let commsToken = 0;
+function fillWorldComms(tile) {
+  commsTile = tile;
+  commsToken++;
+  const active = gameState.players[gameState.activePlayerIndex];
+  commsLog.replaceChildren(...chatHistory(active, tile).map((m) => domEl("div", `msg ${m.from}`, m.text)));
+  showCommsChoices(mainChoices(active));
+}
+
+function showCommsChoices(choices) {
+  commsChoices.replaceChildren(
+    ...choices.map((choice) => {
+      const button = domEl("button", null, choice.label);
+      button.dataset.choice = choice.id;
+      button.disabled = !!choice.disabled;
+      if (choice.note) button.append(domEl("span", "note", `(${choice.note})`));
+      return button;
+    }),
+  );
+  scrollCommsToEnd();
+}
+
+function scrollCommsToEnd() {
+  commsLog.scrollTop = commsLog.scrollHeight;
+}
+
+// The exchange is applied and saved at once; only showing the reply waits
+// behind a short "typing" bubble, so closing the card meanwhile loses nothing.
+function pickCommsChoice(choiceId) {
+  const tile = commsTile;
+  const active = gameState.players[gameState.activePlayerIndex];
+  const result = respond(tile, active, choiceId);
+  appendExchange(active, tile, result);
+  saveGame(currentSeed, currentMapSettings, gameState);
+  updateHud();
+  commsChoices.replaceChildren();
+  const typing = domEl("div", "msg world typing", "…");
+  commsLog.append(domEl("div", "msg player", result.playerText), typing);
+  scrollCommsToEnd();
+  const token = ++commsToken;
+  setTimeout(() => {
+    if (token !== commsToken) return;
+    typing.replaceWith(domEl("div", "msg world", result.replyText));
+    showCommsChoices(result.choices);
+    scrollCommsToEnd();
+    if (result.closes) {
+      setTimeout(() => {
+        if (token === commsToken) dismissWorldCard();
+      }, COMMS_CLOSE_MS);
+    }
+  }, COMMS_TYPING_MS);
+}
+
 // Shows one tab's panel ("comms", "details" or "diplomacy").
 function selectWorldTab(name) {
   for (const button of worldCardTabs.children) {
@@ -567,8 +630,9 @@ function selectWorldTab(name) {
 }
 
 // Info card for an inhabited world, opened by tapping its name tag: laid out
-// like a video call (header, scene, tabs), opening on Communications. Display
-// only: nothing in the game acts on species, government or ethics.
+// like a video call (header, scene, tabs), opening on Communications. The
+// world's attitude toward explorers decides its repair offers (comms.js);
+// species, government and the rest of its ethics are display only.
 function showWorldCard(tile) {
   const kind = tile.species ? speciesById.get(tile.species.id) : null;
   fillWorldHeader(tile);
@@ -578,6 +642,8 @@ function showWorldCard(tile) {
   for (const panel of worldCardPanels) panel.scrollTop = 0;
   selectWorldTab("comms");
   worldCard.classList.add("visible");
+  // After the card shows, so the log has a height to scroll to its end.
+  fillWorldComms(tile);
 }
 
 // The scene's three layers (scene.js; picked by mapgen's assignRooms). The
@@ -1120,6 +1186,10 @@ worldCardClose.addEventListener("click", dismissWorldCard);
 worldCardTabs.addEventListener("click", (e) => {
   const tab = e.target.closest("[data-tab]");
   if (tab) selectWorldTab(tab.dataset.tab);
+});
+commsChoices.addEventListener("click", (e) => {
+  const button = e.target.closest("button[data-choice]");
+  if (button && !button.disabled) pickCommsChoice(button.dataset.choice);
 });
 // Only the backdrop and the close button dismiss, so "View world" stays pressable.
 tileReport.addEventListener("pointerdown", (e) => {

@@ -1111,3 +1111,30 @@ from here.
   - emc belongs to each player, like XP, not to the team (unlike fog).
   - Distance is measured from where the pirate died. emc is never lost,
     and nothing spends it yet. The existing XP base bounty is unchanged.
+- **World communications: a chat with a repair dialogue.** User request: the
+  world card's Communications tab (empty since "Reorganise the world card")
+  works like a messenger. The government opens with a one-sentence greeting
+  naming the world, flavoured by its ethics and attitude (xenophobes may
+  tell the player to stay away); the player picks messages and every one
+  gets a reply through a dialogue tree; the full history is stored. Only the
+  greeting is ethics-flavoured for now. First dialogue: ship repair, offered
+  at Neutral or better for 5 emc per missing HP, 1 emc less per HP at
+  Friendly worlds and 2 less at Allied ones; Earth and Luna repair for free;
+  below Neutral the world refuses; a player short of emc can only refuse.
+  Decisions taken at plan time (the user picked each):
+  - Repairs need the ship on the world's hex; chatting works from anywhere
+    (world cards open from anywhere on the map).
+  - History is per player, like emc and XP, not per team.
+  - Greetings are hand-written templates in code (attitude tier × dominant
+    ethic pole, two lines each, a stable per-world pick), not paid text
+    generation.
+  - When the player can't afford it, Pay is shown greyed out ("not enough
+    emc") and only Decline works.
+  - Also settled in the plan: the open offer isn't saved (closing the card
+    drops it, and Pay re-quotes), and repairs cost no moves.
+- **Communications follow-up: hide repairs at full health, add "Bye".**
+  User feedback: "Request ship repairs" showed even on an undamaged ship;
+  it's now offered only while damaged. A generic "Bye" is always among the
+  main choices, so there's something to say when no repair is needed; the
+  world replies and the card closes about a second later. (The request said
+  "Buy"; read as "Bye" since it closes the window.)

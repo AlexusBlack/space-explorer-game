@@ -197,7 +197,30 @@
     margin: 10px 0 4px; font-size: 0.8em; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; opacity: 0.6;
   }
-  .comms-empty { margin-top: 12px; font-style: italic; opacity: 0.6; text-align: center; }
+  /* Communications: a messenger. The log scrolls; the choices stay put. */
+  #world-card-comms:not([hidden]) { display: flex; flex-direction: column; overflow: hidden; padding: 0; }
+  #comms-log {
+    flex: 1; min-height: 0; overflow-y: auto; padding: 6px 2px;
+    display: flex; flex-direction: column; gap: 6px;
+  }
+  .msg {
+    max-width: 82%; padding: 6px 10px; line-height: 1.35;
+    overflow-wrap: anywhere; white-space: pre-wrap;
+  }
+  .msg.world { align-self: flex-start; background: #1b2f6b; color: #e6eeff; border-radius: 4px 14px 14px 14px; }
+  .msg.player { align-self: flex-end; background: #2f6fe0; color: #fff; border-radius: 14px 4px 14px 14px; }
+  .msg.typing { letter-spacing: 0.2em; opacity: 0.7; }
+  #comms-choices {
+    display: flex; flex-wrap: wrap; gap: 6px; justify-content: flex-end;
+    padding: 6px 2px; border-top: 1px solid #1b2f6b;
+  }
+  #comms-choices:empty { display: none; }
+  #comms-choices button {
+    padding: 6px 12px; border-radius: 999px; border: 1px solid #4a8cff;
+    background: none; color: #cfe0ff; font: inherit; cursor: pointer;
+  }
+  #comms-choices button:disabled { opacity: 0.45; cursor: default; }
+  #comms-choices .note { font-size: 0.8em; opacity: 0.8; margin-left: 4px; }
   .species-description { margin-top: 2px; opacity: 0.85; }
   .ethics-list, .government, .state-name, .species-name { color: #fff; font-weight: 600; }
   .state-name + .government { font-weight: 400; }
@@ -396,7 +419,8 @@
       <button role="tab" data-tab="diplomacy" aria-controls="world-card-diplomacy">Diplomacy</button>
     </div>
     <div id="world-card-comms" class="world-card-tab" role="tabpanel" data-tab="comms">
-      <div class="comms-empty">Channel open. No transmissions yet.</div>
+      <div id="comms-log" aria-live="polite"></div>
+      <div id="comms-choices"></div>
     </div>
     <div id="world-card-info" class="world-card-tab" role="tabpanel" data-tab="details"></div>
     <div id="world-card-diplomacy" class="world-card-tab" role="tabpanel" data-tab="diplomacy"></div>

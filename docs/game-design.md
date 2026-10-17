@@ -298,8 +298,8 @@ Democracy's room.
 
 Under the scene, three tabs show one topic at a time. The card always opens
 on the first:
-- **Communications:** empty for now ("Channel open. No transmissions
-  yet.").
+- **Communications:** a chat with the world's government (see
+  "Communications" below).
 - **Details:** the world's class and type (e.g. "Rocky planet", "Ice
   moon"), the name its species goes by there and the species description,
   its government (its name, none for an Anarchy, then its form, with its type
@@ -629,7 +629,8 @@ hex).
 **emc** stands for Exotic Matter Currency. Each player has their own
 balance, shown at the top left of the screen for whoever's turn it is.
 There's no limit to how much a player can hold, emc is never lost (losing
-a ship costs XP only), and nothing spends it yet.
+a ship costs XP only). It's spent on ship repairs bought from worlds (see
+"Communications").
 
 **Pirate bounties** are the first way to earn it. When your ship destroys
 a pirate ship or base, every inhabited world that:
@@ -650,6 +651,41 @@ Each paying world sends its own notification (a gold "emc" icon), e.g.
 hexes from Anxor." The combat message also shows the total. Bounties from
 a fight on your own turn appear straight away; those from a raider you
 destroyed in the pirate turn appear at the start of your next turn.
+
+## Communications
+
+The world card's Communications tab is a chat with the world's government,
+laid out like a messenger: the world's messages on the left, yours on the
+right, and your message choices at the bottom. Every message you send gets
+a reply (after a short "…" while they type). Each player keeps their own
+conversation with each world, and the whole history is saved.
+
+**Greeting.** The first time you open a world's chat, its government opens
+with one sentence that names the world. Its tone follows the world's
+attitude toward explorers (Hostile to Allied), and its flavour follows the
+world's strongest ethic (e.g. a militarist world talks like a defence
+command, a spiritualist one about its faith; ties go xeno, war, spirit,
+order). It isn't always friendly: a Hostile xenophobe tells you to turn your
+ship around. A world always gives the same greeting. Earth and Luna greet
+you as home. For now only the greeting differs between worlds; every reply
+after it is the same everywhere.
+
+**Your choices** in the main chat: "Request ship repairs", offered only
+while your ship is damaged, and **"Bye"**, always there: the world says
+goodbye and the card closes a moment later.
+
+**Ship repairs** are the first dialogue. The world answers in this order:
+1. Attitude toward explorers below Neutral (Wary or Hostile): it refuses.
+2. Your ship isn't on the world's hex: it asks you to bring the ship there
+   first. You can chat from anywhere, but repairs need you docked.
+3. Otherwise it offers to repair every missing HP. The price is **5 emc per
+   HP** (`REPAIR_EMC_PER_HP`), 4 at a Friendly world and 3 at an Allied one.
+   **Earth and Luna always repair for free.** You can pay (the hull is
+   repaired to full at once) or decline. If you can't afford it, Pay is
+   greyed out ("not enough emc") and you can only decline.
+
+An offer only stands while the card is open. Repairs don't use moves or end
+your turn.
 
 ## Planets & Natural Wonders
 

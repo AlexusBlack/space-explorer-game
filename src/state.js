@@ -240,9 +240,9 @@ function createPlayer({ name, shipName, color }, discovered) {
     discovered, // the team's shared fog Set (see the header comment)
     // Depletes during combat, persisted (unlike the derived moves/vision/xp
     // helpers above) since it's mutable moment-to-moment state, not a pure
-    // function of xp/unlockedUpgrades. Respawn-only full heal (see
-    // applyShipLoss below) — a damaged-but-surviving ship stays damaged
-    // until it dies or a future MVP adds a heal-at-Earth mechanic.
+    // function of xp/unlockedUpgrades. Full heals: respawn (see
+    // applyShipLoss below), the Instant Ship Repair pick, and repairs
+    // bought from a world over communications (comms.js).
     currentHealth: HEALTH_BASE,
     // Did this player fight (either side) during the round currently in
     // progress? Spans every player's turn plus the round-tick — reset to
@@ -258,6 +258,9 @@ function createPlayer({ name, shipName, color }, discovered) {
     // emc (Exotic Matter Currency, see economy.js): this player's own
     // balance, never lost, no cap.
     emc: 0,
+    // Communications history with each world, { [axialKey]: [{ from:
+    // "world" | "player", text }] } (see comms.js). Per player, persisted.
+    comms: {},
   };
 }
 
@@ -480,6 +483,7 @@ export function serializeState(seed, mapSettings, gameState) {
       notifications: player.notifications,
       instantRepairsUsed: player.instantRepairsUsed,
       emc: player.emc,
+      comms: player.comms,
     })),
   };
 }
@@ -531,6 +535,8 @@ export function deserializeState(raw) {
       instantRepairsUsed: p.instantRepairsUsed ?? 0,
       // Saves predating emc start with none.
       emc: p.emc ?? 0,
+      // Saves predating communications have no history yet.
+      comms: p.comms ?? {},
     })),
   };
 }

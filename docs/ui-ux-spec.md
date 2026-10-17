@@ -74,8 +74,15 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
     images have loaded.
   - Then a tab bar (Communications, Details, Diplomacy) over a panel of a
     fixed height, so switching tabs never resizes the card; longer content
-    scrolls inside the panel. It always opens on Communications, which is
-    an empty placeholder for now. Details holds the world's class and type,
+    scrolls inside the panel. It always opens on Communications, a
+    messenger-style chat: the world's bubbles on the left (dark navy), the
+    player's on the right (blue), a log that scrolls and starts at the newest
+    message, and the player's choices as pill buttons in a row along the
+    bottom. A choice the player can't use (e.g. Pay without enough emc) is
+    dimmed with its reason beside it. After a choice, the player's bubble
+    appears, a "…" typing bubble shows for about 0.6 s, then the reply and
+    the next choices. "Bye" closes the card about 1 s after its reply.
+    Details holds the world's class and type,
     the species name and description, the government (its own name, e.g.
     "Republic of Anxor", none for an Anarchy; then its flavoured form, plus
     the type when the form doesn't say it) and the ethics (a one-line list

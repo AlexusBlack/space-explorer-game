@@ -212,6 +212,7 @@ src/
 ├── ethics.js       inhabited worlds' ethics + static attitudes (display only)
 ├── government.js   inhabited worlds' government type, state name + ethics-flavoured form
 ├── economy.js      emc (Exotic Matter Currency): pirate bounties, per-player balance
+├── comms.js        world card chat: greetings, repair dialogue, per-player history
 ├── tile-report.js  pure data builder for the long-press tile report
 ├── scene.js        world card scene: which landscape and room a world shows
 ├── trails.js       Vessel Trail Detector: ship move records + age windows

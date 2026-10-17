@@ -367,7 +367,9 @@ gameState (src/state.js, persisted — see "Persistence" below)
             discovered: Set<"q,r"> (the SAME instance for teammates),
             currentHealth, inCombatThisRound,
             notifications: [{ kind, q, r, message, speciesId? }],
-            emc (Exotic Matter Currency balance, see economy.js) }
+            emc (Exotic Matter Currency balance, see economy.js),
+            comms: { ["q,r"]: [{ from: "world" | "player", text }] }
+              (chat history per world, see comms.js) }
 ```
 Only `xp` and `unlockedUpgrades` are persisted leveling state — `level`,
 `visionRadius`, moves-per-turn, and the per-tile XP bonus are all derived
@@ -865,7 +867,7 @@ world's):
 Every weight, bias and threshold is a named, tunable constant in
 `ethics.js`. The world card's tabs are a `role="tablist"` of buttons
 (`#world-card-tabs`, each with a `data-tab`) over three `.world-card-tab`
-panels: `#world-card-comms` (a static empty-state line for now),
+panels: `#world-card-comms` (the chat, see "Communications" below),
 `#world-card-info` and `#world-card-diplomacy`. `main.js`'s `fillWorldInfo`
 renders the Details tab (class and type, species name and description,
 Government, Ethics as one line of non-Balanced labels) and
@@ -922,6 +924,37 @@ result or event as `bounties` and append the total to the combat message;
 `pirates.js` itself never touches `notifications`, `main.js` routes them.
 The top bar's `#emc-label` shows the active player's `formatEmc(emc)`
 from `updateHud`.
+
+**Communications.** `comms.js` is pure (no DOM). `greeting(tile)` picks a
+line from `GREETINGS[attitudeToPlayers(tile)][dominantPole(tile.ethics)]`
+(dominant pole: the axis with the largest |value|, ties in the order xeno,
+war, spirit, order; "balanced" when all are 0), two lines per cell, chosen
+by an FNV-1a hash of the tile's axial key so it never draws from an rng and
+map generation is untouched. Only cells that can occur are written (a
+headless test enumerates every ethics combination, with and without `kin`);
+any other falls back to the tier's `balanced` line. Earth and Luna use
+`HOME_GREETINGS`. `chatHistory(player, tile)` returns `player.comms[key]`,
+creating it with the greeting on first contact; `appendExchange` pushes the
+player's message and the reply. `respond(tile, player, choiceId)` is the
+dialogue tree: it returns `{ playerText, replyText, choices }` (choices are
+`{ id, label, disabled?, note? }`) and applies a repair to the player
+itself. Repairs: refused below Neutral attitude, need `player.q, r` on the
+world's hex, quote `repairQuote` = missing HP × (`REPAIR_EMC_PER_HP` minus
+`FRIENDLY_REPAIR_DISCOUNT`/`ALLIED_REPAIR_DISCOUNT`), 0 for `home`/`luna`.
+The offer itself is never stored: `repair-accept` re-quotes and re-checks
+docking, attitude and balance, so a stale or replayed choice can't charge a
+wrong price. That's why closing the card simply drops an open offer, and
+`fillWorldComms` always starts from `mainChoices(player)`: "repair" only
+while the ship is damaged, and "bye" always, whose result carries `closes:
+true` (no choices). `respond` still answers a stale "repair" at full HP
+with "No repairs needed".
+`main.js`'s `fillWorldComms` renders the active player's history into
+`#comms-log` and choices into `#comms-choices` (DOM nodes, `textContent`);
+one click listener calls `pickCommsChoice`, which applies, records and
+saves at once and calls `updateHud`, then shows the reply after
+`COMMS_TYPING_MS` behind a typing bubble, and for `closes` dismisses the
+card `COMMS_CLOSE_MS` later. A token drops a pending reply if
+another card opens meanwhile; the history already has it.
 
 Each circle handles its own pointer events, so they never reach the canvas
 pan/tap handler:
@@ -1029,7 +1062,7 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   `trails` (the Vessel Trail Detector's records, a plain array),
   `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
   every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
-  currentHealth, inCombatThisRound, notifications, instantRepairsUsed, emc }` (`emc` defaults to 0 for older saves, no version bump; `teamFog` entries,
+  currentHealth, inCombatThisRound, notifications, instantRepairsUsed, emc, comms }` (`emc` defaults to 0 and `comms` to `{}` for older saves, no version bump; `teamFog` entries,
   `unlockedUpgrades`, and `destroyedAnomalies` all serialized as plain
   arrays, restored back to real `Set`s on load; `deserializeState` builds
   one Set per colour and hands it to every player of that colour, so
@@ -1162,6 +1195,8 @@ src/
 ├── economy.js         emc (Exotic Matter Currency): pirate bounty rules,
 │                      awards and formatting, consumed by pirates.js
 │                      and main.js
+├── comms.js           world communications: greetings, the repair
+│                      dialogue tree, per-player chat history
 ├── government.js      inhabited worlds' government type (spectrum roll),
 │                      state name and ethics-flavoured form
 ├── tile-report.js     pure builder for the long-press tile report
