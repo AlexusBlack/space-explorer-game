@@ -1046,3 +1046,16 @@ from here.
     world class × extreme ethic pole, 6 × 8 = **48**, and 78 rooms in all with
     the 30 base rooms. This replaces the original plan's 40 government × pole
     rooms.
+- **Room finals exported for the game.** User request: optimise the room
+  images so they are ready for use, after all 78 were reviewed ("It's all
+  looking good"). `room --export` copies the newest attempt of each room
+  (the accepted one, as with `bg --export`) to `rooms/images/` as RGBA PNG
+  masters and writes 768×512 WebPs to `rooms/images-opt/`, quality 85 with
+  `alpha_quality=100`. Half size rather than 512² like the other layers,
+  because the portrait spans the room's full height: a 512² portrait sits on
+  a 768×512 room at the same scale as in the composites. Lossless alpha keeps
+  the window edge exact; lossy alpha would fringe the landscape behind it.
+  Masters stay PNG like the portrait and landscape masters. Names are
+  `<class>-<gov or ethic>`, so the game can build a path from a world's class
+  and room key with no manifest. Room choice in mapgen and the world card
+  scene stay Unresolved.

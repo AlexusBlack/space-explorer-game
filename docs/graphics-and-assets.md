@@ -520,7 +520,7 @@ by the moon's own sky so it blends in. Not used by the game yet.
   `species/work/bg/`. The Saturn base the gas giants are edited from is
   committed as `backgrounds/saturn-base.png`.
 
-## Rooms (planned: `scripts/species_art/room.py`)
+## Rooms (`scripts/species_art/room.py`)
 
 The middle layer of the world card scene: landscape at the back, a room with
 a transparent window over it, the species portrait in front on the left.
@@ -540,11 +540,13 @@ Planned catalogue, 78 rooms in two families, both led by the world class
 (materials, shapes, light, window shape): 30 **base rooms** (world class ×
 government, 6 × 5) and 48 **ethic rooms** (world class × extreme ethic pole,
 6 × 8, the ethic replacing the government); a world may use its base room or
-the ethic room of any extreme ethic it has, picked at random. Earth and Luna get no dedicated rooms for now. So far the tool and all
-78 prompts exist, with test rooms only; the first test was rocky × Democracy (Earth's
-base room) composited with the human
-portrait and the `planet-inhabited-planet` landscape. No finals, not used by
-the game yet.
+the ethic room of any extreme ethic it has, picked at random. Earth and Luna get no dedicated rooms for now.
+All 78 rooms are generated, reviewed and exported (`room --export`):
+RGBA PNG masters in `rooms/images/`, 768×512 WebPs with lossless alpha in
+`rooms/images-opt/` (about 50 KB each; half size so a 512² portrait sits on
+them at the same scale), and each one's model, flags and full prompt in
+`rooms/recipes/`. Files are named `<class>-<gov or ethic>` after the
+catalogue. Not used by the game yet.
 
 ## Future Art Pipeline
 

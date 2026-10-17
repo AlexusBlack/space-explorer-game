@@ -363,6 +363,7 @@ room --class rocky --gov democracy --yes                 # one paid call
 room --check FILE                                        # free: alpha checks
 room --composite FILE --species 332 --landscape planet-inhabited-planet   # free
 room --gallery                                           # free
+room --export                                            # free: finals -> rooms/
 ```
 
 Output: `species/work/room/<class>-<gov>-<n>.png` with a `.txt`
@@ -382,7 +383,16 @@ automatically:
 - rebuilds `index.html`, a newest-first gallery showing composite, room
   and check for each attempt, with LAN URLs for `./serve.sh`.
 
-No `--export` yet: finals and a game manifest come once the look is settled.
+Export: `room --export` (free) copies the newest image of every room (it
+refuses if any of the 78 has none) to `rooms/images/<class>-<gov or ethic>.png`
+(RGBA master, 1536×1024), writes a 768×512 WebP (Pillow, Lanczos, quality 85,
+`alpha_quality=100` so the window edge stays exact, `method=6`) to
+`rooms/images-opt/<class>-<gov or ethic>.webp`, the copy the game should load,
+and copies its sidecar to `rooms/recipes/`. The WebP is half size on purpose:
+the portrait spans the room's full height, so a 512² portrait from
+`species/images-opt/` sits on it at the same scale. Names follow the
+catalogue, so the game needs no manifest. To swap in an older attempt,
+delete or renumber the newer ones in the work folder and export again.
 
 ## Stages
 
@@ -449,6 +459,8 @@ backgrounds/images(-opt)/       committed: bg.py finals, PNG masters + 512² Web
 backgrounds/recipes/            committed: each background's sidecar, plus saturn-base.txt
 backgrounds/saturn-base.png     committed: the Saturn base every gas giant is edited from
 species/work/room/              gitignored: room.py attempts, checks, composites, gallery
+rooms/images(-opt)/             committed: room.py finals, RGBA PNG masters + 768×512 WebPs
+rooms/recipes/                  committed: each room's sidecar
 species/work/                   gitignored: state, review verdicts, spend log, prompts, raws, variants, batches
 ```
 

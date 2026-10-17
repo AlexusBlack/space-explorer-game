@@ -210,6 +210,8 @@ def test_rooms():
             continue
         raise AssertionError(f"{(c, g)} should be refused")
     assert "Correction: warmer" in rooms.build_base("ice", "monarchy", note="warmer")
+    names = room.all_names()  # export file names: one per room, unique
+    assert len(names) == 78 and len(set(names)) == 78 and "gas-giant-xenophobe" in names
 
     # Synthetic 1536x1024 room: opaque wall, a clear window split by a frame bar, a stray speck.
     a = np.full((1024, 1536, 4), 200, np.uint8)

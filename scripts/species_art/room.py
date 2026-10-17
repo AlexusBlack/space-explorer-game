@@ -7,16 +7,20 @@
   python -m scripts.species_art.room --check FILE                               # free: alpha checks
   python -m scripts.species_art.room --composite FILE --species 332 --landscape planet-inhabited-planet
   python -m scripts.species_art.room --gallery                                  # free
+  python -m scripts.species_art.room --export                                   # free: finals -> rooms/
 
 Output: species/work/room/<class>-<gov or ethic>-<n>.png (native transparency, + .txt sidecar),
 -check.png (over magenta, black, checkerboard), -comp.png (landscape + room + portrait), and
 species/work/room/index.html, a newest-first gallery to open through ./serve.sh.
+--export copies the newest image of every room to rooms/images/ (PNG master), rooms/images-opt/
+(OPT_SIZE WebP with alpha, for the game) and its sidecar to rooms/recipes/.
 """
 
 import argparse
 import base64
 import html
 import json
+import shutil
 from pathlib import Path
 
 from . import config, costing, rooms
@@ -37,6 +41,12 @@ MULLION_GAP = 0.03  # clear regions closer than this share of the width count as
 HAZE_MAX = 0.02  # share of the room (outside the window) semi-transparent before it's flagged
 ROOM_OPAQUE = 240  # flare returns the room's opaque pixels at 248-249; snap from here up to 255
 SUFFIXES = ("-raw", "-check", "-comp")
+FINAL_DIR = config.REPO / "rooms" / "images"
+OPT_DIR = config.REPO / "rooms" / "images-opt"
+RECIPE_DIR = config.REPO / "rooms" / "recipes"
+# Half size: the portrait spans the room's full height, so a 512px portrait (images-opt) sits on
+# a 768x512 room at the same scale.
+OPT_SIZE = (768, 512)
 
 
 def shown(path):
@@ -185,6 +195,33 @@ def write_gallery():
         f"<h1>Rooms ({len(pngs)})</h1>" + "".join(cards))
 
 
+def all_names():
+    """Every room's name (base, then ethic), in catalogue order."""
+    return [slug(c, g) for c, g in rooms.combos()] + [slug(c, e) for c, e in rooms.ethic_combos()]
+
+
+def export():
+    """Copy the newest image of every room to FINAL_DIR as <class>-<gov or ethic>.png, write an
+    OPT_SIZE WebP of it (alpha kept lossless, so the window edge stays exact) to OPT_DIR, and its
+    sidecar to RECIPE_DIR. Refuses while any room still has no image."""
+    from PIL import Image
+    names = all_names()
+    missing = [n for n in names if not images_of(n)]
+    if missing:
+        raise SystemExit("no image yet for: " + ", ".join(missing))
+    for d in (FINAL_DIR, OPT_DIR, RECIPE_DIR):
+        d.mkdir(parents=True, exist_ok=True)
+    for name in names:
+        src = images_of(name)[-1]
+        img = Image.open(src).convert("RGBA")
+        img.save(FINAL_DIR / f"{name}.png", optimize=True)
+        img.resize(OPT_SIZE, Image.LANCZOS).save(
+            OPT_DIR / f"{name}.webp", quality=85, alpha_quality=100, method=6)
+        shutil.copyfile(src.with_suffix(".txt"), RECIPE_DIR / f"{name}.txt")
+        print(f"{src.name:36} -> {name}")
+    print(f"\n{len(names)} rooms exported")
+
+
 def list_combos():
     pairs = rooms.combos()
     for cls, gov in pairs:
@@ -204,6 +241,8 @@ def main():
     ap = argparse.ArgumentParser(prog="room")
     ap.add_argument("--list", action="store_true", help="list every base and ethic pair + image counts")
     ap.add_argument("--gallery", action="store_true", help="free: rebuild index.html only")
+    ap.add_argument("--export", action="store_true",
+                    help="free: newest image of every room -> rooms/images(-opt), rooms/recipes")
     ap.add_argument("--check", type=Path, metavar="FILE", help="free: alpha checks on a room")
     ap.add_argument("--composite", type=Path, metavar="FILE",
                     help="free: landscape + room + portrait -> FILE-comp.png")
@@ -224,6 +263,9 @@ def main():
 
     if args.list:
         list_combos()
+        return
+    if args.export:
+        export()
         return
     OUT_DIR.mkdir(parents=True, exist_ok=True)
     if args.check:

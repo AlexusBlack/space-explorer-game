@@ -245,12 +245,14 @@ review-gate rules.
 Rooms (the middle layer: an interior with a transparent window, between the
 landscape and the portrait) use `room.py` (README section "Rooms"): 1536×1024,
 native transparency, one paid image per approval, gallery under
-`species/work/room/` with a free three-layer composite per attempt.
+`species/work/room/` with a free three-layer composite per attempt. Finals
+export (free, `room --export`) to `rooms/images/` (RGBA PNG masters) and
+`rooms/images-opt/` (768×512 WebPs with alpha, for the game).
 Both pipelines travel with git: code in `scripts/species_art/`, finals plus a
-recipe per final (`species/recipes/`, `backgrounds/recipes/`: model, flags,
+recipe per final (`species/recipes/`, `backgrounds/recipes/`, `rooms/recipes/`: model, flags,
 full prompt) and the gas giant base `backgrounds/saturn-base.png`. Only raws,
 retries and run state stay machine-local in `species/work/`. After accepting
-a new final, re-export (`one --export` / `bg --export`, free) so its image and
+a new final, re-export (`one --export` / `bg --export` / `room --export`, free) so its image and
 recipe land in git.
 
 `mapData` (from `mapgen.js`) is **never persisted** — always cheaply and
