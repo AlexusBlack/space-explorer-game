@@ -59,6 +59,12 @@ export function governmentType(tile) {
   return GOVERNMENTS[tile.government];
 }
 
+// Who speaks for the world on its card: the state's own name, or for an
+// Anarchy, which has none, its flavoured name (e.g. "Free Cities").
+export function stateLabel(tile) {
+  return tile.stateName ?? governmentName(tile);
+}
+
 // The flavoured name, e.g. "Theocratic Absolute Monarchy".
 export function governmentName(tile) {
   const form = GOVERNMENT_FORMS[tile.government][tile.ethics.order + 2];

@@ -277,8 +277,13 @@ other planets, moons and companion stars only show when zoomed in close
 (zoom 1 or more), to keep the map readable.
 
 Tapping an inhabited world's name tag opens a card over the dimmed
-map, showing the world's name and type (e.g. "Rocky planet", "Ice moon"),
-a scene of the world (as large as the screen allows, up to 768×512): a
+map, laid out like a video call with that world. At the top is who's on
+the line: the world's government name (for an Anarchy,
+which has no central government, its form, e.g. "Free Cities" or
+"Theocratic Rival Fiefdoms"), the world's name and its species name,
+e.g. "Earth Federation · Earth · Human", and under that its attitude toward
+explorers. Then comes a scene of the world (as large as the screen allows,
+up to 768×512): a
 member of its species in a room, with the world's landscape seen through
 the room's window. The landscape is the world's own, as seen from a planet,
 from a moon of a gas giant (the giant fills the sky) or from a moon of any
@@ -287,18 +292,27 @@ rocky, ice, gas giant, or the grey airless moon's own pressurised rooms) and
 is either its government's room or, when the world holds an extreme ethic,
 possibly that ethic's room instead: each world shows one of these, picked at
 random but always the same for a given map. Earth and Luna show a
-Democracy's room. Under the scene come the name the species goes by there
-and the species description.
-Below the scene (beside it on wide screens) come the world's government:
-its name (none for an Anarchy), then its form (with its type after it when the name doesn't say it, e.g. "One-Party
-State · Oligarchy"), its ethics,
-listed by name, e.g. "Extreme militarist · Xenophile"; Balanced axes are
-left out ("Balance Views on Everything" if all four are Balanced); its
-attitudes toward explorers and pirates; and "Known worlds": up to the six
-nearest inhabited worlds within 40 hexes that your team has discovered,
-closest first, each with the diplomatic state between them and the
-distance. Attitude and state words are coloured red (Hostile, Wary; War,
-Rivalry), grey (Neutral) or green (Friendly, Allied; Friendship, Alliance). A tap anywhere closes it. Tapping a tag never moves the ship or
+Democracy's room.
+
+Under the scene, three tabs show one topic at a time. The card always opens
+on the first:
+- **Communications:** empty for now ("Channel open. No transmissions
+  yet.").
+- **Details:** the world's class and type (e.g. "Rocky planet", "Ice
+  moon"), the name its species goes by there and the species description,
+  its government (its name, none for an Anarchy, then its form, with its type
+  after it when the name doesn't say it, e.g. "One-Party State ·
+  Oligarchy"), and its ethics, listed by name, e.g. "Extreme militarist ·
+  Xenophile". Balanced axes are left out ("Balance Views on Everything" if
+  all four are Balanced).
+- **Diplomacy:** its attitudes toward explorers and pirates, and "Known
+  worlds": up to the six nearest inhabited worlds within 40 hexes that your
+  team has discovered, closest first, each with the diplomatic state
+  between them and the distance.
+
+Attitude and state words are coloured red (Hostile, Wary; War, Rivalry),
+grey (Neutral) or green (Friendly, Allied; Friendship, Alliance). Close the
+card with its × or a tap outside it. Tapping a tag never moves the ship or
 spends moves.
 
 ### Tile report

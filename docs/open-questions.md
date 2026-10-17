@@ -1077,3 +1077,21 @@ from here.
     are okay with part of world image being cropped"). The square, 50% ×
     75% centred at 70% × 45%, was measured to cover all 78 windows. It
     replaces the review composites' per-room placement (1.1× each window).
+- **World card reorganised into a call-style header and tabs.** User
+  request: the world screen was overloaded, and more will go on it over
+  time; give the player less at once and make it look more like a video
+  call than a wiki article. Supersedes the layout in "World card scene from
+  the world's attributes" and the earlier world card entries: the
+  two-column layout on wide screens and "any tap closes the card" are gone.
+  - Above the scene, a header: government name (for an Anarchy, its flavoured
+    form, e.g. "Free Cities": the user asked for the type at first, then
+    preferred the flavoured form), world name and species name, then the attitude toward explorers.
+  - Below it, three tabs: Communications (the default, empty for now),
+    Details (world, species, government, ethics) and Diplomacy (attitudes
+    toward explorers and pirates, known worlds).
+  - One column at every width (the user's choice over keeping tabs beside
+    the scene on wide screens), so the scene stays the "video feed" and
+    there's one layout to maintain.
+  - The tab panel has a fixed height and scrolls inside, so the card no
+    longer has to fit everything. That's why it now closes only on the
+    backdrop or the ×: a tap on a tab or a scroll must not close it.

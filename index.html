@@ -150,7 +150,7 @@
   #world-card.visible { display: flex; }
   #world-card-panel {
     position: relative; width: max(320px, calc(var(--scene-w) + 36px)); max-width: 100%;
-    box-sizing: border-box; margin: auto;
+    box-sizing: border-box; margin: auto; cursor: default;
     padding: 18px; border-radius: 12px; text-align: center;
     background: #0d1426; border: 1px solid #1b2f6b; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
   }
@@ -158,8 +158,11 @@
     position: absolute; top: 6px; right: 8px; background: none; border: none;
     color: #cfe0ff; font-size: 22px; line-height: 1; cursor: pointer;
   }
-  #world-card-name { font-size: 1.4em; font-weight: 700; color: #fff; }
-  #world-card-type { opacity: 0.75; margin-bottom: 10px; }
+  /* Call-style header: who's on the line (state, world, species) and how
+     they feel about explorers. */
+  #world-card-header { margin: 0 24px 10px; }
+  #world-card-title { color: #a9bce0; }
+  #world-card-title .state { font-size: 1.25em; font-weight: 700; color: #fff; }
   /* The world scene (scene.js), back to front: the landscape through the
      room's window, the room (its window is transparent) and the species
      portrait at full height on the left. 3:2 like the rooms. The landscape
@@ -175,17 +178,28 @@
   #world-card-landscape { left: 44.92%; top: 7.81%; width: 50%; height: 75%; }
   #world-card-room { inset: 0; width: 100%; height: 100%; }
   #world-card-portrait { left: 0; top: 0; height: 100%; aspect-ratio: 1; }
-  #world-card-species { font-size: 1.15em; font-weight: 600; color: #fff; }
-  #world-card-description { margin-top: 6px; font-size: 0.9em; opacity: 0.85; text-align: left; }
-  /* Government, ethics, attitudes and known worlds (see government.js,
-     ethics.js). Below the scene on narrow screens, which reserve more
-     height for them; beside it on wide ones. */
-  #world-card-details { text-align: left; font-size: 0.9em; }
-  #world-card-details h3 {
-    margin: 14px 0 4px; font-size: 0.8em; font-weight: 700; letter-spacing: 0.08em;
+  /* Tabs under the scene, one topic at a time. The panel has a fixed height
+     so switching tabs never resizes the card; longer content scrolls inside
+     it. */
+  #world-card-tabs { display: flex; border-bottom: 1px solid #1b2f6b; }
+  #world-card-tabs button {
+    flex: 1; padding: 8px 4px; background: none; border: none;
+    border-bottom: 2px solid transparent; margin-bottom: -1px;
+    color: #cfe0ff; opacity: 0.6; font: inherit; font-size: 0.9em; cursor: pointer;
+  }
+  #world-card-tabs button[aria-selected="true"] { opacity: 1; color: #fff; border-bottom-color: #4a8cff; }
+  .world-card-tab {
+    height: 200px; overflow-y: auto; padding: 4px 2px 0;
+    text-align: left; font-size: 0.9em;
+  }
+  .world-card-tab[hidden] { display: none; }
+  .world-card-tab h3 {
+    margin: 10px 0 4px; font-size: 0.8em; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; opacity: 0.6;
   }
-  .ethics-list, .government, .state-name { color: #fff; font-weight: 600; }
+  .comms-empty { margin-top: 12px; font-style: italic; opacity: 0.6; text-align: center; }
+  .species-description { margin-top: 2px; opacity: 0.85; }
+  .ethics-list, .government, .state-name, .species-name { color: #fff; font-weight: 600; }
   .state-name + .government { font-weight: 400; }
   .government-type { font-weight: 400; opacity: 0.6; }
   .attitude { font-weight: 600; }
@@ -196,29 +210,16 @@
   .relation-distance { opacity: 0.6; white-space: nowrap; }
   /* Scene height: as big as the screen allows after the card's gutters
      (2x16 + 2x18 padding = 68px across, the scene being 1.5x as wide as
-     tall) and its text (~300px down, ~560px with the details below it;
-     beside it on wide screens, 340px more across), but never past the
-     portraits' native 512px, nor under 80px. A tap anywhere closes the
-     card, so it can't rely on scrolling. */
+     tall) and everything stacked under and over it (~390px down: gutters
+     and padding, header, tab bar, the 200px tab panel and gaps), but never
+     past the portraits' native 512px, nor under 80px. One column at every
+     width. */
   #world-card {
-    --scene-h: max(80px, min(512px, calc((100vw - 68px) / 1.5), calc(100vh - 560px)));
+    --scene-h: max(80px, min(512px, calc((100vw - 68px) / 1.5), calc(100vh - 390px)));
     --scene-w: calc(var(--scene-h) * 1.5);
   }
   @supports (height: 100dvh) {
-    #world-card { --scene-h: max(80px, min(512px, calc((100vw - 68px) / 1.5), calc(100dvh - 560px))); }
-  }
-  @media (min-width: 760px) {
-    #world-card { --scene-h: max(80px, min(512px, calc((100vw - 408px) / 1.5), calc(100vh - 300px))); }
-    @supports (height: 100dvh) {
-      #world-card { --scene-h: max(80px, min(512px, calc((100vw - 408px) / 1.5), calc(100dvh - 300px))); }
-    }
-    #world-card-panel {
-      display: flex; gap: 20px; align-items: flex-start;
-      width: calc(var(--scene-w) + 376px);
-    }
-    #world-card-main { width: var(--scene-w); flex: none; }
-    #world-card-details { width: 320px; flex: none; }
-    #world-card-details h3:first-child { margin-top: 0; }
+    #world-card { --scene-h: max(80px, min(512px, calc((100vw - 68px) / 1.5), calc(100dvh - 390px))); }
   }
   /* Tile report (long-press a hex): same card family as #world-card. */
   #tile-report {
@@ -379,18 +380,25 @@
 <div id="world-card">
   <div id="world-card-panel">
     <button id="world-card-close" aria-label="Close">&times;</button>
-    <div id="world-card-main">
-      <div id="world-card-name"></div>
-      <div id="world-card-type"></div>
-      <div id="world-card-scene">
-        <img id="world-card-landscape" alt="" />
-        <img id="world-card-room" alt="" />
-        <img id="world-card-portrait" alt="" />
-      </div>
-      <div id="world-card-species"></div>
-      <div id="world-card-description"></div>
+    <div id="world-card-header">
+      <div id="world-card-title"></div>
+      <div id="world-card-attitude"></div>
     </div>
-    <div id="world-card-details"></div>
+    <div id="world-card-scene">
+      <img id="world-card-landscape" alt="" />
+      <img id="world-card-room" alt="" />
+      <img id="world-card-portrait" alt="" />
+    </div>
+    <div id="world-card-tabs" role="tablist">
+      <button role="tab" data-tab="comms" aria-controls="world-card-comms">Communications</button>
+      <button role="tab" data-tab="details" aria-controls="world-card-info">Details</button>
+      <button role="tab" data-tab="diplomacy" aria-controls="world-card-diplomacy">Diplomacy</button>
+    </div>
+    <div id="world-card-comms" class="world-card-tab" role="tabpanel" data-tab="comms">
+      <div class="comms-empty">Channel open. No transmissions yet.</div>
+    </div>
+    <div id="world-card-info" class="world-card-tab" role="tabpanel" data-tab="details"></div>
+    <div id="world-card-diplomacy" class="world-card-tab" role="tabpanel" data-tab="diplomacy"></div>
   </div>
 </div>
 <div id="tile-report">

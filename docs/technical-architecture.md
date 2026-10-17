@@ -769,8 +769,11 @@ stale) and `handleTap` hit-tests it before treating a tap as a move,
 last-drawn tag first. Tags only draw for the active player's discovered
 worlds above `LABEL_ZOOM`, so tappability follows the same fog and zoom
 rules. A hit opens the `#world-card` overlay (`index.html`): a dimmed
-backdrop with a card holding the world's `ownName`, its class and
-type, the scene, the species name and its description. The scene
+backdrop with a single-column card laid out like a video call: a header
+(`#world-card-title`: `government.js`'s `stateLabel`, the state's name or,
+for an Anarchy, its flavoured `governmentName`, then `ownName` and the species name;
+`#world-card-attitude`: the attitude toward explorers), the scene, and
+three tabs (see "Ethics and attitudes" below). The scene
 (`#world-card-scene`, 3:2) stacks three absolutely positioned `<img>`s,
 loaded only when the card opens, back to front: the landscape
 (`backgrounds/images-opt/<tile.landscape>.webp`), the room
@@ -785,11 +788,12 @@ layers' `decode()` settle, so they never appear one by one, with a token so
 a newer card wins. Without a species the portrait is hidden and the room
 still shows. The scene's height is the CSS variable `--scene-h` on
 `#world-card` (its width `--scene-w` = 1.5×): as large as the viewport
-allows after the card's gutters (68px across) and text (see "Ethics and
-attitudes" below for how the details change this), clamped to 80-512px,
-512 being the portraits' and rooms' native height so they're never
-upscaled. The card is at least 320px wide and grows with the scene. Any tap on the card or backdrop closes it, and `handleTap`
-ignores taps while it is open, like the other overlays.
+allows after the card's gutters (68px across) and everything stacked
+with it (~390px down: gutters, header, tab bar, the 200px tab panel),
+clamped to 80-512px, 512 being the portraits' and rooms' native height so
+they're never upscaled. The card is at least 320px wide and grows with the
+scene. Only a pointerdown on the backdrop itself or the × closes it, and
+`handleTap` ignores taps while it is open, like the other overlays.
 
 **Tile report.** `input.js`'s `attachCameraControls` takes a fifth
 callback, `onLongPress`:
@@ -858,15 +862,19 @@ world's):
   at 6, each with its `state`, for the card.
 
 Every weight, bias and threshold is a named, tunable constant in
-`ethics.js`. `main.js`'s `fillWorldDetails` renders the card's Government, Ethics (one line of non-Balanced labels),
-Attitudes and Known worlds sections into `#world-card-details` with DOM
-nodes and `textContent`, passing the active player's `discovered` (the team
-fog). The panel wraps the old content in `#world-card-main`; at 760px or
-wider it's a two-column flex row (scene column plus a 320px details
-column), and `--scene-h` subtracts the details' width (408px across) or,
-when stacked, their height (~560px down instead of ~300). Sizing to fit
-matters because a pointerdown anywhere closes the card, so it can't scroll
-by touch. `tile-report.js` adds an "Attitude" row (toward explorers) after
+`ethics.js`. The world card's tabs are a `role="tablist"` of buttons
+(`#world-card-tabs`, each with a `data-tab`) over three `.world-card-tab`
+panels: `#world-card-comms` (a static empty-state line for now),
+`#world-card-info` and `#world-card-diplomacy`. `main.js`'s `fillWorldInfo`
+renders the Details tab (class and type, species name and description,
+Government, Ethics as one line of non-Balanced labels) and
+`fillWorldDiplomacy` the Diplomacy tab (Attitudes, then Known worlds,
+passing the active player's `discovered`, the team fog), both with DOM
+nodes and `textContent`. `selectWorldTab` sets `aria-selected` and the
+panels' `hidden`; `showWorldCard` resets every panel's scroll and opens on
+`comms`. The panels share one fixed height (200px, `overflow-y: auto`), so
+switching tabs never resizes the card and new content can grow inside a
+tab instead of pushing the scene smaller. `tile-report.js` adds an "Attitude" row (toward explorers) after
 "Life" for any tile with `ethics`.
 
 `overlayOpen()` is the shared guard: taps and long-presses do nothing while

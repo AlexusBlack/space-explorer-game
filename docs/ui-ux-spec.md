@@ -61,17 +61,28 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
 - **World card** — opened by tapping an inhabited world's name tag (or the
-  tile report's "View world"). Name, type, a 3:2 scene (the world's
-  landscape through a room's window, the species portrait in front on the
-  left; shown only once all three images have loaded), species name
-  and description, then the world's government (its own name, e.g.
-  "Republic of Anxor", none for an Anarchy; then its flavoured form, plus
-  the type when the form doesn't say it), its ethics (a one-line list of its
-  non-Balanced views, no scales, to keep it compact and in-world), its attitudes toward explorers and
-  pirates, and its known neighbours with their diplomatic state, closest first. On screens 760px or
-  wider the details sit beside the scene; narrower screens stack them
-  under a smaller scene. Any tap closes it, so it's sized to fit rather
-  than scroll.
+  tile report's "View world"). It's laid out like a video call, in one
+  column at every screen width so the scene stays the biggest thing on it.
+  - A header names who's on the line: the government's name (for an
+    Anarchy, which has none, its flavoured form, e.g. "Free Cities") in bold, then the world and species names; under it, the
+    attitude toward explorers.
+  - Then the 3:2 scene: the world's landscape through a room's window, the
+    species portrait in front on the left. It shows only once all three
+    images have loaded.
+  - Then a tab bar (Communications, Details, Diplomacy) over a panel of a
+    fixed height, so switching tabs never resizes the card; longer content
+    scrolls inside the panel. It always opens on Communications, which is
+    an empty placeholder for now. Details holds the world's class and type,
+    the species name and description, the government (its own name, e.g.
+    "Republic of Anxor", none for an Anarchy; then its flavoured form, plus
+    the type when the form doesn't say it) and the ethics (a one-line list
+    of its non-Balanced views, no scales, to keep it compact and in-world).
+    Diplomacy holds the attitudes toward explorers and pirates and the
+    known neighbours with their diplomatic state, closest first.
+  - The scene shrinks to leave room for the header, tabs and panel. Only a
+    tap on the backdrop or the × closes the card, so the tabs and the
+    panel's scrolling work. The aim is to give the player one topic at a
+    time, and room to add more later.
 - **Tile report** — opened by long-pressing a hex, since a tap already moves
   the ship. It's a card over the dimmed map in the same style as the world
   card. It shows the coordinates, what the hex is (with an inhabited world's

@@ -48,7 +48,7 @@ import {
   knownWorldRelations,
   diplomaticLabel,
 } from "./ethics.js";
-import { governmentName, governmentType } from "./government.js";
+import { governmentName, governmentType, stateLabel } from "./government.js";
 import {
   TEAM_COLORS,
   MAX_PLAYERS,
@@ -92,15 +92,17 @@ const anomalyMessage = document.getElementById("anomaly-message");
 const combatOverlay = document.getElementById("combat-overlay");
 const combatMessage = document.getElementById("combat-message");
 const worldCard = document.getElementById("world-card");
-const worldCardName = document.getElementById("world-card-name");
-const worldCardType = document.getElementById("world-card-type");
+const worldCardClose = document.getElementById("world-card-close");
+const worldCardTitle = document.getElementById("world-card-title");
+const worldCardAttitude = document.getElementById("world-card-attitude");
 const worldCardScene = document.getElementById("world-card-scene");
 const worldCardLandscape = document.getElementById("world-card-landscape");
 const worldCardRoom = document.getElementById("world-card-room");
 const worldCardPortrait = document.getElementById("world-card-portrait");
-const worldCardSpecies = document.getElementById("world-card-species");
-const worldCardDescription = document.getElementById("world-card-description");
-const worldCardDetails = document.getElementById("world-card-details");
+const worldCardTabs = document.getElementById("world-card-tabs");
+const worldCardInfo = document.getElementById("world-card-info");
+const worldCardDiplomacy = document.getElementById("world-card-diplomacy");
+const worldCardPanels = [...worldCard.querySelectorAll(".world-card-tab")];
 const tileReport = document.getElementById("tile-report");
 const tileReportTitle = document.getElementById("tile-report-title");
 const tileReportCoords = document.getElementById("tile-report-coords");
@@ -492,61 +494,89 @@ function attitudeSpan(attitude, label = attitudeLabel(attitude)) {
   return domEl("span", `attitude ${ATTITUDE_CLASSES[attitude + 2]}`, label);
 }
 
-// The world card's Government / Ethics / Attitudes / Known worlds sections.
+// The world card's call-style header: who's on the line (state, world,
+// species) and their attitude toward explorers.
+function fillWorldHeader(tile) {
+  worldCardTitle.replaceChildren(domEl("span", "state", stateLabel(tile)));
+  const rest = [tile.ownName, ...(tile.species ? [tile.species.name] : [])];
+  worldCardTitle.append(` · ${rest.join(" · ")}`);
+  worldCardAttitude.replaceChildren("Attitude: ", attitudeSpan(attitudeToPlayers(tile)));
+}
+
+// The Details tab: the world, its species, government and ethics.
 // Government: the state's own name (none for Anarchy), then its form, with
-// the type after a form that doesn't say it (e.g. "One-Party State"). Balanced axes are the default and aren't shown. Known
-// worlds, with their diplomatic state, come from the active team's fog, so
-// undiscovered worlds stay hidden.
-function fillWorldDetails(tile) {
-  worldCardDetails.replaceChildren();
+// the type after a form that doesn't say it (e.g. "One-Party State").
+// Balanced axes are the default and aren't shown.
+function fillWorldInfo(tile, kind) {
+  worldCardInfo.replaceChildren(
+    domEl("h3", null, "World"),
+    domEl("div", null, `${CLASS_DISPLAY_NAMES[tile.planetClass]} ${tile.type}`),
+    domEl("h3", null, "Species"),
+    domEl("div", "species-name", tile.species ? tile.species.name : "Unknown species"));
+  if (kind) worldCardInfo.append(domEl("div", "species-description", kind.description));
   if (!tile.ethics) return;
   if (tile.government != null) {
-    worldCardDetails.append(domEl("h3", null, "Government"));
-    if (tile.stateName) worldCardDetails.append(domEl("div", "state-name", tile.stateName));
+    worldCardInfo.append(domEl("h3", null, "Government"));
+    if (tile.stateName) worldCardInfo.append(domEl("div", "state-name", tile.stateName));
     const name = governmentName(tile), type = governmentType(tile);
     const line = domEl("div", "government", name);
     if (!name.includes(type)) line.append(domEl("span", "government-type", ` · ${type}`));
-    worldCardDetails.append(line);
+    worldCardInfo.append(line);
   }
-  worldCardDetails.append(domEl("h3", null, "Ethics"));
+  worldCardInfo.append(domEl("h3", null, "Ethics"));
   const shown = AXES.filter((axis) => tile.ethics[axis.id] !== 0)
     .map((axis) => ethicLabel(axis.id, tile.ethics[axis.id]));
-  worldCardDetails.append(
+  worldCardInfo.append(
     domEl("div", "ethics-list", shown.length ? shown.join(" · ") : "Balance Views on Everything"));
+}
 
-  worldCardDetails.append(domEl("h3", null, "Attitudes"));
+// The Diplomacy tab: attitudes, then known worlds with their diplomatic
+// state, from the active team's fog so undiscovered worlds stay hidden.
+function fillWorldDiplomacy(tile) {
+  worldCardDiplomacy.replaceChildren();
+  if (!tile.ethics) return;
+  worldCardDiplomacy.append(domEl("h3", null, "Attitudes"));
   for (const [label, attitude] of [
     ["Toward explorers", attitudeToPlayers(tile)],
     ["Toward pirates", attitudeToPirates(tile)],
   ]) {
     const line = domEl("div", null, `${label}: `);
     line.append(attitudeSpan(attitude));
-    worldCardDetails.append(line);
+    worldCardDiplomacy.append(line);
   }
 
-  worldCardDetails.append(domEl("h3", null, "Known worlds"));
+  worldCardDiplomacy.append(domEl("h3", null, "Known worlds"));
   const active = gameState.players[gameState.activePlayerIndex];
   const relations = knownWorldRelations(mapData, tile, active.discovered);
-  if (!relations.length) worldCardDetails.append(domEl("div", null, "No known worlds nearby"));
+  if (!relations.length) worldCardDiplomacy.append(domEl("div", null, "No known worlds nearby"));
   for (const { tile: other, distance, state } of relations) {
     const line = domEl("div", "relation");
     const name = domEl("span", null, `${other.ownName ?? other.name}: `);
     name.append(attitudeSpan(state, diplomaticLabel(state)));
     line.append(name, domEl("span", "relation-distance", `${distance} hexes`));
-    worldCardDetails.append(line);
+    worldCardDiplomacy.append(line);
   }
 }
 
-// Info card for an inhabited world, opened by tapping its name tag. Display
+// Shows one tab's panel ("comms", "details" or "diplomacy").
+function selectWorldTab(name) {
+  for (const button of worldCardTabs.children) {
+    button.setAttribute("aria-selected", String(button.dataset.tab === name));
+  }
+  for (const panel of worldCardPanels) panel.hidden = panel.dataset.tab !== name;
+}
+
+// Info card for an inhabited world, opened by tapping its name tag: laid out
+// like a video call (header, scene, tabs), opening on Communications. Display
 // only: nothing in the game acts on species, government or ethics.
 function showWorldCard(tile) {
   const kind = tile.species ? speciesById.get(tile.species.id) : null;
-  worldCardName.textContent = tile.ownName;
-  worldCardType.textContent = `${CLASS_DISPLAY_NAMES[tile.planetClass]} ${tile.type}`;
-  worldCardSpecies.textContent = tile.species ? tile.species.name : "Unknown species";
-  worldCardDescription.textContent = kind ? kind.description : "";
+  fillWorldHeader(tile);
   showWorldScene(tile, kind);
-  fillWorldDetails(tile);
+  fillWorldInfo(tile, kind);
+  fillWorldDiplomacy(tile);
+  for (const panel of worldCardPanels) panel.scrollTop = 0;
+  selectWorldTab("comms");
   worldCard.classList.add("visible");
 }
 
@@ -1080,7 +1110,16 @@ listCardClose.addEventListener("click", dismissListCard);
 interstitial.addEventListener("pointerdown", dismissInterstitial);
 anomalyOverlay.addEventListener("pointerdown", dismissAnomalyOverlay);
 combatOverlay.addEventListener("pointerdown", dismissCombatOverlay);
-worldCard.addEventListener("pointerdown", dismissWorldCard);
+// Only the backdrop and the close button dismiss, so the tabs and the
+// panel's scrolling work.
+worldCard.addEventListener("pointerdown", (e) => {
+  if (e.target === worldCard) dismissWorldCard();
+});
+worldCardClose.addEventListener("click", dismissWorldCard);
+worldCardTabs.addEventListener("click", (e) => {
+  const tab = e.target.closest("[data-tab]");
+  if (tab) selectWorldTab(tab.dataset.tab);
+});
 // Only the backdrop and the close button dismiss, so "View world" stays pressable.
 tileReport.addEventListener("pointerdown", (e) => {
   if (e.target === tileReport) dismissTileReport();
