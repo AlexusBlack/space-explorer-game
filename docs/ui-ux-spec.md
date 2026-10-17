@@ -61,14 +61,16 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
 - **World card** — opened by tapping an inhabited world's name tag (or the
-  tile report's "View world"). Name, type, species portrait, species name
+  tile report's "View world"). Name, type, a 3:2 scene (the world's
+  landscape through a room's window, the species portrait in front on the
+  left; shown only once all three images have loaded), species name
   and description, then the world's government (its own name, e.g.
   "Republic of Anxor", none for an Anarchy; then its flavoured form, plus
   the type when the form doesn't say it), its ethics (a one-line list of its
   non-Balanced views, no scales, to keep it compact and in-world), its attitudes toward explorers and
   pirates, and its known neighbours with their diplomatic state, closest first. On screens 760px or
-  wider the details sit beside the portrait; narrower screens stack them
-  under a smaller portrait. Any tap closes it, so it's sized to fit rather
+  wider the details sit beside the scene; narrower screens stack them
+  under a smaller scene. Any tap closes it, so it's sized to fit rather
   than scroll.
 - **Tile report** — opened by long-pressing a hex, since a tap already moves
   the ship. It's a card over the dimmed map in the same style as the world

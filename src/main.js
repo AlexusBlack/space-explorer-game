@@ -38,6 +38,7 @@ import {
 import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer } from "./trails.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
+import { roomImagePath, landscapeImagePath } from "./scene.js";
 import {
   AXES,
   ethicLabel,
@@ -93,7 +94,10 @@ const combatMessage = document.getElementById("combat-message");
 const worldCard = document.getElementById("world-card");
 const worldCardName = document.getElementById("world-card-name");
 const worldCardType = document.getElementById("world-card-type");
-const worldCardImage = document.getElementById("world-card-image");
+const worldCardScene = document.getElementById("world-card-scene");
+const worldCardLandscape = document.getElementById("world-card-landscape");
+const worldCardRoom = document.getElementById("world-card-room");
+const worldCardPortrait = document.getElementById("world-card-portrait");
 const worldCardSpecies = document.getElementById("world-card-species");
 const worldCardDescription = document.getElementById("world-card-description");
 const worldCardDetails = document.getElementById("world-card-details");
@@ -541,13 +545,27 @@ function showWorldCard(tile) {
   worldCardType.textContent = `${CLASS_DISPLAY_NAMES[tile.planetClass]} ${tile.type}`;
   worldCardSpecies.textContent = tile.species ? tile.species.name : "Unknown species";
   worldCardDescription.textContent = kind ? kind.description : "";
-  worldCardImage.hidden = !kind;
-  if (kind) {
-    worldCardImage.src = speciesImagePath(kind);
-    worldCardImage.alt = tile.species.name;
-  }
+  showWorldScene(tile, kind);
   fillWorldDetails(tile);
   worldCard.classList.add("visible");
+}
+
+// The scene's three layers (scene.js; picked by mapgen's assignRooms). The
+// scene stays hidden until every layer has decoded, so they never pop in one
+// at a time; a newer card opened meanwhile wins.
+let worldSceneToken = 0;
+function showWorldScene(tile, kind) {
+  const token = ++worldSceneToken;
+  worldCardScene.style.visibility = "hidden";
+  worldCardLandscape.src = landscapeImagePath(tile.landscape);
+  worldCardRoom.src = roomImagePath(tile.room);
+  worldCardPortrait.hidden = !kind;
+  worldCardPortrait.alt = kind ? tile.species.name : "";
+  if (kind) worldCardPortrait.src = speciesImagePath(kind);
+  const layers = [worldCardLandscape, worldCardRoom, ...(kind ? [worldCardPortrait] : [])];
+  Promise.allSettled(layers.map((img) => img.decode())).then(() => {
+    if (token === worldSceneToken) worldCardScene.style.visibility = "";
+  });
 }
 
 function dismissWorldCard() {

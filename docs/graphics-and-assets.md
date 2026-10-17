@@ -546,7 +546,11 @@ RGBA PNG masters in `rooms/images/`, 768×512 WebPs with lossless alpha in
 `rooms/images-opt/` (about 50 KB each; half size so a 512² portrait sits on
 them at the same scale), and each one's model, flags and full prompt in
 `rooms/recipes/`. Files are named `<class>-<gov or ethic>` after the
-catalogue. Not used by the game yet.
+catalogue. The world card shows them (`src/scene.js`, `assignRooms` in
+mapgen): the landscape goes behind the room in one fixed square, 50% of
+the width × 75% of the height centred at 70% across and 45% down, which
+covers every room's window. A future room's window must stay inside that
+square (x 345–729, y 40–424 at 768×512).
 
 ## Future Art Pipeline
 

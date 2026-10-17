@@ -149,7 +149,7 @@
   }
   #world-card.visible { display: flex; }
   #world-card-panel {
-    position: relative; width: max(320px, calc(var(--portrait) + 36px)); max-width: 100%;
+    position: relative; width: max(320px, calc(var(--scene-w) + 36px)); max-width: 100%;
     box-sizing: border-box; margin: auto;
     padding: 18px; border-radius: 12px; text-align: center;
     background: #0d1426; border: 1px solid #1b2f6b; box-shadow: 0 8px 32px rgba(0,0,0,0.6);
@@ -160,15 +160,25 @@
   }
   #world-card-name { font-size: 1.4em; font-weight: 700; color: #fff; }
   #world-card-type { opacity: 0.75; margin-bottom: 10px; }
-  #world-card-image {
-    display: block; width: var(--portrait); max-width: 100%; aspect-ratio: 1;
-    margin: 0 auto 10px; border-radius: 8px; background: #05070d;
+  /* The world scene (scene.js), back to front: the landscape through the
+     room's window, the room (its window is transparent) and the species
+     portrait at full height on the left. 3:2 like the rooms. The landscape
+     always takes one fixed square (50% x 75%, centred at 70% x 45%) that
+     covers every room's window; smaller windows just crop it. A new room's
+     window must stay inside it. */
+  #world-card-scene {
+    position: relative; width: var(--scene-w); max-width: 100%; aspect-ratio: 3 / 2;
+    margin: 0 auto 10px; border-radius: 8px; overflow: hidden; background: #05070d;
   }
-  #world-card-image[hidden] { display: none; }
+  #world-card-scene img { position: absolute; display: block; }
+  #world-card-scene img[hidden] { display: none; }
+  #world-card-landscape { left: 44.92%; top: 7.81%; width: 50%; height: 75%; }
+  #world-card-room { inset: 0; width: 100%; height: 100%; }
+  #world-card-portrait { left: 0; top: 0; height: 100%; aspect-ratio: 1; }
   #world-card-species { font-size: 1.15em; font-weight: 600; color: #fff; }
   #world-card-description { margin-top: 6px; font-size: 0.9em; opacity: 0.85; text-align: left; }
   /* Government, ethics, attitudes and known worlds (see government.js,
-     ethics.js). Below the portrait on narrow screens, which reserve more
+     ethics.js). Below the scene on narrow screens, which reserve more
      height for them; beside it on wide ones. */
   #world-card-details { text-align: left; font-size: 0.9em; }
   #world-card-details h3 {
@@ -184,25 +194,29 @@
   .attitude.good1 { color: #8fe08f; } .attitude.good2 { color: #4fe36a; }
   .relation { display: flex; justify-content: space-between; gap: 8px; }
   .relation-distance { opacity: 0.6; white-space: nowrap; }
-  /* Species portrait size: as big as the screen allows after the card's
-     gutters (2x16 + 2x18 padding = 68px across) and its text (~300px down,
-     ~560px with the details below it; beside it on wide screens, 340px
-     more across), but never past the portraits' native 512px, nor under
-     120px. A tap anywhere closes the card, so it can't rely on scrolling. */
-  #world-card { --portrait: max(120px, min(512px, calc(100vw - 68px), calc(100vh - 560px))); }
+  /* Scene height: as big as the screen allows after the card's gutters
+     (2x16 + 2x18 padding = 68px across, the scene being 1.5x as wide as
+     tall) and its text (~300px down, ~560px with the details below it;
+     beside it on wide screens, 340px more across), but never past the
+     portraits' native 512px, nor under 80px. A tap anywhere closes the
+     card, so it can't rely on scrolling. */
+  #world-card {
+    --scene-h: max(80px, min(512px, calc((100vw - 68px) / 1.5), calc(100vh - 560px)));
+    --scene-w: calc(var(--scene-h) * 1.5);
+  }
   @supports (height: 100dvh) {
-    #world-card { --portrait: max(120px, min(512px, calc(100vw - 68px), calc(100dvh - 560px))); }
+    #world-card { --scene-h: max(80px, min(512px, calc((100vw - 68px) / 1.5), calc(100dvh - 560px))); }
   }
   @media (min-width: 760px) {
-    #world-card { --portrait: max(120px, min(512px, calc(100vw - 408px), calc(100vh - 300px))); }
+    #world-card { --scene-h: max(80px, min(512px, calc((100vw - 408px) / 1.5), calc(100vh - 300px))); }
     @supports (height: 100dvh) {
-      #world-card { --portrait: max(120px, min(512px, calc(100vw - 408px), calc(100dvh - 300px))); }
+      #world-card { --scene-h: max(80px, min(512px, calc((100vw - 408px) / 1.5), calc(100dvh - 300px))); }
     }
     #world-card-panel {
       display: flex; gap: 20px; align-items: flex-start;
-      width: calc(var(--portrait) + 376px);
+      width: calc(var(--scene-w) + 376px);
     }
-    #world-card-main { width: var(--portrait); flex: none; }
+    #world-card-main { width: var(--scene-w); flex: none; }
     #world-card-details { width: 320px; flex: none; }
     #world-card-details h3:first-child { margin-top: 0; }
   }
@@ -368,7 +382,11 @@
     <div id="world-card-main">
       <div id="world-card-name"></div>
       <div id="world-card-type"></div>
-      <img id="world-card-image" alt="" />
+      <div id="world-card-scene">
+        <img id="world-card-landscape" alt="" />
+        <img id="world-card-room" alt="" />
+        <img id="world-card-portrait" alt="" />
+      </div>
       <div id="world-card-species"></div>
       <div id="world-card-description"></div>
     </div>

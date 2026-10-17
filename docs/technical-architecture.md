@@ -215,6 +215,20 @@ side of this; the key algorithmic ideas:
   `HOME_STATE_NAME` / `LUNA_STATE_NAME` and take no draw. Unlike the
   flavour it's stored on the tile, since it's rolled, but like all of
   `mapData` it's regenerated, never saved.
+- **Rooms come last, on their own stream** (`assignRooms`,
+  `` createRng(`${seed}:rooms`) ``), for the world card scene. Each
+  inhabited world gets `room`, one draw among `scene.js`'s
+  `roomCandidates(tile)`: the base room `<class>-<government>` first, then
+  `<class>-<pole>` for each axis at ±2 (`ETHIC_ROOM_POLES`), all equally
+  likely. The class is `roomClass(tile)`: `rocky-moon-only` for the
+  `moon-grey` sprite (airless rooms), otherwise `planetClass`. It also gets
+  `landscape` (`landscapeKey`, no draw): `<sprite>-planet` for a planet,
+  `<sprite>-giant-moon` for a moon of a gas giant, `<sprite>-planet-moon`
+  for any other moon. Mapgen's moon pools only produce pairs that exist in
+  `backgrounds/images-opt/` (`backgrounds.py`'s `VARIANTS` mirrors them),
+  and every class has all 13 rooms. Earth and Luna have one candidate
+  each (Democracy, no extreme ethic): `rocky-democracy` and
+  `rocky-moon-only-democracy`. Both fields are regenerated, never saved.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -756,14 +770,25 @@ last-drawn tag first. Tags only draw for the active player's discovered
 worlds above `LABEL_ZOOM`, so tappability follows the same fog and zoom
 rules. A hit opens the `#world-card` overlay (`index.html`): a dimmed
 backdrop with a card holding the world's `ownName`, its class and
-type, the species portrait (`species/images-opt/<id03>-<Key>.webp`, loaded
-by `<img>` only when the card opens), the species name and its
-description. The portrait's size is the CSS variable `--portrait` on
-`#world-card`: as large as the viewport allows after the card's gutters
-(68px across) and text (see "Ethics and attitudes" below for how the
-details change this), clamped to 120-512px, 512 being the portraits'
-native size so they're never upscaled. The card is at least 320px wide and
-grows with the portrait. Any tap on the card or backdrop closes it, and `handleTap`
+type, the scene, the species name and its description. The scene
+(`#world-card-scene`, 3:2) stacks three absolutely positioned `<img>`s,
+loaded only when the card opens, back to front: the landscape
+(`backgrounds/images-opt/<tile.landscape>.webp`), the room
+(`rooms/images-opt/<tile.room>.webp`, 768×512, its window transparent) and
+the species portrait (`species/images-opt/<id03>-<Key>.webp`) at full
+height from the left edge. The images carry their own alpha, so plain CSS
+stacks them. The landscape always takes one fixed square, `left 44.92%,
+top 7.81%, 50% × 75%` (384px centred at 537,232 on 768×512), measured to
+cover every room's window; smaller windows just crop it, and a new room's
+window must stay inside it. `showWorldScene` hides the scene until all
+layers' `decode()` settle, so they never appear one by one, with a token so
+a newer card wins. Without a species the portrait is hidden and the room
+still shows. The scene's height is the CSS variable `--scene-h` on
+`#world-card` (its width `--scene-w` = 1.5×): as large as the viewport
+allows after the card's gutters (68px across) and text (see "Ethics and
+attitudes" below for how the details change this), clamped to 80-512px,
+512 being the portraits' and rooms' native height so they're never
+upscaled. The card is at least 320px wide and grows with the scene. Any tap on the card or backdrop closes it, and `handleTap`
 ignores taps while it is open, like the other overlays.
 
 **Tile report.** `input.js`'s `attachCameraControls` takes a fifth
@@ -837,8 +862,8 @@ Every weight, bias and threshold is a named, tunable constant in
 Attitudes and Known worlds sections into `#world-card-details` with DOM
 nodes and `textContent`, passing the active player's `discovered` (the team
 fog). The panel wraps the old content in `#world-card-main`; at 760px or
-wider it's a two-column flex row (portrait column plus a 320px details
-column), and `--portrait` subtracts the details' width (408px across) or,
+wider it's a two-column flex row (scene column plus a 320px details
+column), and `--scene-h` subtracts the details' width (408px across) or,
 when stacked, their height (~560px down instead of ~300). Sizing to fit
 matters because a pointerdown anywhere closes the card, so it can't scroll
 by touch. `tile-report.js` adds an "Attitude" row (toward explorers) after

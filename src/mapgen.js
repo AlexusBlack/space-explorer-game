@@ -43,6 +43,7 @@ import {
   LUNA_STATE_NAME,
 } from "./government.js";
 import { DEFAULT_MAP_SETTINGS, normalizeMapSettings } from "./map-settings.js";
+import { roomCandidates, landscapeKey } from "./scene.js";
 
 // Map size, system count and size, spacing and cluster shape come from the
 // map settings (map-settings.js), passed to generateMap.
@@ -796,6 +797,21 @@ function assignStateNames(tiles, seed) {
   }
 }
 
+// After state names, on its own stream for the same reason: the world card
+// scene (scene.js). Each inhabited world shows its sprite's landscape (no
+// draw) and one room picked evenly among its government's base room and
+// the room of each extreme ethic it holds. Earth and Luna have one candidate
+// each. Display only; never saved.
+function assignRooms(tiles, seed) {
+  const rng = createRng(`${seed}:rooms`);
+  for (const tile of tiles.values()) {
+    if (!tile.inhabited) continue;
+    const rooms = roomCandidates(tile);
+    tile.room = rooms[Math.floor(rng() * rooms.length)];
+    tile.landscape = landscapeKey(tile, tiles);
+  }
+}
+
 // Each system's second anomaly roll, on its own stream so it never shifts a
 // layout draw (existing saves keep their map). Claims a plain band hex of
 // the system, outer zone first, like the first roll in populateSystem.
@@ -884,6 +900,7 @@ export function generateMap({ seed, names = [], species = [], settings = DEFAULT
   assignEthics(tiles, species, seed);
   assignGovernments(tiles, seed);
   assignStateNames(tiles, seed);
+  assignRooms(tiles, seed);
 
   let earth = { q: 0, r: 0 };
   for (const tile of tiles.values()) {

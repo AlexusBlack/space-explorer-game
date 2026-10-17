@@ -25,6 +25,8 @@ from here.
   it qualifies for, and the world card needs to become the 3:2 layered
   scene (landscape, room, portrait) instead of the square portrait. Both
   wait until the room look is settled.
+  - **Resolved since:** see "World card scene from the world's attributes"
+    in the Resolved section.
 
 ## Resolved
 
@@ -1059,3 +1061,19 @@ from here.
   `<class>-<gov or ethic>`, so the game can build a path from a world's class
   and room key with no manifest. Room choice in mapgen and the world card
   scene stay Unresolved.
+- **World card scene from the world's attributes.** User request: plan the
+  use of all three layers on the world screen based on all world
+  attributes. Resolves the Unresolved "Rooms: how a world's room is chosen"
+  item. Landscape: the world's `sprite` and body (planet, moon of a gas
+  giant, moon of another planet), no randomness. Room: the class (the grey
+  `moon-grey` moon uses the airless `rocky-moon-only` rooms, every other
+  world its `planetClass`) with its government's base room or the room of
+  any extreme (±2) ethic, picked evenly on its own `${seed}:rooms` stream
+  so maps and saves are unchanged (about a third of worlds show an ethic
+  room). Portrait: the species, as before. State name, attitudes,
+  relations, star colour and moon look don't change the art.
+  - **The landscape sits in one fixed square for every room** (user, who
+    rejected shipping each room's window box as data as "an overkill, we
+    are okay with part of world image being cropped"). The square, 50% ×
+    75% centred at 70% × 45%, was measured to cover all 78 windows. It
+    replaces the review composites' per-room placement (1.1× each window).

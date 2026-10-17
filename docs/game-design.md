@@ -278,9 +278,18 @@ other planets, moons and companion stars only show when zoomed in close
 
 Tapping an inhabited world's name tag opens a card over the dimmed
 map, showing the world's name and type (e.g. "Rocky planet", "Ice moon"),
-its species' portrait (as large as the screen allows, up to its full
-512px), the name the species goes by there, and the species description.
-Below the portrait (beside it on wide screens) come the world's government:
+a scene of the world (as large as the screen allows, up to 768×512): a
+member of its species in a room, with the world's landscape seen through
+the room's window. The landscape is the world's own, as seen from a planet,
+from a moon of a gas giant (the giant fills the sky) or from a moon of any
+other planet. The room is built from the world's materials (molten, toxic,
+rocky, ice, gas giant, or the grey airless moon's own pressurised rooms) and
+is either its government's room or, when the world holds an extreme ethic,
+possibly that ethic's room instead: each world shows one of these, picked at
+random but always the same for a given map. Earth and Luna show a
+Democracy's room. Under the scene come the name the species goes by there
+and the species description.
+Below the scene (beside it on wide screens) come the world's government:
 its name (none for an Anarchy), then its form (with its type after it when the name doesn't say it, e.g. "One-Party
 State · Oligarchy"), its ethics,
 listed by name, e.g. "Extreme militarist · Xenophile"; Balanced axes are
