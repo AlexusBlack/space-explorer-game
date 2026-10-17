@@ -64,7 +64,8 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   they discovered, emc bounties (a gold "emc" circle per paying world), and
   fights with a world's military ship (the military ship sprite on dark
   teal), and distress calls from attacked trade ships within 8 hexes (the
-  cargo or transport ship sprite on dark amber). Tap one to center on it and show its text for about 7 s;
+  cargo or transport ship sprite on dark amber). Tap one to center on it, outline its hex in yellow
+  (three soft blinks, then a fade, about 2 s) and show its text for about 7 s;
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
 - **World card** — opened by tapping an inhabited world's name tag (or the

@@ -4,7 +4,7 @@
 // real sprites cropped from terrain1.png/hills.png — see
 // docs/graphics-and-assets.md for exact source cells.
 
-import { HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./hexgrid.js";
+import { HEX_SIZE, HEX_WIDTH, HEX_HEIGHT, axialToPixel, pixelToAxial, axialKey } from "./hexgrid.js";
 
 const BACKGROUND = "#05070d";
 // Names and tags show when zoom > LABEL_ZOOM (the old label threshold); plain designations
@@ -46,6 +46,48 @@ const TRAIL_ALPHA_HEAD = 0.75;
 const TRAIL_ALPHA_TAIL = 0.2;
 const TRAIL_ALPHA_OLD = 0.12;
 const TRAIL_WIDTH = 4; // px at zoom 1, capped like ships
+
+// Hex highlight (main.js's highlightHex, after a notification or list row
+// tap): a yellow outline that blinks HIGHLIGHT_BLINKS times, then fades.
+const HIGHLIGHT_COLOR = "#ffd84a";
+const HIGHLIGHT_BLINKS = 3; // tunable
+const HIGHLIGHT_BLINK_MS = 500; // one blink, off -> on -> off — tunable
+const HIGHLIGHT_FADE_MS = 700; // tunable
+const HIGHLIGHT_WIDTH = 3; // px on screen, at every zoom
+const HIGHLIGHT_MIN_RADIUS = 16; // px — far out, it rings the hex instead of tracing it
+export const HIGHLIGHT_TOTAL_MS = HIGHLIGHT_BLINKS * HIGHLIGHT_BLINK_MS + HIGHLIGHT_FADE_MS;
+
+// The highlight's opacity `ms` after it started: smooth blinks, the last one
+// holding at full strength and then fading out. 0 once it's over.
+export function highlightAlpha(ms) {
+  if (!(ms >= 0) || ms >= HIGHLIGHT_TOTAL_MS) return 0;
+  const lastPeak = (HIGHLIGHT_BLINKS - 0.5) * HIGHLIGHT_BLINK_MS;
+  if (ms >= lastPeak) return Math.max(0, 1 - (ms - lastPeak) / (HIGHLIGHT_TOTAL_MS - lastPeak));
+  return (1 - Math.cos((2 * Math.PI * ms) / HIGHLIGHT_BLINK_MS)) / 2;
+}
+
+// Flat-topped hex outline around (cx, cy), corners every 60 degrees.
+function drawHighlight(ctx, cx, cy, zoom, alpha) {
+  const radius = Math.max(HEX_SIZE * zoom, HIGHLIGHT_MIN_RADIUS);
+  ctx.save();
+  ctx.globalAlpha = alpha;
+  ctx.beginPath();
+  for (let i = 0; i < 6; i++) {
+    const a = (Math.PI / 3) * i;
+    const x = cx + radius * Math.cos(a);
+    const y = cy + radius * Math.sin(a);
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.lineJoin = "round";
+  ctx.lineWidth = HIGHLIGHT_WIDTH;
+  ctx.strokeStyle = HIGHLIGHT_COLOR;
+  ctx.shadowColor = HIGHLIGHT_COLOR;
+  ctx.shadowBlur = 10;
+  ctx.stroke();
+  ctx.restore();
+}
 
 // The band art template is 76x67px: a 64x55 (HEX_WIDTH x HEX_HEIGHT) hex
 // silhouette centered with a 6px alignment-guide margin on each side. The
@@ -322,7 +364,7 @@ function visibleHexRange(camera, canvasW, canvasH) {
 
 export function render(
   ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame,
-  pirateBases, pirateShips, worldShips, tradeShips, trails
+  pirateBases, pirateShips, worldShips, tradeShips, trails, highlight
 ) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
@@ -535,6 +577,14 @@ export function render(
   }
   for (const [text, anchor, color] of shipLabels) {
     drawShipLabel(ctx, text, anchor, camera.zoom, color);
+  }
+
+  // Last, over every sprite and label, and not fog-gated: whatever pointed
+  // the player here already named the spot.
+  if (highlight && highlight.alpha > 0) {
+    const world = axialToPixel(highlight.q, highlight.r);
+    const p = worldToScreen(camera, canvasW, canvasH, world.x, world.y);
+    drawHighlight(ctx, p.x, p.y, camera.zoom, highlight.alpha);
   }
 
   return { tagHits };

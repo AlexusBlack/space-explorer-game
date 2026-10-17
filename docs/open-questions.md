@@ -1210,3 +1210,14 @@ from here.
 - **Distress call radius 12 → 8.** User request: "Decrease distress call
   radius to 8". `DISTRESS_RADIUS` in `src/trade.js`; only players within 8
   hexes of an attack on a trade ship get the distress call.
+- **Hex highlight on notification taps.** User request: tapping a
+  notification only centred the camera, which didn't draw the eye to the
+  spot; "just a yellow border around hex that blinks few times and fades
+  away". Plan approved as proposed: a yellow (`#ffd84a`) hex outline with a
+  glow, 3 smooth blinks of 500 ms then a fade (about 2.2 s, constants in
+  `src/render.js`). Also used for Ranking/Worlds list row taps (same intent),
+  not for the automatic centring at turn start (the selection pulse already
+  marks the ship). Species notifications start it too even though the world
+  card mostly covers it, so every notification behaves the same. Drawn over
+  everything and not fog-gated; a 16px minimum radius keeps it visible at
+  whole-map zoom. Not saved.

@@ -829,7 +829,8 @@ cooperative union, O(systems × players) per move, run after every move.
 
 Canvas 2D, redraw-on-change (no need for a continuous animation loop given
 turn-based, low-frequency updates) — redraw triggers: camera pan/zoom, ship
-movement, turn change, pass-and-play interstitial show/hide, plus one
+movement, turn change, pass-and-play interstitial show/hide, a running hex
+highlight (every frame for its ~2s, see "Hex highlight"), plus one
 periodic source: the active-player selection pulse (see "Ship markers"
 above) advances through its 4 frames on a ~150ms tick (`main.js`'s
 `frame()`, gated behind a simple frame-index comparison so a full canvas
@@ -1024,6 +1025,21 @@ switch and load is covered). Entries come from three places:
   `afterStateChange` and at load.
 
 `clearNotifications` empties the ending player's list in `endTurn`.
+
+**Hex highlight.** Tapping a notification (`openNotification`) or a
+Ranking/Worlds row goes through `highlightHex(q, r)`: it centres the camera
+and sets `highlight = { q, r, start }`, held only in memory (not saved; a
+new tap replaces it; `endTurn` and `startNewGame` clear it). While it's set,
+`frame()` asks for a redraw on every animation frame and passes `{ q, r,
+alpha }` as `render`'s last argument, with `alpha` from `render.js`'s pure
+`highlightAlpha(ms)`: `HIGHLIGHT_BLINKS` (3) smooth blinks of
+`HIGHLIGHT_BLINK_MS` (500), the last holding at full strength and fading out
+(`HIGHLIGHT_TOTAL_MS` 2200 in all). When it reaches 0, `frame()` drops the
+highlight and goes back to redraw-on-change. `render` strokes a yellow
+flat-topped hex outline with a glow last, over every sprite and label, and
+doesn't fog-gate it, since the notification already names the spot. Far out
+the outline keeps a minimum radius (`HIGHLIGHT_MIN_RADIUS`, 16px) and rings
+the hex instead of tracing it.
 
 **emc bounties.** `economy.js` is pure. `bountyWorlds(mapData, q, r,
 discovered)` scans `mapData.tiles` for inhabited worlds within

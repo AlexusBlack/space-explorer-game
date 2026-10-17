@@ -357,6 +357,8 @@ Large maps make it easy to lose the camera, so:
 - the **Worlds** button (planet icon) lists the inhabited worlds your team
   has discovered, nearest first, with their attitude toward explorers and
   distance; tap a row to centre on that world;
+- tapping a notification or a list row also outlines the hex in yellow for
+  a moment (it blinks three times and fades), so the spot is easy to find;
 - zooming out always reaches the whole map, where ships show as coloured
   dots (pirates as red dots, their bases as red squares) instead of
   shrinking out of sight.

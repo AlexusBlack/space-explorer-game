@@ -9,7 +9,7 @@ import {
   encodeMapSettings,
   decodeMapSettings,
 } from "./map-settings.js";
-import { render, SELECT_FRAME_COUNT, SHIP_MARKER_ZOOM } from "./render.js";
+import { render, highlightAlpha, SELECT_FRAME_COUNT, SHIP_MARKER_ZOOM } from "./render.js";
 import { rankPlayers, worldsList, minZoomFor, MAX_MIN_ZOOM } from "./lists.js";
 import { attachCameraControls } from "./input.js";
 import { loadBandImages, loadIconImages } from "./assets.js";
@@ -192,6 +192,7 @@ function startNewGame(seed, setup, settings) {
   seedWorldFleets(mapData, gameState);
   seedTradeFleets(mapData, gameState);
   saveGame(currentSeed, currentMapSettings, gameState);
+  highlight = null;
   updateHud();
   hideWinBanner();
   centerCameraOn(mapData.earth.q, mapData.earth.r);
@@ -206,6 +207,16 @@ function centerCameraOn(q, r) {
   camera.x = world.x;
   camera.y = world.y;
   requestRedraw();
+}
+
+// A hex the player was just pointed at (a notification or a list row): the
+// camera centres on it and render.js draws a yellow outline that blinks a
+// few times and fades (highlightAlpha). Not saved; a new one replaces it.
+let highlight = null; // { q, r, start }
+
+function highlightHex(q, r) {
+  centerCameraOn(q, r);
+  highlight = { q, r, start: performance.now() };
 }
 
 // Furthest zoom-out: the whole map fits on screen (see lists.js).
@@ -242,6 +253,14 @@ function frame(bandImages, iconImages) {
     lastSelectFrame = selectFrame;
     requestRedraw();
   }
+  // The highlight animates every frame while it runs, then clears itself.
+  let highlightNow = null;
+  if (highlight) {
+    const alpha = highlightAlpha(performance.now() - highlight.start);
+    if (alpha > 0) highlightNow = { q: highlight.q, r: highlight.r, alpha };
+    else highlight = null;
+    requestRedraw();
+  }
   // No game yet on a first launch: only the start screen shows.
   if (needsRedraw && gameState) {
     const active = gameState.players[gameState.activePlayerIndex];
@@ -257,7 +276,8 @@ function frame(bandImages, iconImages) {
     ({ tagHits } = render(
       ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages,
       active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips,
-      gameState.worldShips, gameState.tradeShips, trailsForViewer(gameState, trailTurnsForPlayer(active))
+      gameState.worldShips, gameState.tradeShips, trailsForViewer(gameState, trailTurnsForPlayer(active)),
+      highlightNow
     ));
     needsRedraw = false;
   }
@@ -398,8 +418,9 @@ function speciesImagePath(kind) {
 }
 
 // Right-edge notification area: the active player's own list, rebuilt from
-// player.notifications whenever state changes. Tap centers on the object and
-// shows its message for a few seconds; a horizontal swipe removes it.
+// player.notifications whenever state changes. Tap centers on the object,
+// highlights its hex and shows its message for a few seconds; a horizontal
+// swipe removes it.
 const NOTICE_CAPTION_MS = 7000;
 const NOTICE_SWIPE_DISTANCE = 40;
 const NOTICE_TAP_THRESHOLD = 10; // same as input.js's TAP_MOVE_THRESHOLD
@@ -475,7 +496,7 @@ function noticeElement(player, notification) {
 }
 
 function openNotification(notification) {
-  centerCameraOn(notification.q, notification.r);
+  highlightHex(notification.q, notification.r);
   // An inhabited world opens its world card, which already says everything
   // the caption would.
   if (notification.kind === "species") {
@@ -702,7 +723,7 @@ function showListCard(title, headers, rows, emptyText) {
       }
       tr.addEventListener("click", () => {
         dismissListCard();
-        centerCameraOn(q, r);
+        highlightHex(q, r);
       });
       body.append(tr);
     }
@@ -912,6 +933,7 @@ function endTurn() {
   // just ended their turn still reaches them at their next turn.
   clearNotifications(gameState.players[gameState.activePlayerIndex]);
   hideNoticeCaption();
+  highlight = null;
   saveGame(currentSeed, currentMapSettings, gameState);
   gameState.activePlayerIndex = (gameState.activePlayerIndex + 1) % gameState.players.length;
   // "Turn N" counts full rounds, not individual End Turn presses — only
