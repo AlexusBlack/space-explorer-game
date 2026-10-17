@@ -68,6 +68,12 @@ other sheets are — see below). Two sprites are designated for use:
   (1, 17) in `extract-icons.py`'s `MANIFEST` (a tan twin-engine fighter) —
   extracted to `images/icons/military-ship.png` (58×36px, same chroma-key
   crop) for inhabited worlds' military fleets.
+- **Cargo ship** — row 2, column 15 counted from 1, grid cell (1, 14) (a long
+  white-and-red freighter) — extracted to `images/icons/cargo-ship.png`
+  (63×40px, same chroma-key crop).
+- **Transport ship** — row 3, column 3 counted from 1, grid cell (2, 2) (a
+  long white-and-blue ship) — extracted to `images/icons/transport-ship.png`
+  (60×37px, same chroma-key crop).
 
 This resolves the ship-sprite gap noted below: both MVP0's visual
 completeness and MVP4's pirate-ship requirement now have source art.
@@ -317,6 +323,11 @@ the repetition becomes a real complaint during playtesting.
   extracted to `images/icons/military-ship.png` (58×36px), drawn by
   `render.js` for `kind: "world"` stack entries and used as the `military`
   notice icon. Covered by the same open `units.png` provenance question.
+- **Cargo and transport ship** sprites — grid cells (1, 14) and (2, 2) of
+  `units.png`, extracted to `images/icons/cargo-ship.png` (63×40px) and
+  `images/icons/transport-ship.png` (60×37px), drawn by `render.js` for
+  `kind: "trade"` stack entries by the ship's `type`, and used as the
+  `distress` notice icon. Same open `units.png` provenance question.
 - **Pirate base** sprite — `pirate-base.png` (standalone file, MVP4),
   referenced directly (no crop step) into `render.js`'s new pirate-base
   marker pass.

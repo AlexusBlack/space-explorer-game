@@ -1175,3 +1175,38 @@ from here.
 - **Bounty radius 20 → 12.** User request: "Decrease pirate bounty radius
   to 12". `BOUNTY_RADIUS` in `src/economy.js`; fewer, nearer worlds pay for
   each pirate kill.
+- **Cargo and transport ships.** User request: cargo and transport ships
+  that work identically but look different (`units.png` grid cells (1, 14)
+  and (2, 2), the user's "1,14" and "2,2"), strength 4. Each world keeps
+  one of each, xenophobes none and xenophiles two of each. They operate
+  within 30 hexes of home, visit 1–3 non-hostile worlds, return home and
+  repeat. Pirates can attack them and they respond, but they never attack.
+  They're healed on any non-hostile world and run to the closest one when
+  badly damaged. A pirate attack sends a distress call notification to any
+  player ship within 12 hexes. Decisions taken at plan time (the user picked
+  each):
+  - Only the extremes change the fleet size: xeno −2 gets none, xeno +2
+    gets two of each, everyone else one of each.
+  - "Non-hostile" means not at War with the home world (Rivals are fine),
+    for trade stops and repairs alike.
+  - Attackers are pirates and the military ships of worlds at War with the
+    trade ship's home (inside their patrol zone). Players never attack them.
+  - The distress call is a notification only, no reward or other effect.
+  - User corrections to the first plan: speed 5 hexes a round (not 6), and
+    attacks by War-enemy military ships send distress calls too, not only
+    pirate attacks.
+  - Also settled in the plan: running means heading to the closest
+    non-hostile world in the zone and resuming the loop after the repair;
+    a repair ends the ship's round; trade ships won't enter a hex holding
+    a pirate ship or base or a War enemy's military ship, and may sidestep
+    at equal distance so a base in the way can't stall them forever; lost
+    ships come back by a 25% chance per round, like military ships; the
+    distress call reaches players of every team, not just the ship owner's.
+- **Military ship trails teal → pale grey.** User request: military ships'
+  blue (teal, `#3fc6c0`) trails were easy to confuse with players' team
+  colours; make them the same colour as cargo/transport ship trails.
+  `WORLD_SHIP_TRAIL_COLOR` in `src/trails.js` is now `#c8d0d8`, like
+  `TRADE_SHIP_TRAIL_COLOR`. Their far-zoom map dots stay teal.
+- **Distress call radius 12 → 8.** User request: "Decrease distress call
+  radius to 8". `DISTRESS_RADIUS` in `src/trade.js`; only players within 8
+  hexes of an attack on a trade ship get the distress call.

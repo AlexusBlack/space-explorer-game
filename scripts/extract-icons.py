@@ -261,6 +261,8 @@ MANIFEST = [
     ("ship", "units.png", 1, 2, {"chroma_key": True}),  # rounded tan/beige craft
     ("pirate-ship", "units.png", 0, 12, {"chroma_key": True}),  # blue/white angular fighter
     ("military-ship", "units.png", 1, 17, {"chroma_key": True}),  # tan twin-engine fighter: world military ships
+    ("cargo-ship", "units.png", 1, 14, {"chroma_key": True}),  # long white-and-red freighter: world cargo ships
+    ("transport-ship", "units.png", 2, 2, {"chroma_key": True}),  # long white-and-blue ship: world transport ships
 ]
 
 

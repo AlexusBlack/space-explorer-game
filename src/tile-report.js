@@ -17,6 +17,7 @@ import {
 } from "./state.js";
 import { PIRATE_BASE_ATTACK, PIRATE_BASE_SUPPORT_CAP } from "./pirates.js";
 import { homeWorld } from "./fleets.js";
+import { tradeShipDestination, TRADE_SHIP_TYPES } from "./trade.js";
 import { shipTitle } from "./setup.js";
 import { attitudeLabel, attitudeToPlayers } from "./ethics.js";
 import { governmentName } from "./government.js";
@@ -184,6 +185,23 @@ export function buildTileReport(mapData, gameState, q, r) {
       ];
       if (attitudeToPlayers(home) === -2) rows.push(["Stance", "Hostile to you"]);
       entities.push({ title: "Military ship", rows });
+    }
+    for (const ship of gameState.tradeShips ?? []) {
+      if (ship.q !== q || ship.r !== r) continue;
+      const home = homeWorld(mapData, ship);
+      if (!home) continue;
+      const dest = tradeShipDestination(mapData, ship);
+      const destTile = dest && mapData.tiles.get(axialKey(dest.q, dest.r));
+      const boundFor = !destTile ? "—" : destTile === home ? "home" : worldName(destTile);
+      entities.push({
+        title: TRADE_SHIP_TYPES[ship.type],
+        rows: [
+          ["Home", worldName(home)],
+          ["HP", `${ship.health}/${ship.maxHealth}`],
+          ["Attack", String(ship.attack)],
+          ["Bound for", boundFor],
+        ],
+      });
     }
   }
 

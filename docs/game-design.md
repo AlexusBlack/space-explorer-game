@@ -75,6 +75,9 @@ game — losing a ship is a setback, not a game-over.
     disappears once the anomaly is used up by any player.
   - **Gold "emc":** a world paid you a pirate bounty (see "Currency (emc)"),
     one icon per paying world. Tapping it centres on that world.
+  - **Cargo or transport ship on amber:** a distress call. A world's trade
+    ship was attacked within 8 hexes of your ship (see "Cargo and transport
+    ships"). Tapping it centres on the fight.
 
   Tapping an icon centers the map on that object and shows its explanation
   for about 7 seconds; a species icon opens that world's card instead. Swiping an icon sideways removes it, and ending your
@@ -340,7 +343,9 @@ its tile report. It never moves the ship or spends moves. The report shows:
     with full stats: HP, attack, level, moves per turn and vision.
   - A pirate base with HP, attack and how many raiders it supports.
   - Pirate raiders with HP and attack.
-  - Pirates are listed only on hexes you've explored, the same rule that
+  - Worlds' military ships, and their cargo and transport ships with their
+    home, HP, attack and where they're bound.
+  - Pirates and world ships are listed only on hexes you've explored, the same rule that
     draws them on the map.
 
 ## Finding your way
@@ -418,9 +423,11 @@ Large maps make it easy to lose the camera, so:
   Combat" below) or via a full respawn-at-Earth after a loss.
 - **Vessel Trail Detector** (Trail track, a root upgrade with no
   prerequisite, and the one track that stops at **Mk II**): shows the
-  recent movement of every ship — the player's own, other players' and
-  pirates' — as a translucent line through the hexes it moved through.
-  Player trails are in the ship's team colour; pirate trails are red. It's
+  recent movement of every ship — the player's own, other players',
+  pirates' and worlds' — as a translucent line through the hexes it moved
+  through. Player trails are in the ship's team colour, pirate trails are
+  red, and world ships' trails (military, cargo and transport) are pale grey,
+  so they can't be mistaken for a team. It's
   meant for tracking raiders closing in or running away, and is gated behind
   an upgrade so the early map stays uncluttered.
   - **Mk I** shows the last turn: everything that moved since the viewer's
@@ -525,8 +532,9 @@ melee-only for MVP4 (no ranged units, no fortify bonus).
   reached, until ship losses free up capacity.
 - Every existing pirate ship then roams up to `PIRATE_SHIP_SPEED` (6) hexes
   that round, one at a time, re-evaluating each step. Its quarry is the
-  nearest ship, a player's or a world's military ship (see "World military
-  fleets" below). Within detection range of it, it has a chance to path
+  nearest ship: a player's, a world's military ship (see "World military
+  fleets" below) or a world's cargo or transport ship (see "Cargo and
+  transport ships"). Within detection range of it, it has a chance to path
   greedily toward it — **not a flat chance**: a ship at full health relative to that
   player chases up to `PIRATE_CHASE_CHANCE` (90%) of the time, but the
   more it falls behind in relative HP, the less it presses the attack. If
@@ -649,7 +657,8 @@ in the world card):
     hexes of the military ship, this round or the round before, whatever
     the world thinks of pirates;
   - players' ships, when the home world is Hostile toward explorers;
-  - the ships of a world it is at War with (Rivalry isn't enough).
+  - the ships of a world it is at War with (Rivalry isn't enough),
+    including its cargo and transport ships.
 - **Moving**: up to 6 hexes a round, right after the pirates, with the
   pirates' chase rule (chase chance falls with relative health). A ship
   that is badly outmatched runs **home** instead of just away, a damaged
@@ -668,8 +677,46 @@ in the world card):
   way you attack pirates, for combat XP and no emc. Every other world's
   ships ignore you and share hexes with you.
 - Fights between pirates and world ships, or between worlds, send no
-  notifications. Military ships are fog-gated like pirates and show in the
+  notifications, except for attacks on trade ships, which send distress
+  calls (below). Military ships are fog-gated like pirates and show in the
   long-press tile report.
+
+## Cargo and transport ships
+
+Every inhabited world also runs civilian traffic (`src/trade.js`): **cargo
+ships** and **transport ships**. The two behave the same; only their
+sprite and name differ.
+
+- **Fleet size**: one of each per world. Extreme xenophobes keep none, and
+  extreme xenophiles keep two of each. A new game launches every fleet from
+  its home world.
+- **Ships**: attack 4, 100 HP. They never start a fight.
+- **Operating zone**: a trade ship never goes more than 30 hexes from home.
+- **Trade loop**: at home, a ship picks 1–3 different inhabited worlds
+  within 30 hexes of home that are not at War with it (Rivals are fine). It
+  visits them in that order, returns home and picks a new loop. With nobody
+  to trade with, it waits at home and tries again next round.
+- **Moving**: up to 5 hexes a round, after the military ships. A trade ship
+  never enters a hex holding a pirate ship, a pirate base or a military
+  ship of a world at War with its home. It steps around them instead, or
+  waits. It shares hexes with players and every other ship.
+- **Repairs**: a damaged trade ship on any inhabited world not at War with
+  its home, home included, is fully repaired there, which ends its round.
+- **Running**: below half health it drops its current leg and heads for
+  the closest such world. Once repaired, it carries on with its loop.
+- **Attackers**: pirates, and the military ships of worlds at War with its
+  home (inside their own patrol zone). The trade ship hits back with the
+  usual melee rules. A destroyed trade ship is gone, and its world has a 25%
+  chance each round to launch a replacement of that type. A pirate attack
+  counts as attacking a ship, so nearby military ships hunt that pirate.
+- **Players** never attack trade ships, and trade ships never block you.
+- **Distress calls**: every attack on a trade ship sends a notification to
+  each player whose ship is within 8 hexes of the fight, whatever their
+  team: "Distress call: the Xarr cargo ship is under attack by pirates!",
+  or "… by a Vell military ship", or "… was destroyed by …". There's no
+  reward; it just tells you where the trouble is.
+- Trade ships are fog-gated like other ships. The long-press tile report
+  lists each one with its home, HP, attack and where it's bound.
 
 ## Currency (emc)
 

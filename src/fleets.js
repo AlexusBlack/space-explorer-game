@@ -15,6 +15,7 @@ import { attackForPlayer, maxHealthForPlayer, applyShipLoss, SHIP_LOSS_XP_PENALT
 import { shipTitle } from "./setup.js";
 import { removeBase, removeShip, COMBAT_SURVIVAL_XP, PIRATE_BASE_ATTACK } from "./pirates.js";
 import { currentStep, recordTrail, worldShipTrailId, WORLD_SHIP_TRAIL_COLOR, PIRATE_TIME_OFFSET } from "./trails.js";
+import { distressEvents, removeTradeShip, withArticle } from "./trade.js";
 
 export const WORLD_SHIP_ATTACK = 10; // tunable — between a raider (6) and a player ship (12)
 export const WORLD_SHIP_MAX_HEALTH = 100; // tunable
@@ -94,7 +95,7 @@ function pirateWanted(gameState, pirate, ship) {
 }
 
 // Everything `ship` may attack, inside its patrol zone, as
-// { kind: "pirate" | "base" | "player" | "world", entity, healthFrac }.
+// { kind: "pirate" | "base" | "player" | "world" | "trade", entity, healthFrac }.
 export function worldShipTargets(mapData, gameState, ship) {
   const home = homeWorld(mapData, ship);
   if (!home) return [];
@@ -122,6 +123,14 @@ export function worldShipTargets(mapData, gameState, ship) {
     const otherHome = homeWorld(mapData, other);
     if (otherHome && otherHome !== home && diplomaticState(home, otherHome) === -2) {
       out.push({ kind: "world", entity: other, healthFrac: other.health / other.maxHealth });
+    }
+  }
+  // Cargo and transport ships of worlds at War with this one.
+  for (const trader of gameState.tradeShips ?? []) {
+    if (!inZone(trader)) continue;
+    const traderHome = homeWorld(mapData, trader);
+    if (traderHome && traderHome !== home && diplomaticState(home, traderHome) === -2) {
+      out.push({ kind: "trade", entity: trader, healthFrac: trader.health / trader.maxHealth });
     }
   }
   return out;
@@ -169,7 +178,8 @@ function removeWorldShip(gameState, ship) {
 // stepPirateShip) except that running means heading home. A damaged ship
 // with nothing to chase heads home too; reaching home repairs it fully and
 // ends its round. A step onto a target's hex is a fight that ends the round.
-// Returns a player event { playerIndex, q, r, message } or null.
+// Returns a player event { playerIndex, q, r, message }, an array of
+// distress events (after attacking a trade ship), or null.
 function stepWorldShip(mapData, gameState, ship, rng) {
   const home = homeWorld(mapData, ship);
   if (!home) return null;
@@ -227,7 +237,8 @@ function hexHeld(mapData, gameState, ship, at) {
 }
 
 // `ship` attacks `target` on the neighbouring hex, moving in only on a kill
-// that leaves the hex clear (see hexHeld).
+// that leaves the hex clear (see hexHeld). Attacking a trade ship returns its
+// distress calls; other fights against non-players return null.
 function attackTarget(mapData, gameState, ship, target, rng) {
   const entity = target.entity;
   const tile = mapData.tiles.get(axialKey(entity.q, entity.r)); // defender's tile
@@ -242,11 +253,15 @@ function attackTarget(mapData, gameState, ship, target, rng) {
   if (result.defenderDefeated) {
     if (target.kind === "pirate") removeShip(gameState, entity.id);
     else if (target.kind === "base") removeBase(gameState, entity.id);
+    else if (target.kind === "trade") removeTradeShip(gameState, entity);
     else removeWorldShip(gameState, entity);
     if (!hexHeld(mapData, gameState, ship, entity)) moveShip(gameState, ship, entity);
   }
   if (result.attackerDefeated) removeWorldShip(gameState, ship);
-  return null;
+  if (target.kind !== "trade") return null;
+  const attacker = withArticle(`${worldName(homeWorld(mapData, ship))} military ship`);
+  const outcome = result.defenderDefeated ? "destroyed" : result.attackerDefeated ? "won" : "attacked";
+  return distressEvents(mapData, gameState, entity, { q: entity.q, r: entity.r }, attacker, outcome);
 }
 
 function attackPlayer(mapData, gameState, ship, player, tile, rng) {
@@ -283,13 +298,15 @@ export function tickWorldFleets(mapData, gameState, rng = Math.random) {
 }
 
 // Every ship's moves and fights for the round; player events in the pirate
-// event format.
+// event format, plus distress events (kind "distress") from attacks on
+// trade ships.
 export function moveWorldFleets(mapData, gameState, rng = Math.random) {
   const events = [];
   for (const ship of [...gameState.worldShips]) {
     if (!gameState.worldShips.includes(ship)) continue; // destroyed earlier this round
     const event = stepWorldShip(mapData, gameState, ship, rng);
-    if (event) events.push(event);
+    if (Array.isArray(event)) events.push(...event);
+    else if (event) events.push(event);
   }
   return events;
 }

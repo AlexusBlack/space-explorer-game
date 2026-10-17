@@ -32,7 +32,7 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   the whole map (never limited above 0.25 on small maps); below zoom 0.2
   ships draw as fixed-size dots (team colour with a white outline, larger
   for the active ship; pirate ships red dots, pirate bases red squares,
-  world military ships teal dots) so
+  world military ships teal dots, cargo and transport ships pale grey dots) so
   they stay findable, and the selection pulse stops animating.
 - **Top bar** — the active player's emc balance (gold, e.g. "1,250 emc";
   it replaced the seed and map debug text, and the seed is still in the URL
@@ -63,7 +63,8 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   active player's own events: pirate attacks, inhabited worlds and anomalies
   they discovered, emc bounties (a gold "emc" circle per paying world), and
   fights with a world's military ship (the military ship sprite on dark
-  teal). Tap one to center on it and show its text for about 7 s;
+  teal), and distress calls from attacked trade ships within 8 hexes (the
+  cargo or transport ship sprite on dark amber). Tap one to center on it and show its text for about 7 s;
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
 - **World card** — opened by tapping an inhabited world's name tag (or the
@@ -102,7 +103,8 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   attitude toward explorers), its system, zone, defense
   bonus, discovery XP and distance, then each ship, pirate or military ship
   on the hex with its stats (a military ship lists its home world, HP,
-  attack, and "Hostile to you" when its world is Hostile) (see `game-design.md`'s "Tile report"). Close it with the × or a
+  attack, and "Hostile to you" when its world is Hostile; a cargo or
+  transport ship lists its home world, HP, attack and "Bound for") (see `game-design.md`'s "Tile report"). Close it with the × or a
   tap on the backdrop. Taps on the card itself don't close it, so its "View
   world" button works.
 

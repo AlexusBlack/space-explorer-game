@@ -108,7 +108,10 @@ Earth without the session ending.
 no health model). Post-MVP4, inhabited worlds gained small military fleets
 (`src/fleets.js`) that fight pirates, Hostile worlds' enemies and, for
 Hostile worlds, players; pirates attack those ships too, but planets
-themselves are still never combat targets.
+themselves are still never combat targets. They then gained cargo and
+transport ships (`src/trade.js`) that fly trade loops between friendly
+worlds, never attack, and send distress calls to nearby players when pirates
+or War enemies attack them.
 
 ## Parking Lot (not committed to any stage)
 

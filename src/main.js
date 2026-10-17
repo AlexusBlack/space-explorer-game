@@ -38,6 +38,7 @@ import {
 import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer } from "./trails.js";
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { seedWorldFleets, tickWorldFleets, findHostileWorldShipAt, resolvePlayerAttackOnWorldShip } from "./fleets.js";
+import { seedTradeFleets, tickTradeShips } from "./trade.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 import { roomImagePath, landscapeImagePath } from "./scene.js";
 import { formatEmc } from "./economy.js";
@@ -189,6 +190,7 @@ function startNewGame(seed, setup, settings) {
   loadMap(seed, settings);
   gameState = createNewGame(mapData, setup);
   seedWorldFleets(mapData, gameState);
+  seedTradeFleets(mapData, gameState);
   saveGame(currentSeed, currentMapSettings, gameState);
   updateHud();
   hideWinBanner();
@@ -255,7 +257,7 @@ function frame(bandImages, iconImages) {
     ({ tagHits } = render(
       ctx, window.innerWidth, window.innerHeight, camera, mapData, bandImages, iconImages,
       active.discovered, ships, selectFrame, gameState.pirateBases, gameState.pirateShips,
-      gameState.worldShips, trailsForViewer(gameState, trailTurnsForPlayer(active))
+      gameState.worldShips, gameState.tradeShips, trailsForViewer(gameState, trailTurnsForPlayer(active))
     ));
     needsRedraw = false;
   }
@@ -408,6 +410,12 @@ function renderNotifications() {
   notificationList.replaceChildren(...active.notifications.map((n) => noticeElement(active, n)));
 }
 
+// A trade ship's distress call as a notification (the event minus its
+// routing field).
+function distressNotice({ q, r, message, shipType }) {
+  return { kind: "distress", q, r, message, shipType };
+}
+
 function noticeElement(player, notification) {
   const el = document.createElement("div");
   el.className = `notice notice-${notification.kind}`;
@@ -426,7 +434,9 @@ function noticeElement(player, notification) {
         ? "images/icons/wormhole-glyph.png"
         : notification.kind === "military"
           ? "images/icons/military-ship.png"
-          : "images/icons/pirate-ship.png";
+          : notification.kind === "distress"
+            ? `images/icons/${notification.shipType === "transport" ? "transport" : "cargo"}-ship.png`
+            : "images/icons/pirate-ship.png";
     el.appendChild(img);
   }
 
@@ -916,14 +926,26 @@ function endTurn() {
     // per-player-turn or per-move — see docs/game-design.md's Pirates
     // section. Each fight goes to the attacked player's own notification
     // area (not a blocking overlay), so they see it on their next turn.
+    // Attacks on trade ships come back as "distress" events for every
+    // player near the fight (see trade.js).
     const events = tickPirates(mapData, gameState);
-    for (const { playerIndex, q, r, message, bounties = [] } of events) {
-      gameState.players[playerIndex].notifications.push({ kind: "pirate", q, r, message }, ...bounties);
+    for (const event of events) {
+      const { playerIndex, q, r, message, bounties = [] } = event;
+      gameState.players[playerIndex].notifications.push(
+        event.kind === "distress" ? distressNotice(event) : { kind: "pirate", q, r, message },
+        ...bounties
+      );
     }
     // Worlds' military fleets move right after the pirates (see fleets.js).
-    for (const { playerIndex, q, r, message } of tickWorldFleets(mapData, gameState)) {
-      gameState.players[playerIndex].notifications.push({ kind: "military", q, r, message });
+    for (const event of tickWorldFleets(mapData, gameState)) {
+      const { playerIndex, q, r, message } = event;
+      gameState.players[playerIndex].notifications.push(
+        event.kind === "distress" ? distressNotice(event) : { kind: "military", q, r, message }
+      );
     }
+    // Then the worlds' cargo and transport ships (trade.js), which never
+    // start a fight.
+    tickTradeShips(mapData, gameState);
     tickPassiveHealing(gameState);
   }
   pruneTrails(gameState);
@@ -1238,6 +1260,8 @@ if (
   applyDestroyedAnomalies(mapData, gameState);
   // Saves from before world fleets: every world launches its full fleet.
   if (!gameState.worldShips) seedWorldFleets(mapData, gameState);
+  // And from before trade ships.
+  if (!gameState.tradeShips) seedTradeFleets(mapData, gameState);
   for (const player of gameState.players) pruneNotifications(mapData, player);
   updateHud();
   if (checkWinCondition(mapData, gameState.players)) {

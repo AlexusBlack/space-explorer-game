@@ -313,6 +313,8 @@ export function createNewGame(mapData, setup) {
     // (seedWorldFleets) right after this, since that needs fleets.js.
     worldShips: [], // [{ id, q, r, homeQ, homeR, health, maxHealth, attack }]
     nextWorldShipId: 1,
+    tradeShips: [], // [{ id, type, q, r, homeQ, homeR, health, maxHealth, attack, route }], see trade.js
+    nextTradeShipId: 1,
     // Recent ship movement for the Vessel Trail Detector, recorded for every
     // ship whether or not anyone owns the upgrade (see trails.js).
     trails: [], // [{ ship, color, time, path: [{ q, r }] }]
@@ -472,6 +474,8 @@ export function serializeState(seed, mapSettings, gameState) {
     nextPirateEntityId: gameState.nextPirateEntityId,
     worldShips: gameState.worldShips,
     nextWorldShipId: gameState.nextWorldShipId,
+    tradeShips: gameState.tradeShips,
+    nextTradeShipId: gameState.nextTradeShipId,
     trails: gameState.trails,
     // Once per team, not per player: teammates share one Set.
     teamFog: Object.fromEntries(
@@ -521,6 +525,9 @@ export function deserializeState(raw) {
     // world's fleet (fleets.js's seedWorldFleets) once the map is built.
     worldShips: raw.worldShips ?? null,
     nextWorldShipId: raw.nextWorldShipId ?? 1,
+    // null = a save from before trade ships; main.js seeds every fleet.
+    tradeShips: raw.tradeShips ?? null,
+    nextTradeShipId: raw.nextTradeShipId ?? 1,
     // Saves predating the Vessel Trail Detector have no trails yet.
     trails: raw.trails ?? [],
     players: raw.players.map((p, i) => ({

@@ -25,6 +25,7 @@ const MARKER_RADIUS = 3.5; // px
 const ACTIVE_MARKER_RADIUS = 4.5; // px
 const PIRATE_MARKER_COLOR = "#ff4a3d";
 const WORLD_SHIP_MARKER_COLOR = "#3fc6c0"; // worlds' military ships
+const TRADE_SHIP_MARKER_COLOR = "#c8d0d8"; // worlds' cargo and transport ships
 
 // A far-zoom marker: a filled dot with an outline (white for players, dark
 // for pirates); `square` for pirate bases, which are structures, not ships.
@@ -168,13 +169,13 @@ function drawStackCount(ctx, cx, cy, hw, hh, zoom, count) {
 }
 
 // Groups visible ships by hex, best-first: the active player's ship, then
-// other players' ships, then pirates, then worlds' military ships, each group
-// in its incoming order. Only a stack's first ship is drawn.
+// other players' ships, then pirates, then worlds' military ships, then their
+// cargo and transport ships, each group in its incoming order. Only a stack's first ship is drawn.
 // Players' ships are always visible; other ships only on hexes the active
 // player has discovered (`discovered` null = no fog). Returns
-// Map<"q,r", ship[]>, where each ship is { kind: "player"|"pirate"|"world", q, r, ... }.
-export function shipStacks(playerShips, otherShips, discovered, worldShips = []) {
-  const RANK = { pirate: 2, world: 3 };
+// Map<"q,r", ship[]>, where each ship is { kind: "player"|"pirate"|"world"|"trade", q, r, ... }.
+export function shipStacks(playerShips, otherShips, discovered, worldShips = [], tradeShips = []) {
+  const RANK = { pirate: 2, world: 3, trade: 4 };
   const rank = (ship) => RANK[ship.kind] ?? (ship.active ? 0 : 1);
   const stacks = new Map();
   const add = (ship) => {
@@ -190,6 +191,10 @@ export function shipStacks(playerShips, otherShips, discovered, worldShips = [])
   for (const ship of worldShips ?? []) {
     if (discovered && !discovered.has(axialKey(ship.q, ship.r))) continue;
     add({ ...ship, kind: "world" });
+  }
+  for (const ship of tradeShips ?? []) {
+    if (discovered && !discovered.has(axialKey(ship.q, ship.r))) continue;
+    add({ ...ship, kind: "trade" });
   }
   // Array.prototype.sort is stable, so equal ranks keep their order.
   for (const stack of stacks.values()) stack.sort((a, b) => rank(a) - rank(b));
@@ -317,7 +322,7 @@ function visibleHexRange(camera, canvasW, canvasH) {
 
 export function render(
   ctx, canvasW, canvasH, camera, mapData, bandImages, iconImages, discovered, ships, selectFrame,
-  pirateBases, pirateShips, worldShips, trails
+  pirateBases, pirateShips, worldShips, tradeShips, trails
 ) {
   ctx.fillStyle = BACKGROUND;
   ctx.fillRect(0, 0, canvasW, canvasH);
@@ -426,7 +431,7 @@ export function render(
   // start under the ship label instead of overlapping it.
   const shipZoom = Math.min(camera.zoom, SHIP_MAX_ZOOM);
   const playerImg = iconImages && iconImages.ship;
-  const stacks = [...shipStacks(ships, pirateShips, discovered, worldShips).values()];
+  const stacks = [...shipStacks(ships, pirateShips, discovered, worldShips, tradeShips).values()];
   const shipLabelBottoms = new Map(); // "q,r" -> screen y of the ship label's bottom
   const shipLabelAnchors = new Map(); // "q,r" -> the ship label's anchor
   if (camera.zoom > LABEL_ZOOM) {
@@ -500,7 +505,9 @@ export function render(
       if (top.kind === "player") {
         drawMarker(ctx, p.x, p.y, top.active ? ACTIVE_MARKER_RADIUS : MARKER_RADIUS, top.color, "#fff");
       } else {
-        const color = top.kind === "world" ? WORLD_SHIP_MARKER_COLOR : PIRATE_MARKER_COLOR;
+        const color = top.kind === "world"
+          ? WORLD_SHIP_MARKER_COLOR
+          : top.kind === "trade" ? TRADE_SHIP_MARKER_COLOR : PIRATE_MARKER_COLOR;
         drawMarker(ctx, p.x, p.y, MARKER_RADIUS, color, "#05070d");
       }
       continue;
@@ -516,6 +523,9 @@ export function render(
     } else if (top.kind === "world") {
       drawIcon(ctx, worldShipImg, p.x, p.y, shipZoom);
       // Only once damaged, like players: most worlds keep a healthy ship.
+      if (top.health < top.maxHealth) drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
+    } else if (top.kind === "trade") {
+      drawIcon(ctx, iconImages && iconImages[`${top.type}-ship`], p.x, p.y, shipZoom);
       if (top.health < top.maxHealth) drawHealthBar(ctx, p.x, p.y, shipZoom, top.health / top.maxHealth);
     } else {
       drawIcon(ctx, pirateImg, p.x, p.y, shipZoom);

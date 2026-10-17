@@ -364,6 +364,10 @@ gameState (src/state.js, persisted — see "Persistence" below)
 ├── worldShips: [{ id, q, r, homeQ, homeR, health, maxHealth, attack }]
 │     — inhabited worlds' military ships (see "World military fleets")
 ├── nextWorldShipId
+├── tradeShips: [{ id, type, q, r, homeQ, homeR, health, maxHealth, attack,
+│     route: [{q, r}] }] — inhabited worlds' cargo/transport ships (see
+│     "Cargo and transport ships")
+├── nextTradeShipId
 └── players: PlayerState[] — 1..6, in turn order (from the start screen)
       └── PlayerState: { name, shipName, color (= team), q, r, xp,
             unlockedUpgrades: Set<upgradeId>,
@@ -612,7 +616,7 @@ from before fleets (no `SAVE_VERSION` bump), and `main.js` seeds those on
 load the same way, once the map exists.
 
 Round order in `main.js`'s `endTurn`: `tickPirates` → `tickWorldFleets` →
-`tickPassiveHealing`. `tickWorldFleets` first rolls `rebuildWorldFleets`
+`tickTradeShips` → `tickPassiveHealing`. `tickWorldFleets` first rolls `rebuildWorldFleets`
 (`WORLD_SHIP_REBUILD_CHANCE` per short world per round, one ship at a time,
 never above `fleetSize`), then `moveWorldFleets`. Each ship takes up to
 `WORLD_SHIP_SPEED` steps, re-evaluating `worldShipTargets` before each:
@@ -622,7 +626,8 @@ never above `fleetSize`), then `moveWorldFleets`. Each ship takes up to
   within `PIRATE_WANTED_ROUNDS` turns and within the patrol radius of the
   military ship (rule "attacked a ship nearby"); players when
   `attitudeToPlayers(home) === −2`; other worlds' ships when
-  `diplomaticState(home, theirs) === −2` (War). The nearest wins.
+  `diplomaticState(home, theirs) === −2` (War), military and trade ships
+  alike (`kind: "trade"`). The nearest wins.
 - Chase/flee mirrors `stepPirateShip`: chase with chance
   `WORLD_SHIP_CHASE_CHANCE × healthRatio`; on a failed roll below
   `WORLD_SHIP_FLEE_HEALTH_RATIO` the ship steps toward home, not just away.
@@ -639,7 +644,9 @@ never above `fleetSize`), then `moveWorldFleets`. Each ship takes up to
   player loser goes through `applyShipLoss`; a player survivor gets
   `COMBAT_SURVIVAL_XP` and `inCombatThisRound`.
 - It returns player events in the pirate format, which `endTurn` turns into
-  `kind: "military"` notifications. Fights without a player emit nothing.
+  `kind: "military"` notifications. Fights without a player emit nothing,
+  except an attack on a trade ship, which returns `trade.js`'s distress
+  events (`moveWorldFleets` flattens the array).
 
 Pirates in turn hunt world ships: `pirates.js`'s `pirateQuarry` lists
 players and world ships, `findNearest` picks the closer one, and a step onto
@@ -656,6 +663,52 @@ ships of worlds Hostile toward explorers (any other world's ship never
 blocks a move), and `resolvePlayerAttackOnWorldShip` pays combat XP and no
 emc. World ship moves are recorded as trails with `worldShipTrailId`
 (`w<id>`) and `WORLD_SHIP_TRAIL_COLOR`, stamped like pirate moves.
+
+**Cargo and transport ships (`src/trade.js`).** Each inhabited world keeps
+`tradeFleetSize(tile)` ships of **each** type in `TRADE_SHIP_TYPES`
+(`cargo`, `transport`): `TRADE_FLEET_SIZE` (1), or
+`XENOPHOBE_TRADE_FLEET_SIZE` (0) / `XENOPHILE_TRADE_FLEET_SIZE` (2) at
+`xeno` = −2 / +2. The type only picks the sprite and name. Records live in
+`gameState.tradeShips`, keyed to home by `homeQ`/`homeR` like military
+ships. Seeding (`seedTradeFleets`) and old-save handling
+(`tradeShips: null` → seed on load, no `SAVE_VERSION` bump) mirror fleets.
+
+`tickTradeShips` rolls `rebuildTradeFleets` (`TRADE_SHIP_REBUILD_CHANCE`
+per world and short type) and then `moveTradeShips`. Per ship, up to
+`TRADE_SHIP_SPEED` steps:
+- A damaged ship on an `isFriendlyPort` (inhabited, home or
+  `diplomaticState(home, tile) > −2`) is fully repaired and its round ends.
+- Reached stops are shifted off `ship.route`. An empty route at home picks a
+  new one (`pickRoute`: 1–3 distinct friendly ports within
+  `TRADE_SHIP_RADIUS` of home, random order, then home); empty elsewhere
+  means "go home". No ports at all → wait at home.
+- `tradeShipDestination` is the closest friendly port in the zone while
+  health is below `TRADE_SHIP_FLEE_HEALTH_RATIO`, otherwise `route[0]`. The
+  route isn't touched while fleeing, so the loop resumes after the repair.
+- `tradeStep` is greedy: the closest materialized, in-zone neighbour that
+  isn't `blocked` (pirate ship, pirate base, or a military ship of a War
+  world). It accepts an equal-distance step when every closer one is
+  blocked, so a base sitting on the straight line doesn't stall the ship
+  forever; with no such step the ship waits.
+- Moves record trails with `tradeShipTrailId` (`t<id>`) and
+  `TRADE_SHIP_TRAIL_COLOR`, stamped like pirate moves.
+
+Trade ships never attack. They are prey: `pirateQuarry` lists them (so
+`advanceIfClear` treats them as holding a hex), and a pirate step onto one
+calls `resolvePirateAttackOnTradeShip` (`markPirateAttack`, then
+`resolveCombat` with the trade ship's `attack` hitting back). Military ships
+target the trade ships of War worlds (above). Both paths remove a dead trade
+ship with `removeTradeShip` and return `distressEvents`: one
+`{ kind: "distress", playerIndex, q, r, message, shipType }` per player
+within `DISTRESS_RADIUS` of the fight, any team. `endTurn` stores them as
+`{ kind: "distress", q, r, message, shipType }` notifications. Players never
+see trade ships as attack targets (`findHostileWorldShipAt` ignores them),
+so they never block a move.
+
+Imports: `trade.js` is a leaf (`hexgrid`, `ethics`, `trails`) with its own
+home lookup and name helper; `pirates.js` and `fleets.js` import
+`distressEvents`/`removeTradeShip`/`withArticle` from it, so there's no
+cycle.
 
 **Fog exception — stars are always visible.** `render.js` always draws a
 `"star"` tile regardless of the active player's `discovered` set (every
@@ -1124,6 +1177,7 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   the shared `destroyedAnomalies` set, `pirateBases`/`pirateShips`/
   `nextPirateEntityId` (plain arrays/number, no Set reconstruction needed),
   `worldShips`/`nextWorldShipId` (a save without them seeds fresh fleets),
+  `tradeShips`/`nextTradeShipId` (likewise for trade fleets),
   `trails` (the Vessel Trail Detector's records, a plain array),
   `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
   every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
@@ -1249,6 +1303,8 @@ src/
 ├── fleets.js          inhabited worlds' military fleets: patrol zone,
 │                      targeting from attitudes, chase/flee, home repair,
 │                      rebuild; player attacks on Hostile worlds' ships
+├── trade.js           inhabited worlds' cargo/transport ships: trade
+│                      routes, repairs, avoidance, distress calls
 ├── render.js          canvas drawing (viewport-bounded tile lookup, icons,
 │                      fog-of-war skip, ship markers, pirate markers,
 │                      ship trails)

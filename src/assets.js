@@ -22,6 +22,8 @@ const ICON_IMAGE_PATHS = {
   ship: "images/icons/ship.png",
   "pirate-ship": "images/icons/pirate-ship.png",
   "military-ship": "images/icons/military-ship.png",
+  "cargo-ship": "images/icons/cargo-ship.png",
+  "transport-ship": "images/icons/transport-ship.png",
   // Already a complete standalone sprite (64x64, real per-pixel alpha) —
   // referenced directly, no extract-icons.py step needed, same treatment
   // as `select` below.

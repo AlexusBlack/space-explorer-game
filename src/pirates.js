@@ -11,6 +11,7 @@ import { attackForPlayer, maxHealthForPlayer, applyShipLoss, SHIP_LOSS_XP_PENALT
 import { shipTitle } from "./setup.js";
 import { awardBounties, formatEmc } from "./economy.js";
 import { currentStep, recordTrail, pirateTrailId, PIRATE_TRAIL_COLOR, PIRATE_TIME_OFFSET } from "./trails.js";
+import { distressEvents, removeTradeShip } from "./trade.js";
 
 // Stamp for this round's pirate moves in the trail log. tickPirates runs
 // from main.js's endTurn after the turn has wrapped to player 0, so the
@@ -177,12 +178,14 @@ export function stepAwayFrom(mapData, from, avoid) {
   return best;
 }
 
-// Every ship a pirate raider hunts: players' ships and worlds' military
-// ships (fleets.js), each with its health fraction for the chase roll.
+// Every ship a pirate raider hunts: players' ships, worlds' military ships
+// (fleets.js) and their cargo and transport ships (trade.js), each with its
+// health fraction for the chase roll.
 function pirateQuarry(gameState) {
   return [
     ...gameState.players.map((p) => ({ entity: p, healthFrac: p.currentHealth / maxHealthForPlayer(p) })),
     ...(gameState.worldShips ?? []).map((s) => ({ entity: s, healthFrac: s.health / s.maxHealth })),
+    ...(gameState.tradeShips ?? []).map((s) => ({ entity: s, healthFrac: s.health / s.maxHealth })),
   ];
 }
 
@@ -221,8 +224,9 @@ function findNearest(quarry, from) {
 // REST of this round's movement attacking rather than advancing (mirrors
 // Civ5: a melee attack consumes the unit's action for the turn). Returns
 // a {playerIndex, q, r, message} event for the attacked player's
-// notification area, or null if the ship used its whole speed budget
-// without a fight or fought a world's military ship (no player to tell).
+// notification area, an array of distress events after attacking a trade
+// ship, or null if the ship used its whole speed budget without a fight or
+// fought a world's military ship (no player to tell).
 function stepPirateShip(mapData, gameState, ship, rng) {
   for (let step = 0; step < PIRATE_SHIP_SPEED; step++) {
     const { target: nearest, distance } = findNearest(pirateQuarry(gameState), ship);
@@ -249,6 +253,8 @@ function stepPirateShip(mapData, gameState, ship, rng) {
       resolvePirateAttackOnWorldShip(mapData, gameState, ship, worldShipHere, rng);
       return null;
     }
+    const traderHere = (gameState.tradeShips ?? []).find((s) => s.q === next.q && s.r === next.r);
+    if (traderHere) return resolvePirateAttackOnTradeShip(mapData, gameState, ship, traderHere, rng);
     const from = { q: ship.q, r: ship.r };
     ship.q = next.q;
     ship.r = next.r;
@@ -335,6 +341,22 @@ function resolvePirateAttackOnWorldShip(mapData, gameState, ship, target, rng) {
   if (result.attackerDefeated) removeShip(gameState, ship.id);
 }
 
+// A raider attacking a cargo or transport ship: the same exchange (it hits
+// back), plus a distress call to every player near the fight.
+function resolvePirateAttackOnTradeShip(mapData, gameState, ship, target, rng) {
+  markPirateAttack(gameState, ship, target);
+  const at = { q: target.q, r: target.r };
+  const tile = mapData.tiles.get(axialKey(at.q, at.r)); // defender's tile
+  const result = resolveCombat(ship, target, terrainDefenseBonus(tile), rng);
+  if (result.defenderDefeated) {
+    removeTradeShip(gameState, target);
+    advanceIfClear(gameState, ship, at);
+  }
+  if (result.attackerDefeated) removeShip(gameState, ship.id);
+  const outcome = result.defenderDefeated ? "destroyed" : result.attackerDefeated ? "won" : "attacked";
+  return distressEvents(mapData, gameState, target, at, "pirates", outcome);
+}
+
 // ", +300 emc in bounties" after a kill's XP, or nothing when no world paid.
 function bountySuffix(bounty) {
   return bounty.total ? `, +${formatEmc(bounty.total)} in bounties` : "";
@@ -351,7 +373,8 @@ export function tickPirates(mapData, gameState, rng = Math.random) {
   for (const ship of [...gameState.pirateShips]) {
     if (!gameState.pirateShips.includes(ship)) continue; // removed earlier this tick
     const event = stepPirateShip(mapData, gameState, ship, rng);
-    if (event) events.push(event);
+    if (Array.isArray(event)) events.push(...event);
+    else if (event) events.push(event);
   }
   return events;
 }
