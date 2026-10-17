@@ -35,6 +35,13 @@ import { PLANET_CLASSES, MOON_ONLY_SPRITES, MOON_CLASS_NAMES } from "./planet-cl
 import { pickStarSprite } from "./star-classes.js";
 import { createNoise2D, fbm } from "./noise.js";
 import { rollEthics, HOME_ETHICS } from "./ethics.js";
+import {
+  rollGovernment,
+  rollStateName,
+  HOME_GOVERNMENT,
+  HOME_STATE_NAME,
+  LUNA_STATE_NAME,
+} from "./government.js";
 import { DEFAULT_MAP_SETTINGS, normalizeMapSettings } from "./map-settings.js";
 
 // Map size, system count and size, spacing and cluster shape come from the
@@ -760,6 +767,35 @@ function assignEthics(tiles, species, seed) {
   }
 }
 
+// After ethics, on its own stream for the same reason. Every inhabited
+// planet/moon rolls a government type, independent of its ethics (which
+// only flavour it, in government.js); Earth and Luna get HOME_GOVERNMENT and
+// take no draw.
+function assignGovernments(tiles, seed) {
+  const rng = createRng(`${seed}:government`);
+  for (const tile of tiles.values()) {
+    if (!tile.inhabited) continue;
+    tile.government = tile.home || tile.luna ? HOME_GOVERNMENT : rollGovernment(rng);
+  }
+}
+
+// After governments, on its own stream for the same reason: each inhabited
+// world's government name (`stateName`, none for Anarchy), from its type and
+// its own or its species' name. Earth and Luna get fixed names and take no
+// draw. Stored on the tile because it's rolled; still never saved.
+function assignStateNames(tiles, seed) {
+  const rng = createRng(`${seed}:state-names`);
+  for (const tile of tiles.values()) {
+    if (!tile.inhabited) continue;
+    const name = tile.home
+      ? HOME_STATE_NAME
+      : tile.luna
+        ? LUNA_STATE_NAME
+        : rollStateName(rng, tile.government, tile.ownName ?? tile.name, tile.species?.name);
+    if (name) tile.stateName = name;
+  }
+}
+
 // Each system's second anomaly roll, on its own stream so it never shifts a
 // layout draw (existing saves keep their map). Claims a plain band hex of
 // the system, outer zone first, like the first roll in populateSystem.
@@ -846,6 +882,8 @@ export function generateMap({ seed, names = [], species = [], settings = DEFAULT
   nameMap(tiles, systems, names, seed);
   assignSpecies(tiles, species, seed);
   assignEthics(tiles, species, seed);
+  assignGovernments(tiles, seed);
+  assignStateNames(tiles, seed);
 
   let earth = { q: 0, r: 0 };
   for (const tile of tiles.values()) {

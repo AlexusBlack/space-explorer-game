@@ -167,14 +167,17 @@
   #world-card-image[hidden] { display: none; }
   #world-card-species { font-size: 1.15em; font-weight: 600; color: #fff; }
   #world-card-description { margin-top: 6px; font-size: 0.9em; opacity: 0.85; text-align: left; }
-  /* Ethics, attitudes and known worlds (see ethics.js). Below the portrait on
-     narrow screens, which reserve more height for them; beside it on wide ones. */
+  /* Government, ethics, attitudes and known worlds (see government.js,
+     ethics.js). Below the portrait on narrow screens, which reserve more
+     height for them; beside it on wide ones. */
   #world-card-details { text-align: left; font-size: 0.9em; }
   #world-card-details h3 {
     margin: 14px 0 4px; font-size: 0.8em; font-weight: 700; letter-spacing: 0.08em;
     text-transform: uppercase; opacity: 0.6;
   }
-  .ethics-list { color: #fff; font-weight: 600; }
+  .ethics-list, .government, .state-name { color: #fff; font-weight: 600; }
+  .state-name + .government { font-weight: 400; }
+  .government-type { font-weight: 400; opacity: 0.6; }
   .attitude { font-weight: 600; }
   .attitude.bad2 { color: #ff5a5a; } .attitude.bad1 { color: #ff9a7a; }
   .attitude.neutral { color: #9aa8c0; }

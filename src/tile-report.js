@@ -18,6 +18,7 @@ import {
 import { PIRATE_BASE_ATTACK, PIRATE_BASE_SUPPORT_CAP } from "./pirates.js";
 import { shipTitle } from "./setup.js";
 import { attitudeLabel, attitudeToPlayers } from "./ethics.js";
+import { governmentName } from "./government.js";
 
 export const CLASS_DISPLAY_NAMES = {
   rocky: "Rocky",
@@ -82,6 +83,7 @@ function describeTile(mapData, tile) {
       "Life",
       tile.inhabited && tile.species ? `Inhabited by the ${tile.species.name}` : "Uninhabited",
     ]);
+    if (tile.government != null) rows.push(["Government", governmentName(tile)]);
     if (tile.ethics) rows.push(["Attitude", attitudeLabel(attitudeToPlayers(tile))]);
   } else if (tile.type === "anomaly") {
     const wormhole = tile.anomalyKind === "wormhole";

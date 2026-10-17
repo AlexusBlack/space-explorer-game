@@ -210,6 +210,7 @@ src/
 ├── combat.js       pure melee math (Civ5-adapted), no other project imports
 ├── pirates.js      pirate base/ship spawn, production, roam AI, combat orchestration
 ├── ethics.js       inhabited worlds' ethics + static attitudes (display only)
+├── government.js   inhabited worlds' government type, state name + ethics-flavoured form
 ├── tile-report.js  pure data builder for the long-press tile report
 ├── trails.js       Vessel Trail Detector: ship move records + age windows
 ├── setup.js        start-screen roster model (team colours, ship names, ICV prefix)

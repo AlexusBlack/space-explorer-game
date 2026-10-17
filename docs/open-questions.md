@@ -967,3 +967,37 @@ from here.
     whole-map view only redraws on pan or zoom. A level of detail for
     tiles was left out: the user will judge from playtesting whether the
     whole-map view needs it.
+
+- **Inhabited worlds have governments.** User request: a random government
+  for each world on a spectrum ordered by how many hold power, Anarchy –
+  Democracy – Oligarchy – Monarchy – Dictatorship. It's independent of
+  ethics (any ethics can have any government), but ethics change its
+  flavour: super individualists roll Democracy as a direct democracy,
+  super authoritarians as a managed one. Anarchy is no single central
+  government but many competing ones, also possible for any ethics. So the
+  type is rolled first and the flavour applied from the world's ethics.
+  - Settled by AskUserQuestion: **even odds, 20% each** (tunable
+    `GOVERNMENT_WEIGHTS`); flavour from the **Authoritarian–Individualist
+    axis plus one adjective** from an extreme view on another axis (a 5×5
+    form table, e.g. One-Party State, Constitutional Monarchy; adjectives
+    Theocratic, Technocratic, Pacifist, Military, Isolationist,
+    Cosmopolitan, first extreme in spirit/war/xeno order wins); **Earth and
+    Luna fixed as Democracy** (a Liberal Democracy with their ethics);
+    shown on the **world card and tile report** (not the worlds list).
+  - Display only, like ethics. Rolled on its own random stream after
+    ethics, so every existing map and save is unchanged apart from the
+    new field; only the type is stored on the tile, the name is worked out
+    from ethics on display.
+
+- **Governments have names.** User request: government names derived from
+  the type but more generic, always containing the planet's or the
+  species' name ("Republic of Anxor", "Endor Empire"); Anarchies get none,
+  having no central government; shown in the card's Government section
+  just before the type. Each type has five titles (e.g. Monarchy: Kingdom,
+  Empire, Realm, Dominion, Crown) in either "<Title> of <Name>" or
+  "<Name> <Title>", the name being the world's or its species', 50/50.
+  - Settled by AskUserQuestion: the title is **random within the type's
+    list** (not steered by ethics); **Earth and Luna are fixed** as Earth
+    Federation and Republic of Luna.
+  - Rolled on its own stream after governments, so maps, saves and
+    governments are unchanged. Not added to the tile report (not asked).

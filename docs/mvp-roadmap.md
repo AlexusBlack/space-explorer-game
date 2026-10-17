@@ -106,9 +106,9 @@ Earth without the session ending.
 
 ## Parking Lot (not committed to any stage)
 
-- **Ethics gameplay effects.** Inhabited worlds have ethics and static
-  attitudes (toward players, pirates and other worlds) shown on the world
-  card, but nothing acts on them yet. Ideas: friendly worlds repair or
+- **Ethics gameplay effects.** Inhabited worlds have ethics, a government and
+  static attitudes (toward players, pirates and other worlds) shown on the
+  world card, but nothing acts on them yet. Ideas: friendly worlds repair or
   reward a visiting ship, hostile ones refuse it, pirate-friendly worlds
   harbour bases, militarist worlds fight nearby pirates; later, attitudes
   that change with player actions (would need saved per-team modifiers).

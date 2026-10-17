@@ -47,6 +47,7 @@ import {
   knownWorldRelations,
   diplomaticLabel,
 } from "./ethics.js";
+import { governmentName, governmentType } from "./government.js";
 import {
   TEAM_COLORS,
   MAX_PLAYERS,
@@ -487,12 +488,22 @@ function attitudeSpan(attitude, label = attitudeLabel(attitude)) {
   return domEl("span", `attitude ${ATTITUDE_CLASSES[attitude + 2]}`, label);
 }
 
-// The world card's Ethics / Attitudes / Known worlds sections. Balanced axes
-// are the default and aren't shown. Known worlds, with their diplomatic
-// state, come from the active team's fog, so undiscovered worlds stay hidden.
+// The world card's Government / Ethics / Attitudes / Known worlds sections.
+// Government: the state's own name (none for Anarchy), then its form, with
+// the type after a form that doesn't say it (e.g. "One-Party State"). Balanced axes are the default and aren't shown. Known
+// worlds, with their diplomatic state, come from the active team's fog, so
+// undiscovered worlds stay hidden.
 function fillWorldDetails(tile) {
   worldCardDetails.replaceChildren();
   if (!tile.ethics) return;
+  if (tile.government != null) {
+    worldCardDetails.append(domEl("h3", null, "Government"));
+    if (tile.stateName) worldCardDetails.append(domEl("div", "state-name", tile.stateName));
+    const name = governmentName(tile), type = governmentType(tile);
+    const line = domEl("div", "government", name);
+    if (!name.includes(type)) line.append(domEl("span", "government-type", ` · ${type}`));
+    worldCardDetails.append(line);
+  }
   worldCardDetails.append(domEl("h3", null, "Ethics"));
   const shown = AXES.filter((axis) => tile.ethics[axis.id] !== 0)
     .map((axis) => ethicLabel(axis.id, tile.ethics[axis.id]));
@@ -523,7 +534,7 @@ function fillWorldDetails(tile) {
 }
 
 // Info card for an inhabited world, opened by tapping its name tag. Display
-// only: nothing in the game acts on species or ethics.
+// only: nothing in the game acts on species, government or ethics.
 function showWorldCard(tile) {
   const kind = tile.species ? speciesById.get(tile.species.id) : null;
   worldCardName.textContent = tile.ownName;

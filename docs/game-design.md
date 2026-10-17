@@ -230,6 +230,46 @@ Ethics, attitudes and diplomacy are fixed by ethics alone and don't change
 during a game. Like species, they're display only for now: nothing in the
 game acts on them yet.
 
+**Government.** Every inhabited world also has a government, one of five
+types on a spectrum ordered by how many hold power: **Anarchy** (no single
+central government, many competing ones), **Democracy**, **Oligarchy**,
+**Monarchy** and **Dictatorship**. Each is equally likely (20%) and is
+rolled independently of ethics, so any ethics can have any government.
+Earth and Luna are a Democracy.
+
+Ethics then give the government its flavour. The Authoritarian–Individualist
+view picks its form:
+
+| Type | Extreme authoritarian | Authoritarian | Balanced | Individualist | Extreme individualist |
+|---|---|---|---|---|---|
+| Anarchy | Warlord States | Rival Fiefdoms | Anarchy | Free Cities | Stateless Communes |
+| Democracy | Managed Democracy | Guided Democracy | Democracy | Liberal Democracy | Direct Democracy |
+| Oligarchy | One-Party State | Ruling Council | Oligarchy | Merchant Republic | Corporate Plutocracy |
+| Monarchy | Absolute Monarchy | Autocratic Monarchy | Monarchy | Constitutional Monarchy | Elective Monarchy |
+| Dictatorship | Totalitarian State | Autocracy | Dictatorship | Plebiscite Dictatorship | Enlightened Despotism |
+
+An extreme view on another axis adds one word in front: Theocratic
+(extreme spiritualist), Technocratic (extreme materialist), Pacifist,
+Military, Isolationist (extreme xenophobe) or Cosmopolitan (extreme
+xenophile), e.g. "Theocratic Absolute Monarchy". If several views are
+extreme, the first in that order (spirit, war, xeno) wins. Earth is a
+Liberal Democracy.
+
+Every government except Anarchy (which has no central government) also has
+its own name: a title for its type plus either the world's name or its
+species' name, as "<Title> of <Name>" or "<Name> <Title>", e.g. "Republic of
+Anxor" or "Felicat Empire". Titles, picked at random within the type:
+
+| Type | Titles |
+|---|---|
+| Democracy | Republic, Commonwealth, Federation, Union, Confederacy |
+| Oligarchy | Directorate, Hegemony, Syndicate, Concord, Combine |
+| Monarchy | Kingdom, Empire, Realm, Dominion, Crown |
+| Dictatorship | State, Regime, Protectorate, Order, Autarchy |
+
+Earth is the Earth Federation and Luna the Republic of Luna. Governments
+are display only too.
+
 Labels: a system's name shows under its main star from the start (stars are
 always visible). An inhabited world shows its own name as a tag, bold white
 text in a dark blue rounded box, once discovered. Plain designations of
@@ -240,7 +280,9 @@ Tapping an inhabited world's name tag opens a card over the dimmed
 map, showing the world's name and type (e.g. "Rocky planet", "Ice moon"),
 its species' portrait (as large as the screen allows, up to its full
 512px), the name the species goes by there, and the species description.
-Below the portrait (beside it on wide screens) come the world's ethics,
+Below the portrait (beside it on wide screens) come the world's government:
+its name (none for an Anarchy), then its form (with its type after it when the name doesn't say it, e.g. "One-Party
+State · Oligarchy"), its ethics,
 listed by name, e.g. "Extreme militarist · Xenophile"; Balanced axes are
 left out ("Balance Views on Everything" if all four are Balanced); its
 attitudes toward explorers and pirates; and "Known worlds": up to the six
@@ -264,7 +306,7 @@ its tile report. It never moves the ship or spends moves. The report shows:
   - stars show their colour;
   - planets and moons show their class, their designation, what a moon
     orbits, and whether the world is inhabited and by whom. An inhabited
-    world also shows its attitude toward explorers, and gets a "View world" button that opens its world card.
+    world also shows its government and its attitude toward explorers, and gets a "View world" button that opens its world card.
   - every hex shows its star system ("Deep space" outside systems), its
     zone (Inner, Medium, Outer, Interstellar or Deep space), the defense
     bonus a ship gets when attacked there, and the hex's discovery XP.

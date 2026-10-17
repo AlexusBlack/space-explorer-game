@@ -198,6 +198,23 @@ side of this; the key algorithmic ideas:
   take no draw. Worlds of the Humani species (Earth, Luna and any world
   that rolled Humani) also get `kin: true`, the one species fact
   `ethics.js` needs, since tiles only carry the species `id`.
+- **Governments come after ethics, on their own stream too**
+  (`assignGovernments`, `` createRng(`${seed}:government`) ``), so adding
+  them changed nothing else on the map. Each inhabited planet/moon, in tile
+  order, gets `government`, an index into `government.js`'s `GOVERNMENTS`
+  from `rollGovernment` (one draw, `GOVERNMENT_WEIGHTS`); Earth and Luna
+  get `HOME_GOVERNMENT` (Democracy) and take no draw. Only the type is
+  stored: its flavoured name depends on the tile's ethics and is worked out
+  on display.
+- **State names come next, on their own stream** (`assignStateNames`,
+  `` createRng(`${seed}:state-names`) ``): each inhabited non-Anarchy world
+  gets `stateName` from `rollStateName`, which always takes three draws
+  (title from `STATE_TITLES[government]`, name source, form) so one
+  world's outcome never shifts the next. The name is the world's `ownName`
+  or, half the time when it has one, its species' name. Earth and Luna get
+  `HOME_STATE_NAME` / `LUNA_STATE_NAME` and take no draw. Unlike the
+  flavour it's stored on the tile, since it's rolled, but like all of
+  `mapData` it's regenerated, never saved.
 - **Planets are restricted by zone/band, and may have moons**: `inner` gets
   0-3 Molten/Toxic bodies (never moons); `medium` gets 0-3 Rocky planets
   (each 0-2 moons, Rocky or Molten); `outer` gets 1-3 bodies, each 50/50 a
@@ -774,6 +791,17 @@ the active player's point of view:
 `CLASS_DISPLAY_NAMES` moved there from `main.js`, and the world card imports
 it.
 
+**Government** (`src/government.js`, pure, no imports). `GOVERNMENTS` is the
+five-step spectrum (Anarchy..Dictatorship, fewest power-holders first),
+`GOVERNMENT_WEIGHTS` the roll knob (20 each). `governmentName(tile)` reads
+`GOVERNMENT_FORMS[government][order + 2]` (a 5×5 table by the
+Authoritarian–Individualist axis) and prefixes at most one word from
+`GOVERNMENT_ADJECTIVES` for the first extreme (±2) of spirit, war, xeno.
+`governmentType(tile)` is the plain type. The card shows `stateName` (when
+there is one), then the flavoured name, plus " · <type>" in a dim span when
+the name doesn't contain the type;
+`tile-report.js` adds a "Government" row before "Attitude".
+
 **Ethics and attitudes** (`src/ethics.js`, pure; imports only `hexgrid.js`).
 `AXES` holds the four axis ids and their five labels; `ETHIC_WEIGHTS`
 (10/20/40/20/10) is the one roll knob. Attitudes and diplomacy are static
@@ -805,7 +833,7 @@ world's):
   at 6, each with its `state`, for the card.
 
 Every weight, bias and threshold is a named, tunable constant in
-`ethics.js`. `main.js`'s `fillWorldDetails` renders the card's Ethics (one line of non-Balanced labels),
+`ethics.js`. `main.js`'s `fillWorldDetails` renders the card's Government, Ethics (one line of non-Balanced labels),
 Attitudes and Known worlds sections into `#world-card-details` with DOM
 nodes and `textContent`, passing the active player's `discovered` (the team
 fog). The panel wraps the old content in `#world-card-main`; at 760px or
@@ -1077,6 +1105,8 @@ src/
 ├── ethics.js          inhabited worlds' ethics: axes, roll weights, home
 │                      ethics, static attitudes toward players/pirates,
 │                      opinion-based diplomacy between worlds
+├── government.js      inhabited worlds' government type (spectrum roll),
+│                      state name and ethics-flavoured form
 ├── tile-report.js     pure builder for the long-press tile report
 │                      (fog rules, stats); main.js renders it
 ├── trails.js          Vessel Trail Detector: ship move records, the
