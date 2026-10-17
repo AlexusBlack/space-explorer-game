@@ -9,6 +9,7 @@ import { axialKey, axialNeighbors, hexDistance, hexesInRadius } from "./hexgrid.
 import { resolveCombat, terrainDefenseBonus } from "./combat.js";
 import { attackForPlayer, maxHealthForPlayer, applyShipLoss, SHIP_LOSS_XP_PENALTY } from "./state.js";
 import { shipTitle } from "./setup.js";
+import { awardBounties, formatEmc } from "./economy.js";
 import { currentStep, recordTrail, pirateTrailId, PIRATE_TRAIL_COLOR, PIRATE_TIME_OFFSET } from "./trails.js";
 
 // Stamp for this round's pirate moves in the trail log. tickPirates runs
@@ -280,13 +281,24 @@ function resolvePirateAttack(mapData, gameState, ship, playerHere, next, rng) {
   }
   playerHere.xp += COMBAT_SURVIVAL_XP;
   if (result.attackerDefeated) {
+    // A defence kill pays bounties too, measured from the raider's own hex.
+    const bounty = awardBounties(mapData, playerHere, "ship", ship.q, ship.r);
     removeShip(gameState, ship.id); // stays put — irrelevant, it's gone
-    return { ...where, message: `${victim} fought off and destroyed a pirate raider! +${COMBAT_SURVIVAL_XP} XP.` };
+    return {
+      ...where,
+      message: `${victim} fought off and destroyed a pirate raider! +${COMBAT_SURVIVAL_XP} XP${bountySuffix(bounty)}.`,
+      bounties: bounty.notices,
+    };
   }
   return {
     ...where,
     message: `A pirate raider clashed with ${victim} — raider ${ship.health}/${ship.maxHealth} HP, ${victim} ${playerHere.currentHealth}/${maxHealthForPlayer(playerHere)} HP. +${COMBAT_SURVIVAL_XP} XP.`,
   };
+}
+
+// ", +300 emc in bounties" after a kill's XP, or nothing when no world paid.
+function bountySuffix(bounty) {
+  return bounty.total ? `, +${formatEmc(bounty.total)} in bounties` : "";
 }
 
 // Orchestrates one full round: spawn -> produce -> roam/attack each ship.
@@ -344,17 +356,25 @@ export function resolvePlayerAttack(mapData, gameState, player, target, rng = Ma
 
   if (!result.attackerDefeated) player.xp += COMBAT_SURVIVAL_XP;
   if (result.defenderDefeated) {
+    // emc bounties from nearby worlds, measured from the target's hex.
+    const bounty = awardBounties(mapData, player, target.kind, entity.q, entity.r);
     if (target.kind === "base") {
       removeBase(gameState, entity.id);
       player.xp += PIRATE_BASE_BOUNTY_XP;
       return {
-        message: `Pirate base destroyed! +${COMBAT_SURVIVAL_XP + PIRATE_BASE_BOUNTY_XP} XP (incl. ${PIRATE_BASE_BOUNTY_XP} XP bounty).`,
+        message: `Pirate base destroyed! +${COMBAT_SURVIVAL_XP + PIRATE_BASE_BOUNTY_XP} XP (incl. ${PIRATE_BASE_BOUNTY_XP} XP bounty)${bountySuffix(bounty)}.`,
         defenderDefeated: true,
         attackerDefeated: false,
+        bounties: bounty.notices,
       };
     }
     removeShip(gameState, entity.id);
-    return { message: `Pirate ship destroyed! +${COMBAT_SURVIVAL_XP} XP.`, defenderDefeated: true, attackerDefeated: false };
+    return {
+      message: `Pirate ship destroyed! +${COMBAT_SURVIVAL_XP} XP${bountySuffix(bounty)}.`,
+      defenderDefeated: true,
+      attackerDefeated: false,
+      bounties: bounty.notices,
+    };
   }
   if (result.attackerDefeated) {
     applyShipLoss(mapData, gameState, player);

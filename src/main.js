@@ -39,6 +39,7 @@ import { currentStep, recordTrail, pruneTrails, playerTrailId, trailsForViewer }
 import { findPirateAt, resolvePlayerAttack, tickPirates, ATTACK_MOVE_COST } from "./pirates.js";
 import { buildTileReport, CLASS_DISPLAY_NAMES } from "./tile-report.js";
 import { roomImagePath, landscapeImagePath } from "./scene.js";
+import { formatEmc } from "./economy.js";
 import {
   AXES,
   ethicLabel,
@@ -72,7 +73,7 @@ const speciesById = new Map(species.map((s) => [s.id, s]));
 
 const canvas = document.getElementById("game");
 const ctx = canvas.getContext("2d");
-const seedLabel = document.getElementById("seed-label");
+const emcLabel = document.getElementById("emc-label");
 const turnCountLabel = document.getElementById("turn-count-label");
 const newMapButton = document.getElementById("new-map");
 const turnLabel = document.getElementById("turn-label");
@@ -173,10 +174,6 @@ function loadMap(seed, settings) {
   camera.x = 0;
   camera.y = 0;
   camera.zoom = DEFAULT_ZOOM;
-  const placed = mapData.systems.length;
-  seedLabel.textContent = `seed: ${seed} (${placed} systems${
-    mapData.systemsSkipped ? `, ${mapData.systemsSkipped} skipped` : ""
-  }, ${mapData.tiles.size} tiles)`;
   writeMapToUrl(seed, currentMapSettings);
   requestRedraw();
 }
@@ -264,6 +261,7 @@ function updateHud() {
   const active = gameState.players[gameState.activePlayerIndex];
   const playerNum = gameState.activePlayerIndex + 1;
   const level = playerLevel(active);
+  emcLabel.textContent = formatEmc(active.emc);
   turnCountLabel.textContent = `Turn ${gameState.turnNumber ?? 1}`;
   turnLabel.textContent = `${active.name}'s turn · ${shipTitle(active)}`;
   turnLabel.style.color = active.color;
@@ -412,6 +410,8 @@ function noticeElement(player, notification) {
   const kind = notification.kind === "species" ? speciesById.get(notification.speciesId) : null;
   if (notification.kind === "anomaly") {
     el.textContent = "?";
+  } else if (notification.kind === "bounty") {
+    el.textContent = "emc";
   } else {
     const img = document.createElement("img");
     img.alt = "";
@@ -774,6 +774,7 @@ function handleTap(screenPos) {
 
     const combatResult = resolvePlayerAttack(mapData, gameState, active, pirateAtTarget);
     pendingCombatEvents.push(combatResult.message);
+    active.notifications.push(...(combatResult.bounties ?? []));
     suppressUpgradePicker = true;
     if (combatResult.defenderDefeated) {
       moveActive(active, [approachPath[approachPath.length - 1], target]); // vacated — advance in
@@ -838,8 +839,8 @@ function endTurn() {
     // section. Each fight goes to the attacked player's own notification
     // area (not a blocking overlay), so they see it on their next turn.
     const events = tickPirates(mapData, gameState);
-    for (const { playerIndex, q, r, message } of events) {
-      gameState.players[playerIndex].notifications.push({ kind: "pirate", q, r, message });
+    for (const { playerIndex, q, r, message, bounties = [] } of events) {
+      gameState.players[playerIndex].notifications.push({ kind: "pirate", q, r, message }, ...bounties);
     }
     tickPassiveHealing(gameState);
   }

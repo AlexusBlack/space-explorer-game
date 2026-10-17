@@ -33,7 +33,10 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   ships draw as fixed-size dots (team colour with a white outline, larger
   for the active ship; pirate ships red dots, pirate bases red squares) so
   they stay findable, and the selection pulse stops animating.
-- **Top bar** — seed, turn count, two 40 px icon buttons and "New Game":
+- **Top bar** — the active player's emc balance (gold, e.g. "1,250 emc";
+  it replaced the seed and map debug text, and the seed is still in the URL
+  and on the start screen), turn count, two 40 px icon buttons and "New
+  Game":
   - **Ranking** (list icon): every player's ship, ranked by level, then
     XP, then turn order, with level, XP and upgrades (picks spent,
     Instant Repairs included). The active player's row is highlighted.
@@ -57,7 +60,7 @@ people sitting together. No mouse, no hover affordances assumed anywhere.
   during handoff.
 - **Notification area** — a column of round icons on the right edge for the
   active player's own events: pirate attacks, inhabited worlds and anomalies
-  they discovered. Tap one to center on it and show its text for about 7 s;
+  they discovered, and emc bounties (a gold "emc" circle per paying world). Tap one to center on it and show its text for about 7 s;
   swipe one sideways to remove it. Ending a turn clears the list. It sits
   under the interstitial, so it's hidden during handoff.
 - **World card** — opened by tapping an inhabited world's name tag (or the

@@ -73,6 +73,8 @@ game — losing a ship is a setback, not a game-over.
   - **Species portrait:** you discovered an inhabited world.
   - **"?":** you discovered an anomaly (it came into view). The notification
     disappears once the anomaly is used up by any player.
+  - **Gold "emc":** a world paid you a pirate bounty (see "Currency (emc)"),
+    one icon per paying world. Tapping it centres on that world.
 
   Tapping an icon centers the map on that object and shows its explanation
   for about 7 seconds; a species icon opens that world's card instead. Swiping an icon sideways removes it, and ending your
@@ -593,6 +595,8 @@ instead).
 
 **Destroying a pirate base** grants a one-time XP bounty
 (`PIRATE_BASE_BOUNTY_XP`, 30, on top of the 50) and frees that region to spawn a new base later.
+Destroying any pirate ship or base can also earn emc bounties from nearby
+worlds (see "Currency (emc)" below).
 Ships the base already produced are not retroactively destroyed — they
 become ownerless but otherwise fight normally.
 
@@ -619,6 +623,33 @@ health/ownership concept in this codebase yet) — only player ships and
 pirate bases are ever combat targets. Pirate markers are fog-gated like any
 tile feature (only visible once the active player has discovered that
 hex).
+
+## Currency (emc)
+
+**emc** stands for Exotic Matter Currency. Each player has their own
+balance, shown at the top left of the screen for whoever's turn it is.
+There's no limit to how much a player can hold, emc is never lost (losing
+a ship costs XP only), and nothing spends it yet.
+
+**Pirate bounties** are the first way to earn it. When your ship destroys
+a pirate ship or base, every inhabited world that:
+- lies within 20 hexes of where the pirate was destroyed
+  (`BOUNTY_RADIUS`),
+- has an attitude toward pirates of Neutral, Wary or Hostile, and
+- your team has already discovered
+
+pays you a bounty: **100 emc per world for a ship** (`SHIP_BOUNTY_EMC`) and
+**300 emc per world for a base** (`BASE_BOUNTY_EMC`). Raiders destroyed
+while attacking you during the pirate turn count too. Worlds friendly to
+pirates never pay, and undiscovered worlds don't either, so a bounty never
+gives away a world still hidden by fog. Earth and Luna pay like any other
+world when their attitude fits.
+
+Each paying world sends its own notification (a gold "emc" icon), e.g.
+"Republic of Anxor paid a 100 emc bounty for a pirate raider destroyed 7
+hexes from Anxor." The combat message also shows the total. Bounties from
+a fight on your own turn appear straight away; those from a raider you
+destroyed in the pirate turn appear at the start of your next turn.
 
 ## Planets & Natural Wonders
 

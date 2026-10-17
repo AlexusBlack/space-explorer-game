@@ -366,7 +366,8 @@ gameState (src/state.js, persisted — see "Persistence" below)
             unlockedUpgrades: Set<upgradeId>,
             discovered: Set<"q,r"> (the SAME instance for teammates),
             currentHealth, inCombatThisRound,
-            notifications: [{ kind, q, r, message, speciesId? }] }
+            notifications: [{ kind, q, r, message, speciesId? }],
+            emc (Exotic Matter Currency balance, see economy.js) }
 ```
 Only `xp` and `unlockedUpgrades` are persisted leveling state — `level`,
 `visionRadius`, moves-per-turn, and the per-tile XP bonus are all derived
@@ -893,7 +894,10 @@ switch and load is covered). Entries come from three places:
   silent spawn and respawn reveals, so Earth and Luna are never announced,
   and no second flag is needed.
 - `endTurn` routes `tickPirates` events into `pirate` entries (see "Pirates
-  & Combat").
+  & Combat"), each followed by that event's `bounties`.
+- `handleTap` pushes a player attack's `bounties` (see "emc bounties"
+  below). A `bounty` bubble is gold with the text "emc"; tapping it centres
+  on the paying world and shows the caption.
 - `pruneNotifications` drops `anomaly` and `wormhole` entries whose tile is
   no longer an anomaly. A regular anomaly's bubble is black with a "?"; a
   wormhole's is purple with `images/icons/wormhole-glyph.png`, the spiral
@@ -901,6 +905,23 @@ switch and load is covered). Entries come from three places:
   `afterStateChange` and at load.
 
 `clearNotifications` empties the ending player's list in `endTurn`.
+
+**emc bounties.** `economy.js` is pure. `bountyWorlds(mapData, q, r,
+discovered)` scans `mapData.tiles` for inhabited worlds within
+`BOUNTY_RADIUS` (20) of the kill site with `attitudeToPirates <= 0` whose
+key is in the killer's `discovered` Set (team fog), closest first.
+`awardBounties(mapData, player, kind, q, r)` adds `SHIP_BOUNTY_EMC` (100)
+or `BASE_BOUNTY_EMC` (300) per world to `player.emc` and returns `{ total,
+notices }`, one `bounty` notification entry per world (its `q, r` is the
+world's; the message names it with `government.js`'s `stateLabel`).
+`pirates.js` calls it from `resolvePlayerAttack` when the target dies
+(measured from the target's hex, before removal) and from
+`resolvePirateAttack` when a raider dies attacking a player (from the
+raider's own hex, crediting the defender). Both add the notices to their
+result or event as `bounties` and append the total to the combat message;
+`pirates.js` itself never touches `notifications`, `main.js` routes them.
+The top bar's `#emc-label` shows the active player's `formatEmc(emc)`
+from `updateHud`.
 
 Each circle handles its own pointer events, so they never reach the canvas
 pan/tap handler:
@@ -1008,7 +1029,7 @@ at the ship; age 2 is flat at `TRAIL_ALPHA_OLD` (0.12).
   `trails` (the Vessel Trail Detector's records, a plain array),
   `teamFog: { [color]: ["q,r", ...] }` (each team's fog written once), and
   every player's `{ name, shipName, color, q, r, xp, unlockedUpgrades,
-  currentHealth, inCombatThisRound, notifications, instantRepairsUsed }` (`teamFog` entries,
+  currentHealth, inCombatThisRound, notifications, instantRepairsUsed, emc }` (`emc` defaults to 0 for older saves, no version bump; `teamFog` entries,
   `unlockedUpgrades`, and `destroyedAnomalies` all serialized as plain
   arrays, restored back to real `Set`s on load; `deserializeState` builds
   one Set per colour and hands it to every player of that colour, so
@@ -1138,6 +1159,9 @@ src/
 ├── ethics.js          inhabited worlds' ethics: axes, roll weights, home
 │                      ethics, static attitudes toward players/pirates,
 │                      opinion-based diplomacy between worlds
+├── economy.js         emc (Exotic Matter Currency): pirate bounty rules,
+│                      awards and formatting, consumed by pirates.js
+│                      and main.js
 ├── government.js      inhabited worlds' government type (spectrum roll),
 │                      state name and ethics-flavoured form
 ├── tile-report.js     pure builder for the long-press tile report

@@ -211,6 +211,7 @@ src/
 ├── pirates.js      pirate base/ship spawn, production, roam AI, combat orchestration
 ├── ethics.js       inhabited worlds' ethics + static attitudes (display only)
 ├── government.js   inhabited worlds' government type, state name + ethics-flavoured form
+├── economy.js      emc (Exotic Matter Currency): pirate bounties, per-player balance
 ├── tile-report.js  pure data builder for the long-press tile report
 ├── scene.js        world card scene: which landscape and room a world shows
 ├── trails.js       Vessel Trail Detector: ship move records + age windows

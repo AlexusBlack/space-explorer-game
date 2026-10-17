@@ -1095,3 +1095,19 @@ from here.
   - The tab panel has a fixed height and scrolls inside, so the card no
     longer has to fit everything. That's why it now closes only on the
     backdrop or the ×: a tap on a tab or a scroll must not close it.
+- **Currency: emc, first earned from pirate bounties.** User request: a
+  currency called emc, which for lore reasons stands for Exotic Matter
+  Currency, shown at the top left instead of the seed and map debug details
+  (the seed is still in the URL and on the start screen). Players can hold
+  unlimited amounts. The first source: destroying a pirate ship or base
+  pays 100 emc (ship) or 300 emc (base) from each inhabited world within 20
+  hexes whose attitude toward pirates is Neutral or worse, with a
+  notification per award. Decisions taken at plan time (the user picked
+  each):
+  - Raiders destroyed while attacking a player in the pirate turn pay too,
+    not only kills on the player's own turn.
+  - Only worlds the player's team has discovered pay, so a bounty notice
+    never names or points at a fogged world.
+  - emc belongs to each player, like XP, not to the team (unlike fog).
+  - Distance is measured from where the pirate died. emc is never lost,
+    and nothing spends it yet. The existing XP base bounty is unchanged.

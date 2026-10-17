@@ -255,6 +255,9 @@ function createPlayer({ name, shipName, color }, discovered) {
     // speciesId?}), oldest first. Persisted; cleared when this player ends
     // their turn.
     notifications: [],
+    // emc (Exotic Matter Currency, see economy.js): this player's own
+    // balance, never lost, no cap.
+    emc: 0,
   };
 }
 
@@ -476,6 +479,7 @@ export function serializeState(seed, mapSettings, gameState) {
       inCombatThisRound: player.inCombatThisRound,
       notifications: player.notifications,
       instantRepairsUsed: player.instantRepairsUsed,
+      emc: player.emc,
     })),
   };
 }
@@ -525,6 +529,8 @@ export function deserializeState(raw) {
       notifications: p.notifications ?? [],
       // Saves predating Instant Ship Repair have spent no picks on it.
       instantRepairsUsed: p.instantRepairsUsed ?? 0,
+      // Saves predating emc start with none.
+      emc: p.emc ?? 0,
     })),
   };
 }
